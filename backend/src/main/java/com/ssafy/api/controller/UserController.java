@@ -52,7 +52,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@GetMapping("/me")
+	@GetMapping("/info")
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -71,7 +71,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
-	@GetMapping("/id_check/{userId}")
+	@GetMapping("/id/{userId}")
 	@ApiOperation(value = "아이디 중복 확인", notes = "아이디의 중복 확인 여부를 확인한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -87,7 +87,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
-	@GetMapping("/nick_check/{nickname}")
+	@GetMapping("/nickname/{nickname}")
 	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임의 중복 확인 여부를 확인한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
