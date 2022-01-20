@@ -13,5 +13,7 @@ public interface UserService {
 
     User updateUser(User user);
 
-    boolean idDupplicated(String userId);
+    boolean idDuplicated(String userId);
+
+    boolean nicknameDuplicated(String nickname);
 }

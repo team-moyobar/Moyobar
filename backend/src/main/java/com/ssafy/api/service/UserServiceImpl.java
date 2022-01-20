@@ -42,8 +42,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean idDupplicated(String userId) {
+	public boolean idDuplicated(String userId) {
 		return userRepository.existsByUserId(userId);
+	}
+
+	@Override
+	public boolean nicknameDuplicated(String nickname) {
+		return userRepository.existsByNickname(nickname);
 	}
 
 	@Override
