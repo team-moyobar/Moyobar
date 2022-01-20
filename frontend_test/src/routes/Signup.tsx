@@ -3,39 +3,73 @@ import ReactDOM from "react-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, DatePicker, version } from "antd";
 import "antd/dist/antd.css";
-
+import * as yup from "yup";
 import axios from 'axios';
+import { yupResolver } from "@hookform/resolvers/yup";
 
-
-enum EmailEnum {
+// 타입 첫글자 대문자에서 소문자로 변경하였습니다.
+enum emailEnum {
   naver = "naver",
   gmail = "gmail",
 }
 
-enum AlcoholEnum {
+enum alcoholEnum {
   soju = "soju",
   beer = "beer",
   liquor = "liquor",
 }
 
 interface IFormInput {
-  userId: String;
-  email: EmailEnum;
-  passWord: String;
-  passWordCheck: String;
-  userNickName: String;
+  userId: string;
+  email: emailEnum;
+  passWord: string;
+  passWordCheck: string;
+  userNickName: string;
   birth: Date;
-  alcohol: AlcoholEnum;
-  amountOfAlcohol: Number;
-  phoneNumber: String;
+  alcohol: alcoholEnum;
+  amountOfAlcohol: number;
+  phoneNumber: string;
 }
 
+const schema = yup
+  .object({
+    userId: yup.string().required("필수 입력 항목입니다"),
+    passWord: yup
+      .string()
+      .required("필수 입력 항목입니다")
+      .min(9, "최소 9 글자를 입력해야 합니다")
+      .max(16, "최대 16 글자까지 입력 가능합니다")
+      .matches(
+        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{9,16}$/,
+        "비밀번호는 영문, 숫자, 특수문자가 조합되어야합니다"
+      ),
+    passWordCheck: yup
+      .string()
+      .oneOf([yup.ref("passWord")])
+      .required(),
+    userNickName: yup
+      .string()
+      .required("필수 입력 항목입니다")
+      .min(2, "최소 2글자를 입력해야 합니다")
+      .max(10),
+    birth: yup.date().typeError("숫자로 입력해주세요, 필수 입력 항목입니다").required("필수 입력 항목입니다"),
+    amountOfAlcohol: yup
+      .number()
+      .typeError("숫자로 입력해주세요, 필수 입력 항목입니다")
+      .required("필수 입력 항목입니다"),
+    phoneNumber: yup.string().required("필수 입력 항목입니다"),
+  })
+  .required();
+
 export default function Signup() {
-  const { register, handleSubmit } = useForm<IFormInput>();
+  const { register, handleSubmit, formState: { errors }} = useForm<IFormInput>({
+    resolver: yupResolver(schema)
+  });
   // const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
   // const onSubmit: SubmitHandler<IFormInput> = data => {
   //   console.log(data)
   // };
+
   const onSubmit: SubmitHandler<IFormInput> = data => {
     axios
       .post('https://moyobar.herokuapp.com/api/v1/users', {
@@ -66,42 +100,54 @@ export default function Signup() {
           backgroundColor : "silver",
           marginTop : "5rem",
           padding : "5rem",
-          marginLeft : "30rem",
-          marginRight : "30rem",
         }}
-      >
-        <label>아이디 : </label>
-        <input {...register("userId")} />
-        <label>@</label>
-        <select {...register("email")}>
-          <option value="naver">naver.com</option>
-          <option value="gmail">gmail.com</option>
-        </select>
-        <br />
-        <label>비밀번호 : </label>
-        <input type="password" {...register("passWord")} />
-        <br />
-        <label>비밀번호확인 : </label>
-        <input type="password" {...register("passWordCheck")} />
-        <br />
-        <label>닉네임 : </label>
-        <input {...register("userNickName")} />
-        <br />
-        <label>생년월일 : </label>
-        <DatePicker />
-        <input type="datetime" {...register("birth")}/>
-        <br />
+      > 
+        <div>
+          <label>아이디 : </label>
+          <input {...register("userId")} />
+          <label>@</label>
+          <select {...register("email")}>
+            <option value="naver">naver.com</option>
+            <option value="gmail">gmail.com</option>
+          </select>
+          {errors.userId && <p>{errors.userId.message}</p>}
+        </div>
+        <div>
+          <label>비밀번호 : </label>
+          <input type="password" {...register("passWord")} />
+          {errors.passWord && <p>{errors.passWord.message}</p>}
+        </div>
+        <div>
+          <label>비밀번호확인 : </label>
+          <input type="password" {...register("passWordCheck")} />
+          {errors.passWordCheck && <p>{"입력한 비밀번호와 일치하지 않습니다"}</p>}
+        </div>
+        <div>
+          <label>닉네임 : </label>
+          <input {...register("userNickName")} />
+          {errors.userNickName && <p>{errors.userNickName.message}</p>}
+        </div>
+        <div>
+          <label>생년월일 : </label>
+          <DatePicker />
+          <input type="datetime" {...register("birth")}/>
+          {errors.birth && <p>{errors.birth.message}</p>}
+        </div>
+        <div>
         <label>주량 : </label>
-        <select {...register("alcohol")}>
-          <option value="soju">소주</option>
-          <option value="beer">맥주</option>
-          <option value="liquor">양주</option>
-        </select>
-        <input {...register("amountOfAlcohol")} />
-        <br />
-        <label>휴대폰 번호 : </label>
-        <input {...register("phoneNumber")} />
-        <br />
+          <select {...register("alcohol")}>
+            <option value="soju">소주</option>
+            <option value="beer">맥주</option>
+            <option value="liquor">양주</option>
+          </select>
+          <input {...register("amountOfAlcohol")} />
+          {errors.amountOfAlcohol && <p>{errors.amountOfAlcohol.message}</p>}
+        </div>
+        <div>
+          <label>휴대폰 번호 : </label>
+          <input {...register("phoneNumber")} />
+          {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
+        </div>
         <input type="submit" />
       </form>
     </div>
