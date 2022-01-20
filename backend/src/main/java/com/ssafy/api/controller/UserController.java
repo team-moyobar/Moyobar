@@ -4,11 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
@@ -74,4 +70,21 @@ public class UserController {
 		User user = userService.getUserByUserId(userId);
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
+
+	@GetMapping("/id_check/{userId}")
+	@ApiOperation(value = "아이디 중복 확인", notes = "아이디의 중복 확인 여부를 확인한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 409, message = "ID 중복"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> checkId(@PathVariable @ApiParam(value = "중복 확인 ID") String userId) {
+
+		if(userService.idDupplicated(userId)){
+			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "Id is duplicated"));
+		}
+		
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
 }
