@@ -9,5 +9,6 @@ import com.ssafy.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	//   User getUserByUserId(String userId);
+	User updateUser(User user);
 	User getUserByEmail(String email);
 }
