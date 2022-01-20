@@ -57,40 +57,53 @@ export default function App() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>아이디 : </label>
-      <input {...register("userId")} />
-      <label>@</label>
-      <select {...register("email")}>
-        <option value="naver">naver.com</option>
-        <option value="gmail">gmail.com</option>
-      </select>
-      <br />
-      <label>비밀번호 : </label>
-      <input type="password" {...register("passWord")} />
-      <br />
-      <label>비밀번호확인 : </label>
-      <input type="password" {...register("passWordCheck")} />
-      <br />
-      <label>닉네임 : </label>
-      <input {...register("userNickName")} />
-      <br />
-      <label>생년월일 : </label>
-      <DatePicker />
-      <input type="datetime" {...register("birth")}/>
-      <br />
-      <label>주량 : </label>
-      <select {...register("alcohol")}>
-        <option value="soju">소주</option>
-        <option value="beer">맥주</option>
-        <option value="liquor">양주</option>
-      </select>
-      <input {...register("amountOfAlcohol")} />
-      <br />
-      <label>휴대폰 번호 : </label>
-      <input {...register("phoneNumber")} />
-      <br />
-      <input type="submit" />
-    </form>
+    <div style={{
+      marginTop : "5rem",
+    }}>
+      <h1>회원가입</h1>
+      <form onSubmit={handleSubmit(onSubmit)} 
+        style={{
+          backgroundColor : "silver",
+          marginTop : "5rem",
+          padding : "5rem",
+          marginLeft : "30rem",
+          marginRight : "30rem",
+        }}
+      >
+        <label>아이디 : </label>
+        <input {...register("userId")} />
+        <label>@</label>
+        <select {...register("email")}>
+          <option value="naver">naver.com</option>
+          <option value="gmail">gmail.com</option>
+        </select>
+        <br />
+        <label>비밀번호 : </label>
+        <input type="password" {...register("passWord")} />
+        <br />
+        <label>비밀번호확인 : </label>
+        <input type="password" {...register("passWordCheck")} />
+        <br />
+        <label>닉네임 : </label>
+        <input {...register("userNickName")} />
+        <br />
+        <label>생년월일 : </label>
+        <DatePicker />
+        <input type="datetime" {...register("birth")}/>
+        <br />
+        <label>주량 : </label>
+        <select {...register("alcohol")}>
+          <option value="soju">소주</option>
+          <option value="beer">맥주</option>
+          <option value="liquor">양주</option>
+        </select>
+        <input {...register("amountOfAlcohol")} />
+        <br />
+        <label>휴대폰 번호 : </label>
+        <input {...register("phoneNumber")} />
+        <br />
+        <input type="submit" />
+      </form>
+    </div>
   );
 }
