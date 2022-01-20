@@ -12,4 +12,6 @@ public interface UserService {
     User getUserByUserId(String userId);
 
     User updateUser(User user);
+
+    boolean idDupplicated(String userId);
 }
