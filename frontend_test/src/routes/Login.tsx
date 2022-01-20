@@ -26,9 +26,10 @@ export default function Login() {
   // };
   const onSubmit: SubmitHandler<IFormInput> = data => {
     axios
-      .post('https://moyobar.herokuapp.com/api/v1/users', {
+      .post('https://moyobar.herokuapp.com/api/v1/auth/login', {
         "user_id": `${data.userId}@${data.email}`,
         "password": data.passWord,
+        "type": "local",
       })
       .then((res) => {
         console.log("success")
