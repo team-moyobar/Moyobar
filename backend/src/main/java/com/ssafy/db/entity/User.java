@@ -18,7 +18,8 @@ import java.util.Date;
 @Setter
 public class User extends BaseEntity{
 
-    private String email;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(name = "nick")
     private String nickname;
