@@ -80,10 +80,26 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> checkId(@PathVariable @ApiParam(value = "중복 확인 ID") String userId) {
 
-		if(userService.idDupplicated(userId)){
+		if(userService.idDuplicated(userId)){
 			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "Id is duplicated"));
 		}
 		
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+	@GetMapping("/nick_check/{nickname}")
+	@ApiOperation(value = "닉네임 중복 확인", notes = "닉네임의 중복 확인 여부를 확인한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 409, message = "닉네임 중복"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> checkNickname(@PathVariable @ApiParam(value = "중복 확인 닉네임") String nickname) {
+
+		if(userService.nicknameDuplicated(nickname)){
+			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "Nickname is duplicated"));
+		}
+
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
