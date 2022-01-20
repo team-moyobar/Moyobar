@@ -1,5 +1,7 @@
 package com.ssafy.api.request;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -13,10 +15,11 @@ import java.util.Date;
 @Getter
 @Setter
 @ApiModel("UserRegisterPostRequest")
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserRegisterPostReq {
 
-	@ApiModelProperty(name = "유저 Email", example = "ssafy@ssafy.com")
-	private String email;
+	@ApiModelProperty(name = "유저 ID", example = "ssafy@ssafy.com")
+	private String userId;
 	@ApiModelProperty(name = "유저 Nickname", example = "ssafy")
 	private String nickname;
 	@ApiModelProperty(name = "유저 Password", example = "ssafy")
