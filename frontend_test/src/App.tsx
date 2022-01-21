@@ -6,6 +6,7 @@ import Home from "./routes/Home";
 import Signup from './routes/Signup';
 import Nav from './components/Nav';
 import Login from './routes/Login';
+import Profile from './routes/Profile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
+        <Route path="/profile" component={Profile} />
       </Router>
     </div>
   );
