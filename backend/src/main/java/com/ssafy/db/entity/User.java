@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
+import com.ssafy.security.oauth2.entity.ProviderType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -43,7 +44,9 @@ public class User extends BaseEntity{
 
     private String phone;
 
-    private String type;
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private ProviderType type;
 
     private int first;
 }
