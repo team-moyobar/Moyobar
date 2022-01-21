@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.ssafy.security.UserPrincipal;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import com.ssafy.common.exception.OAuth2AuthenticationProcessingException;
@@ -71,7 +72,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = userOptional.get();
 
             //이미 회원가입된 유저
-            if (!user.getType().equals(ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+            if (!user.getType().equals(ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()))) {
                 throw new OAuth2AuthenticationProcessingException(
                         "Looks like you're signed up with " + user.getType() + " account. Please use your "
                                 + user.getType() + " account to login.");
@@ -92,7 +93,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = new User();
 
         user.setType(
-                ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+                ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()));
 //        user.setProviderId(oAuth2UserInfo.getId()); //??providerid 필요 없으므로 삭제
         user.setNickname(oAuth2UserInfo.getName()); //사용자 이름
         user.setUserId(oAuth2UserInfo.getId()); //사용자 이메일

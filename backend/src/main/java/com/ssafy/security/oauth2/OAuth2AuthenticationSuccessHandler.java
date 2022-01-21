@@ -2,8 +2,10 @@ package com.ssafy.security.oauth2;
 
 import com.ssafy.common.exception.BadRequestException;
 import com.ssafy.common.util.CookieUtils;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.config.AppConfig;
 import com.ssafy.security.TokenProvider;
+import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,8 +63,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-        String token = tokenProvider.createToken(authentication);
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
+        String token = JwtTokenUtil.getToken(userPrincipal.getUserId());
         return UriComponentsBuilder.fromUriString(targetUrl).queryParam("token", token).build()
                 .toUriString();
     }
