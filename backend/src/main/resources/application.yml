@@ -29,7 +29,7 @@ spring:
       username: moyobar
       password: zootopia123@
   resources: #for SPA
-    static-locations: classpath:/dist/
+    #static-locations: #classpath:/dist/
     add-mappings: false
   mvc: # for SPA
     throw-exception-if-no-handler-found: true
@@ -56,7 +56,6 @@ spring:
           google: #google login
             client-id: '355430771101-nhie76qrcieubo1cbjeufseogtlfqg5j.apps.googleusercontent.com'
             client-secret: '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'
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
@@ -127,4 +126,4 @@ app: #for social login
   tokenSecret: 926D96C90030DD58429D2751AC1BDBBC #JWT Token(hash secret key)
   tokenExpirationMsec: 86400000 #60*60*24(=1?)*1000=1000days , JWT Token expiration date
   authorizedRedirectUris: #redirect_uri
-    - https://localhost:3000/oauth2/redirect
+    - https://localhost:3000/oauth/redirect

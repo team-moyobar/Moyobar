@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +26,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ssafy.security.oauth2.OAuth2AuthenticationFailureHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 /**
  * 인증(authentication) 와 인가(authorization) 처리를 위한 스프링 시큐리티 설정 정의.
@@ -89,36 +95,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가-jwt로 인증돼야만 이동이 막 가능하도록
 
                 .authorizeRequests()
-                .antMatchers("/api/v1/users/info")
-                .permitAll()
                 .antMatchers("/auth/**", "/oauth2/**")
                 .permitAll()
+                .antMatchers("/api/v1/users/me")
+                .authenticated()
                 .anyRequest()
-                .authenticated() //me(정보조회)의 경우에는 로그인한 사람만 가능하도록 권한 부여
+                .permitAll()
+
+                 //me(정보조회)의 경우에는 로그인한 사람만 가능하도록 권한 부여
                 //규칙조심...
 //                .authorizeRequests()
 //                .anyRequest().permitAll() //
 //                .antMatchers("/auth/**", "/oauth2/**") //소셜 로그인 위한 허용
 //                .permitAll()
 
+                ///oauth2/authorization으로 가서 accesstoken발급
                 .and()
                 .oauth2Login()
-                .authorizationEndpoint() //1. client에서 이곳으로 요청 보냄
-                .baseUri("/oauth2/authorize")
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization")
                 .authorizationRequestRepository(cookieAuthorizationRequestRepository()) //Authorization request와 관련된 state가 cookieAuthorizationRequestRepository에 저장됨
 
+                //실제로 server 접속하러 고고
                 .and()
-                .redirectionEndpoint() // Authorization Server(구글 인증 서버)에서 Authorization Response(인증허가 code)를 BE로 받아오기 위한 설정
-                .baseUri("/oauth2/callback/*") //returns absolute base URL of the document containing the node
+                .redirectionEndpoint()
+                .baseUri("/*/oauth2/code/*")
 
-                .and()
+                //받아온 User정보를 저장장
+               .and()
                 .userInfoEndpoint() //is used by an application to retrieve profile information about the Identity that authenticated.
                 .userService(customOAuth2UserService) //커스텀한 소셜로그인 로직 처리용 서비스 클래스에 대한
 
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
-                .failureHandler(oAuth2AuthenticationFailureHandler)
-                ;
+                .failureHandler(oAuth2AuthenticationFailureHandler);
 
         // Add our custom Token based authentication filter-소셜 로그인
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -141,4 +151,64 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
+
+    //oauth-login  코드
+//
+//    /*
+//     * 쿠키 기반 인가 Repository
+//     * 인가 응답을 연계 하고 검증할 때 사용.
+//     * */
+//    @Bean
+//    public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
+//        return new OAuth2AuthorizationRequestBasedOnCookieRepository();
+//    }
+//
+//
+//    /*
+//     * auth 매니저 설정
+//     * */
+//    @Override
+//    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+//    protected AuthenticationManager authenticationManager() throws Exception {
+//        return super.authenticationManager();
+//    }
+//
+//    /*
+//     * Oauth 인증 성공 핸들러
+//     * */
+//    @Bean
+//    public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+//        return new OAuth2AuthenticationSuccessHandler(
+//                tokenProvider,
+//                appProperties,
+//                userRefreshTokenRepository,
+//                oAuth2AuthorizationRequestBasedOnCookieRepository()
+//        );
+//    }
+//
+//    /*
+//     * Oauth 인증 실패 핸들러
+//     * */
+//    @Bean
+//    public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
+//        return new OAuth2AuthenticationFailureHandler(oAuth2AuthorizationRequestBasedOnCookieRepository());
+//    }
+//
+//    /*
+//     * Cors 설정
+//     * */
+//    @Bean
+//    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+//        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
+//
+//        CorsConfiguration corsConfig = new CorsConfiguration();
+//        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
+//        corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
+//        corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+//        corsConfig.setAllowCredentials(true);
+//        corsConfig.setMaxAge(corsConfig.getMaxAge());
+//
+//        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
+//        return corsConfigSource;
+//    }
 }
