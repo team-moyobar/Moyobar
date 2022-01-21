@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 import * as yup from "yup";
 import axios from 'axios';
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useHistory } from "react-router-dom";
 
 // 타입 첫글자 대문자에서 소문자로 변경하였습니다.
 enum emailEnum {
@@ -62,6 +63,7 @@ const schema = yup
   .required();
 
 export default function Signup() {
+  const history = useHistory();
   const { register, handleSubmit, formState: { errors }} = useForm<IFormInput>({
     resolver: yupResolver(schema)
   });
@@ -83,6 +85,8 @@ export default function Signup() {
       .then((res) => {
         console.log("success")
         console.log(res)
+        history.push("/login")
+        //회원가입 성공시 로그인페이지로 이동
       })
       .catch((err) => {
         console.log("Fail..")
