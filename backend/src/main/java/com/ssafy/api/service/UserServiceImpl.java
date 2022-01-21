@@ -1,6 +1,10 @@
 package com.ssafy.api.service;
 
+import com.ssafy.security.UserPrincipal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,7 @@ import com.ssafy.db.repository.UserRepositorySupport;
 /**
  *   유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
+@Slf4j //log함수용
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -57,4 +62,13 @@ public class UserServiceImpl implements UserService {
       User user = userRepository.findByUserId(userId).get();
       return user;
    }
+
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userRepository.findByUserId(email)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found with email : " + email));
+
+		log.info("Load user by user email: the User Email - {}",  user.getUserId());
+
+		return UserPrincipal.create(user);
+	}
 }
