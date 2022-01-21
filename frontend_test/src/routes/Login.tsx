@@ -5,6 +5,7 @@ import { Button, DatePicker, version } from "antd";
 import "antd/dist/antd.css";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useHistory } from "react-router-dom";
 
 import axios from 'axios';
 
@@ -36,6 +37,7 @@ const schema = yup
   .required();
 
 export default function Login() {
+  const history = useHistory();
   const { register, handleSubmit, formState: {errors} } = useForm<IFormInput>({
     resolver: yupResolver(schema)
   });
@@ -53,10 +55,14 @@ export default function Login() {
       .then((res) => {
         console.log("success")
         console.log(res)
+        alert("로그인 성공")
+        history.push('/');
+        //로그인 성공시 home화면으로 이동
       })
       .catch((err) => {
         console.log("Fail..")
         console.log(err)
+        alert("로그인 실패")
       })
   };
 
