@@ -72,7 +72,7 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<Boolean> checkId(@PathVariable @ApiParam(value = "중복 확인 ID") String userId) {
-        return ResponseEntity.status(200).body(userService.nicknameDuplicated(userId));
+        return ResponseEntity.status(200).body(userService.idDuplicated(userId));
     }
 
     @GetMapping("/nickname/{nickname}")
