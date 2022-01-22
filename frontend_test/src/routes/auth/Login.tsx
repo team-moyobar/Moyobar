@@ -7,8 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 
-import axios from 'axios';
-
+import axios from "axios";
 
 enum emailEnum {
   naver = "naver",
@@ -38,32 +37,36 @@ const schema = yup
 
 export default function Login() {
   const history = useHistory();
-  const { register, handleSubmit, formState: {errors} } = useForm<IFormInput>({
-    resolver: yupResolver(schema)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>({
+    resolver: yupResolver(schema),
   });
   // const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
   // const onSubmit: SubmitHandler<IFormInput> = data => {
   //   console.log(data)
   // };
-  const onSubmit: SubmitHandler<IFormInput> = data => {
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
     axios
-      .post('https://moyobar.herokuapp.com/api/v1/auth/login', {
-        "user_id": `${data.userId}@${data.email}`,
-        "password": data.passWord,
-        "type": "local",
+      .post("https://moyobar.herokuapp.com/api/v1/auth/login", {
+        user_id: `${data.userId}@${data.email}`,
+        password: data.passWord,
+        type: "local",
       })
       .then((res) => {
-        console.log("success")
-        console.log(res)
-        alert("로그인 성공")
-        history.push('/');
+        console.log("success");
+        console.log(res);
+        alert("로그인 성공");
+        history.push("/lobby");
         //로그인 성공시 home화면으로 이동
       })
       .catch((err) => {
-        console.log("Fail..")
-        console.log(err)
-        alert("로그인 실패")
-      })
+        console.log("Fail..");
+        console.log(err);
+        alert("로그인 실패");
+      });
   };
 
   return (
