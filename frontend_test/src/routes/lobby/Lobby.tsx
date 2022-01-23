@@ -7,13 +7,25 @@ export default function Lobby() {
   return (
     <div className="container mt-5">
       <h1>로비</h1>
-      <LobbyCreateRoom />
       <div className="row">
-        <div className="col-8 bg-info p-3">
+        <div
+          className="col-8 bg-white p-3"
+          style={{
+            padding: "5rem",
+            border: "solid 2px",
+          }}
+        >
+          <LobbyCreateRoom />
           <LobbyRoomSearchBar></LobbyRoomSearchBar>
           <LobbyRoomList></LobbyRoomList>
         </div>
-        <div className="col-4 bg-dark text-white p-3">
+        <div
+          className="col-4 bg-white p-3"
+          style={{
+            padding: "5rem",
+            border: "solid 2px",
+          }}
+        >
           <LobbySideBar></LobbySideBar>
         </div>
       </div>

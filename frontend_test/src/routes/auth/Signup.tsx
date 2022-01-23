@@ -122,9 +122,9 @@ export default function Signup() {
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
-          backgroundColor: "silver",
           marginTop: "5rem",
           padding: "5rem",
+          border: "solid 2px",
         }}
       >
         <div>
