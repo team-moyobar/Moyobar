@@ -64,16 +64,15 @@ spring:
             clientSecret: '6s05wVQjnHdsbbXIeK4i1VNG0aJI7Ag8'
             clientAuthenticationMethod: post
             authorizationGrantType: authorization_code
-            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}" #사용자지정. SecurityConfig 파일 및 kakao developer redirect URI 설정 맞춰주기
             scope:
               - profile_nickname
               - account_email
             clientName: Kakao
         provider: #provider 설정
           kakao:
-            authorizationUri: https://kauth.kakao.com/oauth/authorize #권한 부여받을 uri - 정해져있음. 카카오 로그인 페이지로 넘어감
-            #https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=8a0e0324c301093c4fa75c6d2fb5e2dc&scope=profile_nickname%20profile_image%20account_email%20birthday&state=AOdh9ZrUeL3R5yE9upnXk4a9t-RPj6CxFNbPmcPuJFE%3D&redirect_uri=http://localhost:8080/login/oauth2/code/kakao
-            tokenUri: https://kauth.kakao.com/oauth/token #token받아올 곳 마찬가지로 정해져있음
+            authorizationUri: https://kauth.kakao.com/oauth/authorize #resource server 접근 권한 부여받을 uri
+            tokenUri: https://kauth.kakao.com/oauth/token #resource server 접근 token받아올 곳
             userInfoUri: https://kapi.kakao.com/v2/user/me #유저정보에 대한 uri
             userNameAttribute: id
 
@@ -125,5 +124,7 @@ management:
 app: #for social login
   tokenSecret: 926D96C90030DD58429D2751AC1BDBBC #JWT Token(hash secret key)
   tokenExpirationMsec: 86400000 #60*60*24(=1?)*1000=1000days , JWT Token expiration date
-  authorizedRedirectUris: #redirect_uri
-    - https://localhost:3000/oauth/redirect
+  authorizedRedirectUris:
+    #Resource Server만 갖는 정보로, client에 권한을 부여하는 과정에서 나중에 Authorized code를 전달하는 통로 = 즉, 소셜 로그인 완료 후 가게 될 화면
+    # 해당 url로 redirect 될 시 location에 인가 코드 담긴 쿼리 스트링 or 에러 메시지 포함해서 옴
+    -  https://localhost:3000/oauth/redirect
