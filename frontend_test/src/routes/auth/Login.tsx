@@ -70,8 +70,13 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{
+      marginTop: "5rem",
+      padding: "5rem",
+      border: "solid 2px"
+    }}>
       <div>
+        <h1>로그인</h1>
         <label>아이디 : </label>
         <input {...register("userId")} />
         <label>@</label>

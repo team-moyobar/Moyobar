@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Nav() {
   return (
-    <ul className="nav nav-pills nav-fill">
+    <ul className="nav nav-fill bg-info mb-3 p-3">
       <li className="nav-item">
         <Link to="/">홈</Link>
       </li>
