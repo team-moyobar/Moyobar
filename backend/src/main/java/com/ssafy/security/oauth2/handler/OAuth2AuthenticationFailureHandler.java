@@ -1,4 +1,4 @@
-package com.ssafy.security.oauth2;
+package com.ssafy.security.oauth2.handler;
 
 import com.ssafy.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +15,27 @@ import java.io.IOException;
 
 import com.ssafy.common.util.CookieUtils;
 
-@Component
-//인증 실패 핸들러
-public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+/**
+ * 소셜 로그인 인증 실패 시 호출
+ */
 
+@Component
+public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Autowired
     HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException, ServletException {
-        String targetUrl = CookieUtils
-                .getCookie(request,
-                        HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
-                .map(Cookie::getValue).orElse(("/"));
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        //HttpCookieOAuth2AuthorizationRequestRepository에 redirect_url로 설정했던 cookie 가져오기
+        String targetUrl = CookieUtils.getCookie(request,HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue).orElse(("/"));
 
-        targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("error", exception.getLocalizedMessage()).build().toUriString();
+        //redirect_url의 queryParam으로 "error"값 보내기
+        targetUrl = UriComponentsBuilder.fromUriString(targetUrl).queryParam("error", exception.getLocalizedMessage()).build().toUriString();
 
-        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request,
-                response);
+        //해당 쿠키 삭제
+        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
 
+        //리다이렉트
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 }

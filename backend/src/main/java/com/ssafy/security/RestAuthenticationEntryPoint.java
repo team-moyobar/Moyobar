@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Spring Security에서 Exception 발생 시 처리해주는 클래스
+ */
+
 @Slf4j
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

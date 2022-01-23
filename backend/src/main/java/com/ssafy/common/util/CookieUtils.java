@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Optional;
 
-//소셜 로그인용-클라이언트에 보낼 쿠키에 대한 설정
+/*
+ * 소셜로그인용-클라이언트에 보낼 쿠키에 대한 설정
+ */
+
 public class CookieUtils {
 
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {

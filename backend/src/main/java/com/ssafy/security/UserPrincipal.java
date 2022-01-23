@@ -19,11 +19,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/*JWT 토큰 방식으로 구현시 Authentication 타입 객체에는 User 정보를 저장한다.
-  Authentication 안에도 저장할 수 있는 객체의 타입이 정해져있다.
-  그것은 UserDetails 타입과 OAuth2User 타입이다.
-  이 둘 중 하나여야, Authentication 객체 안에 저장할 수 있다.*/
-//SecurityContext객체가 원래는 session공간에 저장되나 jwt는 요청 처리마다 생기고 끝나면 버려짐
+/**
+ * User를 생성자로 전달받아 Spring Security에 User 정보 전달하는 클래스
+ * 인증된 사용자(User)의 세부 정보를 포함함
+ */
 
 @Getter
 @Setter
@@ -32,9 +31,9 @@ import java.util.Map;
 public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final String userId; //email
     private final String password;
-    private final ProviderType providerType; //User테이블의 type칼럼-local, kakao...
+    private final ProviderType providerType; //GOOGLE, KAKAO
     private final Collection<GrantedAuthority> authorities;
-    private Map<String, Object> attributes;
+    private Map<String, Object> attributes; //resource server로부터 받아온 사용자(User)정보가 Map 형태로 담김
 
     @Override
     public Map<String, Object> getAttributes() {

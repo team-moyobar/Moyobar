@@ -10,9 +10,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 어플리케이션 구성 설정 관리 클래스
+ */
+
 @Data
 @EnableAsync
-@Configuration
+@Configuration //해당 클래스에서 빈을 등록
 @ConfigurationProperties(prefix = "app")
 public class AppConfig {
     private List<String> authorizedRedirectUris = new ArrayList<>();
@@ -20,11 +24,4 @@ public class AppConfig {
     private String tokenSecret;
 
     private long tokenExpirationMsec;
-
-    //openvidu 설정
-//    @Bean
-//    public OpenVidu openVidu(@Value("${openvidu.secret}") String secret,
-//                             @Value("${openvidu.url}") String openviduUrl) {
-//        return new OpenVidu(openviduUrl, secret);
-//    }
 }
