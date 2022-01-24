@@ -1,21 +1,31 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import Box from "@mui/material/Box";
+import FormLabel from "@mui/material/FormLabel";
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
+import Checkbox from "@mui/material/Checkbox";
 
 const INITIAL_VALUES = {
-  roomName : '',
-  roomMemberCount : 2,
-}
+  title: "",
+  membercount: 2,
+  roominfo: "",
+  privateroom: false,
+  password: "",
+};
 
 export default function LobbyCreateRoom() {
   const [open, setOpen] = React.useState(false);
-  const [values, setValues] = React.useState(INITIAL_VALUES)
+  const [values, setValues] = React.useState(INITIAL_VALUES);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,48 +33,55 @@ export default function LobbyCreateRoom() {
 
   const handleClose = () => {
     setOpen(false);
+    setValues(INITIAL_VALUES)
   };
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
-      [name] : value,
-    }))
-    console.log(values)
-  }
+      [name]: value,
+    }));
+    // console.log(values);
+  };
 
-  const handleSubmit = (e: any) => { 
+  const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: checked,
+      password: "",
+    }));
+    // console.log(values);
+  };
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(values)
+    console.log(values);
     // const formData = new FormData();
-    // formData.append('roomName' , values.roomName)
-    // // formData.append('roomMemberCount' , values[roomMemberCount])
+    // formData.append('title' , values.title)
+    // // formData.append('membercount' , values[membercount])
     // console.log(formData)
-    console.log({
-      roomName : values.roomName,
-      roomMemberCount : values.roomMemberCount
-    })
 
     axios
       .post("URL", {
-        roomName : values.roomName,
-        roomMemberCount : values.roomMemberCount
+        title: values.title,
+        membercount: values.membercount,
+        roominfo: values.roominfo,
+        privateroom: values.privateroom,
+        password: values.password,
       })
       .then((res) => {
-        console.log("success")
+        console.log("success");
       })
-      .catch((err) =>{
-        console.log("Fail..")
+      .catch((err) => {
+        console.log("Fail..");
       })
       .finally(() => {
-        handleClose()
-        setValues(INITIAL_VALUES)
-      })
-
-
-
-  }
+        handleClose();
+        setValues(INITIAL_VALUES);
+      });
+  };
 
   return (
     <div>
@@ -84,8 +101,8 @@ export default function LobbyCreateRoom() {
             label="방이름"
             fullWidth
             variant="standard"
-            name="roomName"
-            value={values.roomName}
+            name="title"
+            value={values.title}
             onChange={handleChange}
           />
           <TextField
@@ -96,15 +113,47 @@ export default function LobbyCreateRoom() {
             type="number"
             fullWidth
             variant="standard"
-            name="roomMemberCount"
-            value={values.roomMemberCount}
+            name="membercount"
+            value={values.membercount}
             onChange={handleChange}
             InputProps={{ inputProps: { min: 2, max: 8 } }}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="방소개"
+            fullWidth
+            variant="standard"
+            multiline
+            rows={2}
+            name="roominfo"
+            value={values.roominfo}
+            onChange={handleChange}
+            inputProps={{ maxLength: 100 }}
+          />
+          <p>공개여부</p>
+          <label>
+            <input type="checkbox" name="privateroom" checked={values.privateroom} onChange={handleCheckedChange} /> 비공개
+          </label>
+          <TextField
+            disabled={!values.privateroom}
+            autoFocus
+            margin="dense"
+            id="name"
+            label="비밀번호"
+            fullWidth
+            variant="standard"
+            name="password"
+            value={values.password}
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>
-          <Button onClick={handleSubmit} type="submit">생성하기</Button>
+          <Button onClick={handleSubmit} type="submit">
+            생성하기
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
