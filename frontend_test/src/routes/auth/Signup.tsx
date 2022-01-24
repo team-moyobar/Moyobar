@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, DatePicker, version } from "antd";
@@ -10,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 
 // 타입 첫글자 대문자에서 소문자로 변경하였습니다.
+
 enum emailEnum {
   naver = "naver",
   gmail = "gmail",
@@ -71,11 +71,73 @@ export default function Signup() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("naver");
 
-  const printId = () => {
-    console.log(id + "@" + email);
+  // 닉네임 중복검사 여부를 확인하는 flagNickname 변수 생성 및 useState에 초기값 false로 저장
+  // 값을 변화할 핸들러 setCheckNickname 사용을 위한 생성
+  // 아이디도 마찬가지로 생성
+  const [flagNickname, setCheckNickname] = useState(false);
+  const [flagUserId, setCheckUserId] = useState(false);
+
+  // 중복검사를 통과했을 때 값을 true로 바꾸어줄 setFlagNickname 생성
+  const setFlagNickname = () => {
+    setCheckNickname(true);
+  }
+
+  const setFlagUserId = () => {
+    setCheckUserId(true);
+  }
+
+  // 아이디 값 or 이메일 값이 변할 때, flagUserId 값 false로 초기화 및 변한 값 적용
+  const changeUserId = (e : any) => {
+    setId(e.target.value);
+    setCheckUserId(false);
   };
-  const printNickname = () => {
-    console.log(nickname);
+  const changeEmail = (e : any) => {
+    setEmail(e.target.value);
+    setCheckUserId(false);
+  };
+
+  // 닉네임 값 변할 때, flagNickname 값 false로 초기화 및 변한 값 적용
+  const changeNickname = (e : any) => {
+    setNickname(e.target.value);
+    setCheckNickname(false);
+  };
+
+  const checkId = (e : any) => {
+    e.preventDefault();
+    console.log(`${id}@${email}.com`)
+    axios
+      .get(`https://moyobar.herokuapp.com/api/v1/users/id/${id}@${email}.com`)
+      .then((res) => {
+        console.log("아이디 중복체크 성공?");
+        if (res.data) {
+          alert("사용할 수 없는 아이디 입니다.");
+        } else {
+          alert("사용 가능한 아이디입니다.");
+          setFlagUserId();
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  };
+  const checkNickname = (e : any) => {
+    e.preventDefault();
+    console.log(`${nickname}`)
+    axios
+      .get(`https://moyobar.herokuapp.com/api/v1/users/nickname/${nickname}`)
+      .then((res) => {
+        console.log("닉네임 중복체크 성공?")
+        if (res.data) {
+          alert("사용할 수 없는 닉네임입니다.")
+        } else {
+          alert("사용 가능한 닉네임입니다.")
+          setFlagNickname();
+        }
+      })
+      .catch((err) => {
+        console.log("서버와 통신오류.. 잠시 뒤 다시 실행해주세요")
+        console.log(err)
+      })
   };
 
   const history = useHistory();
@@ -92,25 +154,35 @@ export default function Signup() {
   // };
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    axios
-      .post("https://moyobar.herokuapp.com/api/v1/users", {
-        user_id: `${data.userId}@${data.email}`,
-        nickname: data.userNickName,
-        password: data.passWord,
-        birthday: data.birth,
-        phone: data.phoneNumber,
-        type: "local",
-      })
-      .then((res) => {
-        console.log("success");
-        console.log(res);
-        history.push("/login");
-        //회원가입 성공시 로그인페이지로 이동
-      })
-      .catch((err) => {
-        console.log("Fail..");
-        console.log(err);
-      });
+    if (flagUserId) {
+      console.log(`flagUserId : ${flagUserId}`)
+      if (flagNickname) {
+        console.log(`flagNickname : ${flagNickname}`)
+        axios
+          .post("https://moyobar.herokuapp.com/api/v1/users", {
+            user_id: `${data.userId}@${data.email}.com`,
+            nickname: data.userNickName,
+            password: data.passWord,
+            birthday: data.birth,
+            phone: data.phoneNumber,
+            type: "local",
+          })
+          .then((res) => {
+            console.log("success");
+            console.log(res);
+            history.push("/login");
+            //회원가입 성공시 로그인페이지로 이동
+          })
+          .catch((err) => {
+            console.log("Fail..");
+            console.log(err);
+          });
+      } else {
+        alert("닉네임 중복검사 해주세요")
+      }
+    } else {
+      alert("아이디 중복검사 해주세요")
+    }
   };
 
   return (
@@ -132,18 +204,18 @@ export default function Signup() {
           <label>아이디 : </label>
           <input
             {...register("userId")}
-            onChange={(e) => setId(e.target.value)}
+            onChange={changeUserId}
           />
           <label>@</label>
           <select
             {...register("email")}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={changeEmail}
           >
             <option value="naver">naver.com</option>
             <option value="gmail">gmail.com</option>
           </select>
           {errors.userId && <p>{errors.userId.message}</p>}
-          <button onClick={printId}>중복검사</button>
+          <button onClick={checkId}>중복검사</button>
         </div>
 
         <div>
@@ -162,10 +234,10 @@ export default function Signup() {
           <label>닉네임 : </label>
           <input
             {...register("userNickName")}
-            onChange={(e) => setNickname(e.target.value)}
+            onChange={changeNickname}
           />
           {errors.userNickName && <p>{errors.userNickName.message}</p>}
-          <button onClick={printNickname}>중복검사</button>
+          <button onClick={checkNickname}>중복검사</button>
         </div>
 
         <div>
