@@ -2,6 +2,8 @@ package com.ssafy.api.service;
 
 import com.ssafy.security.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
+import com.ssafy.api.response.UserRes;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +14,9 @@ import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *   유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -27,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+
+	// 온라인 유저 리스트
+	ArrayList<String> userOnlineList = new ArrayList<>();
 
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
@@ -54,6 +62,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean nicknameDuplicated(String nickname) {
 		return userRepository.existsByNickname(nickname);
+	}
+
+	@Override
+	public void addUserOnline(String userId) {
+		// 온라인 유저 추가
+		userOnlineList.add(userId);
+	}
+
+	@Override
+	public List<UserRes> getUsersOnlineList() {
+		List<UserRes> res = new ArrayList<>();
+		// DB에서 유저 ID에 해당하는 유저리스트를 불러옴
+		for(String userId : userOnlineList){
+			res.add(UserRes.of(userRepository.findByUserId(userId).get()));
+		}
+
+		return res;
 	}
 
 	@Override

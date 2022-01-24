@@ -12,9 +12,6 @@ import javax.persistence.OneToOne;
 @Setter
 public class Drink extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "drink")
-    private User user;
-
     private int beer;
     private int liquor;
     private int soju;

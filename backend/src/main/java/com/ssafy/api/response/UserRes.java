@@ -17,7 +17,8 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * 회원 본인 정보 조회 API ([GET] /api/v1/users/me) 요청에 대한 응답값 정의.
+ * 회원 본인 정보 조회 API ([GET] /api/v1/users/info) 요청에 대한 응답값 정의.
+ * 로그인한 유저 목록 조회 API ([GET] /api/v1/users/online) 요청에 대한 응답값 정의.
  */
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class UserRes {
 	@ApiModelProperty(name = "User Nickname")
 	private String nickname;
 	@ApiModelProperty(name = "User birthday")
-	@JsonFormat(pattern = "yyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	@ApiModelProperty(name = "User profile img path")
 	private String img;
