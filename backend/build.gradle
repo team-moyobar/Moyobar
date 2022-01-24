@@ -65,9 +65,9 @@ configurations {
     args = ['install']
 }*/
 
-//task webpack(type: NpmTask, dependsOn: 'npmInstall') {
-//    args = ['run','build']
-//}
+/*task webpack(type: NpmTask, dependsOn: 'npmInstall') {
+    args = ['run','build']
+}*/
 
 // processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
 //processResources.dependsOn 'webpack'
@@ -124,24 +124,30 @@ processResources {
 //[끝]
 
 dependencies {
+    //spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client") //소셜 로그인위해 추가
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE")
     testImplementation("org.springframework.security:spring-security-test")
     annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
-    runtimeOnly("mysql:mysql-connector-java")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    //jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+    //db
+    runtimeOnly("mysql:mysql-connector-java")
+    implementation("com.querydsl:querydsl-jpa:${querydslVer}")
+    implementation("com.querydsl:querydsl-apt:${querydslVer}")
 
     implementation('commons-io:commons-io:2.6')
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.apache.commons:commons-lang3:3.9")
-
-    implementation("com.querydsl:querydsl-jpa:${querydslVer}")
-    implementation("com.querydsl:querydsl-apt:${querydslVer}")
 
     //STOMP 웹소캣 서버 사이드 테스트를 위한 의존성 추가
     implementation("org.springframework.boot:spring-boot-starter-mustache")
@@ -155,7 +161,6 @@ dependencies {
     //Kurento (미디어서버) 관련 의존성 추가
     implementation('org.kurento:kurento-client:6.16.0')
     implementation('org.kurento:kurento-utils-js:6.15.0')
-
 
     //IntelliJ용
     //IntelliJ에서는 하기 annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요.
@@ -180,6 +185,7 @@ dependencies {
 
     compile("javax.annotation:javax.annotation-api:1.2")
 
+    testImplementation("org.springframework.security:spring-security-test") //security testing용 추가
     implementation("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 

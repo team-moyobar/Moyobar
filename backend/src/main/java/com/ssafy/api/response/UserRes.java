@@ -8,6 +8,7 @@ import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Drink;
 import com.ssafy.db.entity.User;
 
+import com.ssafy.security.oauth2.entity.ProviderType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public class UserRes {
 	@ApiModelProperty(name = "User phone number")
 	private String phone;
 	@ApiModelProperty(name = "User login type")
-	private String type;
+	private ProviderType type;
 
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();

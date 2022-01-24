@@ -1,98 +1,103 @@
 #it will be set build date by gradle. if this value is @build.date@, front-end is development mode
-build :
-  date : @build.date@
+build:
+  date: @build.date@
 
-server :
-  port : 8080
-  address : localhost
-  servlet :
-    contextPath : /
+server:
+  port: 8080
+  address: localhost
+  servlet:
+    contextPath: /
     encoding:
       # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly.
-      charset : UTF-8
+      charset: UTF-8
       # Enable http encoding support.
-      enabled : true
+      enabled: true
       # Force the encoding to the configured charset on HTTP requests and responses.
-      force : true
-  compression : #gzip compression
-    enabled : true
-    mime-types : application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+      force: true
+  compression: #gzip compression
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 
-spring :
+spring:
   devtools:
     livereload:
       enabled: true
-  datasource : #database
-    url : jdbc:mysql://localhost:3306/moyobardb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    driver-class-name : com.mysql.cj.jdbc.Driver
-    hikari :
-      username : moyobar
-      password : zootopia123@
-  resources : #for SPA
-    static-locations : classpath:/dist/
-    add-mappings : false
-  mvc : # for SPA
-    throw-exception-if-no-handler-found : true
-  jpa : #database
-    show-sql : true #hibernate? db? ??? ?? ??(ddl, dml) ???
-    hibernate :
-      naming :
-        implicit-strategy : org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-        physical-strategy : org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-      ddl-auto : update
-    properties :
-      hibernate :
-        ddl-auto : update #db ??? ???? update
-        dialect : org.hibernate.dialect.MySQL57Dialect
-        format_sql: true #???? ??? ??? ???
-  data : #database
-    web :
-      pageable :
-        one-indexed-parameters : true
-  security: #spring security-?? ??? ? ??
+  datasource: #database
+    url: jdbc:mysql://localhost:3306/moyobardb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      username: moyobar
+      password: zootopia123@
+  resources: #for SPA
+    #static-locations: #classpath:/dist/
+    add-mappings: false
+  mvc: # for SPA
+    throw-exception-if-no-handler-found: true
+  jpa: #database
+    show-sql: true #show hibernate sql
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      ddl-auto: update
+    properties:
+      hibernate:
+        ddl-auto: update #db auto update
+        dialect: org.hibernate.dialect.MySQL57Dialect
+        format_sql: true #pretty formatting
+  data: #database
+    web:
+      pageable:
+        one-indexed-parameters: true
+  security: #spring security
     oauth2:
       client:
         registration:
-          google: #??
+          google: #google login
             client-id: '355430771101-nhie76qrcieubo1cbjeufseogtlfqg5j.apps.googleusercontent.com'
             client-secret: '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'
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
-          kakao:
-            clientId: '8a0e0324c301093c4fa75c6d2fb5e2dc' #??? DEVELOPER? ??????->REST API ?
-            clientSecret: '6s05wVQjnHdsbbXIeK4i1VNG0aJI7Ag8' #????
+          kakao: #kakao login
+            clientId: '8a0e0324c301093c4fa75c6d2fb5e2dc'
+            clientSecret: '6s05wVQjnHdsbbXIeK4i1VNG0aJI7Ag8'
             clientAuthenticationMethod: post
             authorizationGrantType: authorization_code
-            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}" #?? ?? ? ????? ??? ??? ?? #{baseUrl}/{action}/oauth2/code/{registrationId}
-            scope: #??? developers? ??? ???? ???
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}" #사용자지정. SecurityConfig 파일 및 kakao developer redirect URI 설정 맞춰주기
+            scope:
               - profile_nickname
-              - profile_image
               - account_email
             clientName: Kakao
-spa :
-  default-file : /dist/index.html
+        provider: #provider 설정
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize #resource server 접근 권한 부여받을 uri
+            tokenUri: https://kauth.kakao.com/oauth/token #resource server 접근 token받아올 곳
+            userInfoUri: https://kapi.kakao.com/v2/user/me #유저정보에 대한 uri
+            userNameAttribute: id
+
+spa:
+  default-file: /dist/index.html
 
 # Swagger
-springfox :
-  documentation :
-    swagger :
-      use-model-v3 : false
+springfox:
+  documentation:
+    swagger:
+      use-model-v3: false
 
 # jwt
-jwt :
-  secret : dyAeHubOOc8KaOfYB6XEQoEj1QzRlVgtjNL8PYs1A1tymZvvqkcEU7L1imkKHeDa
+jwt:
+  secret: dyAeHubOOc8KaOfYB6XEQoEj1QzRlVgtjNL8PYs1A1tymZvvqkcEU7L1imkKHeDa
   # unit is ms. 15 * 24 * 60 * 60 * 1000 = 15days
-  expiration : 1296000000
+  expiration: 1296000000
 
 #logging
-logging :
-  file :
-    name : ./ssafy-web.log
-  level :
-    root : INFO
-  com :
+logging:
+  file:
+    name: ./ssafy-web.log
+  level:
+    root: INFO
+  com:
     samsung:
       security: DEBUG
   org:
@@ -116,8 +121,10 @@ management:
     diskspace:
       enabled: true
 
-app: #?? ??? ? ??
-  tokenSecret: 926D96C90030DD58429D2751AC1BDBBC #JWT Token ? hash ? ? ???? secret key
-  tokenExpirationMsec: 86400000 #60*60*24(=1?)*1000=1000? , JWT Token? ????
-  authorizedRedirectUris: #??? JWT Token? response ? uri
-    - https://localhost:3000/oauth2/redirect #?? ???? ?????? ??-?? 3000??
+app: #for social login
+  tokenSecret: 926D96C90030DD58429D2751AC1BDBBC #JWT Token(hash secret key)
+  tokenExpirationMsec: 86400000 #60*60*24(=1?)*1000=1000days , JWT Token expiration date
+  authorizedRedirectUris:
+    #Resource Server만 갖는 정보로, client에 권한을 부여하는 과정에서 나중에 Authorized code를 전달하는 통로 = 즉, 소셜 로그인 완료 후 가게 될 화면
+    # 해당 url로 redirect 될 시 location에 인가 코드 담긴 쿼리 스트링 or 에러 메시지 포함해서 옴
+    -  https://localhost:3000/oauth/redirect
