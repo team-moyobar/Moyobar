@@ -9,6 +9,7 @@ import Nav from "./components/Nav";
 import Login from "./routes/auth/Login";
 import Profile from "./routes/auth/Profile";
 import Lobby from "./routes/lobby/Lobby";
+import GoogleLogin from "./routes/auth/GoogleLogin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
+        <Route path="/googleLogin" component={GoogleLogin} />
         <Route path="/profile" component={Profile} />
         <Route path="/lobby" component={Lobby} />
       </Router>
