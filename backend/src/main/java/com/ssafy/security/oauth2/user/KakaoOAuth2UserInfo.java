@@ -16,9 +16,9 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     public String getUserId() {
         /**
          * 카카오로부터 얻어온 사용자 정보
-        * Name: [2085953074],
+        * Name: [고유번호],
         * Granted Authorities: [[ROLE_USER, SCOPE_account_email, SCOPE_birthday, SCOPE_profile_image, SCOPE_profile_nickname]],
-        * User Attributes: [{id=2085953074, connected_at=2022-01-19T09:21:39Z, properties={nickname=허유진}, kakao_account={profile_nickname_needs_agreement=false, profile={nickname=유진YJ}, has_email=true, email_needs_agreement=false, is_email_valid=true, is_email_verified=true, email=laura707@naver.com}}]
+        * User Attributes: [{id=고유번호, connected_at=2022-01-19T09:21:39Z, properties={nickname=이름}, kakao_account={profile_nickname_needs_agreement=false, profile={nickname=닉네임}, has_email=true, email_needs_agreement=false, is_email_valid=true, is_email_verified=true, email=kakao@address.com}}]
         */
         for (String key: attributes.keySet()){
             System.out.println("Kakao UserInfo");
