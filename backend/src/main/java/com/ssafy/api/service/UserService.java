@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserUpdatePutReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,11 @@ import java.util.Optional;
  */
 @Service
 public interface UserService {
-
-
 	User createUser(UserRegisterPostReq userRegisterInfo);
 
 	User updateUser(User user);
+
+	User updateUser(UserUpdatePutReq userUpdatePutReq, User user);
 
 	boolean idDuplicated(String userId);
 
