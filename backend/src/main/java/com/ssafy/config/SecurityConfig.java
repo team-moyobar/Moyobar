@@ -60,7 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
-
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -89,7 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors() //cors를 허용
                 .and()
-
                 .httpBasic().disable()
                 .csrf().disable() //"/"와 "/main" 경로는 누구나 접근가능하나 그외의 경로는 인증허가시에만 접근 가능
 
@@ -106,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**", "/oauth2/**") //해당 request는
                 .permitAll() //아무나 접근 가능
 
-                .antMatchers("/api/v1/users/info") //해당 request는
+                .antMatchers("/api/v1/users/info", "/api/v1/users/online") //해당 request는
                 .authenticated() //인증허가된 사용자만 접근 가능
 
                 .anyRequest() //그 외의 request에 대해서는

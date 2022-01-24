@@ -30,6 +30,6 @@ public class UserRegisterPostReq {
 	private Date birthday;
 	@ApiModelProperty(name = "유저 휴대폰 번호", example = "010-1111-1111")
 	private String phone;
-	@ApiModelProperty(name = "유저 로그인 유형", example = "local")
-	private ProviderType type; //enum 타입-local, google, kako
+	@ApiModelProperty(name = "유저 로그인 유형", example = "LOCAL")
+	private ProviderType type; //enum 타입-local, google, kakao
 }
