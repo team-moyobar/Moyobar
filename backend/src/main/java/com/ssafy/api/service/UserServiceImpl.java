@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.security.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
@@ -15,6 +16,7 @@ import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(User user) {
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User updateUser(UserUpdatePutReq userUpdatePutReq, User user) {
+		//닉네임 수정
+		if(userUpdatePutReq.getNickname() != null) {
+			user.setNickname(userUpdatePutReq.getNickname());
+		}
+
+		//이미지 수정
+		if(userUpdatePutReq.getImg() != null) {
+			user.setImg(userUpdatePutReq.getImg());
+		}
+
+		//주량정보 수정 - 추후 구현
+//		if(userUpdatePutReq.getDrinkId() != null) {
+//			user.setDrink(userUpdatePutReq.getDrinkId());
+//		}
+
 		return userRepository.save(user);
 	}
 

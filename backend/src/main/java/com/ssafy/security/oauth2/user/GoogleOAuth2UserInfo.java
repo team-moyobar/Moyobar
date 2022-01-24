@@ -15,7 +15,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
     public String getUserId() {
         /**
          * 구글로부터 얻어온 사용자 정보
-         * {sub=114074772856782388724, name=허유진, given_name=유진, family_name=허, picture=https://lh3.googleusercontent.com/a-/AOh14GgONdiqkhzAfsgBPC69QSuwj9sBw7NHa-KxY5jcFg=s96-c, email=huryoojin707@gmail.com, email_verified=true, locale=ko}
+         * {sub=고유번호, name=풀네임, given_name=이름, family_name=성, picture=프로필사진 url, email=google@gmail.com, email_verified=true, locale=ko}
          */
         System.out.println("Google UserInfo");
         System.out.println(attributes);
