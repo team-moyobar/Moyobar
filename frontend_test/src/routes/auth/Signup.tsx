@@ -128,9 +128,9 @@ export default function Signup() {
       .then((res) => {
         console.log("닉네임 중복체크 성공?")
         if (res.data) {
-          alert("사용할 수 없는 닉네임입니다.")
+          alert("사용할 수 없는 닉네임입니다.");
         } else {
-          alert("사용 가능한 닉네임입니다.")
+          alert("사용 가능한 닉네임입니다.");
           setFlagNickname();
         }
       })
