@@ -3,6 +3,8 @@ package com.ssafy.api.service;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.db.entity.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
@@ -19,7 +21,9 @@ public interface UserService {
     boolean idDuplicated(String userId);
 
     boolean nicknameDuplicated(String nickname);
-    
+
+    UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
+
     void addUserOnline(String userId); // 온라인 유저 추가
     
     List<UserRes> getUsersOnlineList(); // 온라인 유저 리스트 반환

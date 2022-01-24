@@ -2,11 +2,13 @@ package com.ssafy.api.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ssafy.security.oauth2.entity.ProviderType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.security.Provider;
 import java.util.Date;
 
 /**
@@ -29,5 +31,5 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name = "유저 휴대폰 번호", example = "010-1111-1111")
 	private String phone;
 	@ApiModelProperty(name = "유저 로그인 유형", example = "local")
-	private String type;
+	private ProviderType type; //enum 타입-local, google, kako
 }
