@@ -9,7 +9,9 @@ import lombok.Setter;
 import com.ssafy.security.oauth2.entity.ProviderType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 유저 모델 정의.
@@ -49,4 +51,7 @@ public class User extends BaseEntity{
     private ProviderType type;
 
     private int first;
+
+    @OneToMany(mappedBy = "user")
+    private List<History> histories = new ArrayList<>();
 }
