@@ -17,9 +17,9 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 
 public class UserUpdatePutReq {
-        @ApiModelProperty(name = "유저 Nickname", example = "ssafy")
+        @ApiModelProperty(name = "유저 Nickname", example = "ssafy2")
         private String nickname;
-        @ApiModelProperty(name = "유저 프로필 이미지", example = "profile.png")
+        @ApiModelProperty(name = "유저 프로필 이미지", example = "profile2.png")
         private String img;
         @ApiModelProperty(name = "유저 주량 정보 테이블 id", example = "1")
         private String drinkId;
