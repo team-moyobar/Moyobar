@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.RoomRegisterPostReq;
+import com.ssafy.api.request.RoomUpdatePutReq;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.response.RoomRegisterPostRes;
 import com.ssafy.api.response.RoomRes;
@@ -55,8 +56,8 @@ public class RoomController {
 
         User owner = userService.getUserByUserId(userId);
 
-        if(historyService.existsUserInRoom(owner.getId()))
-            throw new BadRequestException("잘못된 접근입니다. ");
+        if (historyService.existsUserInRoom(owner.getId()))
+            throw new UserAlreadyInActiveRoomException();
 
 
         Room room = roomService.createRoom(registerInfo, owner);
@@ -69,6 +70,7 @@ public class RoomController {
 
         return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId()));
     }
+
 
     @GetMapping("/{roomId}")
     @ApiOperation(value = "미팅 룸 상세 조회", notes = "<stong>방 아이디</strong>를 통해 방 정보를 조회한다.")
@@ -86,4 +88,34 @@ public class RoomController {
         return ResponseEntity.status(200).body(RoomRes.of(room));
     }
 
+    @PutMapping("/{roomId}")
+    @ApiOperation(value = "미팅 룸 정보 수정", notes = "<stong>방 정보</strong>를 통해 방 정보를 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "방 수정 성공"),
+            @ApiResponse(code = 403, message = "인증 실패", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "잘못된 접근", response = ErrorResponse.class),
+            @ApiResponse(code = 409, message = "방 수정 실패", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
+    })
+    public ResponseEntity<? extends BaseResponseBody> update(
+            @PathVariable @ApiParam(value = "수정할 방 번호") long roomId,
+            @RequestBody @ApiParam(value = "방 생성 정보", required = true) RoomUpdatePutReq updateInfo,
+            @ApiIgnore Authentication authentication) {
+
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+
+        Room room = roomService.getRoomById(roomId);
+        User originOwner = userService.getUserByUserId(userId);
+
+        if (originOwner.getId() != originOwner.getId()) {
+            throw new UserNotRoomOwnerException();
+        }
+
+        User newOwner = userService.getUserByUserId(updateInfo.getOwner());
+        roomService.updateRoom(roomId, updateInfo, newOwner);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
+    }
 }

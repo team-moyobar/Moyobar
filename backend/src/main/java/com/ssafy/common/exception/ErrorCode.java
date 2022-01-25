@@ -13,14 +13,17 @@ public enum ErrorCode {
     INVALID_INPUT_VALUE(400, "C003", "Invalid Input Value"),
     UNAUTHORIZED(401, "C004", "Unauthorized"),
     ENTITY_NOT_FOUND(400, "C005", "Entity Not Found"),
+
     // User
     USER_ID_DUPLICATION(409, "U001","Id is Duplicated" ),
     NICKNAME_DUPLICATION(409, "U002","Nickname is Duplicated" ),
     PASSWORD_MISMATCH(400, "U003", "Password Not Match"),
     USER_NOT_FOUND(400, "U004", "User Not Found"),
+    USER_ALREADY_IN_ROOM(400, "U005", "User Already In Active Room"),
 
     // Meeting
-    ROOM_NOT_FOUND(400, "R001", "Room Not Found")
+    ROOM_NOT_FOUND(400, "R001", "Room Not Found"),
+    USER_NOT_ROOM_OWNER(401, "R002", "Request User is Not Owner of Room")
 
     ;
     private int status;
