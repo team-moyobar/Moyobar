@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**", "/oauth2/**") //해당 request는
                 .permitAll() //아무나 접근 가능
 
-                .antMatchers("/api/v1/users/info", "/api/v1/users/online") //해당 request는
+                .antMatchers("/api/v1/users/info", "/api/v1/rooms/**","/api/v1/users/online") //해당 request는
                 .authenticated() //인증허가된 사용자만 접근 가능
 
                 .anyRequest() //그 외의 request에 대해서는
