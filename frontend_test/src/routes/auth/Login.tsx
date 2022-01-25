@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
+import "./Login.css";
 
 import axios from "axios";
 
@@ -58,7 +59,7 @@ export default function Login() {
       .then((res) => {
         console.log("success");
         console.log(res);
-        console.log(data)
+        console.log(data);
         alert("로그인 성공");
         history.push("/lobby");
         //로그인 성공시 home화면으로 이동
@@ -66,19 +67,14 @@ export default function Login() {
       .catch((err) => {
         console.log("Fail..");
         console.log(err);
-        console.log(data)
+        console.log(data);
         alert("로그인 실패");
       });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{
-      marginTop: "5rem",
-      padding: "5rem",
-      border: "solid 2px"
-    }}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <h1>로그인</h1>
         <label>아이디 : </label>
         <input {...register("userId")} />
         <label>@</label>
