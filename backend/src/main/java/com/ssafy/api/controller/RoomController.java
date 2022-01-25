@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.RoomRegisterPostReq;
 import com.ssafy.api.response.ResponseMessage;
+import com.ssafy.api.response.RoomRegisterPostRes;
 import com.ssafy.api.response.RoomRes;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.HistoryService;
@@ -45,7 +46,7 @@ public class RoomController {
             @ApiResponse(code = 409, message = "방생성 실패", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
-    public ResponseEntity<? extends BaseResponseBody> create(
+    public ResponseEntity<RoomRegisterPostRes> create(
             @RequestBody @ApiParam(value = "방 생성 정보", required = true) RoomRegisterPostReq registerInfo,
             @ApiIgnore Authentication authentication) {
 
@@ -66,7 +67,7 @@ public class RoomController {
 
         historyService.createHistory(history);
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
+        return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId()));
     }
 
     @GetMapping("/{roomId}")
