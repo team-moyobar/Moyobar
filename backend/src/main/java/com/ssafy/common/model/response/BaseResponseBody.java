@@ -1,7 +1,5 @@
 package com.ssafy.common.model.response;
 
-import org.springframework.http.HttpStatus;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

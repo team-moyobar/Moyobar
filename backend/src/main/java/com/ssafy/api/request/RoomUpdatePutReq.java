@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("RoomRegisterPostRequest")
+@ApiModel("RoomUpdatePutRequest")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class RoomUpdatePutReq {
 
