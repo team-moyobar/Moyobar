@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.security.Provider;
 import java.util.Date;
 
 /**
@@ -32,4 +31,6 @@ public class UserRegisterPostReq {
 	private String phone;
 	@ApiModelProperty(name = "유저 로그인 유형", example = "LOCAL")
 	private ProviderType type; //enum 타입-local, google, kakao
+	@ApiModelProperty(name = "유저 주량 정보")
+	private DrinkReq drink;
 }

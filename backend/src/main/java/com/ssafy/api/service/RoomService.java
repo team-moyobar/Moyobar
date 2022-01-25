@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.RoomRegisterPostReq;
+import com.ssafy.api.request.RoomUpdatePutReq;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 
@@ -11,4 +12,5 @@ public interface RoomService {
 
     Room getRoomById(long roomId);
 
+    void updateRoom(long roomId, RoomUpdatePutReq updateInfo, User owner);
 }
