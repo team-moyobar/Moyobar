@@ -5,6 +5,7 @@ import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.ErrorResponse;
+import com.ssafy.common.exception.FailedAuthenticationException;
 import com.ssafy.common.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,25 +53,47 @@ public class UserController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
-    @GetMapping("/info")
+    @GetMapping("/info/me")
     @ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 403, message = "인증 실패", response = ErrorResponse.class),
+            @ApiResponse(code = 401, message = "인증 실패", response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "사용자 없음", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) {
-        /**
-         * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
-         * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
-         */
+        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
+
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
         User user = userService.getUserByUserId(userId);
         if(userId == null || user == null) throw new UserNotFoundException();
 
         return ResponseEntity.status(200).body(UserRes.of(user));
+    }
+
+    @GetMapping("/info/{userId}")
+    @ApiOperation(value = "일반 회원 정보 조회", notes = "접속 중인 다른 회원의 정보를 응답한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 405, message = "Request method 에러"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<UserRes> getOtherUserInfo(@ApiIgnore Authentication authentication, @PathVariable @ApiParam(value="조회하려는 회원의 ID") String userId) {
+        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
+
+        //해당 api 호출한 사람이 접속 중인 유저인지 판단
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String myUserId = userDetails.getUsername();
+        User user = userService.getUserByUserId(myUserId);
+        if(myUserId == null || user == null) throw new UserNotFoundException();
+
+        //다른 회원 정보를 얻어오기
+        User otherUser = userService.getUserByUserId(userId);
+
+        return ResponseEntity.status(200).body(UserRes.of(otherUser));
     }
 
     @GetMapping("/id/{userId}")
@@ -102,10 +125,6 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<List<UserRes>> getUsersOline(@ApiIgnore Authentication authentication) {
-        /**
-         * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
-         * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
-         */
         List<UserRes> usersOnlineList = userService.getUsersOnlineList();
         return ResponseEntity.status(200).body(usersOnlineList);
     }
@@ -114,11 +133,13 @@ public class UserController {
     @ApiOperation(value = "회원 정보 수정", notes = "마이페이지에서 <strong>닉네임, 이미지, 주량</strong> 정보 등을 수정한다.", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "잘못된 접근"),
-            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
     private ResponseEntity<User> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
+        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
+
         //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
