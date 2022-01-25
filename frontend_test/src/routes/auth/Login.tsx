@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
+// import ReactDOM from "react-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, DatePicker, version } from "antd";
+// import { Button, DatePicker, version } from "antd";
 import "antd/dist/antd.css";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -51,13 +51,14 @@ export default function Login() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     axios
       .post("https://moyobar.herokuapp.com/api/v1/auth/login", {
-        user_id: `${data.userId}@${data.email}`,
+        user_id: `${data.userId}@${data.email}.com`,
         password: data.passWord,
         type: "local",
       })
       .then((res) => {
         console.log("success");
         console.log(res);
+        console.log(data)
         alert("로그인 성공");
         history.push("/lobby");
         //로그인 성공시 home화면으로 이동
@@ -65,6 +66,7 @@ export default function Login() {
       .catch((err) => {
         console.log("Fail..");
         console.log(err);
+        console.log(data)
         alert("로그인 실패");
       });
   };
