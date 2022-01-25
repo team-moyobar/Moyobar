@@ -80,31 +80,31 @@ export default function Signup() {
   // 중복검사를 통과했을 때 값을 true로 바꾸어줄 setFlagNickname 생성
   const setFlagNickname = () => {
     setCheckNickname(true);
-  }
+  };
 
   const setFlagUserId = () => {
     setCheckUserId(true);
-  }
+  };
 
   // 아이디 값 or 이메일 값이 변할 때, flagUserId 값 false로 초기화 및 변한 값 적용
-  const changeUserId = (e : any) => {
+  const changeUserId = (e: any) => {
     setId(e.target.value);
     setCheckUserId(false);
   };
-  const changeEmail = (e : any) => {
+  const changeEmail = (e: any) => {
     setEmail(e.target.value);
     setCheckUserId(false);
   };
 
   // 닉네임 값 변할 때, flagNickname 값 false로 초기화 및 변한 값 적용
-  const changeNickname = (e : any) => {
+  const changeNickname = (e: any) => {
     setNickname(e.target.value);
     setCheckNickname(false);
   };
 
-  const checkId = (e : any) => {
+  const checkId = (e: any) => {
     e.preventDefault();
-    console.log(`${id}@${email}.com`)
+    console.log(`${id}@${email}.com`);
     axios
       .get(`https://moyobar.herokuapp.com/api/v1/users/id/${id}@${email}.com`)
       .then((res) => {
@@ -117,16 +117,16 @@ export default function Signup() {
         }
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
-  const checkNickname = (e : any) => {
+  const checkNickname = (e: any) => {
     e.preventDefault();
-    console.log(`${nickname}`)
+    console.log(`${nickname}`);
     axios
       .get(`https://moyobar.herokuapp.com/api/v1/users/nickname/${nickname}`)
       .then((res) => {
-        console.log("닉네임 중복체크 성공?")
+        console.log("닉네임 중복체크 성공?");
         if (res.data) {
           alert("사용할 수 없는 닉네임입니다.");
         } else {
@@ -135,9 +135,9 @@ export default function Signup() {
         }
       })
       .catch((err) => {
-        console.log("서버와 통신오류.. 잠시 뒤 다시 실행해주세요")
-        console.log(err)
-      })
+        console.log("서버와 통신오류.. 잠시 뒤 다시 실행해주세요");
+        console.log(err);
+      });
   };
 
   const history = useHistory();
@@ -154,9 +154,9 @@ export default function Signup() {
   // };
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (flagUserId) {
-      console.log(`flagUserId : ${flagUserId}`)
+      console.log(`flagUserId : ${flagUserId}`);
       if (flagNickname) {
-        console.log(`flagNickname : ${flagNickname}`)
+        console.log(`flagNickname : ${flagNickname}`);
         axios
           .post("https://moyobar.herokuapp.com/api/v1/users", {
             user_id: `${data.userId}@${data.email}.com`,
@@ -177,10 +177,10 @@ export default function Signup() {
             console.log(err);
           });
       } else {
-        alert("닉네임 중복검사 해주세요")
+        alert("닉네임 중복검사 해주세요");
       }
     } else {
-      alert("아이디 중복검사 해주세요")
+      alert("아이디 중복검사 해주세요");
     }
   };
 
@@ -190,33 +190,19 @@ export default function Signup() {
         marginTop: "5rem",
       }}
     >
-      <h1>회원가입</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          marginTop: "5rem",
-          padding: "5rem",
-          border: "solid 2px",
-        }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>아이디 : </label>
-          <input
-            {...register("userId")}
-            onChange={changeUserId}
-          />
+          <input {...register("userId")} onChange={changeUserId} />
           <label>@</label>
-          <select
-            {...register("email")}
-            onChange={changeEmail}
-          >
+          <select {...register("email")} onChange={changeEmail}>
             <option value="naver">naver.com</option>
             <option value="gmail">gmail.com</option>
           </select>
           {errors.userId && <p>{errors.userId.message}</p>}
           <button onClick={checkId}>중복검사</button>
         </div>
-
+        
         <div>
           <label>비밀번호 : </label>
           <input type="password" {...register("passWord")} />
@@ -231,10 +217,7 @@ export default function Signup() {
         </div>
         <div>
           <label>닉네임 : </label>
-          <input
-            {...register("userNickName")}
-            onChange={changeNickname}
-          />
+          <input {...register("userNickName")} onChange={changeNickname} />
           {errors.userNickName && <p>{errors.userNickName.message}</p>}
           <button onClick={checkNickname}>중복검사</button>
         </div>
