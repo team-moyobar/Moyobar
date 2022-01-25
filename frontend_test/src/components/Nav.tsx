@@ -10,6 +10,9 @@ export default function Nav() {
         <Link to="/signup">회원가입</Link>
       </li>
       <li className="nav-item">
+        <Link to="/googleLogin">구글로그인</Link>
+      </li>
+      <li className="nav-item">
         <Link to="/login">로그인</Link>
       </li>
       <li className="nav-item">

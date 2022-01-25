@@ -1,10 +1,15 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.UserLoginPostReq;
+import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.ErrorResponse;
 import com.ssafy.common.exception.UserNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +38,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
-    
 
     @PostMapping()
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
@@ -104,5 +108,27 @@ public class UserController {
          */
         List<UserRes> usersOnlineList = userService.getUsersOnlineList();
         return ResponseEntity.status(200).body(usersOnlineList);
+    }
+
+    @PutMapping("/info")
+    @ApiOperation(value = "회원 정보 수정", notes = "마이페이지에서 <strong>닉네임, 이미지, 주량</strong> 정보 등을 수정한다.", response = User.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "잘못된 접근"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    private ResponseEntity<User> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
+        //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+        User user = userService.getUserByUserId(userId);
+
+        if(userId == null || user == null) throw new UserNotFoundException();
+
+        //request로 받아온 내용을 해당 유저 칼럼에 update
+        userService.updateUser(userUpdatePutreq, user);
+
+        return ResponseEntity.status(200).body(userService.updateUser(user));
     }
 }

@@ -1,11 +1,13 @@
 import React from "react";
 
-export default function LobbyRoomListItem() {
+
+export default function LobbyRoomListItem({item} : any) {
   return (
-    <>
-      <div className="col-3">
-        <p>특정 방 정보</p>
+      <div>
+        <p>방이름 : {item.title}</p>
+        <p>인원 : {item.membercount}/8</p>
+        {item.privateroom && <p>비공개방</p> }
+        {item.privateroom || <p>공개방</p> }
       </div>
-    </>
   );
 }
