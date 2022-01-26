@@ -18,14 +18,14 @@ const GLogin = () => {
     }
 
     return (
-        <div>
+        <span>
             <GoogleLogin 
                 clientId = {googleClientId}
                 buttonText="구글로 로그인하기"
                 onSuccess={result=>onLoginSuccess(result)}
                 onFailure={result=>console.log(result)}
             />
-        </div>
+        </span>
     );
 
 }
