@@ -1,7 +1,64 @@
-form {
-  margin-left: 35rem;
-  margin-right: 35rem;
-  margin-top: 10rem;
-  padding: 50px;
+#login-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/public/assets/images/bg.jpg);
+  background-repeat: no-repeat;
+  /* 배경화면을 전체 화면에 맞춤 */
+  background-size: cover;
+  /* 잘리는 부분을 조절 */
+  background-position: 50% 50%;
+  /* 하위 컴포넌트를 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-container {
+  background-color: rgba(43, 40, 40, 0.9);
+  width: 860px;
+  height: 540px;
+  display: flex;
+  flex-direction: row;
   border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+#left-side {
+  width: 50%;
+  border-radius: 10px 0px 0px 10px;
+  padding: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-image: radial-gradient(
+    ellipse farthest-corner at 0 140%,
+    #f658ff 0%,
+    #f821ff 70%,
+    #a435ff 70%
+  );
+}
+
+#left-side h1 {
+  color: white;
+  width: 100%;
+  text-align: right;
+  opacity: 0.9;
+}
+#left-side p {
+  padding-top: 50px;
+  font-size: 12px;
+  text-align: right;
+  opacity: 0.8;
+}
+
+#right-side {
+  width: 50%;
+  border-radius: 0px 10px 10px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }

@@ -19,13 +19,13 @@ export default function KLogin() {
     }
 
     return (
-        <div>
+        <span>
             <KakaoLogin 
                 token={kakaoKey}
                 onSuccess={onKakaoSuccess}
                 onFail={onKakaoFail}
                 onLogout={onKakaoLogout}
             />
-        </div>
+        </span>
     )
 }
