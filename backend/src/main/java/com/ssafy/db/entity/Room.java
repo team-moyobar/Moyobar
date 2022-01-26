@@ -30,7 +30,8 @@ public class Room extends BaseEntity{
 
     private int max;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private RoomType type;
 
     @Column(name = "pwd")
     private String password;
