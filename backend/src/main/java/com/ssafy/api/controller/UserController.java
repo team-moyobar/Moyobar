@@ -53,27 +53,8 @@ public class UserController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
-    @GetMapping("/info/me")
-    @ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패", response = ErrorResponse.class),
-            @ApiResponse(code = 404, message = "사용자 없음", response = ErrorResponse.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
-    })
-    public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) {
-        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
-
-        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
-        String userId = userDetails.getUsername();
-        User user = userService.getUserByUserId(userId);
-        if(userId == null || user == null) throw new UserNotFoundException();
-
-        return ResponseEntity.status(200).body(UserRes.of(user));
-    }
-
     @GetMapping("/info/{userId}")
-    @ApiOperation(value = "일반 회원 정보 조회", notes = "접속 중인 다른 회원의 정보를 응답한다.")
+    @ApiOperation(value = "회원 정보 조회", notes = "접속 중인 회원의 정보를 응답한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -90,10 +71,10 @@ public class UserController {
         User user = userService.getUserByUserId(myUserId);
         if(myUserId == null || user == null) throw new UserNotFoundException();
 
-        //다른 회원 정보를 얻어오기
-        User otherUser = userService.getUserByUserId(userId);
+        //query params로 넘긴 유저 id값에 대해 회원정보 얻어오기
+        User userInfo = userService.getUserByUserId(userId);
 
-        return ResponseEntity.status(200).body(UserRes.of(otherUser));
+        return ResponseEntity.status(200).body(UserRes.of(userInfo));
     }
 
     @GetMapping("/id/{userId}")
