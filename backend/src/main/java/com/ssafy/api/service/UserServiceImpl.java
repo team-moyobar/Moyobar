@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.common.exception.ErrorCode;
 import com.ssafy.common.exception.InvalidValueException;
 import com.ssafy.api.request.UserUpdatePutReq;
@@ -142,5 +143,21 @@ public class UserServiceImpl implements UserService {
 		log.info("Load user by user email: the User Email - {}",  user.getUserId());
 
 		return UserPrincipal.create(user);
+	}
+
+	@Override
+	public boolean changeUserPwd(String userId, String password, String newpassword)
+	{
+		User user = userRepository.findByUserId(userId).get();
+
+		//현재 비밀번호를 받아와 DB에 저장된 내용과 일치하는지를 확인한 후에,
+		boolean check = passwordEncoder.matches(password, user.getPassword());
+
+		// 해당 유저의 비밀번호를 새 비밀번호값으로 변경하여 저장(암호화 후에)
+		if(check) {
+			user.setPassword(passwordEncoder.encode(newpassword));
+			userRepository.save(user);
+		}
+		return check;
 	}
 }
