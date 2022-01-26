@@ -21,6 +21,6 @@ public class UserUpdatePutReq {
         private String nickname;
         @ApiModelProperty(name = "유저 프로필 이미지", example = "profile2.png")
         private String img;
-        @ApiModelProperty(name = "유저 주량 정보 테이블 id", example = "1")
-        private String drinkId;
+        @ApiModelProperty(name = "유저 주량 정보")
+        private DrinkReq drink;
 }
