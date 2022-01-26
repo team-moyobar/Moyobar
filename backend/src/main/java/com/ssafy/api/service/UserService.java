@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.db.entity.Drink;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,6 @@ public interface UserService {
 	List<UserRes> getUsersOnlineList();
 
 	User getUserByUserId(String userId);
+
+	boolean changeUserPwd(String userId, String password, String changePassword);
 }
