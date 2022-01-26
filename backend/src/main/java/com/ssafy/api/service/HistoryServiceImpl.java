@@ -19,6 +19,6 @@ public class HistoryServiceImpl implements HistoryService{
 
     @Override
     public boolean existsUserInRoom(long userId) {
-        return historyRepository.existsByUserIdAndAction(userId, String.valueOf(ActionType.JOIN));
+        return historyRepository.existsByUserIdAndAction(userId, ActionType.JOIN);
     }
 }
