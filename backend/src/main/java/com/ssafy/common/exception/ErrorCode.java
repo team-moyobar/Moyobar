@@ -24,9 +24,9 @@ public enum ErrorCode {
 
     // Meeting
     ROOM_NOT_FOUND(400, "R001", "Room Not Found"),
-    USER_NOT_ROOM_OWNER(401, "R002", "Request User is Not Owner of Room")
+    USER_NOT_ROOM_OWNER(401, "R002", "Request User is Not Owner of Room"),
+    ROOM_ALREADY_MAX_USER(400, "R003", "Room Already Has Max User");
 
-    ;
     private int status;
     private final String code;
     private final String message;
