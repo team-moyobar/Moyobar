@@ -164,7 +164,7 @@ export default function Signup() {
             password: data.passWord,
             birthday: data.birth,
             phone: data.phoneNumber,
-            type: "local",
+            type: "LOCAL",
           })
           .then((res) => {
             console.log("success");
