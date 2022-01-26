@@ -186,9 +186,6 @@ export default function Signup() {
 
   return (
     <div
-      style={{
-        marginTop: "5rem",
-      }}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
