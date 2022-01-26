@@ -11,9 +11,7 @@ import javax.persistence.OneToOne;
 @Getter
 @Setter
 public class Drink extends BaseEntity {
-
     private int beer;
     private int liquor;
     private int soju;
-
 }

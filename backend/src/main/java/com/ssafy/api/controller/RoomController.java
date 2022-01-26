@@ -59,7 +59,6 @@ public class RoomController {
         if (historyService.existsUserInRoom(owner.getId()))
             throw new UserAlreadyInActiveRoomException();
 
-
         Room room = roomService.createRoom(registerInfo, owner);
         History history = new History();
 
@@ -106,15 +105,18 @@ public class RoomController {
         String userId = userDetails.getUsername();
 
 
-        Room room = roomService.getRoomById(roomId);
         User originOwner = userService.getUserByUserId(userId);
+        Room room = roomService.getRoomById(roomId);
 
-        if (originOwner.getId() != originOwner.getId()) {
+        if (room.getOwner().getId() != originOwner.getId()) {
             throw new UserNotRoomOwnerException();
         }
 
-        User newOwner = userService.getUserByUserId(updateInfo.getOwner());
-        roomService.updateRoom(roomId, updateInfo, newOwner);
+        User owner = originOwner;
+        if (updateInfo.getOwner() != null) {
+            owner = userService.getUserByUserId(updateInfo.getOwner());
+        }
+        roomService.updateRoom(roomId, updateInfo, owner);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }

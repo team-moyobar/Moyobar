@@ -1,16 +1,14 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.UserLoginPostReq;
+import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.api.request.UserRegisterPostReq;
@@ -122,21 +120,59 @@ public class UserController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 409, message = "닉네임 중복"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    private ResponseEntity<User> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
+    private ResponseEntity<? extends BaseResponseBody> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
         if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
         //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
         User user = userService.getUserByUserId(userId);
-
         if(userId == null || user == null) throw new UserNotFoundException();
+
+        //닉네임 중복여부 백엔드에서도 한번 더 확인
+        //변경할 닉네임 정보
+        String newNickname = userUpdatePutreq.getNickname();
+
+        if(userService.nicknameDuplicated(newNickname))
+            throw new NicknameDuplicatedException();
 
         //request로 받아온 내용을 해당 유저 칼럼에 update
         userService.updateUser(userUpdatePutreq, user);
 
-        return ResponseEntity.status(200).body(userService.updateUser(user));
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
+    }
+
+    @PutMapping("/password")
+    @ApiOperation(value = "비밀번호 변경", notes = "<strong>토큰과 변경할 비밀번호</strong>를 이용해 유저의 비밀번호를 새 비밀번호로 변경한다.", response = User.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    private ResponseEntity<? extends BaseResponseBody> changeUserPwd(@ApiIgnore Authentication authentication, @ApiParam(value = "새로운 유저 비밀번호") @RequestBody UserChangePwdPutReq userChangePwdPutReq) {
+        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
+
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+        //사용자가 요청보낸 사용자 현재 password 정보 & 새 비밀번호 정보
+        String password = userChangePwdPutReq.getPassword();
+        String newpassword = userChangePwdPutReq.getNewpassword();
+
+        //한번 더 중복 검사-현재 비밀번호와 새로운 비밀번호의 값이 중복되는지 체크
+        if(password.equals(newpassword)) throw new PasswordDuplicatedException();
+
+        //새 비밀번호 값을 암호화해서 새로 DB에 UPDATE
+        boolean check = userService.changeUserPwd(userId, password, newpassword);
+
+        if (check) {
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
+        }else{ //현재 비밀번호 정보 입력 잘못했을 시
+            throw new InvalidValueException(ErrorCode.INVALID_INPUT_VALUE);
+        }
     }
 }
