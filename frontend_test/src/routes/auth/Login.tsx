@@ -54,7 +54,7 @@ export default function Login() {
       .post("https://moyobar.herokuapp.com/api/v1/auth/login", {
         user_id: `${data.userId}@${data.email}.com`,
         password: data.passWord,
-        type: "local",
+        type: "LOCAL",
       })
       .then((res) => {
         console.log("success");
