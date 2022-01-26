@@ -59,7 +59,7 @@ public class RoomRes {
         res.setParticipants(
                 room.getHistories().stream().map(h -> UserInRoomRes.of(h.getUser())).collect(Collectors.toList())) ;
         res.setType(room.getType());
-        res.setOwner(room.getOwner().getUserId());
+        res.setOwner(room.getOwner().getNickname());
         return res;
     }
 }

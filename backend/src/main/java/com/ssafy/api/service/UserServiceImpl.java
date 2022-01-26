@@ -5,6 +5,7 @@ import com.ssafy.common.exception.ErrorCode;
 import com.ssafy.common.exception.InvalidValueException;
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.common.exception.RoomNotFoundException;
+import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.entity.Drink;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.repository.DrinkRepository;
@@ -159,5 +160,10 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(user);
 		}
 		return check;
+	}
+
+	@Override
+	public User getUserByNickname(String nickname) {
+		return userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new);
 	}
 }
