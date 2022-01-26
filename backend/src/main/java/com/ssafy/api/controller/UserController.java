@@ -122,21 +122,28 @@ public class UserController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 409, message = "닉네임 중복"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    private ResponseEntity<User> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
+    private ResponseEntity<? extends BaseResponseBody> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
         if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
         //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
         User user = userService.getUserByUserId(userId);
-
         if(userId == null || user == null) throw new UserNotFoundException();
+
+        //닉네임 중복여부 백엔드에서도 한번 더 확인
+        //변경할 닉네임 정보
+        String newNickname = userUpdatePutreq.getNickname();
+
+        if(userService.nicknameDuplicated(newNickname))
+            throw new NicknameDuplicatedException();
 
         //request로 받아온 내용을 해당 유저 칼럼에 update
         userService.updateUser(userUpdatePutreq, user);
 
-        return ResponseEntity.status(200).body(userService.updateUser(user));
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 }
