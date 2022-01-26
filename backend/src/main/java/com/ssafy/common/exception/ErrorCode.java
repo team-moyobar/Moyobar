@@ -20,6 +20,7 @@ public enum ErrorCode {
     PASSWORD_MISMATCH(400, "U003", "Password Not Match"),
     USER_NOT_FOUND(400, "U004", "User Not Found"),
     USER_ALREADY_IN_ROOM(400, "U005", "User Already In Active Room"),
+    PASSWORD_DUPLICATION(400, "U006", "Same Value As The Current Password"),
 
     // Meeting
     ROOM_NOT_FOUND(400, "R001", "Room Not Found"),
