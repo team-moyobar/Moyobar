@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,9 +38,11 @@ public class RoomRes {
     @ApiModelProperty(name = "Room thumbnail")
     private String thumbnail;
     @ApiModelProperty(name = "Room participant")
-    private List<UserRes> participants;
+    private List<UserInRoomRes> participants;
     @ApiModelProperty(name = "Room type")
     private String type;
+    @ApiModelProperty(name = "Room owner")
+    private String owner;
 
     public static RoomRes of(Room room) {
         RoomRes res = new RoomRes();
@@ -49,14 +50,15 @@ public class RoomRes {
         res.setRoomId(room.getId());
         res.setTitle(room.getTitle());
         res.setDescription(room.getDescription());
-        res.setActive(room.getIsActive() == 1);
+        res.setActive(room.getIsActive() == 0);
         res.setMax(room.getMax());
         res.setStart(room.getStart());
         res.setEnd(room.getEnd());
         res.setThumbnail(room.getThumbnail());
         res.setParticipants(
-                room.getHistories().stream().map(h -> UserRes.of(h.getUser())).collect(Collectors.toList())) ;
+                room.getHistories().stream().map(h -> UserInRoomRes.of(h.getUser())).collect(Collectors.toList())) ;
         res.setType(room.getType());
+        res.setOwner(room.getOwner().getUserId());
         return res;
     }
 }
