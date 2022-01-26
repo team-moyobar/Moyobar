@@ -4,6 +4,7 @@ import LobbyRoomSearchBar from "../../components/lobby/LobbyRoomSearchBar";
 import LobbyCreateRoom from "../../components/lobby/LobbyCreateRoom";
 import { useEffect, useState } from "react";
 import axios from 'axios'
+import "./Lobby.css"
 
 interface IProps  {
   title : string, membercount : number, privateroom : boolean
@@ -50,28 +51,33 @@ export default function Lobby() {
 
   return (
     <div className="container mt-5">
-      <h1>로비</h1>
+      <h1 id="neonText">로비</h1>
       <div className="row">
         <div
-          className="col-8 bg-white p-3"
-          style={{
-            padding: "5rem",
-            border: "solid 2px",
-          }}
-        >
-          <LobbyCreateRoom />
-          <LobbyRoomSearchBar></LobbyRoomSearchBar>
-          <LobbyRoomList items={items}  />
+            className="col-3 p-3"
+            style={{
+              padding: "5rem",
+              // border: "solid 2px",
+            }}
+          >
+            <div className="p-3 " id="LobbyForm">
+              <LobbySideBar></LobbySideBar>
+            </div>
         </div>
         <div
-          className="col-4 bg-white p-3"
+          className="col-9  p-3"
           style={{
             padding: "5rem",
-            border: "solid 2px",
+            // border: "solid 2px",
           }}
         >
-          <LobbySideBar></LobbySideBar>
+          <div className="p-3 " id="LobbyForm" >
+            <LobbyCreateRoom />
+            <LobbyRoomSearchBar></LobbyRoomSearchBar>
+            <LobbyRoomList items={items}  />
+          </div>
         </div>
+        
       </div>
     </div>
   );
