@@ -8,6 +8,8 @@ import com.ssafy.db.entity.RoomType;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +73,11 @@ public class RoomServiceImpl implements RoomService {
         if(updateInfo.getOwner()!= null)
             room.setOwner(owner);
         roomRepository.save(room);
+    }
+
+    @Override
+    public Page<Room> getActiveRoomList(Pageable pageable) {
+        return roomRepository.findAllByIsActive(0, pageable);
     }
 
 }
