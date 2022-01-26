@@ -16,8 +16,8 @@ import java.util.Date;
 @Table(name = "meeting_history")
 public class History extends BaseEntity {
 
-    // enum으로 바꿀지
-    private String action;
+    @Enumerated(EnumType.STRING)
+    private ActionType action;
 
     private Date inserted;
 
