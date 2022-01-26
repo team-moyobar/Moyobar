@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.db.entity.ActionType;
 import com.ssafy.db.entity.History;
 import com.ssafy.db.repository.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,6 @@ public class HistoryServiceImpl implements HistoryService{
 
     @Override
     public boolean existsUserInRoom(long userId) {
-        return historyRepository.existsByUserIdAndAction(userId, "join");
+        return historyRepository.existsByUserIdAndAction(userId, String.valueOf(ActionType.JOIN));
     }
 }
