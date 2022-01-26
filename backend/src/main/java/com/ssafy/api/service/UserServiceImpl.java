@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import com.ssafy.common.exception.ErrorCode;
 import com.ssafy.common.exception.InvalidValueException;
 import com.ssafy.api.request.UserUpdatePutReq;
+import com.ssafy.db.entity.Drink;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
 import lombok.extern.slf4j.Slf4j;
@@ -47,11 +48,18 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setUserId(userRegisterInfo.getUserId());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
+		if(userRegisterInfo.getType() == ProviderType.LOCAL)
+			user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
 		user.setNickname(userRegisterInfo.getNickname());
 		user.setBirthday(userRegisterInfo.getBirthday());
 		user.setPhone(userRegisterInfo.getPhone());
 		user.setType(userRegisterInfo.getType());
+
+		Drink drink = new Drink();
+		drink.setBeer(userRegisterInfo.getDrink().getBeer());
+		drink.setSoju(userRegisterInfo.getDrink().getSoju());
+		drink.setLiquor(userRegisterInfo.getDrink().getLiquor());
+		user.setDrink(drink);
 		return userRepository.save(user);
 	}
 
