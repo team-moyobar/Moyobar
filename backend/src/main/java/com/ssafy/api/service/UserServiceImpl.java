@@ -1,14 +1,19 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.common.exception.ErrorCode;
 import com.ssafy.common.exception.InvalidValueException;
 import com.ssafy.api.request.UserUpdatePutReq;
+import com.ssafy.common.exception.RoomNotFoundException;
 import com.ssafy.db.entity.Drink;
+import com.ssafy.db.entity.Room;
+import com.ssafy.db.repository.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,16 +28,19 @@ import com.ssafy.db.repository.UserRepositorySupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ * 주량 관련 비즈니스 로직도 함께 정의.
  */
 @Slf4j //log함수용
 @Service("userService")
 public class UserServiceImpl implements UserService {
-
     @Autowired
     UserRepository userRepository;
+	@Autowired
+	DrinkRepository drinkRepository;
 
     @Autowired
     UserRepositorySupport userRepositorySupport;
@@ -80,10 +88,16 @@ public class UserServiceImpl implements UserService {
 			user.setImg(userUpdatePutReq.getImg());
 		}
 
-		//주량정보 수정 - 추후 구현
-//		if(userUpdatePutReq.getDrinkId() != null) {
-//			user.setDrink(userUpdatePutReq.getDrinkId());
-//		}
+		//주량정보 수정
+		if(userUpdatePutReq.getDrink() != null) {
+			//현재 유저의 drink값을 찾아 해당 유저의 Drink table값 수정하기
+			Drink drink = user.getDrink();
+			drink.setBeer(userUpdatePutReq.getDrink().getBeer());
+			drink.setSoju(userUpdatePutReq.getDrink().getSoju());
+			drink.setLiquor(userUpdatePutReq.getDrink().getLiquor());
+			drinkRepository.save(drink); //Drink table update 후에
+			user.setDrink(drink); //User table에 반영
+		}
 
 		return userRepository.save(user);
 	}
@@ -129,5 +143,21 @@ public class UserServiceImpl implements UserService {
 		log.info("Load user by user email: the User Email - {}",  user.getUserId());
 
 		return UserPrincipal.create(user);
+	}
+
+	@Override
+	public boolean changeUserPwd(String userId, String password, String newpassword)
+	{
+		User user = userRepository.findByUserId(userId).get();
+
+		//현재 비밀번호를 받아와 DB에 저장된 내용과 일치하는지를 확인한 후에,
+		boolean check = passwordEncoder.matches(password, user.getPassword());
+
+		// 해당 유저의 비밀번호를 새 비밀번호값으로 변경하여 저장(암호화 후에)
+		if(check) {
+			user.setPassword(passwordEncoder.encode(newpassword));
+			userRepository.save(user);
+		}
+		return check;
 	}
 }

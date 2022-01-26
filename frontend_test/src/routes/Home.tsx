@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./Home.css";
 
+import GLogin from "../components/auth/GLogin";
+import KLogin from "../components/auth/KLogin";
+
 export default function Home() {
   return (
     <div id="main">
@@ -20,6 +23,13 @@ export default function Home() {
               회원가입
             </Button>
           </Link>
+        </div>
+        <hr />
+        <div>
+          <GLogin />
+        </div>
+        <div>
+          <KLogin />
         </div>
       </div>
     </div>
