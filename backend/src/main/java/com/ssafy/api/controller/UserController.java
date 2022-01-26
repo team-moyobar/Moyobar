@@ -4,9 +4,7 @@ import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
-import com.ssafy.common.exception.ErrorResponse;
-import com.ssafy.common.exception.FailedAuthenticationException;
-import com.ssafy.common.exception.UserNotFoundException;
+import com.ssafy.common.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +46,14 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> register(
             @RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
+        String userId = registerInfo.getUserId();
+        String nickname = registerInfo.getNickname();
+
+        if(userService.idDuplicated(userId))
+            throw new UserIdDuplicatedException();
+        if(userService.nicknameDuplicated(nickname))
+            throw new NicknameDuplicatedException();
+
         User user = userService.createUser(registerInfo);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
