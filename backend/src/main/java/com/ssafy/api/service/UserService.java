@@ -41,4 +41,6 @@ public interface UserService {
 	User getUserByUserId(String userId);
 
 	boolean changeUserPwd(String userId, String password, String changePassword);
+
+	User getUserByNickname(String owner);
 }
