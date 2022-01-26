@@ -4,6 +4,8 @@ import KakaoLogin from "react-kakao-login";
 
 export default function KLogin() {
 
+    let kakaoKey:string=process.env.REACT_APP_KAKAO_API_KEY||"";
+
     const onKakaoSuccess=(res : any) => {
         console.log(res)
     }
@@ -19,7 +21,7 @@ export default function KLogin() {
     return (
         <div>
             <KakaoLogin 
-                token={'2db2329b983571c847c4d4974932ab64'}
+                token={kakaoKey}
                 onSuccess={onKakaoSuccess}
                 onFail={onKakaoFail}
                 onLogout={onKakaoLogout}
