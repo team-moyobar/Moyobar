@@ -16,11 +16,17 @@ import com.ssafy.db.entity.History;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,6 +37,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api/v1/rooms")
 public class RoomController {
 
+    private final Logger logger = LoggerFactory.getLogger(RoomController.class);
     @Autowired
     RoomService roomService;
     @Autowired
@@ -105,19 +112,38 @@ public class RoomController {
         String userId = userDetails.getUsername();
 
 
-        User originOwner = userService.getUserByUserId(userId);
+        User authUser = userService.getUserByUserId(userId);
         Room room = roomService.getRoomById(roomId);
 
-        if (room.getOwner().getId() != originOwner.getId()) {
+        if (room.getOwner().getId() != authUser.getId()) {
             throw new UserNotRoomOwnerException();
         }
 
-        User owner = originOwner;
+        User owner = authUser;
         if (updateInfo.getOwner() != null) {
-            owner = userService.getUserByUserId(updateInfo.getOwner());
+            owner = userService.getUserByNickname(updateInfo.getOwner());
         }
         roomService.updateRoom(roomId, updateInfo, owner);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
+
+    @GetMapping()
+    @ApiOperation(value = "미팅 룸 목록 조회", notes = " 방 목록을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "방 조회 성공"),
+            @ApiResponse(code = 403, message = "인증 실패", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "잘못된 접근", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
+    })
+    public ResponseEntity<Page<RoomRes>> roomList(
+            @PageableDefault(size = 10, sort = "start", direction = Sort.Direction.ASC) Pageable pageable,
+            @ApiIgnore Authentication authentication) {
+
+        logger.info(pageable.toString());
+        Page<Room> rooms = roomService.getActiveRoomList(pageable);
+        Page<RoomRes> results = new PageImpl<RoomRes>(rooms.getContent().stream().map(RoomRes::of).collect(Collectors.toList()), rooms.getPageable(), rooms.getTotalElements());
+        return ResponseEntity.status(200).body(results);
+    }
+
 }
