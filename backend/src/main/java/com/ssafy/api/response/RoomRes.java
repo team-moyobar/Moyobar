@@ -3,6 +3,7 @@ package com.ssafy.api.response;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ssafy.db.entity.Room;
+import com.ssafy.db.entity.RoomType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -40,7 +41,7 @@ public class RoomRes {
     @ApiModelProperty(name = "Room participant")
     private List<UserInRoomRes> participants;
     @ApiModelProperty(name = "Room type")
-    private String type;
+    private RoomType type;
     @ApiModelProperty(name = "Room owner")
     private String owner;
 
