@@ -23,7 +23,7 @@ spring:
     livereload:
       enabled: true
   datasource: #database
-    url: jdbc:mysql://localhost:3306/moyobardb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    url: jdbc:mysql://i6d210.p.ssafy.io:3306/moyobardb?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       username: moyobar
