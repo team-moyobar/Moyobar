@@ -1,14 +1,25 @@
+#main {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/public/assets/images/bg3.jpeg);
+  background-repeat: no-repeat;
+  /* 배경화면을 전체 화면에 맞춤 */
+  background-size: cover;
+  /* 잘리는 부분을 조절 */
+  background-position: 50% 100%;
+  /* 하위 컴포넌트를 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #HomeForm {
-  background-color: rgba(43, 40, 40, 0.8);
+  background-color: rgba(43, 40, 40, 0.9);
   display: inline-block;
   width: 500px;
-  margin-top: 10rem;
   padding: 50px;
-  border-radius: 15px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-#main {
-  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 #Button {
@@ -21,4 +32,7 @@
 #mainLogo {
   width: 250px;
   margin-bottom: 5rem;
+}
+
+#sns-login {
 }

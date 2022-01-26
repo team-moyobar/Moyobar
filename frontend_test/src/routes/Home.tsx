@@ -10,7 +10,7 @@ export default function Home() {
     <div id="main">
       <div id="HomeForm">
         <img id="mainLogo" src="/assets/images/logo.png" alt="" />
-        <div className="my-4">
+        <div id="button-container" className="my-4">
           <Link to="/login">
             <Button variant="contained" color="secondary" id="Button">
               로그인
@@ -25,10 +25,8 @@ export default function Home() {
           </Link>
         </div>
         <hr />
-        <div>
+        <div id="sns-login">
           <GLogin />
-        </div>
-        <div>
           <KLogin />
         </div>
       </div>
