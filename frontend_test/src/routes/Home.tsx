@@ -9,14 +9,14 @@ export default function Home() {
         <img id="mainLogo" src="/assets/images/logo.png" alt="" />
         <div className="my-4">
           <Link to="/login">
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" id="Button">
               로그인
             </Button>
           </Link>
         </div>
         <div>
           <Link to="/signup">
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" id="Button">
               회원가입
             </Button>
           </Link>

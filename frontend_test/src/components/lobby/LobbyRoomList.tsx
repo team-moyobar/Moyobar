@@ -21,12 +21,12 @@ export default function LobbyRoomList({items} : any ) {
   );
 
   return (
-    <div className="container row">
+    <div className="container row mx-0" style={{justifyContent : "center"}}>
       {items.map((item : any) => {
         const {title, membercount, privateroom} = item;
 
         return(
-          <div className="col-5 border m-3" key={item.id}>
+          <div className="col-5 m-3 px-0 " key={item.id} id="neonsignbox" >
             <LobbyRoomListItem item={item}/>
           </div>
         )

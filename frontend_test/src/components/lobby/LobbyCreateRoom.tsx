@@ -85,7 +85,7 @@ export default function LobbyCreateRoom() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} id="">
         방 만들기
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
