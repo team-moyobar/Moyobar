@@ -160,6 +160,9 @@ export default function Signup() {
         axios
           .post("https://moyobar.herokuapp.com/api/v1/users", {
             user_id: `${data.userId}@${data.email}.com`,
+            drink: {
+              soju: 3,
+            },
             nickname: data.userNickName,
             password: data.passWord,
             birthday: data.birth,
