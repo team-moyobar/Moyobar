@@ -33,7 +33,7 @@ export default function LobbyCreateRoom() {
 
   const handleClose = () => {
     setOpen(false);
-    setValues(INITIAL_VALUES)
+    setValues(INITIAL_VALUES);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,19 +63,32 @@ export default function LobbyCreateRoom() {
     // // formData.append('membercount' , values[membercount])
     // console.log(formData)
 
+    const TOKEN =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJja…PnaHF0NrCiF0_wjU8e2NIl3hc9VSFWACQf2mMxMqD1QRzNPRg";
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${TOKEN}`,
+    };
+
     axios
-      .post("URL", {
-        title: values.title,
-        membercount: values.membercount,
-        roominfo: values.roominfo,
-        privateroom: values.privateroom,
-        password: values.password,
-      })
+      .post(
+        "https://moyobar.herokuapp.com/api/v1/rooms",
+        {
+          title: values.title,
+          max: values.membercount,
+          description: values.roominfo,
+          type: "PUBLIC",
+        },
+        {
+          headers: headers,
+        }
+      )
       .then((res) => {
         console.log("success");
       })
       .catch((err) => {
         console.log("Fail..");
+        console.log(err);
       })
       .finally(() => {
         handleClose();
@@ -134,7 +147,13 @@ export default function LobbyCreateRoom() {
           />
           <p>공개여부</p>
           <label>
-            <input type="checkbox" name="privateroom" checked={values.privateroom} onChange={handleCheckedChange} /> 비공개
+            <input
+              type="checkbox"
+              name="privateroom"
+              checked={values.privateroom}
+              onChange={handleCheckedChange}
+            />{" "}
+            비공개
           </label>
           <TextField
             disabled={!values.privateroom}
