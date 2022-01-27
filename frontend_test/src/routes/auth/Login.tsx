@@ -51,7 +51,7 @@ export default function Login() {
   // };
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     axios
-      .post("https://moyobar.herokuapp.com/api/v1/auth/login", {
+      .post("http://i6d210.p.ssafy.io:8080/api/v1/auth/login", {
         user_id: `${data.userId}@${data.email}.com`,
         password: data.passWord,
         type: "LOCAL",
