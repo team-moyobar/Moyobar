@@ -106,7 +106,7 @@ export default function Signup() {
     e.preventDefault();
     console.log(`${id}@${email}.com`);
     axios
-      .get(`https://moyobar.herokuapp.com/api/v1/users/id/${id}@${email}.com`)
+      .get(`http://i6d210.p.ssafy.io:8080/api/v1/users/id/${id}@${email}.com`)
       .then((res) => {
         console.log("아이디 중복체크 성공?");
         if (res.data) {
@@ -124,7 +124,7 @@ export default function Signup() {
     e.preventDefault();
     console.log(`${nickname}`);
     axios
-      .get(`https://moyobar.herokuapp.com/api/v1/users/nickname/${nickname}`)
+      .get(`http://i6d210.p.ssafy.io:8080/api/v1/users/nickname/${nickname}`)
       .then((res) => {
         console.log("닉네임 중복체크 성공?");
         if (res.data) {
@@ -158,7 +158,7 @@ export default function Signup() {
       if (flagNickname) {
         console.log(`flagNickname : ${flagNickname}`);
         axios
-          .post("https://moyobar.herokuapp.com/api/v1/users", {
+          .post("http://i6d210.p.ssafy.io:8080/api/v1/users", {
             user_id: `${data.userId}@${data.email}.com`,
             drink: {
               soju: 3,
