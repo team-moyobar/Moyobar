@@ -10,7 +10,26 @@ import "./Login.css";
 import KLogin from "../../components/auth/KLogin";
 import GLogin from "../../components/auth/GLogin";
 import axios from "axios";
+import Cookies from "universal-cookie";
+axios.defaults.withCredentials = true;
+const cookies = new Cookies();
 
+const createCookie = (token: string) => {
+  cookies.set("jwtToken", token, {
+    path: "/", //모든 곳에서 접근가능
+    httpOnly: true,
+    // secure: true,
+    // expires: new Date(Date.now() + 60 * 60 * 24 * 1000), //만료 시간 설정(1day)
+  });
+};
+
+const checkLogin = (id: string) => {
+  cookies.set("userId", id);
+};
+
+export const getCookie = (name: any) => {
+  return cookies.get(name);
+};
 enum emailEnum {
   naver = "naver",
   gmail = "gmail",
@@ -59,8 +78,8 @@ export default function Login() {
       })
       .then((res) => {
         console.log("success");
-        console.log(res);
-        console.log(data);
+        createCookie(res.data.accessToken);
+        checkLogin(`${data.userId}@${data.email}.com`);
         alert("로그인 성공");
         history.push("/lobby");
         //로그인 성공시 home화면으로 이동
