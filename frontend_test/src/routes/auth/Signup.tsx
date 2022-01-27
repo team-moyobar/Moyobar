@@ -7,7 +7,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
-
+import "./Signup.css";
 // 타입 첫글자 대문자에서 소문자로 변경하였습니다.
 
 enum emailEnum {
@@ -185,62 +185,118 @@ export default function Signup() {
   };
 
   return (
-    <div
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>아이디 : </label>
-          <input {...register("userId")} onChange={changeUserId} />
-          <label>@</label>
-          <select {...register("email")} onChange={changeEmail}>
-            <option value="naver">naver.com</option>
-            <option value="gmail">gmail.com</option>
-          </select>
-          {errors.userId && <p>{errors.userId.message}</p>}
-          <button onClick={checkId}>중복검사</button>
+    <div id="signup-page-container">
+      <form id="signup-form" onSubmit={handleSubmit(onSubmit)}>
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
+            <input
+              id="signup-input"
+              placeholder="이메일"
+              {...register("userId")}
+              onChange={changeUserId}
+            />
+            @
+            <select {...register("email")} onChange={changeEmail}>
+              <option value="naver">naver.com</option>
+              <option value="gmail">gmail.com</option>
+            </select>
+            <div id="nick">
+              <button id="signup-input" onClick={checkId}>
+                중복검사
+              </button>
+            </div>
+          </div>
         </div>
-        
-        <div>
-          <label>비밀번호 : </label>
-          <input type="password" {...register("passWord")} />
-          {errors.passWord && <p>{errors.passWord.message}</p>}
+        {errors.userId && <p>{errors.userId.message}</p>}
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
+            <input
+              id="signup-input"
+              placeholder="비밀번호"
+              type="password"
+              {...register("passWord")}
+            />
+          </div>
         </div>
-        <div>
-          <label>비밀번호확인 : </label>
-          <input type="password" {...register("passWordCheck")} />
-          {errors.passWordCheck && (
-            <p>{"입력한 비밀번호와 일치하지 않습니다"}</p>
-          )}
+        {errors.passWord && <p>{errors.passWord.message}</p>}
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
+            <input
+              id="signup-input"
+              placeholder="비밀번호 확인"
+              type="password"
+              {...register("passWordCheck")}
+            />
+          </div>
         </div>
-        <div>
-          <label>닉네임 : </label>
-          <input {...register("userNickName")} onChange={changeNickname} />
-          {errors.userNickName && <p>{errors.userNickName.message}</p>}
-          <button onClick={checkNickname}>중복검사</button>
+        {errors.passWordCheck && <p>{"입력한 비밀번호와 일치하지 않습니다"}</p>}
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
+            <input
+              id="signup-input"
+              placeholder="닉네임"
+              {...register("userNickName")}
+              onChange={changeNickname}
+            />
+            <div id="nick">
+              <button id="signup-input" onClick={checkNickname}>
+                중복검사
+              </button>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <label>생년월일 : </label>
+        {errors.userNickName && <p>{errors.userNickName.message}</p>}
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
+            <input
+              id="signup-input"
+              placeholder="휴대전화 번호"
+              {...register("phoneNumber")}
+            />
+          </div>
+        </div>
+        {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
+          
+          <input type="datetime" id="signup-input" placeholder="생년월일" {...register("birth")} />
           <DatePicker />
-          <input type="datetime" {...register("birth")} />
-          {errors.birth && <p>{errors.birth.message}</p>}
+          </div>
         </div>
-        <div>
-          <label>주량 : </label>
+        {errors.birth && <p>{errors.birth.message}</p>}
+        <div id="password">
+          <div id="password-icon">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+          </div>
+          <div id="signup-input-container">
           <select {...register("alcohol")}>
-            <option value="soju">소주</option>
+            <option value="soju" selected>소주</option>
             <option value="beer">맥주</option>
             <option value="liquor">양주</option>
           </select>
-          <input {...register("amountOfAlcohol")} />
-          {errors.amountOfAlcohol && <p>{errors.amountOfAlcohol.message}</p>}
+          <input id="signup-input" {...register("amountOfAlcohol")} />
+          </div>
         </div>
-        <div>
-          <label>휴대폰 번호 : </label>
-          <input {...register("phoneNumber")} />
-          {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
-        </div>
-        <input type="submit" />
+        {errors.amountOfAlcohol && <p>{errors.amountOfAlcohol.message}</p>}
+        <button id="submit-button" type="submit">회원가입</button>
       </form>
     </div>
   );
