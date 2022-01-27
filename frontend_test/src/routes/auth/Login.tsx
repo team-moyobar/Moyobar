@@ -76,7 +76,7 @@ export default function Login() {
     <div id="login-page-container">
       <div id="login-container">
         <div id="left-side">
-          <h1>모여바를 설명하는 무언가</h1>
+          <h1>Welcome MoyoBar</h1>
           <p>
             반별 미팅이 있으면 끝난 후 각자 10분간 휴식 후 Webex 참여 지각생
             공개기록 공가 or 결석 시 전날 공지하기 회의 시간은 최대 30분 전날

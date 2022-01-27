@@ -1,8 +1,79 @@
-form {
-  background-color: rgba(43, 40, 40, 0.8);
-  margin-left: 35rem;
-  margin-right: 35rem;
-  margin-top: 10rem;
-  padding: 50px;
-  border-radius: 10px;
+#signup-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(/public/assets/images/bg3.jpeg);
+  background-repeat: no-repeat;
+  /* 배경화면을 전체 화면에 맞춤 */
+  background-size: cover;
+  /* 잘리는 부분을 조절 */
+  background-position: 50% 50%;
+  /* 하위 컴포넌트를 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#signup-input {
+  border: none; background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+#signup-input-container {
+  background: rgba(128, 127, 127, 0.7);
+  width: 420px;
+	height :48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 3px 3px 0px;
+}
+
+#password {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: rgb(68, 68, 68);
+  margin-top: 8px;
+}
+
+#password-icon {
+  background: rgba(128, 127, 127, 0.7);
+  height :48px;
+  width: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1px;
+  border-radius: 3px 0px 0px 3px;
+}
+
+input::placeholder { 
+  color: rgb(172, 172, 172);
+  opacity: 0.8;
+  padding-left: 10px;
+}
+
+#nick {
+  border: 0;
+  border-radius: 0px 3px 3px 0px;
+  margin-left: 1px;
+  width: 90px;
+}
+
+#submit-button {
+  background: inherit;
+  border: 1px solid white;
+  width: 470px;
+	height :48px;
+  border-radius: 3px;
+  color: white;
+  margin-top: 30px;
 }
