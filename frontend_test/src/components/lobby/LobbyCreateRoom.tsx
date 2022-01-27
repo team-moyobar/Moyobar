@@ -63,25 +63,26 @@ export default function LobbyCreateRoom() {
     // // formData.append('membercount' , values[membercount])
     // console.log(formData)
 
-    const TOKEN =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJja…PnaHF0NrCiF0_wjU8e2NIl3hc9VSFWACQf2mMxMqD1QRzNPRg";
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${TOKEN}`,
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NTVAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NTQ3OTIzLCJpYXQiOjE2NDMyNTE5MjN9.KZbKWrBoyhRQCRZaOd10c8D_xF0B6kUNuKLeGZ6nUxMBnj6maRpLf6UJw-raPHk3f-Py1tR4g0XcBxZngxVuAA";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      }
     };
+
+    var userData = {
+      title: values.title,
+      max: values.membercount,
+      description: values.roominfo,
+      type: "PRIVATE",
+      password: values.password
+    }
 
     axios
       .post(
         "https://moyobar.herokuapp.com/api/v1/rooms",
-        {
-          title: values.title,
-          max: values.membercount,
-          description: values.roominfo,
-          type: "PUBLIC",
-        },
-        {
-          headers: headers,
-        }
+        userData,
+        config
       )
       .then((res) => {
         console.log("success");
