@@ -1,12 +1,14 @@
 #main {
   width: 100vw;
   height: 100vh;
-  background-image: url(/public/assets/images/bg3.jpeg);
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(/public/assets/images/bg.jpg);
+  background-size: cover;
   background-repeat: no-repeat;
+  background-position: 50% 50%;
   /* 배경화면을 전체 화면에 맞춤 */
   background-size: cover;
   /* 잘리는 부분을 조절 */
-  background-position: 50% 100%;
+  background-position: 0% 0%;
   /* 하위 컴포넌트를 가운데 정렬 */
   display: flex;
   justify-content: center;
@@ -20,19 +22,35 @@
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  text-align: center;
 }
 
-#Button {
-  width: 20rem;
-  height: 4rem;
-  /* background-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,118,1) 35%, rgba(0,212,255,1) 100%); */
-  background-image: linear-gradient(to right, #8360c3, #2ebf91);
+#home-button {
+  background: inherit;
+  border: 1px solid white;
+  width: 300px;
+  height: 48px;
+  border-radius: 3px;
+  color: white;
+  margin-top: 30px;
 }
 
 #mainLogo {
-  width: 250px;
+  width: 50%;
   margin-bottom: 5rem;
 }
+#HomeForm h1 {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+    0 0 42px rgb(210, 23, 216), 0 0 82px rgb(210, 23, 216),
+    0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
+    0 0 151px rgb(210, 23, 216);
+  text-align: center;
+  font-family: neon;
+  animation: flicker 1.5s infinite alternate;
+  font-size: 70px;
+}
 
-#sns-login {
+#button-container {
+  margin-top: 100px;
 }
