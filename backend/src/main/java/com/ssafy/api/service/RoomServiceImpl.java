@@ -36,7 +36,8 @@ public class RoomServiceImpl implements RoomService {
         room.setMax(registerInfo.getMax());
         if (registerInfo.getType() == RoomType.PRIVATE && registerInfo.getPassword() != null)
             room.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-        room.setThumbnail(registerInfo.getThumbnail());
+        if (registerInfo.getThumbnail()!= null)
+            room.setThumbnail(registerInfo.getThumbnail());
         room.setType(registerInfo.getType());
         return roomRepository.save(room);
     }
