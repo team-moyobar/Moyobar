@@ -7,7 +7,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
-
+import KLogin from "../../components/auth/KLogin";
+import GLogin from "../../components/auth/GLogin";
 import axios from "axios";
 
 enum emailEnum {
@@ -74,34 +75,54 @@ export default function Login() {
 
   return (
     <div id="login-page-container">
+      <div id="left-side">
+        <h1>Welcome To MoyoBar</h1>
+      </div>
       <div id="login-container">
-        <div id="left-side">
-          <h1>Welcome MoyoBar</h1>
-          <p>
-            반별 미팅이 있으면 끝난 후 각자 10분간 휴식 후 Webex 참여 지각생
-            공개기록 공가 or 결석 시 전날 공지하기 회의 시간은 최대 30분 전날
-            작업 사항 건의 사항 도움 요청 사항 오늘의 할일
-          </p>
-        </div>
         <div id="right-side">
+          <h1>LOGIN</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label>아이디 : </label>
-              <input {...register("userId")} />
-              <label>@</label>
-              <select {...register("email")}>
-                <option value="naver">naver.com</option>
-                <option value="gmail">gmail.com</option>
-              </select>
-              {errors.userId && <p>{errors.userId.message}</p>}
+            <div id="password">
+              <div id="password-icon">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png" />
+              </div>
+              <div id="signup-input-container">
+                <input
+                  id="signup-input"
+                  placeholder="이메일"
+                  {...register("userId")}
+                />
+                <select id="login-select" {...register("email")}>
+                  <option value="naver">naver.com</option>
+                  <option value="gmail">gmail.com</option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label>비밀번호 : </label>
-              <input type="password" {...register("passWord")} />
-              {errors.passWord && <p>{errors.passWord.message}</p>}
+            {errors.userId && <p>{errors.userId.message}</p>}
+            <div id="password">
+              <div id="password-icon">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+              </div>
+              <div id="signup-input-container">
+                <input
+                  id="signup-input"
+                  placeholder="비밀번호"
+                  type="password"
+                  {...register("passWord")}
+                />
+              </div>
             </div>
-            <input type="submit" />
+            {errors.passWord && <p>{errors.passWord.message}</p>}
+            <button id="submit-button" type="submit">
+              로그인
+            </button>
           </form>
+          <hr id="login-hr" />
+
+          <button className="kakao-login">KAKAO 로그인</button>
+          <button className="google-login">GOOGLE 로그인</button>
+          {/* <KLogin/>
+          <GLogin/> */}
         </div>
       </div>
     </div>
