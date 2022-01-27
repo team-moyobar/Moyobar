@@ -18,10 +18,9 @@ const GLogin = () => {
     }
 
     return (
-        <span>
-            <GoogleLogin 
+        <span id='glogin-button'>
+            <GoogleLogin
                 clientId = {googleClientId}
-                buttonText="구글로 로그인하기"
                 onSuccess={result=>onLoginSuccess(result)}
                 onFailure={result=>console.log(result)}
             />

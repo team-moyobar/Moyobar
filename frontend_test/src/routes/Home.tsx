@@ -9,25 +9,14 @@ export default function Home() {
   return (
     <div id="main">
       <div id="HomeForm">
-        <img id="mainLogo" src="/assets/images/logo.png" alt="" />
-        <div id="button-container" className="my-4">
+        <h1>moyoBar</h1>
+        <div id="button-container">
           <Link to="/login">
-            <Button variant="contained" color="secondary" id="Button">
-              로그인
-            </Button>
+            <button id="home-button">로그인</button>
           </Link>
-        </div>
-        <div>
           <Link to="/signup">
-            <Button variant="contained" color="secondary" id="Button">
-              회원가입
-            </Button>
+            <button id="home-button">회원가입</button>
           </Link>
-        </div>
-        <hr />
-        <div id="sns-login">
-          <GLogin />
-          <KLogin />
         </div>
       </div>
     </div>
