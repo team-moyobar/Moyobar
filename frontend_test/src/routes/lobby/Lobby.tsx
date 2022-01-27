@@ -18,12 +18,24 @@ export default function Lobby() {
   const[size, setSize] = useState(6)
 
   const handleLoad = (options: any) => {
-    const query = `title=${options.title}&page=${options.page}&size=${options.size} `
+    // const query = `&page=${options.page}&size=${options.size}`
+    const query = `&page=1&size=6`
+    
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NjZAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NTU2MjkxLCJpYXQiOjE2NDMyNjAyOTF9.efojsViX3iex0Us0GhbcbEfUzKeJum2jRQwFcgA9fNWQLNHbwPE97hb7mgFQt3RxyunL64jBZe8VGskAqcafPQ";
+    
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      }
+    };
+
     let result
     axios 
-      .get(`https://moyobar.herokuapp.com/api/v1/rooms?${query}`)
+      .get(`http://i6d210.p.ssafy.io:8080/api/v1/rooms?${query}`, config)
       .then((res) => {
         console.log("success")
+        console.log(res)
         result = res
       })
       .catch((err) => {
