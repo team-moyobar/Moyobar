@@ -138,7 +138,7 @@ public class RoomController {
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<Page<RoomRes>> roomList(
-            @PageableDefault(size = 10, sort = "start", direction = Sort.Direction.ASC) Pageable pageable,
+            @PageableDefault(size = 10, sort = "start", direction = Sort.Direction.DESC) Pageable pageable,
             @ApiIgnore Authentication authentication) {
 
         logger.info(pageable.toString());
