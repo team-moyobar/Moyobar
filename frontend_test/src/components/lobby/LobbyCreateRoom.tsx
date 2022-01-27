@@ -57,15 +57,16 @@ export default function LobbyCreateRoom() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(values);
+
     // const formData = new FormData();
     // formData.append('title' , values.title)
     // // formData.append('membercount' , values[membercount])
     // console.log(formData)
 
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NTVAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NTQ3OTIzLCJpYXQiOjE2NDMyNTE5MjN9.KZbKWrBoyhRQCRZaOd10c8D_xF0B6kUNuKLeGZ6nUxMBnj6maRpLf6UJw-raPHk3f-Py1tR4g0XcBxZngxVuAA";
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NjZAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NTU2MjkxLCJpYXQiOjE2NDMyNjAyOTF9.efojsViX3iex0Us0GhbcbEfUzKeJum2jRQwFcgA9fNWQLNHbwPE97hb7mgFQt3RxyunL64jBZe8VGskAqcafPQ";
     const config = {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${TOKEN}`,
       }
     };
@@ -76,11 +77,15 @@ export default function LobbyCreateRoom() {
       description: values.roominfo,
       type: "PRIVATE",
       password: values.password
-    }
+    };
+
+    console.log(userData);
+    console.log(userData.max);
+    console.log(typeof(userData.max));
 
     axios
       .post(
-        "https://moyobar.herokuapp.com/api/v1/rooms",
+        "http://i6d210.p.ssafy.io:8080/api/v1/rooms",
         userData,
         config
       )
