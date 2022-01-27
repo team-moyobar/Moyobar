@@ -188,8 +188,9 @@ export default function Signup() {
   };
 
   return (
-    <div id="signup-page-container">
+    <div id="signup-page-container">    
       <form id="signup-form" onSubmit={handleSubmit(onSubmit)}>
+        <h1>SIGNUP</h1>
         <div id="password">
           <div id="password-icon">
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png" />
@@ -201,8 +202,7 @@ export default function Signup() {
               {...register("userId")}
               onChange={changeUserId}
             />
-            @
-            <select {...register("email")} onChange={changeEmail}>
+            <select id="signup-select" {...register("email")} onChange={changeEmail}>
               <option value="naver">naver.com</option>
               <option value="gmail">gmail.com</option>
             </select>
@@ -212,7 +212,9 @@ export default function Signup() {
               </button>
             </div>
           </div>
+          
         </div>
+        
         {errors.userId && <p>{errors.userId.message}</p>}
         <div id="password">
           <div id="password-icon">
@@ -279,9 +281,13 @@ export default function Signup() {
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
           </div>
           <div id="signup-input-container">
-          
-          <input type="datetime" id="signup-input" placeholder="생년월일" {...register("birth")} />
-          <DatePicker />
+            <input
+              type="datetime"
+              id="signup-input"
+              placeholder="생년월일"
+              {...register("birth")}
+            />
+            <DatePicker />
           </div>
         </div>
         {errors.birth && <p>{errors.birth.message}</p>}
@@ -290,16 +296,20 @@ export default function Signup() {
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
           </div>
           <div id="signup-input-container">
-          <select {...register("alcohol")}>
-            <option value="soju" selected>소주</option>
-            <option value="beer">맥주</option>
-            <option value="liquor">양주</option>
-          </select>
-          <input id="signup-input" {...register("amountOfAlcohol")} />
+            <select id="signup-select" {...register("alcohol")}>
+              <option value="soju" selected>
+                소주
+              </option>
+              <option value="beer">맥주</option>
+              <option value="liquor">양주</option>
+            </select>
+            <input id="signup-input" placeholder="주량" {...register("amountOfAlcohol")} />
           </div>
         </div>
         {errors.amountOfAlcohol && <p>{errors.amountOfAlcohol.message}</p>}
-        <button id="submit-button" type="submit">회원가입</button>
+        <button id="submit-button" type="submit">
+          회원가입
+        </button>
       </form>
     </div>
   );
