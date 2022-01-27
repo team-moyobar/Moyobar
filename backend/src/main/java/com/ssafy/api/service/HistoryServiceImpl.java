@@ -48,6 +48,7 @@ public class HistoryServiceImpl implements HistoryService{
     @Override
     public void leaveRoom(History history) {
         history.setAction(ActionType.EXIT);
+
         historyRepository.save(history);
     }
 }
