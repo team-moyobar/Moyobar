@@ -35,26 +35,15 @@ export default function Lobby() {
       .get(`http://i6d210.p.ssafy.io:8080/api/v1/rooms?${query}`, config)
       .then((res) => {
         console.log("success")
-        console.log(res)
-        result = res
+        console.log(res.data.content)
+        result = res.data
+        const { content } = result
+        setItems( content )
       })
       .catch((err) => {
         console.log(err)
         console.log("fail...")
       })
-
-    result = {
-      contents : [
-        { title: '초보만', membercount: 4, privateroom: false},
-        { title: '모여바 테이블', membercount: 6, privateroom: true },
-        { title: '한신포차', membercount: 6, privateroom: true },
-        { title: '라이어게임', membercount: 6, privateroom: true },
-        { title: '훈민정음 고수', membercount: 6, privateroom: true },
-        { title: '안녕하세요', membercount: 6, privateroom: true }
-      ]
-    }
-    const { contents } = result
-    setItems( contents )
   }
 
   useEffect(() => {
