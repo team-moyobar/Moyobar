@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +21,9 @@ public class History extends BaseEntity {
     private ActionType action;
 
     private Date inserted;
+
+    @LastModifiedDate
+    private Date exited;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
