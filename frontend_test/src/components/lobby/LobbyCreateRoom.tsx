@@ -63,7 +63,7 @@ export default function LobbyCreateRoom() {
     // // formData.append('membercount' , values[membercount])
     // console.log(formData)
 
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NjZAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NTk1OTU0LCJpYXQiOjE2NDMyOTk5NTV9.ITvxEBjVtbfR7mhkaetmz0wHJbTYko9sI_x6GaEeMJQ49Odip86MXYvocW35tzmr466W4wR6t5JbO7GPzp2WoA";
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NjZAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NjIzNzYzLCJpYXQiOjE2NDMzMjc3NjN9.fOsqVPdaKms4byp0saS009MpmxtXWZI-iG2WFMPOVAox3W3vM_qkBmhZ8S4elazXVasyDFwqXEwH5SHdV5qVuw";
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -75,13 +75,10 @@ export default function LobbyCreateRoom() {
       title: values.title,
       max: values.membercount,
       description: values.roominfo,
+      thumbnail: "string",
       type: "PRIVATE",
       password: values.password
     };
-
-    console.log(userData);
-    console.log(userData.max);
-    console.log(typeof(userData.max));
 
     axios
       .post(
@@ -91,6 +88,7 @@ export default function LobbyCreateRoom() {
       )
       .then((res) => {
         console.log("success");
+        console.log(res)
       })
       .catch((err) => {
         console.log("Fail..");

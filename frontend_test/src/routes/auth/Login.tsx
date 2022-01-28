@@ -77,7 +77,7 @@ export default function Login() {
         type: "LOCAL",
       })
       .then((res) => {
-        console.log("success");
+        console.log(res);
         createCookie(res.data.accessToken);
         checkLogin(`${data.userId}@${data.email}.com`);
         alert("로그인 성공");
