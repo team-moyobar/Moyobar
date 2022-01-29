@@ -1,25 +1,15 @@
-#login-page-container {
+.login-page-container {
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ),url(/public/assets/images/wall.jpg);
   background-repeat: no-repeat;
-  /* 배경화면을 전체 화면에 맞춤 */
   background-size: cover;
-  /* 잘리는 부분을 조절 */
   background-position: 50% 50%;
-  /* 하위 컴포넌트를 가운데 정렬 */
   display: flex;
   justify-content: center;
 }
 
-#login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-}
-
-#left-side {
+.login-left-side {
   width: 30%;
   border-radius: 10px 0px 0px 10px;
   padding-left: 30px;
@@ -45,8 +35,19 @@
   margin-top: 100px;
 }
 
+#login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+
+
+
+
 #right-side {
-  width: 50%;
+  width:70%;
   display: flex;
   flex-direction: column;
   align-items: center;
