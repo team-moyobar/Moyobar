@@ -1,35 +1,31 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { Button, DatePicker, version } from "antd";
 import "antd/dist/antd.css";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
-import KLogin from "../../components/auth/KLogin";
-import GLogin from "../../components/auth/GLogin";
 import axios from "axios";
 import Cookies from "universal-cookie";
+// import KLogin from "../../components/auth/KLogin";
+// import GLogin from "../../components/auth/GLogin";
+
 axios.defaults.withCredentials = true;
 const cookies = new Cookies();
 
-const createCookie = (token: string) => {
+const setToken = (token: string) => {
   cookies.set("jwtToken", token, {
-    path: "/", //모든 곳에서 접근가능
-    httpOnly: true,
-    // secure: true,
-    // expires: new Date(Date.now() + 60 * 60 * 24 * 1000), //만료 시간 설정(1day)
+    path: "/",
   });
 };
 
-const checkLogin = (id: string) => {
-  cookies.set("userId", id);
+const setNickname = (nickName: string) => {
+  cookies.set("userId", nickName);
 };
 
-export const getCookie = (name: any) => {
-  return cookies.get(name);
+export const getCookie = (data: any) => {
+  return cookies.get(data);
 };
+
 enum emailEnum {
   naver = "naver",
   gmail = "gmail",
@@ -65,35 +61,33 @@ export default function Login() {
   } = useForm<IFormInput>({
     resolver: yupResolver(schema),
   });
-  // const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
-  // const onSubmit: SubmitHandler<IFormInput> = data => {
-  //   console.log(data)
-  // };
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     axios
-      .post("http://i6d210.p.ssafy.io:8080/api/v1/auth/login", {
+      .post("https://i6d210.p.ssafy.io/api/v1/auth/login", {
         user_id: `${data.userId}@${data.email}.com`,
         password: data.passWord,
         type: "LOCAL",
       })
       .then((res) => {
+        setToken(res.data.accessToken);
+        setNickname(res.data.nickName);
+        console.log("Success");
         console.log(res);
-        createCookie(res.data.accessToken);
-        checkLogin(`${data.userId}@${data.email}.com`);
         alert("로그인 성공");
         history.push("/lobby");
-        //로그인 성공시 home화면으로 이동
       })
       .catch((err) => {
-        console.log("Fail..");
+        console.log("Fail");
         console.log(err);
         console.log(data);
         alert("로그인 실패");
+        history.push("/login");
       });
   };
 
   return (
-    <div id="login-page-container">
+    <div className="login-page-container">
       <div id="left-side">
         <h1>Welcome To MoyoBar</h1>
       </div>
@@ -136,12 +130,8 @@ export default function Login() {
               로그인
             </button>
           </form>
-          <hr id="login-hr" />
-
           <button className="kakao-login">KAKAO 로그인</button>
           <button className="google-login">GOOGLE 로그인</button>
-          {/* <KLogin/>
-          <GLogin/> */}
         </div>
       </div>
     </div>
