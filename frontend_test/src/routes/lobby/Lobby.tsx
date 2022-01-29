@@ -24,8 +24,7 @@ export default function Lobby() {
     // const query = `&page=${options.page}&size=${options.size}`
     const query = `&page=1&size=6`;
 
-    // const TOKEN = getCookie("jwtToken");
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NjZAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NjIzNzYzLCJpYXQiOjE2NDMzMjc3NjN9.fOsqVPdaKms4byp0saS009MpmxtXWZI-iG2WFMPOVAox3W3vM_qkBmhZ8S4elazXVasyDFwqXEwH5SHdV5qVuw";
+    const TOKEN = getCookie("jwtToken");
 
     const config = {
       headers: {
@@ -34,7 +33,7 @@ export default function Lobby() {
       },
     };
 
-    console.log(config)
+    console.log(config);
 
     let result;
     axios
