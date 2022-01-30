@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.RoomType;
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -45,7 +46,7 @@ public class RoomRes {
     @ApiModelProperty(name = "Room owner")
     private String owner;
 
-    public static RoomRes of(Room room) {
+    public static RoomRes of(Room room, List<User> users) {
         RoomRes res = new RoomRes();
 
         res.setRoomId(room.getId());
@@ -56,8 +57,7 @@ public class RoomRes {
         res.setStart(room.getStart());
         res.setEnd(room.getEnd());
         res.setThumbnail(room.getThumbnail());
-        res.setParticipants(
-                room.getHistories().stream().map(h -> UserInRoomRes.of(h.getUser())).collect(Collectors.toList())) ;
+        res.setParticipants(users.stream().map(UserInRoomRes::of).collect(Collectors.toList()));
         res.setType(room.getType());
         res.setOwner(room.getOwner().getNickname());
         return res;

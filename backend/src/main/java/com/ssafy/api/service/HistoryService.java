@@ -4,14 +4,16 @@ import com.ssafy.db.entity.History;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 
+import java.util.List;
+
 public interface HistoryService {
     History createHistory(Room room, User user);
 
     boolean existsUserInRoom(long userId);
 
-    int getCountOfUserInRoom(long roomId);
+    void leaveRoom(User user, Room room);
 
-    History getHistoryUserJoinInRoom(long userId, long roomId);
+    List<User> getUserInRoom(Room room);
 
-    void leaveRoom(History history);
+    History getHistoryInRoom(User user, Room room);
 }

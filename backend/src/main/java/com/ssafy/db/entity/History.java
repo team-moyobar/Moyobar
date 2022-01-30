@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @DynamicInsert
@@ -22,8 +23,7 @@ public class History extends BaseEntity {
 
     private Date inserted;
 
-    @LastModifiedDate
-    private Date exited;
+    private LocalDateTime exited;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
