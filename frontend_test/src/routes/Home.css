@@ -1,21 +1,19 @@
-#main {
+.home-page-container {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(/public/assets/images/bg.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/public/assets/images/bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  /* 배경화면을 전체 화면에 맞춤 */
   background-size: cover;
-  /* 잘리는 부분을 조절 */
   background-position: 0% 0%;
-  /* 하위 컴포넌트를 가운데 정렬 */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#HomeForm {
+.home-box {
   background-color: rgba(43, 40, 40, 0.9);
   display: inline-block;
   width: 500px;
@@ -25,8 +23,9 @@
   text-align: center;
 }
 
-#home-button {
+.home-button {
   background: inherit;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   border: 1px solid white;
   width: 300px;
   height: 48px;
@@ -35,9 +34,16 @@
   margin-top: 30px;
 }
 
-#mainLogo {
-  width: 50%;
-  margin-bottom: 5rem;
+.home-box h1 {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+    0 0 42px rgb(210, 23, 216), 0 0 82px rgb(210, 23, 216),
+    0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
+    0 0 151px rgb(210, 23, 216);
+  text-align: center;
+  font-family: neon;
+  animation: flicker 1.5s infinite alternate;
+  font-size: 70px;
 }
 #HomeForm h1 {
   color: #fff;
@@ -51,6 +57,6 @@
   font-size: 70px;
 }
 
-#button-container {
+.home-button-container {
   margin-top: 100px;
 }
