@@ -14,8 +14,9 @@ public interface RoomService {
 
     Room getRoomById(long roomId);
 
-    void updateRoom(long roomId, RoomUpdatePutReq updateInfo, User owner);
+    void updateRoom(Room room, RoomUpdatePutReq updateInfo, User owner);
 
     Page<Room> getActiveRoomList(Pageable pageable);
 
+    void updateRoom(Room room);
 }
