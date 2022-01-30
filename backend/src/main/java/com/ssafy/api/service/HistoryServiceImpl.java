@@ -11,13 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("historyService")
 public class HistoryServiceImpl implements HistoryService{
 
     @Autowired
     HistoryRepository historyRepository;
+
+    @Autowired
+    RoomService roomService;
 
     @Override
     public History createHistory(Room room, User user) {
@@ -34,21 +41,37 @@ public class HistoryServiceImpl implements HistoryService{
         return historyRepository.existsByUserIdAndAction(userId, ActionType.JOIN);
     }
 
-    @Override
-    public int getCountOfUserInRoom(long roomId) {
-        return historyRepository.countUserIdByRoomIdAndAction(roomId, ActionType.JOIN);
-    }
 
     @Override
-    public History getHistoryUserJoinInRoom(long userId, long roomId) {
-        return historyRepository.findHistoryByUserIdAndRoomIdAndAction(userId, roomId, ActionType.JOIN)
+    public History getHistoryInRoom(User user, Room room) {
+        return historyRepository.findByUserAndRoomAndAction(user, room, ActionType.JOIN)
                 .orElseThrow(RoomNotFoundException::new);
     }
 
     @Override
-    public void leaveRoom(History history) {
-        history.setAction(ActionType.EXIT);
+    public void leaveRoom(User user, Room room) {
+        History history = getHistoryInRoom(user, room);
 
+        history.setAction(ActionType.EXIT);
+        history.setExited(LocalDateTime.now());
+
+        List<User> users = getUserInRoom(room);
+
+        users.remove(user);
+
+        if (users.size() == 0){
+            room.setIsActive(1);
+        }else if (room.getOwner() == user){
+            room.setOwner(users.get(0));
+        }
+
+        roomService.updateRoom(room);
         historyRepository.save(history);
+    }
+
+    @Override
+    public List<User> getUserInRoom(Room room) {
+        return historyRepository.findAllByRoomAndAction(room, ActionType.JOIN)
+                .stream().map(History::getUser).collect(Collectors.toList());
     }
 }
