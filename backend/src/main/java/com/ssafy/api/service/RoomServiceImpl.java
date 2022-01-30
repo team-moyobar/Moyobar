@@ -33,7 +33,10 @@ public class RoomServiceImpl implements RoomService {
         room.setOwner(owner);
         room.setTitle(registerInfo.getTitle());
         room.setDescription(registerInfo.getDescription());
-        room.setMax(registerInfo.getMax());
+        if (registerInfo.getMax() != 0)
+            room.setMax(registerInfo.getMax());
+        else
+            room.setMax(6);
         if (registerInfo.getType() == RoomType.PRIVATE && registerInfo.getPassword() != null)
             room.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
         if (registerInfo.getThumbnail()!= null)
@@ -50,9 +53,7 @@ public class RoomServiceImpl implements RoomService {
 
 
     @Override
-    public void updateRoom(long roomId, RoomUpdatePutReq updateInfo, User owner) {
-
-        Room room = getRoomById(roomId);
+    public void updateRoom(Room room, RoomUpdatePutReq updateInfo, User owner) {
 
         if (updateInfo.getType() != null)
             room.setType(updateInfo.getType());
@@ -79,6 +80,11 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Page<Room> getActiveRoomList(Pageable pageable) {
         return roomRepository.findAllByIsActive(0, pageable);
+    }
+
+    @Override
+    public void updateRoom(Room room) {
+        roomRepository.save(room);
     }
 
 }

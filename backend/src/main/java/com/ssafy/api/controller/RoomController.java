@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -92,7 +93,8 @@ public class RoomController {
             @ApiIgnore Authentication authentication) {
 
         Room room = roomService.getRoomById(roomId);
-        return ResponseEntity.status(200).body(RoomRes.of(room));
+        List<User> users = historyService.getUserInRoom(room);
+        return ResponseEntity.status(200).body(RoomRes.of(room, users));
     }
 
     @PutMapping("/{roomId}")
@@ -112,19 +114,22 @@ public class RoomController {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
 
-
         User authUser = userService.getUserByUserId(userId);
         Room room = roomService.getRoomById(roomId);
 
-        if (room.getOwner().getId() != authUser.getId()) {
+        if (room.getOwner() != authUser) {
             throw new UserNotRoomOwnerException();
         }
+
+        // 이미 닫힌 방 접근 시
+        if (room.getIsActive() == 1)
+            throw new BadRequestException("잘못된 접근입니다.");
 
         User owner = authUser;
         if (updateInfo.getOwner() != null) {
             owner = userService.getUserByNickname(updateInfo.getOwner());
         }
-        roomService.updateRoom(roomId, updateInfo, owner);
+        roomService.updateRoom(room, updateInfo, owner);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
@@ -143,7 +148,13 @@ public class RoomController {
 
         logger.info(pageable.toString());
         Page<Room> rooms = roomService.getActiveRoomList(pageable);
-        Page<RoomRes> results = new PageImpl<>(rooms.getContent().stream().map(RoomRes::of).collect(Collectors.toList()), rooms.getPageable(), rooms.getTotalElements());
+        List<RoomRes> result = rooms.getContent()
+                                .stream().map(room -> {
+                                    List<User> users = historyService.getUserInRoom(room);
+                                    return RoomRes.of(room, users);
+                }).collect(Collectors.toList());;
+
+        Page<RoomRes> results = new PageImpl<>(result, rooms.getPageable(), rooms.getTotalElements());
         return ResponseEntity.status(200).body(results);
     }
 
@@ -170,7 +181,7 @@ public class RoomController {
             throw new UserAlreadyInActiveRoomException();
 
         Room room = roomService.getRoomById(roomId);
-        int currentUserCount = historyService.getCountOfUserInRoom(roomId);
+        int currentUserCount = historyService.getUserInRoom(room).size();
 
         if(currentUserCount == room.getMax())
             throw new RoomAlreadyMaxUserException();
@@ -182,8 +193,8 @@ public class RoomController {
 
 
         historyService.createHistory(room, user);
-
-        return ResponseEntity.status(200).body(RoomRes.of(room));
+        List<User> users = historyService.getUserInRoom(room);
+        return ResponseEntity.status(200).body(RoomRes.of(room, users));
     }
 
     @DeleteMapping("/{roomId}")
@@ -206,9 +217,7 @@ public class RoomController {
 
         Room room = roomService.getRoomById(roomId);
 
-        History history = historyService.getHistoryUserJoinInRoom(user.getId(), room.getId());
-
-        historyService.leaveRoom(history);
+        historyService.leaveRoom(user, room);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
