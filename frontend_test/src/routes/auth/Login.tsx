@@ -88,51 +88,64 @@ export default function Login() {
 
   return (
     <div className="login-page-container">
-      <div id="left-side">
+      <div className="login-left-side">
         <h1>Welcome To MoyoBar</h1>
       </div>
-      <div id="login-container">
-        <div id="right-side">
-          <h1>LOGIN</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div id="password">
-              <div id="password-icon">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png" />
-              </div>
-              <div id="signup-input-container">
-                <input
-                  id="signup-input"
-                  placeholder="이메일"
-                  {...register("userId")}
-                />
-                <select id="login-select" {...register("email")}>
-                  <option value="naver">naver.com</option>
-                  <option value="gmail">gmail.com</option>
-                </select>
-              </div>
+      <div className="login-right-side">
+        <h1>LOGIN</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="login-input-button">
+            <div className="login-input-button-icon">
+              <img
+                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png"
+                alt="email-icon"
+              />
             </div>
-            {errors.userId && <p>{errors.userId.message}</p>}
-            <div id="password">
-              <div id="password-icon">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
-              </div>
-              <div id="signup-input-container">
-                <input
-                  id="signup-input"
-                  placeholder="비밀번호"
-                  type="password"
-                  {...register("passWord")}
-                />
-              </div>
+            <div className="login-input">
+              <input placeholder="이메일" {...register("userId")} />
+              <select className="login-select" {...register("email")}>
+                <option value="naver">naver.com</option>
+                <option value="gmail">gmail.com</option>
+              </select>
             </div>
-            {errors.passWord && <p>{errors.passWord.message}</p>}
-            <button id="submit-button" type="submit">
-              로그인
-            </button>
-          </form>
-          <button className="kakao-login">KAKAO 로그인</button>
-          <button className="google-login">GOOGLE 로그인</button>
-        </div>
+          </div>
+          {errors.userId && <p>{errors.userId.message}</p>}
+          <div className="login-input-button">
+            <div className="login-input-button-icon">
+              <img
+                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+                alt="password-icon"
+              />
+            </div>
+            <div className="login-input">
+              <input
+                placeholder="비밀번호"
+                type="password"
+                {...register("passWord")}
+              />
+            </div>
+          </div>
+          {errors.passWord && <p>{errors.passWord.message}</p>}
+          <button className="login-submit-button" type="submit">
+            로그인
+          </button>
+        </form>
+        <button className="login-kakao-button">
+          <img
+            className="login-kakao-img"
+            src="/assets/images/kakao.png"
+            alt="kakao-icon"
+          />
+          Kakao 로그인
+        </button>
+        <button className="login-google-button">
+          <img
+            className="login-google-img"
+            src="/assets/images/google.png"
+            alt="google-icon"
+          />
+          Google 로그인
+        </button>
       </div>
     </div>
   );
