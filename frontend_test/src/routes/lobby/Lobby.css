@@ -1,26 +1,18 @@
+.lobby-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/public/assets/images/bg.jpg);
+  display: flex;
+  background-size: cover;
+  background-repeat: no-repeat;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 #LobbyForm {
   background-color: rgba(43, 40, 40, 0.8);
-  /* display: inline-block;
-  width: 500px;
-  margin-top: 10rem;
-  padding: 50px;
-  border-radius: 15px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
-  box-shadow: 1px 1px 8px 8px  rgb(162, 0, 255);
+  box-shadow: 1px 1px 8px 8px rgb(162, 0, 255);
   border-radius: 5px;
 }
-
-#neonText {
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px rgb(162, 0, 255),
-    0 0 82px rgb(162, 0, 255), 0 0 92px rgb(162, 0, 255), 0 0 102px rgb(162, 0, 255), 0 0 151px rgb(162, 0, 255);
-}
-
-#neonsignbox {
-  box-shadow: 1px 1px 8px 8px  rgb(162, 0, 255);
-  border-radius: 5px;
-  /* background-image: ; */
-}
-
-
