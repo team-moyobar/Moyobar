@@ -1,7 +1,8 @@
 .login-page-container {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ),url(/public/assets/images/wall.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/public/assets/images/bg4.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50% 50%;
@@ -18,12 +19,10 @@
   flex-direction: column;
   justify-content: flex-start;
   color: white;
-  background-size: cover;
-  background-position: 0% 0%;
-  margin-right: 150px;
+  margin-right: 100px;
 }
 
-#left-side h1 {
+.login-left-side h1 {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
     0 0 42px rgb(210, 23, 216), 0 0 82px rgb(210, 23, 216),
@@ -35,27 +34,17 @@
   margin-top: 100px;
 }
 
-#login-container {
+.login-right-side {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-}
-
-
-
-
-
-#right-side {
-  width:70%;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
-#right-side h1 {
+
+.login-right-side h1 {
   color: white;
 }
+
 @keyframes flicker {
   0%,
   18%,
@@ -81,27 +70,49 @@
   src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/neon.ttf);
 }
 
-.kakao-login {
-  background: yellow;
-  width: 470px;
-  height: 48px;
-  border-radius: 3px;
-  margin-top: 30px;
-  font-weight: 800;
-  border: 0;
+.login-input-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: rgb(68, 68, 68);
+  margin-top: 8px;
 }
 
-.google-login {
-  background: rgb(201, 74, 74);
-  width: 470px;
+.login-input-button-icon {
+  background: rgba(167, 167, 167, 0.4);
   height: 48px;
-  border-radius: 3px;
-  margin-top: 10px;
-  font-weight: 800;
-  border: 0;
+  width: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1px;
+  border-radius: 3px 0px 0px 3px;
+}
+.login-input {
+  background: rgba(167, 167, 167, 0.4);
+  width: 380px;
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 3px 3px 0px;
 }
 
-#login-select {
+.login-input input {
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.login-select {
   background-color: transparent;
   border: 0;
   height: 100%;
@@ -112,4 +123,44 @@
   font-size: 18px;
   font-weight: 800;
   margin-right: 10px;
+}
+
+.login-kakao-button {
+  background: #eeda23;
+  width: 430px;
+  height: 48px;
+  border-radius: 3px;
+  margin-top: 30px;
+  font-weight: 700;
+  border: 0;
+}
+
+.login-kakao-img {
+  float: left;
+  height: 60%;
+}
+
+.login-google-button {
+  background: #dc483b;
+  width: 430px;
+  height: 48px;
+  border-radius: 3px;
+  margin-top: 10px;
+  font-weight: 700;
+  border: 0;
+  color: white;
+}
+.login-google-img {
+  float: left;
+  height: 60%;
+}
+
+.login-submit-button {
+  background: inherit;
+  border: 1px solid white;
+  width: 430px;
+  height: 48px;
+  border-radius: 3px;
+  color: white;
+  margin-top: 30px;
 }

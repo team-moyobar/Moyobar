@@ -21,9 +21,7 @@ export default function Lobby() {
   const [size, setSize] = useState(6);
 
   const handleLoad = (options: any) => {
-    // const query = `&page=${options.page}&size=${options.size}`
     const query = `&page=1&size=6`;
-
     const TOKEN = getCookie("jwtToken");
 
     const config = {
@@ -56,33 +54,19 @@ export default function Lobby() {
   }, []);
 
   return (
-    <div className="container mt-5">
-      <h1 id="neonText">로비</h1>
-      <div className="row">
-        <div
-          className="col-3 p-3"
-          style={{
-            padding: "5rem",
-            // border: "solid 2px",
-          }}
-        >
-          <div className="p-3 " id="LobbyForm">
-            <LobbySideBar></LobbySideBar>
-          </div>
+    <div className="lobby-page-container">
+      <h1>로비</h1>
+      <div>
+        <div id="LobbyForm">
+          <LobbySideBar></LobbySideBar>
         </div>
-        <div
-          className="col-9  p-3"
-          style={{
-            padding: "5rem",
-            // border: "solid 2px",
-          }}
-        >
-          <div className="p-3 " id="LobbyForm">
-            <h4>{ID}님 환영합니다.</h4>
-            <LobbyCreateRoom />
-            <LobbyRoomSearchBar></LobbyRoomSearchBar>
-            <LobbyRoomList items={items} />
-          </div>
+      </div>
+      <div>
+        <div id="LobbyForm">
+          <h4>{ID}님 환영합니다.</h4>
+          <LobbyCreateRoom />
+          <LobbyRoomSearchBar></LobbyRoomSearchBar>
+          <LobbyRoomList items={items} />
         </div>
       </div>
     </div>

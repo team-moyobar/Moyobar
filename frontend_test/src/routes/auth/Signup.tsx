@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, DatePicker, version } from "antd";
+import { DatePicker } from "antd";
 import "antd/dist/antd.css";
 import * as yup from "yup";
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 import "./Signup.css";
-// 타입 첫글자 대문자에서 소문자로 변경하였습니다.
 
 enum emailEnum {
   naver = "naver",
@@ -71,13 +69,9 @@ export default function Signup() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("naver");
 
-  // 닉네임 중복검사 여부를 확인하는 flagNickname 변수 생성 및 useState에 초기값 false로 저장
-  // 값을 변화할 핸들러 setCheckNickname 사용을 위한 생성
-  // 아이디도 마찬가지로 생성
   const [flagNickname, setCheckNickname] = useState(false);
   const [flagUserId, setCheckUserId] = useState(false);
 
-  // 중복검사를 통과했을 때 값을 true로 바꾸어줄 setFlagNickname 생성
   const setFlagNickname = () => {
     setCheckNickname(true);
   };
@@ -86,7 +80,6 @@ export default function Signup() {
     setCheckUserId(true);
   };
 
-  // 아이디 값 or 이메일 값이 변할 때, flagUserId 값 false로 초기화 및 변한 값 적용
   const changeUserId = (e: any) => {
     setId(e.target.value);
     setCheckUserId(false);
@@ -96,7 +89,6 @@ export default function Signup() {
     setCheckUserId(false);
   };
 
-  // 닉네임 값 변할 때, flagNickname 값 false로 초기화 및 변한 값 적용
   const changeNickname = (e: any) => {
     setNickname(e.target.value);
     setCheckNickname(false);
@@ -108,7 +100,6 @@ export default function Signup() {
     axios
       .get(`http://i6d210.p.ssafy.io:8080/api/v1/users/id/${id}@${email}.com`)
       .then((res) => {
-        console.log("아이디 중복체크 성공?");
         if (res.data) {
           alert("사용할 수 없는 아이디 입니다.");
         } else {
@@ -126,7 +117,6 @@ export default function Signup() {
     axios
       .get(`http://i6d210.p.ssafy.io:8080/api/v1/users/nickname/${nickname}`)
       .then((res) => {
-        console.log("닉네임 중복체크 성공?");
         if (res.data) {
           alert("사용할 수 없는 닉네임입니다.");
         } else {
@@ -148,10 +138,7 @@ export default function Signup() {
   } = useForm<IFormInput>({
     resolver: yupResolver(schema),
   });
-  // const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
-  // const onSubmit: SubmitHandler<IFormInput> = data => {
-  //   console.log(data)
-  // };
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (flagUserId) {
       console.log(`flagUserId : ${flagUserId}`);
@@ -173,7 +160,6 @@ export default function Signup() {
             console.log("success");
             console.log(res);
             history.push("/login");
-            //회원가입 성공시 로그인페이지로 이동
           })
           .catch((err) => {
             console.log("Fail..");
@@ -188,41 +174,46 @@ export default function Signup() {
   };
 
   return (
-    <div id="signup-page-container">    
-      <form id="signup-form" onSubmit={handleSubmit(onSubmit)}>
+    <div className="signup-page-container">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <h1>SIGNUP</h1>
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png" />
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png"
+              alt=""
+            />
           </div>
-          <div id="signup-input-container">
+          <div className="signup-input">
             <input
-              id="signup-input"
               placeholder="이메일"
               {...register("userId")}
               onChange={changeUserId}
             />
-            <select id="signup-select" {...register("email")} onChange={changeEmail}>
+            <select
+              className="signup-select"
+              {...register("email")}
+              onChange={changeEmail}
+            >
               <option value="naver">naver.com</option>
               <option value="gmail">gmail.com</option>
             </select>
-            <div id="nick">
-              <button id="signup-input" onClick={checkId}>
-                중복검사
-              </button>
+            <div className="signup-duplicate">
+              <button onClick={checkId}>중복검사</button>
             </div>
           </div>
-          
         </div>
-        
+
         {errors.userId && <p>{errors.userId.message}</p>}
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+              alt=""
+            />
           </div>
-          <div id="signup-input-container">
+          <div className="signup-input">
             <input
-              id="signup-input"
               placeholder="비밀번호"
               type="password"
               {...register("passWord")}
@@ -230,13 +221,15 @@ export default function Signup() {
           </div>
         </div>
         {errors.passWord && <p>{errors.passWord.message}</p>}
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+              alt=""
+            />
           </div>
-          <div id="signup-input-container">
+          <div className="signup-input">
             <input
-              id="signup-input"
               placeholder="비밀번호 확인"
               type="password"
               {...register("passWordCheck")}
@@ -244,46 +237,47 @@ export default function Signup() {
           </div>
         </div>
         {errors.passWordCheck && <p>{"입력한 비밀번호와 일치하지 않습니다"}</p>}
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+              alt=""
+            />
           </div>
-          <div id="signup-input-container">
+          <div className="signup-input">
             <input
-              id="signup-input"
               placeholder="닉네임"
               {...register("userNickName")}
               onChange={changeNickname}
             />
-            <div id="nick">
-              <button id="signup-input" onClick={checkNickname}>
-                중복검사
-              </button>
+            <div className="signup-duplicate">
+              <button onClick={checkNickname}>중복검사</button>
             </div>
           </div>
         </div>
         {errors.userNickName && <p>{errors.userNickName.message}</p>}
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
-          </div>
-          <div id="signup-input-container">
-            <input
-              id="signup-input"
-              placeholder="휴대전화 번호"
-              {...register("phoneNumber")}
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+              alt=""
             />
+          </div>
+          <div className="signup-input">
+            <input placeholder="휴대전화 번호" {...register("phoneNumber")} />
           </div>
         </div>
         {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+              alt=""
+            />
           </div>
-          <div id="signup-input-container">
+          <div className="signup-input">
             <input
               type="datetime"
-              id="signup-input"
               placeholder="생년월일"
               {...register("birth")}
             />
@@ -291,23 +285,30 @@ export default function Signup() {
           </div>
         </div>
         {errors.birth && <p>{errors.birth.message}</p>}
-        <div id="password">
-          <div id="password-icon">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png" />
+        <div className="signup-button">
+          <div className="signup-button-icon">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png"
+              alt=""
+            />
           </div>
-          <div id="signup-input-container">
-            <select id="signup-select" {...register("alcohol")}>
+          <div className="signup-input">
+            <select className="signup-select" {...register("alcohol")}>
               <option value="soju" selected>
                 소주
               </option>
               <option value="beer">맥주</option>
               <option value="liquor">양주</option>
             </select>
-            <input id="signup-input" placeholder="주량" {...register("amountOfAlcohol")} />
+            <input
+              id="signup-input"
+              placeholder="주량"
+              {...register("amountOfAlcohol")}
+            />
           </div>
         </div>
         {errors.amountOfAlcohol && <p>{errors.amountOfAlcohol.message}</p>}
-        <button id="submit-button" type="submit">
+        <button className="signup-submit-button" type="submit">
           회원가입
         </button>
       </form>
