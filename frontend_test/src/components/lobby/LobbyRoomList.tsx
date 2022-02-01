@@ -1,4 +1,5 @@
 import LobbyRoomListItem from "./LobbyRoomListItem";
+import './LobbyRoomList.css'
 
 import React, {
   useState,
@@ -21,12 +22,13 @@ export default function LobbyRoomList({items} : any ) {
   );
 
   return (
-    <div className="container row mx-0" style={{justifyContent : "center"}}>
+    // <div className="container row mx-0" >
+    <div className="lobby-roomlist-container" >
       {items.map((item : any) => {
         const {title, membercount, privateroom} = item;
 
         return(
-          <div className="col-5 m-3 px-0 " key={item.id} id="neonsignbox" >
+          <div className="lobby-roomlist-item" key={item.id}  >
             <LobbyRoomListItem item={item}/>
           </div>
         )
