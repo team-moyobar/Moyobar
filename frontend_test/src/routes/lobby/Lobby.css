@@ -3,15 +3,34 @@
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(/public/assets/images/bg.jpg);
-  display: flex;
+  display: grid;
   background-size: cover;
   background-repeat: no-repeat;
   justify-content: center;
-  align-items: center;
-  flex-direction: row;
+  /* align-items: stretch; */
+  /* flex-direction: column; */
+  grid-template-columns: repeat(5, 1fr);
+}
+.lobby-header {
+  grid-column: 1/6;
+  grid-row: 1/2;
+  align-self: center;
+}
+.lobby-side-bar {
+  grid-column: 1/2;
+  grid-row: 2/8;
+  margin: 20px;
+  align-self: stretch;
+}
+.lobby-main-contents {
+  grid-column: 2/6;
+  grid-row: 2/8;
+  margin: 20px;
+  align-self: stretch;
+  padding: 10px;
 }
 
-#LobbyForm {
+.lobby-form {
   background-color: rgba(43, 40, 40, 0.8);
   box-shadow: 1px 1px 8px 8px rgb(162, 0, 255);
   border-radius: 5px;

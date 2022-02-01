@@ -55,20 +55,18 @@ export default function Lobby() {
 
   return (
     <div className="lobby-page-container">
-      <h1>로비</h1>
-      <div>
-        <div id="LobbyForm">
+        <div className="lobby-header">
+          <h1>로비</h1>
+        </div>
+        <div className="lobby-side-bar lobby-form" >
           <LobbySideBar></LobbySideBar>
         </div>
-      </div>
-      <div>
-        <div id="LobbyForm">
+        <div className="lobby-main-contents lobby-form">
           <h4>{ID}님 환영합니다.</h4>
           <LobbyCreateRoom />
           <LobbyRoomSearchBar></LobbyRoomSearchBar>
           <LobbyRoomList items={items} />
         </div>
-      </div>
     </div>
   );
 }
