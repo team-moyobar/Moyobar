@@ -31,7 +31,9 @@
 }
 
 .lobby-form {
-  background-color: rgba(0, 0, 0, 0.99);
+  /* 편집위해 잠시 하얀색 배경으로 변경하겠습니다 */
+  /* background-color: rgba(0, 0, 0, 0.99); */
+  background-color: rgba(255, 255, 255, 0.99);
   /* box-shadow: 1px 1px 8px 8px rgb(162, 0, 255); */
   border-radius: 5px;
 }
