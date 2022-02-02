@@ -2,6 +2,7 @@ import LobbyRoomList from "../../components/lobby/LobbyRoomList";
 import LobbySideBar from "../../components/lobby/LobbySideBar";
 import LobbyRoomSearchBar from "../../components/lobby/LobbyRoomSearchBar";
 import LobbyCreateRoom from "../../components/lobby/LobbyCreateRoom";
+import LobbyPagination from "../../components/lobby/LobbyPagination";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Lobby.css";
@@ -21,7 +22,7 @@ export default function Lobby() {
   const [size, setSize] = useState(6);
 
   const handleLoad = (options: any) => {
-    const query = `&page=1&size=6`;
+    const query = `&page=${page}&size=${size}`;
     const TOKEN = getCookie("jwtToken");
 
     const config = {
@@ -49,9 +50,13 @@ export default function Lobby() {
       });
   };
 
+  const handleChange = (value: any) => {
+    setPage(value)
+  }
+
   useEffect(() => {
     handleLoad({ title, page, size });
-  }, []);
+  }, [page]);
 
   return (
     <div className="lobby-page-container">
@@ -63,6 +68,7 @@ export default function Lobby() {
       </div>
       <div className="lobby-main-contents lobby-form">
         <LobbyRoomList items={items} />
+        <LobbyPagination onChange={handleChange} />
       </div>
     </div>
   );
