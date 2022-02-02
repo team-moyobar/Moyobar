@@ -8,15 +8,21 @@ import axios from "axios";
 import "./Lobby.css";
 import { getCookie } from "../auth/Login";
 
-interface IProps {
+interface ItemProps {
   title: string;
   membercount: number;
   privateroom: boolean;
 }
 
+interface UserProps {
+  nickname: string;
+  birthday: string;
+}
+
 export default function Lobby() {
   const ID = getCookie("userId");
-  const [items, setItems] = useState<IProps[]>([]);
+  const [users, setUsers] = useState<UserProps[]>([])
+  const [items, setItems] = useState<ItemProps[]>([]);
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
@@ -50,19 +56,42 @@ export default function Lobby() {
       });
   };
 
+  const handleUserLoad = () => {
+    const TOKEN = getCookie("jwtToken");
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+
+    axios
+      .get('/users/online', config)
+      .then((res) => {
+        console.log(res.data)
+        setUsers(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("fail...")
+      })
+  }
+
   const handleChange = (value: any) => {
     setPage(value)
   }
 
   useEffect(() => {
     handleLoad({ title, page, size });
+    handleUserLoad();
   }, [page]);
 
   return (
     <div className="lobby-page-container">
       <div className="lobby-header"></div>
       <div className="lobby-side-bar lobby-form">
-        <LobbySideBar />
+        <LobbySideBar items={users} />
         <LobbyCreateRoom />
         <LobbyRoomSearchBar />
       </div>
