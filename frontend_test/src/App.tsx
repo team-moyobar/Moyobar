@@ -8,6 +8,7 @@ import Login from "./routes/auth/Login";
 import Profile from "./routes/auth/Profile";
 import Lobby from "./routes/lobby/Lobby";
 import GoogleLogin from "./routes/auth/GoogleLogin";
+import Room from "./routes/room/Room";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/googleLogin" component={GoogleLogin} />
         <Route path="/profile" component={Profile} />
         <Route path="/lobby" component={Lobby} />
+        <Route path="/room/:roomId" component={Room} />
       </Router>
     </div>
   );
