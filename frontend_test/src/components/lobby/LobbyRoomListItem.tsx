@@ -39,7 +39,7 @@ export default function LobbyRoomListItem({ item }: any) {
         rgba(20, 20, 20, 1) 100%
       ), url(/assets/images/thema${query}.png)`,
         backgroundSize: "cover",
-        height: "150px",
+        height: "200px",
         color: "white",
         paddingTop: "1rem",
       }}
