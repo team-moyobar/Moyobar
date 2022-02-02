@@ -7,13 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import Box from "@mui/material/Box";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormHelperText from "@mui/material/FormHelperText";
-import Checkbox from "@mui/material/Checkbox";
+import { getCookie } from "../../routes/auth/Login";
 
 const INITIAL_VALUES = {
   title: "",
@@ -63,12 +57,13 @@ export default function LobbyCreateRoom() {
     // // formData.append('membercount' , values[membercount])
     // console.log(formData)
 
-    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NjZAbmF2ZXIuY29tIiwiaXNzIjoic3NhZnkuY29tIiwiZXhwIjoxNjQ0NjIzNzYzLCJpYXQiOjE2NDMzMjc3NjN9.fOsqVPdaKms4byp0saS009MpmxtXWZI-iG2WFMPOVAox3W3vM_qkBmhZ8S4elazXVasyDFwqXEwH5SHdV5qVuw";
+    const TOKEN = getCookie("jwtToken");
+    console.log(TOKEN)
     const config = {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${TOKEN}`,
-      }
+      },
     };
 
     var userData = {
@@ -77,18 +72,14 @@ export default function LobbyCreateRoom() {
       description: values.roominfo,
       thumbnail: "string",
       type: "PRIVATE",
-      password: values.password
+      password: values.password,
     };
 
     axios
-      .post(
-        "http://i6d210.p.ssafy.io:8080/api/v1/rooms",
-        userData,
-        config
-      )
+      .post("/rooms", userData, config)
       .then((res) => {
         console.log("success");
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         console.log("Fail..");

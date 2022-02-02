@@ -1,7 +1,7 @@
 .signup-page-container {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)),
     url(/public/assets/images/bg3.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
