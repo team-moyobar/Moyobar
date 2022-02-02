@@ -1,7 +1,7 @@
 package com.ssafy;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -12,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 @SpringBootApplication
 public class GroupCallApplication {
 	public static void main(String[] args) {
-        SpringApplication.run(GroupCallApplication.class, args);
+        new SpringApplicationBuilder(GroupCallApplication.class)
+                .properties("spring.config.location=classpath:/application.yml"+",classpath:/application-secret.yml")
+                .run(args);
     }
 
     @Bean
