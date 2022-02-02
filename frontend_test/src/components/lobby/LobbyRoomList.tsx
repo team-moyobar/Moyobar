@@ -24,7 +24,7 @@ export default function LobbyRoomList({ items }: any) {
         const { title, membercount, privateroom } = item;
 
         return (
-          <div className="lobby-roomlist-item" key={item.id}>
+          <div className="lobby-roomlist-item" key={item.room_id}>
             <LobbyRoomListItem item={item} />
           </div>
         );

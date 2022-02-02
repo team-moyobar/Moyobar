@@ -1,4 +1,6 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 
 //모달창 부분1
 import Box from '@mui/material/Box';
@@ -23,11 +25,18 @@ const style = {
 export default function LobbyRoomListItem({ item }: any) {
   let query = item.room_id%5 + 1;
 
+  const history = useHistory();
+
   //모달창 부분2
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //모달창 부분-2
+
+  //방 입장
+  const entranceRoom = () => {
+    history.push(`/room/${item.room_id}`);
+  }
 
   return (
     <div
@@ -62,7 +71,7 @@ export default function LobbyRoomListItem({ item }: any) {
             {item.description}
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button>입장하기</Button>
+            <Button onClick={entranceRoom}>입장하기</Button>
           </Box>
         </Box>
       </Modal>
