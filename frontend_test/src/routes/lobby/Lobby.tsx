@@ -35,7 +35,7 @@ export default function Lobby() {
 
     let result;
     axios
-      .get(`http://i6d210.p.ssafy.io:8080/api/v1/rooms?${query}`, config)
+      .get(`/rooms?${query}`, config)
       .then((res) => {
         console.log("success");
         console.log(res.data.content);
@@ -55,18 +55,15 @@ export default function Lobby() {
 
   return (
     <div className="lobby-page-container">
-        <div className="lobby-header">
-          <h1>로비</h1>
-        </div>
-        <div className="lobby-side-bar lobby-form" >
-          <LobbySideBar></LobbySideBar>
-        </div>
-        <div className="lobby-main-contents lobby-form">
-          <h4>{ID}님 환영합니다.</h4>
-          <LobbyCreateRoom />
-          <LobbyRoomSearchBar></LobbyRoomSearchBar>
-          <LobbyRoomList items={items} />
-        </div>
+      <div className="lobby-header"></div>
+      <div className="lobby-side-bar lobby-form">
+        <LobbySideBar />
+        <LobbyCreateRoom />
+        <LobbyRoomSearchBar />
+      </div>
+      <div className="lobby-main-contents lobby-form">
+        <LobbyRoomList items={items} />
+      </div>
     </div>
   );
 }
