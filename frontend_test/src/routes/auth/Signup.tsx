@@ -98,7 +98,7 @@ export default function Signup() {
     e.preventDefault();
     console.log(`${id}@${email}.com`);
     axios
-      .get(`http://i6d210.p.ssafy.io:8080/api/v1/users/id/${id}@${email}.com`)
+      .get(`/users/id/${id}@${email}.com`)
       .then((res) => {
         if (res.data) {
           alert("사용할 수 없는 아이디 입니다.");
@@ -115,7 +115,7 @@ export default function Signup() {
     e.preventDefault();
     console.log(`${nickname}`);
     axios
-      .get(`http://i6d210.p.ssafy.io:8080/api/v1/users/nickname/${nickname}`)
+      .get(`/users/nickname/${nickname}`)
       .then((res) => {
         if (res.data) {
           alert("사용할 수 없는 닉네임입니다.");
@@ -145,7 +145,7 @@ export default function Signup() {
       if (flagNickname) {
         console.log(`flagNickname : ${flagNickname}`);
         axios
-          .post("http://i6d210.p.ssafy.io:8080/api/v1/users", {
+          .post("/users", {
             user_id: `${data.userId}@${data.email}.com`,
             drink: {
               soju: 3,
