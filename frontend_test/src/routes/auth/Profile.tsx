@@ -8,6 +8,7 @@ import {
   CloudOutline,
   EllipsisHorizontalOutline,
 } from "react-ionicons";
+import ProfileUserInfo from "../../components/auth/ProfileUserInfo"
 interface UserInfo {
   user_id: string;
   nickname: string;
@@ -94,8 +95,7 @@ export default function Profile() {
         </ul>
       </div>
       <div className="profile-userinfo">
-        <h1>프로필</h1>
-        <h1>{user}</h1>
+        <ProfileUserInfo/>
       </div>
     </div>
   );
