@@ -46,9 +46,9 @@ export default function LobbyRoomListItem({ item }: any) {
         rgba(20, 20, 20, 0.5) 50%,
         rgba(20, 20, 20, 0.75) 75%,
         rgba(20, 20, 20, 1) 100%
-      ), url(/assets/images/thema${query}.png)`,
+      ), url(/assets/images/theme${item.theme}.png)`,
         backgroundSize: "cover",
-        height: "200px",
+        height: "250px",
         color: "white",
         paddingTop: "1rem",
       }}
