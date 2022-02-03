@@ -1,0 +1,104 @@
+.profile-page-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url(/public/assets/images/bg3.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  text-align: left;
+}
+
+.profile-menu {
+  background-color: #222222;
+  grid-column: 2 / 4;
+  grid-row: 2 / 10;
+  margin: 30px;
+  margin-right: 0;
+  border-left: 10px solid #222222;
+  transition: 0.5s;
+  overflow: hidden;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.profile-menu ul {
+  width: 100%;
+  padding: 0;
+}
+.profile-menu ul li {
+  width: 100%;
+  list-style: none;
+  position: relative;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.profile-menu ul li:hover,
+.profile-menu ul li.hovered {
+  background: #ecf0f3;
+}
+
+.profile-menu ul li a {
+  display: block;
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  color: #ecf0f3;
+}
+.profile-menu ul li:hover a,
+.profile-menu ul li.hovered a {
+  color: #222222;
+}
+PersonOutline {
+  color: #ecf0f3;
+}
+.profile-menu-title {
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 60px;
+  text-align: start;
+  margin-left: 10px;
+}
+
+.profile-menu ul li:hover a::before,
+.profile-menu ul li.hovered a::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -50px;
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: 35px 35px 0 10px #ecf0f3;
+  pointer-events: none;
+}
+.profile-menu ul li:hover a::after,
+.profile-menu ul li.hovered a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -50px;
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: 35px -35px 0 10px #ecf0f3;
+  pointer-events: none;
+}
+
+.profile-userinfo {
+  background-color: #ecf0f3;
+  grid-column: 4 / 10;
+  grid-row: 2 / 10;
+  margin: 30px;
+  margin-left: 0;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 40px;
+}
