@@ -43,4 +43,6 @@ public interface UserService {
 	boolean changeUserPwd(String userId, String password, String changePassword);
 
 	User getUserByNickname(String owner);
+
+    List<User> searchUserByNickname(String keyword);
 }

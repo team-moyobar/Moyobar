@@ -167,4 +167,9 @@ public class UserServiceImpl implements UserService {
     public User getUserByNickname(String nickname) {
         return userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new);
     }
+
+    @Override
+    public List<User> searchUserByNickname(String keyword) {
+        return userRepository.findByNicknameContainingIgnoreCase(keyword);
+    }
 }
