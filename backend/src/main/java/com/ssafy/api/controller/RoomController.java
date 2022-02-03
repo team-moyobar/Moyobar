@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -143,16 +144,18 @@ public class RoomController {
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<Page<RoomRes>> roomList(
+            @RequestParam @ApiParam(name = "searchBy", required = false) @Nullable String searchBy,
+            @RequestParam @ApiParam(name = "keyword", required = false) @Nullable String keyword,
             @PageableDefault(size = 10, sort = "start", direction = Sort.Direction.DESC) Pageable pageable,
             @ApiIgnore Authentication authentication) {
 
-        logger.info(pageable.toString());
-        Page<Room> rooms = roomService.getActiveRoomList(pageable);
+        Page<Room> rooms = roomService.getActiveRoomList(searchBy, keyword, pageable);
         List<RoomRes> result = rooms.getContent()
-                                .stream().map(room -> {
-                                    List<User> users = historyService.getUserInRoom(room);
-                                    return RoomRes.of(room, users);
-                }).collect(Collectors.toList());;
+                .stream().map(room -> {
+                    List<User> users = historyService.getUserInRoom(room);
+                    return RoomRes.of(room, users);
+                }).collect(Collectors.toList());
+        ;
 
         Page<RoomRes> results = new PageImpl<>(result, rooms.getPageable(), rooms.getTotalElements());
         return ResponseEntity.status(200).body(results);
@@ -168,7 +171,7 @@ public class RoomController {
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<RoomRes> joinRoom(
-            @PathVariable @ApiParam(value = "방 번호",required = true) long roomId,
+            @PathVariable @ApiParam(value = "방 번호", required = true) long roomId,
             @RequestBody @ApiParam(value = "방 입장에 필요한 정보", required = false) RoomJoinPostReq joinInfo,
             @ApiIgnore Authentication authentication) {
 
@@ -183,11 +186,11 @@ public class RoomController {
         Room room = roomService.getRoomById(roomId);
         int currentUserCount = historyService.getUserInRoom(room).size();
 
-        if(currentUserCount == room.getMax())
+        if (currentUserCount == room.getMax())
             throw new RoomAlreadyMaxUserException();
 
-        if(room.getType() == RoomType.PRIVATE){
-            if(joinInfo.getPassword() == null || !passwordEncoder.matches(joinInfo.getPassword(), room.getPassword()))
+        if (room.getType() == RoomType.PRIVATE) {
+            if (joinInfo.getPassword() == null || !passwordEncoder.matches(joinInfo.getPassword(), room.getPassword()))
                 throw new InvalidValueException(ErrorCode.PASSWORD_MISMATCH);
         }
 
@@ -207,7 +210,7 @@ public class RoomController {
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<? extends BaseResponseBody> leaveRoom(
-            @PathVariable @ApiParam(value = "방 번호",required = true) long roomId,
+            @PathVariable @ApiParam(value = "방 번호", required = true) long roomId,
             @ApiIgnore Authentication authentication) {
 
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
