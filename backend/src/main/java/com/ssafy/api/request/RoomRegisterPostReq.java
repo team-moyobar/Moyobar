@@ -26,5 +26,7 @@ public class RoomRegisterPostReq {
     private RoomType type;
     @ApiModelProperty(name = "방 비밀번호")
     private String password;
+    @ApiModelProperty(name = "방 테마 인덱스 번호")
+    private int theme;
 
 }

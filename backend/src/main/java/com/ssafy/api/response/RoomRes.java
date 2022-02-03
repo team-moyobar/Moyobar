@@ -45,6 +45,8 @@ public class RoomRes {
     private RoomType type;
     @ApiModelProperty(name = "Room owner")
     private String owner;
+    @ApiModelProperty(name = "방 테마 인덱스 번호")
+    private int theme;
 
     public static RoomRes of(Room room, List<User> users) {
         RoomRes res = new RoomRes();
@@ -60,6 +62,7 @@ public class RoomRes {
         res.setParticipants(users.stream().map(UserInRoomRes::of).collect(Collectors.toList()));
         res.setType(room.getType());
         res.setOwner(room.getOwner().getNickname());
+        res.setTheme(room.getTheme());
         return res;
     }
 }
