@@ -225,4 +225,26 @@ public class RoomController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
+    @PostMapping("/{roomId}/password")
+    @ApiOperation(value = "비밀번호 일치 여부 확인", notes = "방 비밀번호의 일치 확인 여부를 확인한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
+    })
+    public ResponseEntity<Boolean> checkPassword(@PathVariable @ApiParam(value = "방 번호") long roomId,
+                                                 @RequestBody @ApiParam(value = "방 입장 비밀번호 정보", required = false) RoomJoinPostReq roomJoinInfo) {
+        Room room = roomService.getRoomById(roomId);
+        if (room.getIsActive() == 1) throw new RoomNotFoundException();
+
+        boolean result = false;
+
+        if (room.getType() == RoomType.PUBLIC)
+            result = true;
+        else {
+            if (roomJoinInfo.getPassword() != null)
+                result = passwordEncoder.matches(roomJoinInfo.getPassword(), room.getPassword());
+        }
+
+        return ResponseEntity.status(200).body(result);
+    }
 }
