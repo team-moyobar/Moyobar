@@ -3,6 +3,7 @@ import LobbySideBar from "../../components/lobby/LobbySideBar";
 import LobbyRoomSearchBar from "../../components/lobby/LobbyRoomSearchBar";
 import LobbyCreateRoom from "../../components/lobby/LobbyCreateRoom";
 import LobbyPagination from "../../components/lobby/LobbyPagination";
+import LobbyRoomOrder from "../../components/lobby/LobbyRoomOrder";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Lobby.css";
@@ -26,6 +27,7 @@ export default function Lobby() {
   const [title, setTitle] = useState("");
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleLoad = (options: any) => {
     const query = `&page=${page}&size=${size}`;
@@ -45,10 +47,12 @@ export default function Lobby() {
       .get(`/rooms?${query}`, config)
       .then((res) => {
         console.log("success");
+        console.log(res.data)
         console.log(res.data.content);
         result = res.data;
         const { content } = result;
         setItems(content);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -96,8 +100,9 @@ export default function Lobby() {
         <LobbyRoomSearchBar />
       </div>
       <div className="lobby-main-contents lobby-form">
+        <LobbyRoomOrder />
         <LobbyRoomList items={items} />
-        <LobbyPagination onChange={handleChange} />
+        <LobbyPagination totalPages={totalPages} onChange={handleChange} />
       </div>
     </div>
   );
