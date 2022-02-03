@@ -28,4 +28,7 @@ public class RoomUpdatePutReq {
     private String password;
     @ApiModelProperty(name = "방 주인")
     private String owner;
+    @ApiModelProperty(name = "방 테마 인덱스 번호")
+    private int theme;
+
 }

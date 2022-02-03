@@ -42,4 +42,6 @@ public class Room extends BaseEntity{
 
     @OneToMany(mappedBy = "room")
     private List<History> histories = new ArrayList<>();
+
+    private int theme;
 }

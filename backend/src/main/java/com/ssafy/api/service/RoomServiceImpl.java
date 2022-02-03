@@ -50,6 +50,7 @@ public class RoomServiceImpl implements RoomService {
         if (registerInfo.getThumbnail() != null)
             room.setThumbnail(registerInfo.getThumbnail());
         room.setType(registerInfo.getType());
+        room.setTheme(registerInfo.getTheme());
         return roomRepository.save(room);
     }
 
@@ -82,6 +83,8 @@ public class RoomServiceImpl implements RoomService {
         }
         if (updateInfo.getOwner() != null)
             room.setOwner(owner);
+
+        room.setTheme(updateInfo.getTheme());
         roomRepository.save(room);
     }
 
