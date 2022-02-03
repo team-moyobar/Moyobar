@@ -1,0 +1,19 @@
+version: "3"
+services:
+  backend:
+    container_name: moyobar_backend
+    image: "moyobar_backend:0.1"               
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    ports:
+      - "8080:8080"
+  nginx:
+    restart: always
+    container_name: "moyobar_frontend"
+    image: "moyobar_frontend:0.1" 
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend_test
+    ports: 
+      - "3000:80"
