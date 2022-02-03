@@ -22,6 +22,10 @@ const setNickname = (nickName: string) => {
   cookies.set("userId", nickName);
 };
 
+const setUserID = (userID: string) => {
+  cookies.set("userId", userID);
+};
+
 export const getCookie = (data: any) => {
   return cookies.get(data);
 };
@@ -72,6 +76,7 @@ export default function Login() {
       .then((res) => {
         setToken(res.data.accessToken);
         setNickname(res.data.nickName);
+        setUserID(`${data.userId}@${data.email}.com`);
         console.log("Success");
         console.log(res);
         alert("로그인 성공");
