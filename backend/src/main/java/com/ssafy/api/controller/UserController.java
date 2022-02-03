@@ -57,8 +57,8 @@ public class UserController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
-    @GetMapping("/info/{userId}")
-    @ApiOperation(value = "회원 정보 조회", notes = "접속 중인 회원의 정보를 응답한다.")
+    @GetMapping("/info/{nickname}")
+    @ApiOperation(value = "회원 정보 조회", notes = "<strong>닉네임</strong>값을 통해 접속 중인 회원의 정보를 확인한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
@@ -66,7 +66,7 @@ public class UserController {
             @ApiResponse(code = 405, message = "Request method 에러"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<UserRes> getOtherUserInfo(@ApiIgnore Authentication authentication, @PathVariable @ApiParam(value="조회하려는 회원의 ID") String userId) {
+    public ResponseEntity<UserRes> getOtherUserInfo(@ApiIgnore Authentication authentication, @PathVariable @ApiParam(value="조회하려는 회원의 닉네임") String nickname) {
         if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
         //해당 api 호출한 사람이 접속 중인 유저인지 판단
@@ -75,8 +75,8 @@ public class UserController {
         User user = userService.getUserByUserId(myUserId);
         if(myUserId == null || user == null) throw new UserNotFoundException();
 
-        //query params로 넘긴 유저 id값에 대해 회원정보 얻어오기
-        User userInfo = userService.getUserByUserId(userId);
+        //query params로 넘긴 유저 nickname값에 대해 회원정보 얻어오기
+        User userInfo = userService.getUserByNickname(nickname);
 
         return ResponseEntity.status(200).body(UserRes.of(userInfo));
     }
