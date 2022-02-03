@@ -8,6 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { getCookie } from "../../routes/auth/Login";
+import LobbyCreateRoomTheme from "./LobbyCreateRoomTheme";
 
 const INITIAL_VALUES = {
   title: "",
@@ -15,6 +16,7 @@ const INITIAL_VALUES = {
   roominfo: "",
   privateroom: false,
   password: "",
+  theme: 1,
 };
 
 export default function LobbyCreateRoom() {
@@ -31,12 +33,12 @@ export default function LobbyCreateRoom() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target)
     const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
-    // console.log(values);
   };
 
   const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +50,13 @@ export default function LobbyCreateRoom() {
     }));
     // console.log(values);
   };
+
+  const handleThemeChange = (value: any) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      theme : value
+    }))
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -71,6 +80,7 @@ export default function LobbyCreateRoom() {
       max: values.membercount,
       description: values.roominfo,
       thumbnail: "string",
+      theme: values.theme,
       type: "PRIVATE",
       password: values.password,
     };
@@ -162,6 +172,7 @@ export default function LobbyCreateRoom() {
             value={values.password}
             onChange={handleChange}
           />
+          <LobbyCreateRoomTheme onChange={handleThemeChange}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>
