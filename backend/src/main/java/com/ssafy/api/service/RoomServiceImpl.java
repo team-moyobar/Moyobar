@@ -9,9 +9,13 @@ import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,8 +24,12 @@ import org.springframework.stereotype.Service;
 @Service("roomService")
 public class RoomServiceImpl implements RoomService {
 
+
     @Autowired
     RoomRepository roomRepository;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -39,7 +47,7 @@ public class RoomServiceImpl implements RoomService {
             room.setMax(6);
         if (registerInfo.getType() == RoomType.PRIVATE && registerInfo.getPassword() != null)
             room.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-        if (registerInfo.getThumbnail()!= null)
+        if (registerInfo.getThumbnail() != null)
             room.setThumbnail(registerInfo.getThumbnail());
         room.setType(registerInfo.getType());
         return roomRepository.save(room);
@@ -66,20 +74,32 @@ public class RoomServiceImpl implements RoomService {
         if (updateInfo.getTitle() != null)
             room.setTitle(updateInfo.getTitle());
         if (updateInfo.getPassword() != null) {
-            if(room.getType() == RoomType.PRIVATE){
+            if (room.getType() == RoomType.PRIVATE) {
                 room.setPassword(passwordEncoder.encode(updateInfo.getPassword()));
-            }else{
+            } else {
                 room.setPassword(null);
             }
         }
-        if(updateInfo.getOwner()!= null)
+        if (updateInfo.getOwner() != null)
             room.setOwner(owner);
         roomRepository.save(room);
     }
 
     @Override
-    public Page<Room> getActiveRoomList(Pageable pageable) {
-        return roomRepository.findAllByIsActive(0, pageable);
+    public Page<Room> getActiveRoomList(String searchBy, String keyword, Pageable pageable) {
+        if (searchBy == null){
+            return roomRepository.findAllByIsActive(0, pageable);
+        }
+        if (searchBy.equals("title")) {
+            return roomRepository.findAllByIsActiveAndTitleContainingIgnoreCase(0, keyword, pageable);
+        } else if (searchBy.equals("description")) {
+            return roomRepository.findAllByIsActiveAndDescriptionContainingIgnoreCase(0, keyword, pageable);
+        } else if (searchBy.equals("owner")) {
+            List<User> users = userService.searchUserByNickname(keyword);
+            return roomRepository.findAllByIsActiveAndOwnerIn(0, users, pageable);
+        } else {
+            return new PageImpl<Room>(new ArrayList<>(), pageable, 0);
+        }
     }
 
     @Override

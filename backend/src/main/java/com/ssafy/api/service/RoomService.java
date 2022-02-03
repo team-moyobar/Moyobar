@@ -16,7 +16,7 @@ public interface RoomService {
 
     void updateRoom(Room room, RoomUpdatePutReq updateInfo, User owner);
 
-    Page<Room> getActiveRoomList(Pageable pageable);
+    Page<Room> getActiveRoomList(String searchBy, String keyword, Pageable pageable);
 
     void updateRoom(Room room);
 }
