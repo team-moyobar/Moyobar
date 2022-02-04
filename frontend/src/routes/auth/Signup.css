@@ -1,0 +1,28 @@
+.signup-container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  background-color: black;
+  color: white;
+}
+
+.signup-left {
+  grid-column: 3 / 6;
+  grid-row: 3 / 10;
+  background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-right {
+  grid-column: 7 / 10;
+  grid-row: 3 / 10;
+  background-color: brown;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
