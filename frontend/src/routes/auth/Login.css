@@ -5,22 +5,21 @@
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   background-color: black;
-  color: white;
 }
 
 .login-left {
   grid-column: 2 / 4;
   grid-row: 2 / 4;
-  background-color: blue;
+  background-color: rgb(44, 44, 44);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .login-right {
-  grid-column: 6 / 9;
-  grid-row: 3 / 9;
-  background-color: brown;
+  grid-column: 6 / 10;
+  grid-row: 2 / 10;
+  background-color: rgb(44, 44, 44);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,4 +31,8 @@
 }
 .login-submit {
   margin: 30px;
+}
+
+button {
+  background-color: rgb(26, 98, 192);
 }
