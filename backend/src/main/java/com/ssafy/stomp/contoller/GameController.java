@@ -9,6 +9,10 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 통신 테스트용 컨트롤러
+ */
+
 @RestController
 public class GameController {
 

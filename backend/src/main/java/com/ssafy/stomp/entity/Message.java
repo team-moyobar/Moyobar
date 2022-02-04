@@ -5,10 +5,13 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * 채팅 시 client와 주고받을 모델 정의
+ */
+
 @Getter
 @Setter
 public class Message {
-
     private String username;
     private String content;
     private Date date;
