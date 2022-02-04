@@ -6,7 +6,7 @@ import Login from "./routes/auth/Login";
 import Lobby from "./routes/lobby/Lobby";
 import Profile from "./routes/auth/Profile";
 
-import Room from "./routes/room/Room.js"
+import Room from "./routes/room/Room.js";
 
 function App() {
   return (
