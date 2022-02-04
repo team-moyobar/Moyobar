@@ -3,10 +3,11 @@ package com.ssafy.api.service;
 import com.ssafy.api.request.RoomRegisterPostReq;
 import com.ssafy.api.request.RoomUpdatePutReq;
 import com.ssafy.common.exception.RoomNotFoundException;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.RoomType;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.*;
+import com.ssafy.db.repository.HistoryRepository;
+import com.ssafy.db.repository.HistoryRepositorySupport;
 import com.ssafy.db.repository.RoomRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,12 +22,13 @@ import java.util.List;
 /**
  * 미팅 룸 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
+@Slf4j
 @Service("roomService")
 public class RoomServiceImpl implements RoomService {
-
-
     @Autowired
     RoomRepository roomRepository;
+    @Autowired
+    HistoryRepository historyRepository;
 
     @Autowired
     UserService userService;
@@ -103,6 +105,26 @@ public class RoomServiceImpl implements RoomService {
         } else {
             return new PageImpl<Room>(new ArrayList<>(), pageable, 0);
         }
+    }
+
+    //RoomId에 있는 유저 정보 모두 가져오기
+    @Override
+    public List<User> findUserListByRoomId(long roomId, ActionType actionType) {
+        //history 테이블로부터 방 번호, 해당 방에 JOIN 중인 유저에 대한 정보 얻어오기
+        List<History> histories = historyRepository.findAllByRoomIdAndAction(roomId, actionType);
+
+        log.info("방에 JOIN 중인 유저 인원 수: {} ", histories.size());
+
+        //해당 방에 참가중인 유저 리스트 저장
+        List<User> players =new ArrayList<>();
+
+        //얻어온 histories 테이블 결과값으로부터 User 추출 후 players 배열에 담아주기
+        for(History h : histories){
+            User player = h.getUser();
+            players.add(player);
+        }
+
+        return players;
     }
 
     @Override

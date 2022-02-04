@@ -2,11 +2,13 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.RoomRegisterPostReq;
 import com.ssafy.api.request.RoomUpdatePutReq;
+import com.ssafy.db.entity.ActionType;
 import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RoomService {
@@ -19,4 +21,6 @@ public interface RoomService {
     Page<Room> getActiveRoomList(String searchBy, String keyword, Pageable pageable);
 
     void updateRoom(Room room);
+
+    List<User> findUserListByRoomId(long roomId, ActionType actionType);
 }
