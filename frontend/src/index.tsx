@@ -5,7 +5,7 @@ import "./index.css";
 import axios from "axios";
 
 axios.defaults.baseURL = "https://i6d210.p.ssafy.io/api/v1";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   <React.StrictMode>

@@ -183,6 +183,10 @@ class UserCamera extends Component {
         });
     }
 
+    componentDidMount() {
+        this.joinSession();
+    }
+
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
