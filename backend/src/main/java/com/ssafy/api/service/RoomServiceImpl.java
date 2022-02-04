@@ -90,9 +90,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Page<Room> getActiveRoomList(String searchBy, String keyword, Pageable pageable) {
-        if (searchBy == null){
-            return roomRepository.findAllByIsActive(0, pageable);
-        }
         if (searchBy.equals("title")) {
             return roomRepository.findAllByIsActiveAndTitleContainingIgnoreCase(0, keyword, pageable);
         } else if (searchBy.equals("description")) {
@@ -101,7 +98,7 @@ public class RoomServiceImpl implements RoomService {
             List<User> users = userService.searchUserByNickname(keyword);
             return roomRepository.findAllByIsActiveAndOwnerIn(0, users, pageable);
         } else {
-            return new PageImpl<Room>(new ArrayList<>(), pageable, 0);
+            return roomRepository.findAllByIsActive(0, pageable);
         }
     }
 
