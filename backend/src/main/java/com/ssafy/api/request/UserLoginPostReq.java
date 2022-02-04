@@ -17,9 +17,9 @@ import lombok.Setter;
 @ApiModel("UserLoginPostRequest")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserLoginPostReq {
-	@ApiModelProperty(name="유저 ID", example="ssafy@ssafy.com")
+	@ApiModelProperty(name="유저 ID", example="test1@naver.com")
 	private String userId;
-	@ApiModelProperty(name="유저 Password", example="ssafy")
+	@ApiModelProperty(name="유저 Password", example="test1test1!")
 	private String password;
 	@ApiModelProperty(name = "유저 로그인 유형",example = "LOCAL")
 	private ProviderType type;
