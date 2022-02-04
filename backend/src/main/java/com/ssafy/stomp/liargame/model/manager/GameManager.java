@@ -50,7 +50,7 @@ public class GameManager {
     }
 
     //유저의 역할과 제시어를 모두 return
-    //ex) { {nickname: 닉넴, roleType: LIAR, subject: 하마 }, {nickname: 안녕, roleType: MEMBER, subject: 오리 }, ... }
+    //ex) [ {nickname: 닉넴, roleType: LIAR, subject: 하마 }, {nickname: 안녕, roleType: MEMBER, subject: 오리 }, ... ]
     public List<RoleSubjectResult> allRoldNameAndSubject() {
         List<RoleSubjectResult> list = new ArrayList<>();
 
