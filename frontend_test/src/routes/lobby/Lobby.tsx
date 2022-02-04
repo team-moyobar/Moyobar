@@ -29,8 +29,8 @@ export default function Lobby() {
   const [size, setSize] = useState(6);
   const [totalPages, setTotalPages] = useState(1);
 
-  const handleLoad = (options: any) => {
-    const query = `&page=${page}&size=${size}`;
+  const handleLoad = ({searchBy='null' , keyword='null' } : any) => {
+    const query = `&page=${page}&size=${size}&searchBy=${searchBy}&keyword=${keyword}`;
     const TOKEN = getCookie("jwtToken");
 
     const config = {
@@ -49,6 +49,7 @@ export default function Lobby() {
         console.log("success");
         console.log(res.data)
         console.log(res.data.content);
+        console.log(query)
         result = res.data;
         const { content } = result;
         setItems(content);
@@ -57,6 +58,7 @@ export default function Lobby() {
       .catch((err) => {
         console.log(err);
         console.log("fail...");
+        console.log(query)
       });
   };
 
@@ -96,11 +98,11 @@ export default function Lobby() {
       <div className="lobby-header"></div>
       <div className="lobby-side-bar lobby-form">
         <LobbySideBar items={users} />
-        <LobbyCreateRoom />
-        <LobbyRoomSearchBar />
       </div>
       <div className="lobby-main-contents lobby-form">
-        <LobbyRoomOrder />
+        <LobbyCreateRoom />
+        <LobbyRoomSearchBar onSubmit={handleLoad}/>
+        <LobbyRoomOrder onClick={handleLoad}/>
         <LobbyRoomList items={items} />
         <LobbyPagination totalPages={totalPages} onChange={handleChange} />
       </div>
