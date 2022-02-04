@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface RoomRepository  extends JpaRepository<Room, Long > {
+public interface RoomRepository extends JpaRepository<Room, Long> {
 
     Optional<Room> findRoomById(long roomId);
 
@@ -20,4 +20,6 @@ public interface RoomRepository  extends JpaRepository<Room, Long > {
     Page<Room> findAllByIsActiveAndOwnerIn(int isActive, List<User> users, Pageable pageable);
 
     Page<Room> findAllByIsActiveAndDescriptionContainingIgnoreCase(int isActive, String keyword, Pageable pageable);
+
+    Page<Room> findAllByDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCaseOrOwnerInAndIsActive(String keyword1, String keyword2, List<User> users, int isActive, Pageable pageable);
 }
