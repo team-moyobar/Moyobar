@@ -6,6 +6,8 @@ import Login from "./routes/auth/Login";
 import Lobby from "./routes/lobby/Lobby";
 import Profile from "./routes/auth/Profile";
 
+import Room from "./routes/room/Room.js"
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +17,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/lobby" component={Lobby} />
         <Route path="/profile/:userId" component={Profile} />
+        <Route path="/room/:roomId" component={Room} />
       </Router>
     </div>
   );
