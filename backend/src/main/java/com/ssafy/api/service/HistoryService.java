@@ -14,6 +14,7 @@ public interface HistoryService {
     void leaveRoom(User user, Room room);
 
     List<User> getUserInRoom(Room room);
+    List<User> getUserInRoom(long roomId);
 
     History getHistoryInRoom(User user, Room room);
 }
