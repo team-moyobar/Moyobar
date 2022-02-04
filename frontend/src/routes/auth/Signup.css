@@ -2,25 +2,24 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: repeat(11, 1fr);
-  grid-template-rows: repeat(11, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
   background-color: black;
-  color: white;
 }
 
 .signup-left {
-  grid-column: 3 / 6;
-  grid-row: 3 / 10;
-  background-color: blue;
+  grid-column: 2 / 4;
+  grid-row: 2 / 4;
+  background-color: rgb(44, 44, 44);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .signup-right {
-  grid-column: 7 / 10;
-  grid-row: 3 / 10;
-  background-color: brown;
+  grid-column: 6 / 10;
+  grid-row: 2 / 10;
+  background-color: rgb(44, 44, 44);
   display: flex;
   justify-content: center;
   align-items: center;
