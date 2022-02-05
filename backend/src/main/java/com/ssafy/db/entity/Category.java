@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Getter
 @Setter
-public class Category extends BaseEntity{
+@Table(name = "game_category")
+public class Category extends BaseEntity {
     private String name;
 }
