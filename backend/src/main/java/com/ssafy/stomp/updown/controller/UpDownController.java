@@ -3,11 +3,14 @@ package com.ssafy.stomp.updown.controller;
 import com.ssafy.api.service.HistoryService;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.api.service.UserService;
-import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
-import com.ssafy.stomp.updown.model.GameType;
+import com.ssafy.stomp.entity.Message;
+import com.ssafy.stomp.updown.model.GameResultType;
 import com.ssafy.stomp.updown.model.manager.GameManager;
-import com.ssafy.stomp.updown.response.GameStatusRes;
+import com.ssafy.stomp.updown.request.CheckAnswerReq;
+import com.ssafy.stomp.updown.request.GameStartReq;
+import com.ssafy.stomp.updown.response.BaseGameStatusRes;
+import com.ssafy.stomp.updown.response.PlayGameStatusRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,29 +60,9 @@ public class UpDownController {
         GameManager gameManager = new GameManager(users);
         ManagerHolder.gameManagers.put(roomId, gameManager);
 
-        GameStatusRes res = new GameStatusRes();
+        BaseGameStatusRes res = new BaseGameStatusRes();
         res.setGameStatus(gameManager.getGameStatus());
-        res.setUserStatus(gameManager.getUserStatus());
-
-        template.convertAndSend("/from/ud/status/" + roomId, res);
-    }
-
-    /**
-     * 모든 참가자 READY 시 방장에 의해 시작되는 게임 시작 API
-     * @param roomId
-     * @param gameType UpDown 게임의 숫자 선정 타입
-     */
-    @MessageMapping("/ud/start/{roomId}")
-    public void startGame(@DestinationVariable long roomId, GameType gameType){
-        log.info(roomId +" 번방 UpDown Game Start");
-
-        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
-
-        gameManager.startGame(gameType);
-
-        GameStatusRes res = new GameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserStatus(gameManager.getUserStatus());
+        res.setUserInfo(gameManager.getUserInfo());
 
         template.convertAndSend("/from/ud/status/" + roomId, res);
     }
@@ -99,9 +82,9 @@ public class UpDownController {
 
         gameManager.joinGame(user);
 
-        GameStatusRes res = new GameStatusRes();
+        BaseGameStatusRes res = new BaseGameStatusRes();
         res.setGameStatus(gameManager.getGameStatus());
-        res.setUserStatus(gameManager.getUserStatus());
+        res.setUserInfo(gameManager.getUserInfo());
 
         template.convertAndSend("/from/ud/status/" + roomId, res);
     }
@@ -121,9 +104,9 @@ public class UpDownController {
 
         gameManager.waitGame(user);
 
-        GameStatusRes res = new GameStatusRes();
+        BaseGameStatusRes res = new BaseGameStatusRes();
         res.setGameStatus(gameManager.getGameStatus());
-        res.setUserStatus(gameManager.getUserStatus());
+        res.setUserInfo(gameManager.getUserInfo());
 
         template.convertAndSend("/from/ud/status/" + roomId, res);
     }
@@ -143,11 +126,73 @@ public class UpDownController {
 
         gameManager.leaveGame(user);
 
-        GameStatusRes res = new GameStatusRes();
+        BaseGameStatusRes res = new BaseGameStatusRes();
         res.setGameStatus(gameManager.getGameStatus());
-        res.setUserStatus(gameManager.getUserStatus());
+        res.setUserInfo(gameManager.getUserInfo());
 
         template.convertAndSend("/from/ud/status/" + roomId, res);
     }
 
+    @MessageMapping("/ud/chat/{roomId}")
+    public void sendChat(@DestinationVariable long roomId, Message message){
+        log.info(message.getUsername()+"님이 메세지: '" +message.getContent()+"' 전송");
+
+        template.convertAndSend("/from/ud/chat/" + roomId, message);
+    }
+
+    /**
+     * 모든 참가자 READY 시 방장에 의해 시작되는 게임 시작 API
+     * @param roomId
+     * @param startInfo
+     */
+    @MessageMapping("/ud/start/{roomId}")
+    public void startGame(@DestinationVariable long roomId, GameStartReq startInfo){
+        log.info(roomId +" 번방 UpDown Game Start");
+
+        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
+
+        gameManager.startGame(startInfo);
+
+        PlayGameStatusRes res = new PlayGameStatusRes();
+        res.setGameStatus(gameManager.getGameStatus());
+        res.setUserInfo(gameManager.getUserInfo());
+        res.setNextTurnIndex(gameManager.getTurnIndex());
+        res.setUserOrder(gameManager.getUserOrder());
+        res.setResult(GameResultType.START);
+
+        template.convertAndSend("/from/ud/status/" + roomId, res);
+    }
+
+    @MessageMapping("/ud/check/{roomId}")
+    public void checkAnswer(@DestinationVariable long roomId, CheckAnswerReq checkInfo){
+
+        log.info(roomId +" 번방 UpDown Game" + checkInfo.getNickname()+"님의 답: " + checkInfo.getNumber());
+
+        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
+
+        GameResultType resultType = gameManager.checkAnswer(checkInfo);
+
+        PlayGameStatusRes res = new PlayGameStatusRes();
+        res.setGameStatus(gameManager.getGameStatus());
+        res.setUserInfo(gameManager.getUserInfo());
+        res.setNextTurnIndex(gameManager.getTurnIndex());
+        res.setUserOrder(gameManager.getUserOrder());
+        res.setResult(resultType);
+
+
+        if (resultType == GameResultType.CORRECT){
+            // 맞았을 경우
+        }else{
+            // 틀렸을 경우
+            if (resultType == GameResultType.TIMEOUT){
+                gameOver(roomId);
+            }
+        }
+
+        template.convertAndSend("/from/ud/check" + roomId, res);
+    }
+
+    private void gameOver(long roomId) {
+        log.info(roomId +"번 방 UpDown Game Over");
+    }
 }

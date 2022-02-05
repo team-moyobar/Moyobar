@@ -1,25 +1,34 @@
 package com.ssafy.stomp.updown.model.manager;
 
 import com.ssafy.db.entity.User;
-import com.ssafy.stomp.updown.model.GameStatus;
-import com.ssafy.stomp.updown.model.GameType;
-import com.ssafy.stomp.updown.model.UserStatus;
+import com.ssafy.stomp.updown.model.*;
+import com.ssafy.stomp.updown.request.CheckAnswerReq;
+import com.ssafy.stomp.updown.request.GameStartReq;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class GameManager {
 
-    private Map<String, UserStatus> userStatus = new ConcurrentHashMap<>();
+    private Map<String, UserInfo> userInfo = new ConcurrentHashMap<>();
+
+    private List<String> userOrder;
+    private int turnIndex;
 
     private GameStatus gameStatus;
-    int userInRoomCount;
-    int userInReadyCount;
+
+    private GameType gameType;
+    private int answer;
+
+    private int userInRoomCount;
+    private int userInReadyCount;
 
 
     public GameManager(List<User> users) {
@@ -28,19 +37,25 @@ public class GameManager {
         userInRoomCount = users.size();
         gameStatus = GameStatus.WAIT;
 
-        for (User user : users){
-            userStatus.put(user.getNickname(), UserStatus.WAIT);
+        for (User user : users) {
+            addUser(user);
         }
     }
 
-    public boolean joinGame(User user){
+    public boolean joinGame(User user) {
 
         String nickname = user.getNickname();
 
-        userStatus.put(nickname, UserStatus.READY);
+        if (!userInfo.containsKey(nickname)) {
+            addUser(user);
+            userInRoomCount++;
+        }
+
+        UserInfo info = userInfo.get(nickname);
+        info.setUserStatus(UserStatus.READY);
         userInReadyCount++;
 
-        if (userInReadyCount == userInRoomCount){
+        if (userInReadyCount == userInRoomCount) {
             gameStatus = GameStatus.READY;
             return true;
         }
@@ -51,32 +66,69 @@ public class GameManager {
 
         String nickname = user.getNickname();
 
-        userStatus.put(nickname, UserStatus.WAIT);
+        UserInfo info = userInfo.get(nickname);
+        info.setUserStatus(UserStatus.WAIT);
         userInReadyCount--;
 
         return false;
 
     }
 
-    public boolean leaveGame(User user){
+    public boolean leaveGame(User user) {
         String nickname = user.getNickname();
 
-        if (userStatus.get(nickname) != UserStatus.WAIT)
+        UserInfo info = userInfo.get(nickname);
+
+        if (info.getUserStatus() != UserStatus.WAIT)
             userInReadyCount--;
 
         userInRoomCount--;
-        userStatus.remove(nickname);
+        userInfo.remove(nickname);
 
-        if (userInReadyCount == userInRoomCount){
+        if (userInReadyCount == userInRoomCount) {
             gameStatus = GameStatus.READY;
             return true;
-        }else
+        } else
             gameStatus = GameStatus.WAIT;
         return false;
     }
 
-    public void startGame(GameType gameType) {
+    public void startGame(GameStartReq startInfo) {
+
+        gameType = startInfo.getGameType();
+
+        setUserOrder(userInfo.keySet().stream().sorted().collect(Collectors.toList()));
+
+        if (gameType == GameType.RANDOM) {
+            setRandomAnswer();
+        } else {
+            answer = startInfo.getAnswer();
+        }
+    }
+
+    private void setRandomAnswer() {
+
+        Random random = new Random();
+        answer = random.nextInt();
+    }
+
+    private void addUser(User user) {
+
+        UserInfo info = new UserInfo();
+        info.setUserStatus(UserStatus.WAIT);
+        userInfo.put(user.getNickname(), info);
 
     }
 
+    public GameResultType checkAnswer(CheckAnswerReq checkInfo) {
+        if (answer == checkInfo.getNumber())
+            return GameResultType.CORRECT;
+
+        if (userOrder.size() == ++turnIndex)
+            return GameResultType.TIMEOUT;
+        else if (answer > checkInfo.getNumber())
+            return GameResultType.UP;
+        else
+            return GameResultType.DOWN;
+    }
 }
