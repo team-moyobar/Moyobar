@@ -9,6 +9,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { getCookie } from "../../routes/auth/Login";
 import LobbyCreateRoomTheme from "./LobbyCreateRoomTheme";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const INITIAL_VALUES = {
   title: "",
@@ -102,12 +109,13 @@ export default function LobbyCreateRoom() {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={darkTheme}>
+    <div style={{display: "inline"}}>
       <Button variant="outlined" onClick={handleClickOpen}>
         방 만들기
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
-        <DialogTitle>방 만들기</DialogTitle>
+        {/* <DialogTitle>방 만들기</DialogTitle> */}
         <DialogContent>
           <DialogContentText>
             술자리를 위한 새로운 방을 만들어 주세요
@@ -122,6 +130,7 @@ export default function LobbyCreateRoom() {
             name="title"
             value={values.title}
             onChange={handleChange}
+            color='secondary'
           />
           <TextField
             autoFocus
@@ -135,6 +144,7 @@ export default function LobbyCreateRoom() {
             value={values.membercount}
             onChange={handleChange}
             InputProps={{ inputProps: { min: 2, max: 8 } }}
+            color='secondary'
           />
           <TextField
             autoFocus
@@ -149,6 +159,7 @@ export default function LobbyCreateRoom() {
             value={values.roominfo}
             onChange={handleChange}
             inputProps={{ maxLength: 100 }}
+            color='secondary'
           />
           <p>공개여부</p>
           <label>
@@ -157,6 +168,7 @@ export default function LobbyCreateRoom() {
               name="privateroom"
               checked={values.privateroom}
               onChange={handleCheckedChange}
+              color='secondary'
             />{" "}
             비공개
           </label>
@@ -171,16 +183,18 @@ export default function LobbyCreateRoom() {
             name="password"
             value={values.password}
             onChange={handleChange}
+            color='secondary'
           />
           <LobbyCreateRoomTheme onChange={handleThemeChange}/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>취소</Button>
-          <Button onClick={handleSubmit} type="submit">
+          <Button onClick={handleClose} color='secondary'>취소</Button>
+          <Button onClick={handleSubmit} type="submit" color='secondary'>
             생성하기
           </Button>
         </DialogActions>
       </Dialog>
     </div>
+    </ThemeProvider>
   );
 }

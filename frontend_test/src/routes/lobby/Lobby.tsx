@@ -95,16 +95,23 @@ export default function Lobby() {
 
   return (
     <div className="lobby-page-container">
-      <div className="lobby-header"></div>
+      {/* <div className="lobby-header">로비</div> */}
       <div className="lobby-side-bar lobby-form">
         <LobbySideBar items={users} />
       </div>
       <div className="lobby-main-contents lobby-form">
-        <LobbyCreateRoom />
-        <LobbyRoomSearchBar onSubmit={handleLoad}/>
-        <LobbyRoomOrder onClick={handleLoad}/>
+        <div className="lobby-header">
+          <h1>Lobby</h1>
+        </div>
+        <div className="lobby-main-contents-buttons">
+          <LobbyCreateRoom />
+          <LobbyRoomSearchBar onSubmit={handleLoad}/>
+          <LobbyRoomOrder onClick={handleLoad}/>
+        </div>
         <LobbyRoomList items={items} />
-        <LobbyPagination totalPages={totalPages} onChange={handleChange} />
+        <div className="lobby-main-contents-pagination">
+          <LobbyPagination totalPages={totalPages} onChange={handleChange}  />
+        </div>
       </div>
     </div>
   );
