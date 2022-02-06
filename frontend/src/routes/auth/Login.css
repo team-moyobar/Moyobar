@@ -2,37 +2,215 @@
   width: 100vw;
   height: 100vh;
   display: grid;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(/public/images/bg3.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  background-color: black;
 }
 
 .login-left {
   grid-column: 2 / 4;
   grid-row: 2 / 4;
-  background-color: rgb(44, 44, 44);
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: default;
+}
+
+.login-left p {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+    0 0 42px rgb(210, 23, 216), 0 0 82px rgb(210, 23, 216),
+    0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
+    0 0 151px rgb(210, 23, 216);
+  text-align: center;
+  animation: flicker 1.5s infinite alternate;
+  font-size: 40px;
+}
+
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff,
+      0 0 40px rgb(210, 23, 216), 0 0 80px rgb(210, 23, 216),
+      0 0 90px rgb(210, 23, 216), 0 0 100px rgb(210, 23, 216),
+      0 0 150px rgb(210, 23, 216);
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
 }
 
 .login-right {
-  grid-column: 6 / 10;
+  grid-column: 7 / 10;
   grid-row: 2 / 10;
-  background-color: rgb(44, 44, 44);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  backdrop-filter: blur(15px);
+  color: white;
+}
+
+.login {
+  font-size: 40px;
+  margin-bottom: 100px;
+  cursor: default;
 }
 
 .login-form {
-  margin: 30px;
-}
-.login-submit {
-  margin: 30px;
+  display: flex;
+  margin-bottom: 15px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-button {
-  background-color: rgb(26, 98, 192);
+.login-submit {
+  background: inherit;
+  border: 1px solid rgb(133, 133, 133);
+  width: 360px;
+  height: 45px;
+  border-radius: 3px;
+  color: rgb(133, 133, 133);
+  margin-top: 20px;
+  transition: 0.5s;
+}
+
+.login-submit:hover {
+  border: 1px solid rgb(185, 185, 185);
+  color: rgb(185, 185, 185);
+}
+
+.login-input {
+  background: rgba(167, 167, 167, 0.4);
+  width: 315px;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 3px 3px 0px;
+  padding-left: 10px;
+}
+
+.login-input input {
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.login-select {
+  background-color: transparent;
+  border: 0;
+  height: 100%;
+  width: 80%;
+  border-radius: 0px 5px 5px 0px;
+  text-align: center;
+  color: rgba(136, 136, 136, 0.8);
+  font-size: 15px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.login-icon {
+  background: rgba(167, 167, 167, 0.4);
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1px;
+  border-radius: 3px 0px 0px 3px;
+}
+
+.login-icon img {
+  height: 70%;
+}
+
+.login-email input {
+  border-right: 1px solid black;
+}
+
+.login-signup {
+  margin-top: 3rem;
+  color: #0095f6;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login-signup:hover {
+  color: #1fa0f7;
+}
+
+.login-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.line {
+  background-color: rgb(133, 133, 133);
+  height: 1px;
+  width: 162px;
+}
+
+.line-or {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: rgb(133, 133, 133);
+  font-size: 16px;
+  cursor: default;
+}
+
+.login-kakao-button {
+  background: #eeda23;
+  width: 360px;
+  height: 45px;
+  border-radius: 3px;
+  margin-top: 30px;
+  font-weight: 700;
+  border: 0;
+  color: black;
+}
+
+.login-kakao-img {
+  float: left;
+  height: 60%;
+}
+
+.login-google-button {
+  background: #dc483b;
+  width: 360px;
+  height: 45px;
+  border-radius: 3px;
+  margin-top: 10px;
+  font-weight: 700;
+  border: 0;
+  color: white;
+}
+
+.login-google-img {
+  float: left;
+  height: 60%;
 }

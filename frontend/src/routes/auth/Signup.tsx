@@ -134,13 +134,14 @@ export default function Signup() {
   return (
     <div className="signup-container">
       <div className="signup-left">
-        <p>Welcome to MOYOBAR</p>
+        <p>좋은 문구는 바로 적어주세요!</p>
       </div>
       <div className="signup-right">
+        <p className="signup">SIGNUP</p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>SIGNUP</h1>
-          <div className="signup-button">
-            <div className="signup-input">
+          <div className="signup-form">
+            <div className="signup-icon"></div>
+            <div className="signup-input signup-border">
               <input
                 placeholder="이메일"
                 {...register("userId")}
@@ -157,11 +158,12 @@ export default function Signup() {
                 <option value="gmail">gmail.com</option>
               </select>
               <div className="signup-duplicate">
-                <button onClick={checkId}>중복검사</button>
+                <button onClick={checkId}>중복확인</button>
               </div>
             </div>
           </div>
-          <div className="signup-button">
+          <div className="signup-form">
+            <div className="signup-icon"></div>
             <div className="signup-input">
               <input
                 placeholder="비밀번호"
@@ -170,7 +172,8 @@ export default function Signup() {
               />
             </div>
           </div>
-          <div className="signup-button">
+          <div className="signup-form">
+            <div className="signup-icon"></div>
             <div className="signup-input">
               <input
                 placeholder="비밀번호 확인"
@@ -179,7 +182,8 @@ export default function Signup() {
               />
             </div>
           </div>
-          <div className="signup-button">
+          <div className="signup-form">
+            <div className="signup-icon"></div>
             <div className="signup-input">
               <input
                 placeholder="닉네임"
@@ -187,16 +191,18 @@ export default function Signup() {
                 onChange={changeNickname}
               />
               <div className="signup-duplicate">
-                <button onClick={checkNickname}>중복검사</button>
+                <button onClick={checkNickname}>중복확인</button>
               </div>
             </div>
           </div>
-          <div className="signup-button">
+          <div className="signup-form">
+            <div className="signup-icon"></div>
             <div className="signup-input">
               <input placeholder="휴대전화 번호" {...register("phoneNumber")} />
             </div>
           </div>
-          <div className="signup-button">
+          <div className="signup-form">
+            <div className="signup-icon"></div>
             <div className="signup-input">
               <input
                 type="datetime"
@@ -205,9 +211,10 @@ export default function Signup() {
               />
             </div>
           </div>
-          <div className="signup-button">
-            <div className="signup-input">
-              <select className="signup-select" {...register("alcohol")}>
+          <div className="signup-form">
+            <div className="signup-icon"></div>
+            <div className="signup-input signup-border-al">
+              <select className="signup-select-al" {...register("alcohol")}>
                 <option value="soju" selected>
                   소주
                 </option>
@@ -221,7 +228,7 @@ export default function Signup() {
               />
             </div>
           </div>
-          <button className="signup-submit-button" type="submit">
+          <button className="signup-submit" type="submit">
             회원가입
           </button>
         </form>
