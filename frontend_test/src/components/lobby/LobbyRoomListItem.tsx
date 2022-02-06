@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import "./LobbyRoomListItem.css"
 
 
 //모달창 부분1
@@ -45,13 +46,17 @@ export default function LobbyRoomListItem({ item }: any) {
         rgba(20, 20, 20, 0.25) 25%,
         rgba(20, 20, 20, 0.5) 50%,
         rgba(20, 20, 20, 0.75) 75%,
-        rgba(20, 20, 20, 1) 100%
+        rgba(20, 20, 20, 0.75) 100%
       ), url(/assets/images/theme${item.theme}.png)`,
         backgroundSize: "cover",
-        height: "250px",
+        height: "100%",
+        width: "100%",
         color: "white",
         paddingTop: "1rem",
+        borderRadius: "10px",
+        backgroundPosition: "center", 
       }}
+      className="lobby-room-list-item-info"
     >
       <Button onClick={handleOpen} variant="contained" color="secondary">방 입장</Button>
       <Modal

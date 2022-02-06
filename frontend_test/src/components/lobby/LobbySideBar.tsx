@@ -1,9 +1,12 @@
 import LobbySideBarUserList from "./LobbySideBarUserList";
+import "./LobbySideBar.css"
 
 export default function LobbySideBar({ items }: any) {
   return (
     <>
-      <h3>유저목록</h3>
+      <div className="lobby-sidebar-header">
+        <h1>User</h1>
+      </div>
       <LobbySideBarUserList items={items}></LobbySideBarUserList>
     </>
   );
