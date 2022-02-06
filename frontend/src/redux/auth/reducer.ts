@@ -1,16 +1,17 @@
 import { LOGINCHECK, LOGOUTCHECK } from "./actions";
 
 const initialStore = {
-  isLogin: false,
-  nickName: "",
+  isLogin: "로그아웃",
+  nickname: "바보",
 };
 
 const authReducer = (state = initialStore, action: any) => {
   switch (action.type) {
     case LOGINCHECK:
-      return { ...state, isLogin: true };
+      console.log(action.payload);
+      return { ...state, isLogin: "로그인완료", nickname: action.payload };
     case LOGOUTCHECK:
-      return { ...state, isLogin: false };
+      return { ...state, isLogin: "로그아웃", nickname: "바보" };
     default:
       return state;
   }
