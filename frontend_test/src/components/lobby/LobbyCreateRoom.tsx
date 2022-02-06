@@ -9,13 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { getCookie } from "../../routes/auth/Login";
 import LobbyCreateRoomTheme from "./LobbyCreateRoomTheme";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
 
 const INITIAL_VALUES = {
   title: "",
@@ -109,9 +103,8 @@ export default function LobbyCreateRoom() {
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
     <div style={{display: "inline"}}>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         방 만들기
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
@@ -195,6 +188,5 @@ export default function LobbyCreateRoom() {
         </DialogActions>
       </Dialog>
     </div>
-    </ThemeProvider>
   );
 }
