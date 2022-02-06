@@ -1,14 +1,18 @@
 .lobby-roomlist-container {
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 3%;
+  justify-content: space-around;
+  align-content: space-between;
   flex-wrap: wrap;
+  height: 80%;
+  padding: 1rem;
+  width: 100%;
 }
 .lobby-roomlist-item {
   flex-basis: 45%;
   background-color: rgba(43, 40, 40, 0.8);
   border-radius: 5px;
-  margin: 10px;
+  height: 30%;
+  padding: 0%;
 }
 
 .lobby-roomlist-item:hover {

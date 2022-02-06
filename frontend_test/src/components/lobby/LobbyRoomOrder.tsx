@@ -1,5 +1,12 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function LobbyRoomOrder({onClick}: any) {
   const handleClick = () => {
@@ -7,8 +14,10 @@ export default function LobbyRoomOrder({onClick}: any) {
   }
 
   return (
-    <div>
-      <Button color="secondary"variant='contained' onClick={handleClick}>최신순</Button>
+    <div style={{display: "inline"}}>
+      <ThemeProvider theme={darkTheme}>
+      <Button color="secondary"variant='outlined' onClick={handleClick}>방 새로고침</Button>
+      </ThemeProvider>
     </div>
   );
 };
