@@ -4,6 +4,7 @@ export const LOGOUTCHECK = "logoutcheck";
 export const loginCheck = (data: any) => {
   return {
     type: LOGINCHECK,
+    payload: data,
   };
 };
 
