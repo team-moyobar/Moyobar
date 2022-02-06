@@ -37,7 +37,6 @@ public class UpDownController {
         private static final Map<Long, GameManager> gameManagers = new ConcurrentHashMap<>();
     }
 
-
     @Autowired
     private SimpMessagingTemplate template;
     @Autowired
@@ -57,9 +56,9 @@ public class UpDownController {
     public void readyGame(@DestinationVariable long roomId) {
         log.info("{} 번 방 게임 준비", roomId);
 
-        List<User> users = historyService.getUserInRoom(roomId);
 
         // 현재 방에 있는 사용자 정보를 불러와 새로운 게임 매니저 생성
+        List<User> users = historyService.getUserInRoom(roomId);
         GameManager gameManager = new GameManager(users);
         ManagerHolder.gameManagers.put(roomId, gameManager);
 
@@ -68,11 +67,7 @@ public class UpDownController {
 
         gameManager.joinGame(user);
 
-        BaseGameStatusRes res = new BaseGameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserInfo(gameManager.getUserInfo());
-
-        template.convertAndSend("/from/ud/status/" + roomId, res);
+        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
     }
 
     /**
@@ -91,11 +86,7 @@ public class UpDownController {
 
         gameManager.joinGame(user);
 
-        BaseGameStatusRes res = new BaseGameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserInfo(gameManager.getUserInfo());
-
-        template.convertAndSend("/from/ud/status/" + roomId, res);
+        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
     }
 
     /**
@@ -114,11 +105,7 @@ public class UpDownController {
 
         gameManager.waitGame(user);
 
-        BaseGameStatusRes res = new BaseGameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserInfo(gameManager.getUserInfo());
-
-        template.convertAndSend("/from/ud/status/" + roomId, res);
+        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
     }
 
     /**
@@ -137,11 +124,7 @@ public class UpDownController {
 
         gameManager.leaveGame(user);
 
-        BaseGameStatusRes res = new BaseGameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserInfo(gameManager.getUserInfo());
-
-        template.convertAndSend("/from/ud/status/" + roomId, res);
+        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
     }
 
     @MessageMapping("/ud/chat/{roomId}")
@@ -165,32 +148,18 @@ public class UpDownController {
 
         gameManager.startGame(startInfo);
 
-        PlayGameStatusRes res = new PlayGameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserInfo(gameManager.getUserInfo());
-        res.setTurnIndex(gameManager.getTurnIndex());
-        res.setUserOrder(gameManager.getUserOrder());
-        res.setResult(GameResultType.START);
-
         log.info("{} 번 방 정답: ", gameManager.getAnswer());
 
-        template.convertAndSend("/from/ud/status/" + roomId, res);
+        template.convertAndSend("/from/ud/status/" + roomId, PlayGameStatusRes.of(gameManager, GameResultType.START));
     }
 
     @MessageMapping("/ud/check/{roomId}")
     public void checkAnswer(@DestinationVariable long roomId, CheckAnswerReq checkInfo) {
-        log.info("{} 님 {} 번 방 답 입력 : {}", checkInfo.getNickname(), roomId, checkInfo.getNickname());
+        log.info("{} 님 {} 번 방 답 입력 : {}", checkInfo.getNickname(), roomId, checkInfo.getNumber());
 
         GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
 
         GameResultType resultType = gameManager.checkAnswer(checkInfo);
-
-        PlayGameStatusRes res = new PlayGameStatusRes();
-        res.setGameStatus(gameManager.getGameStatus());
-        res.setUserInfo(gameManager.getUserInfo());
-        res.setTurnIndex(gameManager.getTurnIndex());
-        res.setUserOrder(gameManager.getUserOrder());
-        res.setResult(resultType);
 
         log.info("{} 님의 결과: {}", checkInfo.getNickname(), resultType);
 
@@ -204,9 +173,12 @@ public class UpDownController {
             }
         }
 
-        template.convertAndSend("/from/ud/status/" + roomId, res);
+        // TODO: [2022-02-06] 게임 결과 Response 데이터 값 정리
+        template.convertAndSend("/from/ud/status/" + roomId, PlayGameStatusRes.of(gameManager, resultType, checkInfo.getNumber()));
+
     }
 
+    // TODO: [2022-02-06] 게임 데이터를 시작할 때 넣을 지, 끝나고  한 번에 넣을 지 결정 후 코드 작성
     private void finishGame(long roomId) {
         log.info("{} 번 방 종료", roomId);
     }
