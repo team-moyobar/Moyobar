@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginCheck } from "../../redux/auth/actions";
 
 const cookies = new Cookies();
 
@@ -28,6 +30,7 @@ interface IFormInput {
 }
 
 export default function Login() {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   function routeSignup() {
@@ -44,6 +47,9 @@ export default function Login() {
       })
       .then((res) => {
         setToken(res.data.accessToken);
+        console.log(res.data.nickname);
+        dispatch(loginCheck(res.data.nickname))
+        console.log()
         history.push("/lobby");
       })
       .catch(() => {
