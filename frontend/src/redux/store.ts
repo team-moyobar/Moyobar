@@ -4,4 +4,4 @@ import rootReducer from ".";
 const store = createStore(rootReducer);
 
 export default store;
-export type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>;
