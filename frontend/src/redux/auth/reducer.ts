@@ -1,17 +1,17 @@
-import { LOGINCHECK, LOGOUTCHECK } from "./actions";
+import { LOGINCHECK, LOGOUTCHECK } from "./action";
 
-const initialStore = {
-  isLogin: "로그아웃",
-  nickname: "바보",
+const userStore = {
+  isLogin: false,
+  nickname: "",
 };
 
-const authReducer = (state = initialStore, action: any) => {
+const authReducer = (state = userStore, action: any) => {
   switch (action.type) {
     case LOGINCHECK:
       console.log(action.payload);
-      return { ...state, isLogin: "로그인완료", nickname: action.payload };
+      return { ...state, isLogin: true, nickname: action.payload };
     case LOGOUTCHECK:
-      return { ...state, isLogin: "로그아웃", nickname: "바보" };
+      return { ...state, isLogin: false, nickname: "" };
     default:
       return state;
   }

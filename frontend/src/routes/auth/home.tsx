@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="home-box">
-        <h1>MOYOBAR</h1>
+        <img src="/images/logo1.png" alt="" />
         <button onClick={routeLogin} className="home-button">
           입장하기
         </button>
