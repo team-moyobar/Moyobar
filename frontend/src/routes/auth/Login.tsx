@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { loginCheck } from "../../redux/auth/actions";
+import { loginCheck } from "../../redux/auth/action";
 
 const cookies = new Cookies();
 
@@ -47,9 +47,7 @@ export default function Login() {
       })
       .then((res) => {
         setToken(res.data.accessToken);
-        console.log(res.data.nickname);
-        dispatch(loginCheck(res.data.nickname))
-        console.log()
+        dispatch(loginCheck(res.data.nickname));
         history.push("/lobby");
       })
       .catch(() => {
@@ -60,13 +58,14 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-left">
-        <p>Welcome to MOYOBAR</p>
+        <p>좋은 문구를 추천해주세요</p>
       </div>
       <div className="login-right">
-        <p>LOGIN</p>
+        <p className="login">LOGIN</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="login-form">
-            <div className="login-input">
+            <div className="login-icon"></div>
+            <div className="login-input login-email">
               <input placeholder="이메일" {...register("userId")} />
               <select className="login-select" {...register("email")}>
                 <option value="naver">naver.com</option>
@@ -75,6 +74,7 @@ export default function Login() {
             </div>
           </div>
           <div className="login-form">
+            <div className="login-icon"></div>
             <div className="login-input">
               <input
                 placeholder="비밀번호"
@@ -86,8 +86,17 @@ export default function Login() {
           <button className="login-submit" type="submit">
             로그인
           </button>
-          <button onClick={routeSignup}>회원가입</button>
         </form>
+        <p className="login-signup" onClick={routeSignup}>
+          회원이 아니신가요? 지금 가입하세요
+        </p>
+        <div className="login-line">
+          <div className="line"></div>
+          <div className="line-or">or</div>
+          <div className="line"></div>
+        </div>
+        <button className="login-kakao-button">Kakao 로그인</button>
+        <button className="login-google-button">Google 로그인</button>
       </div>
     </div>
   );
