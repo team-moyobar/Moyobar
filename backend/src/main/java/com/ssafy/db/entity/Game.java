@@ -14,7 +14,7 @@ import java.util.Date;
 @Setter
 public class Game extends BaseEntity{
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "winner")
     private User winner;
 
