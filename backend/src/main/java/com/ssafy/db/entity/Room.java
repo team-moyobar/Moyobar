@@ -36,7 +36,7 @@ public class Room extends BaseEntity{
     @Column(name = "pwd")
     private String password;
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner")
     private User owner;
 

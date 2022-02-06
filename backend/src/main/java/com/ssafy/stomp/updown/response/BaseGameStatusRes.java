@@ -7,6 +7,7 @@ import com.ssafy.stomp.updown.model.UserInfo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -15,6 +16,6 @@ import java.util.Map;
 public class BaseGameStatusRes {
 
     private GameStatus gameStatus;
-    private Map<String, UserInfo> userInfo;
+    private List<UserInfo> userInfo;
 
 }

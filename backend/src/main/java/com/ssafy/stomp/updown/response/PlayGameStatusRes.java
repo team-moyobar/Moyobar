@@ -13,7 +13,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PlayGameStatusRes extends BaseGameStatusRes{
 
-    private int nextTurnIndex;
+    private int turnIndex;
     private List<String> userOrder;
     private int userAnswer;
     private GameResultType result;
