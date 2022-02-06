@@ -8,6 +8,26 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Lobby.css";
 import { getCookie } from "../auth/Login";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+//로비 전체 다크 테마로 변경
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      light: '#e3f2fd',
+      main: '#90caf9',
+      dark: '#42a5f5',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#f3e5f5',
+      main: '#ce93d8',
+      dark: '#ab47bc',
+      contrastText: '#fff',
+    }
+  },
+});
 
 interface ItemProps {
   title: string;
@@ -94,25 +114,27 @@ export default function Lobby() {
   }, [page]);
 
   return (
-    <div className="lobby-page-container">
-      {/* <div className="lobby-header">로비</div> */}
-      <div className="lobby-side-bar lobby-form">
-        <LobbySideBar items={users} />
+    <ThemeProvider theme={darkTheme}>
+      <div className="lobby-page-container">
+        {/* <div className="lobby-header">로비</div> */}
+        <div className="lobby-side-bar lobby-form">
+          <LobbySideBar items={users} />
+        </div>
+        <div className="lobby-main-contents lobby-form">
+          <div className="lobby-header">
+            <h1>Lobby</h1>
+          </div>
+          <div className="lobby-main-contents-buttons">
+            <LobbyCreateRoom />
+            <LobbyRoomSearchBar onSubmit={handleLoad}/>
+            <LobbyRoomOrder onClick={handleLoad}/>
+          </div>
+          <LobbyRoomList items={items} />
+          <div className="lobby-main-contents-pagination">
+            <LobbyPagination totalPages={totalPages} onChange={handleChange}  />
+          </div>
+        </div>
       </div>
-      <div className="lobby-main-contents lobby-form">
-        <div className="lobby-header">
-          <h1>Lobby</h1>
-        </div>
-        <div className="lobby-main-contents-buttons">
-          <LobbyCreateRoom />
-          <LobbyRoomSearchBar onSubmit={handleLoad}/>
-          <LobbyRoomOrder onClick={handleLoad}/>
-        </div>
-        <LobbyRoomList items={items} />
-        <div className="lobby-main-contents-pagination">
-          <LobbyPagination totalPages={totalPages} onChange={handleChange}  />
-        </div>
-      </div>
-    </div>
+    </ThemeProvider>
   );
 }
