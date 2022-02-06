@@ -3,37 +3,83 @@
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(/public/assets/images/bg3.jpeg);
-  display: grid;
+  display: flex;
   background-repeat: no-repeat;
   justify-content: center;
+  overflow: hidden;
   /* align-items: stretch; */
   /* flex-direction: column; */
-  grid-template-columns: repeat(5, 1fr);
+  /* grid-template-columns: repeat(5, 1fr); */
 }
 .lobby-header {
-  grid-column: 1/6;
-  grid-row: 4/8;
-  align-self: center;
+  height: 5%;
+  min-height: 48px;
 }
 .lobby-side-bar {
-  grid-column: 1/2;
-  grid-row: 2/8;
-  margin: 20px;
+  width: 15%;
+  margin: 5rem 1rem 2rem 2rem;
   align-self: stretch;
+  min-width: 200px;
+  min-height: 500px;
+  overflow: auto;
+  padding: 5px;
 }
 .lobby-main-contents {
-  grid-column: 2/6;
-  grid-row: 2/8;
-  margin: 20px;
-  margin-left: 0px;
+  width: 80%;
+  margin: 5rem 2rem 2rem 2rem;
   align-self: stretch;
-  padding: 10px;
+  padding: 1rem;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 700px;
+  min-height: 500px;
+}
+
+.lobby-main-contents-buttons {
+  width: 700px;
+  display: flex;
+  height: 8%;
+  align-items: center;
+  justify-content: center;
+}
+
+.lobby-main-contents-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7%;
 }
 
 .lobby-form {
-  /* 편집위해 잠시 하얀색 배경으로 변경하겠습니다 */
-  /* background-color: rgba(0, 0, 0, 0.99); */
-  background-color: rgba(255, 255, 255, 0.99);
-  /* box-shadow: 1px 1px 8px 8px rgb(162, 0, 255); */
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
+}
+
+.lobby-side-bar::-webkit-scrollbar {
+  width: 5px;
+}
+.lobby-side-bar::-webkit-scrollbar-thumb {
+  background-color: #ea80fc;
+  border-radius: 10px;
+}
+.lobby-side-bar::-webkit-scrollbar-track {
+  background-color: black;
+  border-radius: 10px;
+}
+
+.lobby-header h1 {
+  color: #fff;
+  text-shadow: 0 0 3px #fff, 0 0 5px #fff, 0 0 0px #fff,
+    0 0 42px rgb(210, 23, 216), 0 0 82px rgb(210, 23, 216),
+    0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
+    0 0 151px rgb(210, 23, 216);
+  text-align: left;
+  font-family: neon;
+  /* animation: flicker 1.5s infinite alternate; */
+  text-align: center;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  
 }

@@ -62,6 +62,7 @@ export default function LobbyCreateRoomTheme({onChange}: any) {
             variant="standard"
             name="title"
             value={images[activeStep].label}
+            color='secondary'
           />
       {images.map((step, index) => (
           <div key={step.label}>
@@ -88,7 +89,7 @@ export default function LobbyCreateRoomTheme({onChange}: any) {
         activeStep={activeStep}
         sx={{ maxWidth: 400, flexGrow: 1 }}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === 4}>
+          <Button size="small" onClick={handleNext} disabled={activeStep === 4} color='secondary'>
             Next
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
@@ -98,7 +99,7 @@ export default function LobbyCreateRoomTheme({onChange}: any) {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0} color='secondary'>
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (

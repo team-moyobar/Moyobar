@@ -6,7 +6,14 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { boxSizing, display, height } from '../../../../../../무제 폴더/S06P12D210/frontend_test/node_modules/@mui/system';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function LobbyRoomSearchBar({onSubmit}: any) {
   const [searchBy, setSearchBy] = React.useState('all');
@@ -27,7 +34,8 @@ const handleSubmit = () => {
 
 
   return (
-    <Box sx={{ width: 800, display: 'inline-block' }}>
+    <ThemeProvider theme={darkTheme}>
+    <Box sx={{ width: 400, display: 'inline-block' }}>
       <FormControl  size="small" sx={{ width: 100 }}>
         <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
         <Select
@@ -46,5 +54,6 @@ const handleSubmit = () => {
       <TextField id="outlined-basic" label="검색어" variant="outlined" size="small" name='keyword' onChange={keywordChange} />
       <Button variant="outlined" sx={{height: 40}} onClick={handleSubmit}>검색</Button>
     </Box>
+    </ThemeProvider>
   );
 }
