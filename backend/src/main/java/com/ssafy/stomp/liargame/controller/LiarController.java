@@ -1,13 +1,13 @@
 package com.ssafy.stomp.liargame.controller;
 
-import com.google.gson.JsonObject;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.stomp.liargame.model.manager.GameManager;
-import com.ssafy.stomp.liargame.request.GameStartMessage;
-import com.ssafy.stomp.liargame.response.RoleSubjectResult;
+import com.ssafy.stomp.liargame.request.GameStartReq;
+import com.ssafy.stomp.liargame.request.VoteReq;
+import com.ssafy.stomp.liargame.response.GameEndRes;
+import com.ssafy.stomp.liargame.response.RoleSubjectRes;
+import com.ssafy.stomp.liargame.response.VoteRes;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -17,7 +17,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +34,9 @@ public class LiarController {
     @Autowired
     private RoomService roomService;
 
-    // 방 별로 게임 매니징하는 역할
+    // 방 별로 게임 매니징하는 역할. 아래와 같이 Map 형식으로 각각의 방에 대한 게임 매니저 정보를 저장
+    // {15, GameManager}
+    // {3, GameManager}
     private static Map<Long, GameManager> gameManagerMap;
 
     @PostConstruct
@@ -47,9 +48,31 @@ public class LiarController {
     // 주제어는 객체로 넘어옴 : @Payload가 클라이언트로부터 넘어온 객체 정보 받아올 수 있게 해줌
     @MessageMapping("/liar/start/{roomId}")
     @SendTo("/from/liar/start/{roomId}")
-    public List<RoleSubjectResult> broadcasting(@DestinationVariable long roomId, @Payload GameStartMessage gameStartMessage) throws Exception {
-        gameManagerMap.put(roomId, new GameManager(roomId, roomService, gameStartMessage.getSubject())); //게임 매니저 생성 및 역할-제시어 분배
+    public List<RoleSubjectRes> broadcasting(@DestinationVariable long roomId, @Payload GameStartReq gameStartReq) throws Exception {
+        gameManagerMap.put(roomId, new GameManager(roomId, roomService, gameStartReq.getSubject())); //게임 매니저 생성 및 역할-제시어 분배
         log.info("게임 start");
-        return gameManagerMap.get(roomId).allRoldNameAndSubject(); //해당 방에 참가 중인 플레이어에게 각각 역할, 제시어 정보 보내주기
+        log.info("게임 시작 gameManager : {} " ,gameManagerMap.toString());
+        return gameManagerMap.get(roomId).getAllRoleNameSubject(); //해당 방에 참가 중인 플레이어에게 각각 역할, 제시어 정보 보내주기
+    }
+
+    // 참가자들의 투표 정보를 요청받아 투표 참여한 참가자에게는 true를, 기권한 참가자에게는 false를 반환
+    @MessageMapping("/liar/vote/{roomId}")
+    @SendTo("/from/liar/vote/{roomId}")
+    public VoteRes broadcasting(@DestinationVariable long roomId, @Payload VoteReq voteReq) throws Exception{
+        log.info("투표한 사람: {} ", voteReq.getVote());
+        gameManagerMap.get(roomId).setVoteInfo(voteReq.getVote()); //투표정보 저장
+        log.info("게임 투표 gameManager : {} " ,gameManagerMap.toString());
+        if(voteReq.getVote().equals("기권")) return new VoteRes(false);
+        else return new VoteRes(true);
+    }
+
+    // 투표 결과를 참가자에게 알림(=게임 종료)
+    @MessageMapping("/liar/result/{roomId}")
+    @SendTo("/from/liar/result/{roomId}")
+    public GameEndRes broadcasting(@DestinationVariable long roomId) throws Exception{
+        log.info("투표 결과 알리기");
+        log.info("게임 종료 gameManager : {} " ,gameManagerMap.toString());
+        GameEndRes gameEndRes = gameManagerMap.get(roomId).getVoteResult(); //투표 결과 가져오기
+        return gameEndRes;
     }
 }

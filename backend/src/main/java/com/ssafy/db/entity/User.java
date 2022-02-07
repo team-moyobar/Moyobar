@@ -54,21 +54,4 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user")
     private List<History> histories = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", password='" + password + '\'' +
-                ", birthday=" + birthday +
-                ", img='" + img + '\'' +
-                ", score=" + score +
-                ", drink=" + drink +
-                ", phone='" + phone + '\'' +
-                ", type=" + type +
-                ", first=" + first +
-                ", histories=" + histories +
-                '}';
-    }
 }

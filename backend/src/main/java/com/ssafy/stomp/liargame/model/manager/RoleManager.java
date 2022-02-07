@@ -6,7 +6,7 @@ import java.util.List;
 import com.ssafy.stomp.liargame.model.role.Liar;
 import com.ssafy.stomp.liargame.model.role.Member;
 import com.ssafy.stomp.liargame.model.role.Role;
-import com.ssafy.stomp.liargame.response.GamePlayer;
+import com.ssafy.stomp.liargame.model.GamePlayer;
 import lombok.extern.slf4j.Slf4j;
 
 /**
