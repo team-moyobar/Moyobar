@@ -52,21 +52,6 @@ public class GameManager {
         setRandomAnswer();
     }
 
-//    public boolean leaveGame(User user) {
-//        String nickname = user.getNickname();
-//
-//        userInRoomCount--;
-//        if (turnIndex == userOrder.indexOf(nickname)){
-//            turnIndex = turnIndex % userInRoomCount;
-//        }else{
-//
-//        }
-//        userOrder.remove(nickname);
-//
-//        return true;
-//    }
-
-
     private void setRandomAnswer() {
 
         Random random = new Random();
