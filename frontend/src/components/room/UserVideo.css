@@ -1,9 +1,18 @@
 video {
-    width: 100%;
-    height: auto;
+    height: 100%;
+		width: 100%;
     float: left;
     cursor: pointer;
+		
 }
+
+.streamcomponent {
+	display:flex;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+}
+
 .streamcomponent div {
     position: absolute;
     background: #f8f8f8;
@@ -17,6 +26,12 @@ p{
     margin: 0;
 }
 
+.box-shadow {
+	background-color: black;
+  box-shadow:
+      0 0 7px #fff,
+      0 0 30px rgb(255, 187, 0)
+}
 
 .chat {
 	--primaryGradient: linear-gradient(93.12deg, #7a68bd 0.52%, #9fa9d8 100%);

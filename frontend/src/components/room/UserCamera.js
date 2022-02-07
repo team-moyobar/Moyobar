@@ -277,9 +277,31 @@ class UserCamera extends Component {
         const myUserName = this.state.myUserName;
 
         const messages = this.state.messages;
+    
+    let query;
+    
+    switch(this.state.subscribers.length){
+        case 0 : query = 1
+            break;
+        case 1 : query = 2
+            break;
+        case 2 : query = 3
+            break;
+        case 3 : query = 3
+            break;
+        case 4 : query = 4
+            break;
+        case 5 : query = 4
+            break;
+        case 6 : query = 5
+            break;
+        case 7 : query = 5
+            break;
+    }
 
+    console.log(query)
         return (
-            <div className="container">
+            <div className="room-container">
                 {this.state.session === undefined ? (
                     <div id="join">
                         <div id="img-div">
@@ -307,7 +329,7 @@ class UserCamera extends Component {
                                         id="sessionId"
                                         value={mySessionId}
                                         onChange={this.handleChangeSessionId}
-                                        required
+                                        require
                                     />
                                 </p>
                                 <p className="text-center">
@@ -317,37 +339,38 @@ class UserCamera extends Component {
                         </div>
                     </div>
                 ) : null}
-
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
-                            <h1 id="session-title">{mySessionId}</h1>
-                            <input
-                                className="btn btn-large btn-danger"
-                                type="button"
-                                id="buttonLeaveSession"
-                                onClick={this.leaveSession}
-                                value="Leave session"
-                            />
+                            <h1 id="session-title" style={{color: "red"}}>{mySessionId}</h1>
                         </div>
-
+                        {/* 메인 스트림 매니저
                         {this.state.mainStreamManager !== undefined ? (
                             <div id="main-video" className="col-md-6">
                                 <UserVideoComponent streamManager={this.state.mainStreamManager} />
                             </div>
-                        ) : null}
-                        <div id="video-container" className="col-md-6">
+                        ) : null} */}
+                        <div id="video-container" >
                             {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                                <div className={`stream-container${query}`}  onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                                     <UserVideoComponent
                                         streamManager={this.state.publisher} />
                                 </div>
                             ) : null}
                             {this.state.subscribers.map((sub, i) => (
-                                <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+                                <div key={i} className={`stream-container${query}`}  onClick={() => this.handleMainVideoStream(sub)}>
                                     <UserVideoComponent streamManager={sub} />
                                 </div>
                             ))}
+                        </div>
+                        <div id="session-footer">
+                                <input
+                                    className="btn btn-large btn-danger"
+                                    type="button"
+                                    id="buttonLeaveSession"
+                                    onClick={this.leaveSession}
+                                    value="방 나가기"
+                                />
                         </div>
                         <div className="chatbox">
                             {this.state.chaton ? (
@@ -446,6 +469,7 @@ class UserCamera extends Component {
     }
 
     createToken(sessionId) {
+
         return new Promise((resolve, reject) => {
             var data = {};
             axios
