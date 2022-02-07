@@ -1,7 +1,7 @@
 package com.ssafy.stomp.liargame.model.manager;
 
 import com.ssafy.stomp.liargame.model.Subject;
-import com.ssafy.stomp.liargame.response.GamePlayer;
+import com.ssafy.stomp.liargame.model.GamePlayer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;

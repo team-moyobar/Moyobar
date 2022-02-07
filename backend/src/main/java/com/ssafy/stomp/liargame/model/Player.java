@@ -23,13 +23,4 @@ public class Player {
     public boolean isLiar() {
         return this.role.isLiar();
     }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "user=" + user +
-                ", role=" + role +
-                ", subject='" + subject + '\'' +
-                '}';
-    }
 }
