@@ -17,5 +17,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class VoteRes {
-    private Boolean voteresult;
+    private Boolean isvote; //투표 참가했는지 여부
 }

@@ -7,6 +7,7 @@ import com.ssafy.stomp.liargame.model.Player;
 import com.ssafy.stomp.liargame.response.GameEndRes;
 import com.ssafy.stomp.liargame.model.GamePlayer;
 import com.ssafy.stomp.liargame.response.RoleSubjectRes;
+import com.ssafy.stomp.liargame.response.VotingStatusRes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -83,35 +84,46 @@ public class GameManager {
 
     // 투표 정보에 따라 게임 결과를 응답
     public GameEndRes getVoteResult(){
-        String liar = this.gamePlayers.getLiar().getUser().getNickname();
-        int playerCnt = this.gamePlayers.countOfPlayers();
-        String mostVote=null;
-
-        // 가장 많은 득표 수 받은 사람 구하기
-        List<Map.Entry<String, Integer>> playerList = new ArrayList<Map.Entry<String, Integer>>(this.votePlayers.entrySet());
+        String liar = this.gamePlayers.getLiar().getUser().getNickname(); //라이어
+        int mostVotePlayerCnt = 0; //가장 많은 득표 받은 사람의 득표 수 저장
+        int mostVoteCnt=0; //최다득표수 동점인 사람 몇 명인지 카운팅
 
         // 득표 수 기준으로 내림 차순 정렬
+        List<Map.Entry<String, Integer>> playerList = new ArrayList<Map.Entry<String, Integer>>(this.votePlayers.entrySet());
+
         Collections.sort(playerList, (p1, p2) -> {
             return p2.getValue().compareTo(p1.getValue());
         });
 
-        // 내림차순 정렬이 되었으므로 해시맵에서 가장 먼저 뽑아오는 데이터가 곧 가장 많은 득표 수 받은 사람
         for(Map.Entry<String, Integer> entry : playerList) {
-            mostVote = entry.getKey();
+            mostVotePlayerCnt = entry.getValue();
             break;
         }
+
+        for(Map.Entry<String, Integer> entry : playerList) {
+            //만약 많은 득표 받은 사람 여러명이면
+            if(entry.getValue()==mostVotePlayerCnt){
+                mostVoteCnt++; //카운팅
+            }
+        }
+
+        log.info("{} 표가 가장 많은 득표 수, 동점자는 {} 명", mostVotePlayerCnt, mostVoteCnt);
+
+        // 투표 현황 리스트
+        List<VotingStatusRes> votingList = new ArrayList<>();
 
         log.info("투표 결과(내림차순)");
         for(Map.Entry<String, Integer> entry : playerList) {
             log.info("{} : {}", entry.getKey(), entry.getValue());
+            votingList.add(new VotingStatusRes(entry.getKey(), entry.getValue()));
         }
 
-        // 과반수 이상이 라이어를 잘 지목했다면
-        if(this.votePlayers.get(liar) >= Math.ceil(playerCnt/2+0.0)) {
-            return new GameEndRes(liar, mostVote, "player");
+        // 가장 많은 득표 수 받은 사람 == liar 한 명일 경우
+        if(mostVoteCnt==1 && this.votePlayers.get(liar)==mostVotePlayerCnt) {
+            return new GameEndRes(liar, votingList, "player");
         }
-        else {
-            return new GameEndRes(liar, mostVote, "liar");
+        else { //동점자 발생 및 다른 사람이 득표 많이 받은 경우
+            return new GameEndRes(liar, votingList, "liar");
         }
     }
 
