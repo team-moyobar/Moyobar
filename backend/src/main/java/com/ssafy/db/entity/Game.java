@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -19,12 +19,12 @@ public class Game extends BaseEntity{
     private User winner;
 
     @CreationTimestamp
-    private Date start;
+    private LocalDateTime start;
 
     @UpdateTimestamp
-    private Date end;
+    private LocalDateTime end;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category category;
+    private GameCategory category;
 }
