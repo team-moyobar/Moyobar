@@ -1,3 +1,5 @@
+import React from 'react'
+
 import "./Profile.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -8,19 +10,76 @@ import {
   CloudOutline,
   EllipsisHorizontalOutline,
 } from "react-ionicons";
+
 import ProfileUserInfo from "../../components/auth/ProfileUserInfo"
-interface UserInfo {
+import ProfileUpdateForm from "../../components/auth/ProfileUpdateForm"
+
+interface DrinkType {
+  beer: number;
+  soju: number;
+  liquor: number;
+}
+
+export interface UserInfo {
   user_id: string;
   nickname: string;
-  birthday: null;
-  img: null;
-  score: 0;
-  drink: null;
-  phone: null;
+  birthday: string;
+  img: string;
+  score: number;
+  drink: DrinkType;
+  phone: string;
   type: string;
 }
-export default function Profile() {
-  const [user, setUser] = useState<UserInfo[]>([]);
+
+interface StatusProps {
+  status: string;
+}
+
+function ProfileContent(props: StatusProps) {
+  const [user, setUser] = useState({
+    user_id: "",
+    nickname: "",
+    birthday: "",
+    img: "",
+    score: 0,
+    drink: {
+      beer: 0,
+      soju: 0,
+      liquor: 0,
+    },
+    phone: '',
+    type: ''
+  });
+
+  // const [user_id, setUserId] = useState("");
+  // const [nickname, setNickname] = useState("");
+  // const [birthday, setBirthDay] = useState("");
+  // const [img, setImg] = useState("");
+  // const [score, setScore] = useState(0);
+  // const [beer, setBeer] = useState(0);
+  // const [soju, setSoju] = useState(0);
+  // const [liquor, setLiquor] = useState(0);
+  // const [phone, setPhone] = useState("");
+  // const [type, setType] = useState("");
+
+  const userStatus = props.status
+
+  const myUser = {
+    user_id: 'test',
+    nickname: 'testNickname',
+    birthday: '1996-06-14',
+    img: 'img',
+    score: 1,
+    drink: {
+      beer: 1,
+      soju: 2,
+      liquor: 1,
+    },
+    phone: '010-3686-9357',
+    type: 'LOCAL'
+  }
+
+
   const handleProfileLoad = () => {
     const TOKEN = getCookie("jwtToken");
     const config = {
@@ -34,7 +93,7 @@ export default function Profile() {
     };
 
     axios
-      .get("/users/info/", config)
+      .get("/users/info/test1", config)
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
@@ -45,23 +104,53 @@ export default function Profile() {
       });
   };
 
+
   useEffect(() => {
     handleProfileLoad();
-  });
-  let list = document.querySelectorAll(".profile-menu li");
-  function activeLink(this: any) {
-    list.forEach((item) => item.classList.remove("hovered"));
-    this.classList.add("hovered");
-    console.log(this);
+  }, []);
+  
+  switch (userStatus) {
+    case 'profile':
+      return (
+        <ProfileUserInfo user={user}></ProfileUserInfo>
+      )
+    case 'update':
+      return (
+        <ProfileUpdateForm user={user}/>
+      )
+    default:
+      return null;
   }
-  list.forEach((item) => item.addEventListener("mouseover", activeLink));
+}
+
+export default function Profile() {
+  const [status, setStatus] = useState<string>('profile');
+
+
+  const setStatusProfile = () => {
+    setStatus('profile')
+  }
+
+  const setStatusUpdate = () => {
+    setStatus('update')
+  }
+
+
+  // let list = document.querySelectorAll(".profile-menu li");
+  // function activeLink(this: any) {
+  //   list.forEach((item) => item.classList.remove("hovered"));
+  //   this.classList.add("hovered");
+  //   console.log(this);
+  // }
+
+  // list.forEach((item) => item.addEventListener("mouseover", activeLink));
 
   return (
     <div className="profile-page-container">
       <div className="profile-menu">
         <ul>
           <li>
-            <a href="#">
+            <a href="javascript:void(0);" onClick={setStatusProfile}>
               <span className="profile-menu-title">
                 <PersonOutline />
               </span>
@@ -69,7 +158,7 @@ export default function Profile() {
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="javascript:void(0);" onClick={setStatusUpdate}>
               <span className="profile-menu-title">
                 <BuildOutline />
               </span>
@@ -77,7 +166,7 @@ export default function Profile() {
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="javascript:void(0);">
               <span className="profile-menu-title">
                 <CloudOutline />
               </span>
@@ -85,7 +174,7 @@ export default function Profile() {
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="javascript:void(0);">
               <span className="profile-menu-title">
                 <EllipsisHorizontalOutline />
               </span>
@@ -95,7 +184,7 @@ export default function Profile() {
         </ul>
       </div>
       <div className="profile-userinfo">
-        <ProfileUserInfo/>
+        <ProfileContent status={status}/>
       </div>
     </div>
   );
