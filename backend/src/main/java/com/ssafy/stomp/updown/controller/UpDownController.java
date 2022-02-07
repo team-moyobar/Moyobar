@@ -3,10 +3,12 @@ package com.ssafy.stomp.updown.controller;
 import com.ssafy.api.service.HistoryService;
 import com.ssafy.db.entity.User;
 import com.ssafy.stomp.entity.Message;
-import com.ssafy.stomp.updown.model.GameResultType;
+import com.ssafy.stomp.updown.model.CheckResultType;
+import com.ssafy.stomp.updown.model.GameStatusType;
 import com.ssafy.stomp.updown.model.manager.GameManager;
 import com.ssafy.stomp.updown.request.CheckAnswerReq;
-import com.ssafy.stomp.updown.response.GameStatusRes;
+import com.ssafy.stomp.updown.response.CheckResultRes;
+import com.ssafy.stomp.updown.response.GameInfoRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,41 +61,39 @@ public class UpDownController {
         ManagerHolder.gameManagers.put(roomId, gameManager);
 
         // TODO: Game 시작 시 DB에 데이터 집어넣고, 해당 game id 저장
+//        gameManager.setGameId(gameId);
 
         gameManager.startGame();
 
         log.info("{} 번 방 정답: {}", roomId, gameManager.getAnswer());
 
-        template.convertAndSend("/from/ud/status/" + roomId, GameStatusRes.of(gameManager, GameResultType.START, 0));
+        template.convertAndSend("/from/ud/status/" + roomId, GameInfoRes.of(gameManager, null));
     }
 
     @MessageMapping("/ud/check/{roomId}")
     public void checkAnswer(@DestinationVariable long roomId, CheckAnswerReq checkInfo) {
-        log.info("{} 님 {} 번 방 답 입력 : {}", checkInfo.getNickname(), roomId, checkInfo.getNumber());
-
         GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
 
-        GameResultType resultType = gameManager.checkAnswer(checkInfo);
+        String username = checkInfo.getNickname();
+        int number = checkInfo.getNumber();
 
-        int answer = checkInfo.getNumber();
-        log.info("{} 님의 결과: {}", checkInfo.getNickname(), resultType);
+        log.info("{} 님 {} 번 방 답 입력 : {}", username, roomId, number);
 
+        CheckResultType resultType = gameManager.checkAnswer(number);
 
-        if (resultType == GameResultType.CORRECT || resultType == GameResultType.TIMEOUT) {
-            finishGame(roomId, resultType, checkInfo.getNickname());
+        log.info("{} 님의 결과: {}", username, resultType);
+
+        if (gameManager.getGameStatus() == GameStatusType.FINISH) {
+            finishGame(roomId, username);
         }
-        if (resultType == GameResultType.TIMEOUT) {
-            answer = gameManager.getAnswer();
-        }
 
-        template.convertAndSend("/from/ud/status/" + roomId, GameStatusRes.of(gameManager, resultType, answer));
+        template.convertAndSend("/from/ud/status/" + roomId, GameInfoRes.of(gameManager, CheckResultRes.of(username, number, resultType)));
 
     }
 
-    private void finishGame(long roomId, GameResultType resultType, String nickname) {
+    private void finishGame(long roomId, String nickname) {
         log.info("{} 번 방 종료", roomId);
 
         // TODO: Game 종료 후 DB 집어넣기
     }
-
 }
