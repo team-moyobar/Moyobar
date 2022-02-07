@@ -18,8 +18,9 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     Optional<History> findByUserAndRoomAndAction(User user, Room room, ActionType actionType);
 
-    List<History> findAllByRoomAndAction(Room room, ActionType actionType);
+     List<History> findAllByRoomAndAction(Room room, ActionType actionType);
 
     //방 번호와 방 실행 상태 여부를 넘겨주기
-    List<History> findAllByRoomIdAndAction(Long roomId, ActionType actionType);
+    List<History> findAllByRoomIdAndAction(long roomId, ActionType actionType);
+
 }
