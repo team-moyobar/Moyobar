@@ -10,6 +10,6 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "game_category")
-public class Category extends BaseEntity {
+public class GameCategory extends BaseEntity {
     private String name;
 }
