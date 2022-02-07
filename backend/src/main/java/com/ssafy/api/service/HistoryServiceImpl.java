@@ -55,7 +55,7 @@ public class HistoryServiceImpl implements HistoryService{
         history.setAction(ActionType.EXIT);
         history.setExited(LocalDateTime.now());
 
-        List<User> users = getUserInRoom(room);
+        List<User> users = getUserInRoom(room.getId());
 
         users.remove(user);
 
@@ -67,12 +67,6 @@ public class HistoryServiceImpl implements HistoryService{
 
         roomService.updateRoom(room);
         historyRepository.save(history);
-    }
-
-    @Override
-    public List<User> getUserInRoom(Room room) {
-        return historyRepository.findAllByRoomAndAction(room, ActionType.JOIN)
-                .stream().map(History::getUser).collect(Collectors.toList());
     }
 
     @Override

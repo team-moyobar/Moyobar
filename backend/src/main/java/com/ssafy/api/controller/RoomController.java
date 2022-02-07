@@ -94,7 +94,7 @@ public class RoomController {
             @ApiIgnore Authentication authentication) {
 
         Room room = roomService.getRoomById(roomId);
-        List<User> users = historyService.getUserInRoom(room);
+        List<User> users = historyService.getUserInRoom(roomId);
         return ResponseEntity.status(200).body(RoomRes.of(room, users));
     }
 
@@ -152,7 +152,7 @@ public class RoomController {
         Page<Room> rooms = roomService.getActiveRoomList(searchBy, keyword, pageable);
         List<RoomRes> result = rooms.getContent()
                 .stream().map(room -> {
-                    List<User> users = historyService.getUserInRoom(room);
+                    List<User> users = historyService.getUserInRoom(room.getId());
                     return RoomRes.of(room, users);
                 }).collect(Collectors.toList());
         ;
@@ -184,7 +184,7 @@ public class RoomController {
             throw new UserAlreadyInActiveRoomException();
 
         Room room = roomService.getRoomById(roomId);
-        int currentUserCount = historyService.getUserInRoom(room).size();
+        int currentUserCount = historyService.getUserInRoom(room.getId()).size();
 
         if (currentUserCount == room.getMax())
             throw new RoomAlreadyMaxUserException();
@@ -196,7 +196,7 @@ public class RoomController {
 
 
         historyService.createHistory(room, user);
-        List<User> users = historyService.getUserInRoom(room);
+        List<User> users = historyService.getUserInRoom(room.getId());
         return ResponseEntity.status(200).body(RoomRes.of(room, users));
     }
 
