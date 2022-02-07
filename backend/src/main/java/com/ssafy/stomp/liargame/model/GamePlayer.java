@@ -1,4 +1,4 @@
-package com.ssafy.stomp.liargame.response;
+package com.ssafy.stomp.liargame.model;
 
 import com.ssafy.db.entity.User;
 import com.ssafy.stomp.liargame.model.Player;
@@ -17,7 +17,7 @@ public class GamePlayer {
     private List<Player> players; //게임 참가자 정보
 
     // 참가자 리스트 추가하는 생성자
-    public GamePlayer (List<User> users) {
+    public GamePlayer(List<User> users) {
         this.players = new ArrayList<>();
 
         for (User user : users) {
@@ -81,12 +81,5 @@ public class GamePlayer {
             }
         }
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return "GamePlayer{" +
-                "players=" + players +
-                '}';
     }
 }

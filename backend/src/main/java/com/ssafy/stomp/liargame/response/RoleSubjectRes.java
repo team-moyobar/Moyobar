@@ -1,5 +1,7 @@
 package com.ssafy.stomp.liargame.response;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +15,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleSubjectResult {
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class RoleSubjectRes {
     private String nickname; //닉네임
-    private String roleType; //역할(LIAR or MEMBER)
-    private String subject; //제시어
+    private String roletype; //역할(LIAR or MEMBER)
+    private String keyword; //제시어
 }
 
 

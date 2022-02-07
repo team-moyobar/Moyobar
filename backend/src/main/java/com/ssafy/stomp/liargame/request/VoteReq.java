@@ -1,5 +1,7 @@
 package com.ssafy.stomp.liargame.request;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class GameStartMessage {
-    //private long roomId;
-    private String subject; //방장이 선택한 주제
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class VoteReq {
+    private String vote; // 플레이어가 누구를 투표했는지
 }
