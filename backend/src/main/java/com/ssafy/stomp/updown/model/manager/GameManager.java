@@ -1,155 +1,95 @@
 package com.ssafy.stomp.updown.model.manager;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ssafy.db.entity.User;
 import com.ssafy.stomp.updown.model.*;
 import com.ssafy.stomp.updown.request.CheckAnswerReq;
-import com.ssafy.stomp.updown.request.GameStartReq;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Getter
 @Setter
 @Slf4j
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class GameManager {
 
-    private Map<String, UserInfo> userInfo = new ConcurrentHashMap<>();
-
     private List<String> userOrder;
-    private int turnIndex;
-    private int turnCount;
 
-    private GameStatus gameStatus;
+    private int orderIndex;
+    private int currentTurnCount;
+    private int totalTurnCount;
 
-    private GameType gameType;
     private int answer;
 
     private int userInRoomCount;
-    private int userInReadyCount;
-
 
     public GameManager(List<User> users) {
 
-        userInReadyCount = 0;
         userInRoomCount = users.size();
-        gameStatus = GameStatus.WAIT;
+        orderIndex = 0;
 
-        turnIndex = 0;
+        currentTurnCount = 1;
+
+        userOrder = new ArrayList<>();
 
         for (User user : users) {
             addUser(user);
         }
     }
+    public void startGame() {
 
-    public boolean joinGame(User user) {
+        // 게임 순서 랜덤으로 정하기
+        Collections.shuffle(userOrder);
 
-        String nickname = user.getNickname();
+        // 턴 횟수: 사용자 수의 2배
+        totalTurnCount = userInRoomCount * 2;
 
-        if (!userInfo.containsKey(nickname)) {
-            addUser(user);
-            userInRoomCount++;
-        }
-
-        UserInfo info = userInfo.get(nickname);
-        info.setUserStatus(UserStatus.READY);
-        userInReadyCount++;
-
-        if (userInReadyCount == userInRoomCount) {
-            gameStatus = GameStatus.READY;
-            return true;
-        }
-        return false;
+        // 랜덤으로 숫자 지정
+        setRandomAnswer();
     }
 
-    public boolean waitGame(User user) {
+//    public boolean leaveGame(User user) {
+//        String nickname = user.getNickname();
+//
+//        userInRoomCount--;
+//        if (turnIndex == userOrder.indexOf(nickname)){
+//            turnIndex = turnIndex % userInRoomCount;
+//        }else{
+//
+//        }
+//        userOrder.remove(nickname);
+//
+//        return true;
+//    }
 
-        String nickname = user.getNickname();
-
-        UserInfo info = userInfo.get(nickname);
-        info.setUserStatus(UserStatus.WAIT);
-        userInReadyCount--;
-
-        return false;
-
-    }
-
-    public boolean leaveGame(User user) {
-        String nickname = user.getNickname();
-
-        UserInfo info = userInfo.get(nickname);
-
-        if (info.getUserStatus() != UserStatus.WAIT)
-            userInReadyCount--;
-
-        userInRoomCount--;
-        userInfo.remove(nickname);
-
-        if (userInReadyCount == userInRoomCount) {
-            gameStatus = GameStatus.READY;
-            return true;
-        } else
-            gameStatus = GameStatus.WAIT;
-        return false;
-    }
-
-    public void startGame(GameStartReq startInfo) {
-
-        gameStatus = GameStatus.PLAY;
-
-        gameType = startInfo.getGameType();
-
-        for (String nickname: userInfo.keySet()){
-            userInfo.get(nickname).setUserStatus(UserStatus.PLAY);
-        }
-
-        setUserOrder(userInfo.keySet().stream().sorted().collect(Collectors.toList()));
-
-        turnCount = userOrder.size() * 2;
-
-        if (gameType == GameType.RANDOM) {
-            setRandomAnswer();
-        } else {
-            answer = startInfo.getAnswer();
-        }
-    }
 
     private void setRandomAnswer() {
 
         Random random = new Random();
-        answer = random.nextInt(100) + 1;
+        answer = random.nextInt(1000) + 1;
     }
 
     private void addUser(User user) {
-
-        UserInfo info = new UserInfo();
-        info.setNickname(user.getNickname());
-        info.setUserStatus(UserStatus.WAIT);
-        userInfo.put(user.getNickname(), info);
-
+        userOrder.add(user.getNickname());
     }
 
     public GameResultType checkAnswer(CheckAnswerReq checkInfo) {
         if (answer == checkInfo.getNumber())
             return GameResultType.CORRECT;
 
-        turnIndex = (turnIndex + 1 ) % userOrder.size();
+        orderIndex = (orderIndex + 1 ) % userInRoomCount;
 
-        if (userOrder.size() == ++turnCount)
+        if (currentTurnCount == totalTurnCount)
             return GameResultType.TIMEOUT;
-        else if (answer > checkInfo.getNumber())
+
+        currentTurnCount++;
+        if (answer > checkInfo.getNumber())
             return GameResultType.UP;
         else
             return GameResultType.DOWN;
-    }
-
-    public List<UserInfo> getUserInfo(){
-        return new ArrayList<>(userInfo.values());
     }
 }
