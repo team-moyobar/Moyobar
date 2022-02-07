@@ -17,11 +17,14 @@ import java.util.*;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class GameManager {
 
+    private long gameId;
+
+    private GameStatusType gameStatus;
+
     private List<String> userOrder;
 
     private int orderIndex;
-    private int currentTurnCount;
-    private int totalTurnCount;
+    private int turnCount;
 
     private int answer;
 
@@ -30,9 +33,9 @@ public class GameManager {
     public GameManager(List<User> users) {
 
         userInRoomCount = users.size();
-        orderIndex = 0;
 
-        currentTurnCount = 1;
+        orderIndex = 0;
+        turnCount = 1;
 
         userOrder = new ArrayList<>();
 
@@ -42,11 +45,11 @@ public class GameManager {
     }
     public void startGame() {
 
+        // 게임 상태 START
+        gameStatus = GameStatusType.START;
+
         // 게임 순서 랜덤으로 정하기
         Collections.shuffle(userOrder);
-
-        // 턴 횟수: 사용자 수의 2배
-        totalTurnCount = userInRoomCount * 2;
 
         // 랜덤으로 숫자 지정
         setRandomAnswer();
@@ -55,26 +58,27 @@ public class GameManager {
     private void setRandomAnswer() {
 
         Random random = new Random();
-        answer = random.nextInt(1000) + 1;
+        answer = random.nextInt(100) + 1;
     }
 
     private void addUser(User user) {
         userOrder.add(user.getNickname());
     }
 
-    public GameResultType checkAnswer(CheckAnswerReq checkInfo) {
-        if (answer == checkInfo.getNumber())
-            return GameResultType.CORRECT;
+    public CheckResultType checkAnswer(int number) {
+        gameStatus = GameStatusType.PLAY;
 
-        orderIndex = (orderIndex + 1 ) % userInRoomCount;
+        if (answer == number){
+            gameStatus = GameStatusType.FINISH;
+            return CheckResultType.CORRECT;
+        }
 
-        if (currentTurnCount == totalTurnCount)
-            return GameResultType.TIMEOUT;
+        orderIndex = (orderIndex + 1) % userInRoomCount;
+        turnCount++;
 
-        currentTurnCount++;
-        if (answer > checkInfo.getNumber())
-            return GameResultType.UP;
+        if (answer > number)
+            return CheckResultType.UP;
         else
-            return GameResultType.DOWN;
+            return CheckResultType.DOWN;
     }
 }

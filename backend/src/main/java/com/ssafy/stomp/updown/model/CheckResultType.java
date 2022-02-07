@@ -1,9 +1,7 @@
 package com.ssafy.stomp.updown.model;
 
-public enum GameResultType {
+public enum CheckResultType {
     UP,
     DOWN,
     CORRECT,
-    START,
-    TIMEOUT
 }
