@@ -7,10 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
- *  라이어 게임 종료(투표 결과 응답) 시 보낼 메시지 형식 정의
+ * 플레이어들의 현 투표 현황
  */
 
 @Getter
@@ -18,8 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class GameEndRes {
-    private String liar; //라이어가 누구인지
-    private List<VotingStatusRes> voteresult; //투표 상황
-    private String winner; //이긴 사람 - player or liar
+public class VotingStatusRes {
+    private String nickname; //닉네임
+    private int votecnt; //득표 수
 }
