@@ -1,8 +1,6 @@
 package com.ssafy.stomp.updown.controller;
 
 import com.ssafy.api.service.HistoryService;
-import com.ssafy.api.service.RoomService;
-import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.User;
 import com.ssafy.stomp.entity.Message;
 import com.ssafy.stomp.updown.model.GameResultType;
@@ -37,49 +35,7 @@ public class UpDownController {
     @Autowired
     private SimpMessagingTemplate template;
     @Autowired
-    private RoomService roomService;
-    @Autowired
-    private UserService userService;
-    @Autowired
     private HistoryService historyService;
-
-
-//    /**
-//     * 방장에 의한 게임 READY 요청 시 처리하는 API
-//     *
-//     * @param roomId
-//     */
-//    @MessageMapping("/ud/ready/{roomId}")
-//    public void readyGame(@DestinationVariable long roomId) {
-//        log.info("{} 번 방 게임 준비", roomId);
-//
-//
-//        // 현재 방에 있는 사용자 정보를 불러와 새로운 게임 매니저 생성
-//        List<User> users = historyService.getUserInRoom(roomId);
-//        GameManager gameManager = new GameManager(users);
-//        ManagerHolder.gameManagers.put(roomId, gameManager);
-////
-//        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
-//    }
-
-//    /**
-//     * 참가자가 해당 게임을 나갈 경우 처리하는 API
-//     *
-//     * @param roomId
-//     * @param nickname
-//     */
-//    @MessageMapping("/ud/leave/{roomId}")
-//    public void leaveGame(@DestinationVariable long roomId, String nickname) {
-//        log.info("{} 님 {} 번 방 퇴장", nickname, roomId);
-//
-//        User user = userService.getUserByNickname(nickname);
-//
-//        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
-//
-//        gameManager.leaveGame(user);
-//
-//        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
-//    }
 
     @MessageMapping("/ud/chat/{roomId}")
     public void sendChat(@DestinationVariable long roomId, Message message) {
