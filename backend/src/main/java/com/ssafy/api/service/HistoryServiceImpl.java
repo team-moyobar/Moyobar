@@ -74,4 +74,10 @@ public class HistoryServiceImpl implements HistoryService{
         return historyRepository.findAllByRoomAndAction(room, ActionType.JOIN)
                 .stream().map(History::getUser).collect(Collectors.toList());
     }
+
+    @Override
+    public List<User> getUserInRoom(long roomId) {
+        return historyRepository.findAllByRoomIdAndAction(roomId, ActionType.JOIN)
+                .stream().map(History::getUser).collect(Collectors.toList());
+    }
 }

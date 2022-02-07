@@ -15,7 +15,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/from/"); //이 경로를 subscribe하는 클라이언트에게 메세지 전달
+        registry.enableSimpleBroker("/from"); //이 경로를 subscribe하는 클라이언트에게 메세지 전달
         registry.setApplicationDestinationPrefixes("/to"); //cilent에서 send요청 처리
     }
 
