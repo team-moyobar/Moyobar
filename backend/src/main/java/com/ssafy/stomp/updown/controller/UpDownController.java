@@ -3,15 +3,12 @@ package com.ssafy.stomp.updown.controller;
 import com.ssafy.api.service.HistoryService;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.api.service.UserService;
-import com.ssafy.db.entity.Room;
 import com.ssafy.db.entity.User;
 import com.ssafy.stomp.entity.Message;
 import com.ssafy.stomp.updown.model.GameResultType;
 import com.ssafy.stomp.updown.model.manager.GameManager;
 import com.ssafy.stomp.updown.request.CheckAnswerReq;
-import com.ssafy.stomp.updown.request.GameStartReq;
-import com.ssafy.stomp.updown.response.BaseGameStatusRes;
-import com.ssafy.stomp.updown.response.PlayGameStatusRes;
+import com.ssafy.stomp.updown.response.GameStatusRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,85 +44,42 @@ public class UpDownController {
     private HistoryService historyService;
 
 
-    /**
-     * 방장에 의한 게임 READY 요청 시 처리하는 API
-     *
-     * @param roomId
-     */
-    @MessageMapping("/ud/ready/{roomId}")
-    public void readyGame(@DestinationVariable long roomId) {
-        log.info("{} 번 방 게임 준비", roomId);
+//    /**
+//     * 방장에 의한 게임 READY 요청 시 처리하는 API
+//     *
+//     * @param roomId
+//     */
+//    @MessageMapping("/ud/ready/{roomId}")
+//    public void readyGame(@DestinationVariable long roomId) {
+//        log.info("{} 번 방 게임 준비", roomId);
+//
+//
+//        // 현재 방에 있는 사용자 정보를 불러와 새로운 게임 매니저 생성
+//        List<User> users = historyService.getUserInRoom(roomId);
+//        GameManager gameManager = new GameManager(users);
+//        ManagerHolder.gameManagers.put(roomId, gameManager);
+////
+//        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
+//    }
 
-
-        // 현재 방에 있는 사용자 정보를 불러와 새로운 게임 매니저 생성
-        List<User> users = historyService.getUserInRoom(roomId);
-        GameManager gameManager = new GameManager(users);
-        ManagerHolder.gameManagers.put(roomId, gameManager);
-
-        Room room = roomService.getRoomById(roomId);
-        User user = room.getOwner();
-
-        gameManager.joinGame(user);
-
-        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
-    }
-
-    /**
-     * 방에 있는 참가자가 게임에 준비되었는지를 처리하는 API
-     *
-     * @param roomId
-     * @param nickname
-     */
-    @MessageMapping("/ud/join/{roomId}")
-    public void joinGame(@DestinationVariable long roomId, String nickname) {
-        log.info("{} 님 {} 번 방 입장", nickname, roomId);
-
-        User user = userService.getUserByNickname(nickname);
-
-        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
-
-        gameManager.joinGame(user);
-
-        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
-    }
-
-    /**
-     * 방에 있는 참가자가 상태를 READY -> WAIT로 변경을 처리하는 API
-     *
-     * @param roomId
-     * @param nickname
-     */
-    @MessageMapping("/ud/wait/{roomId}")
-    public void waitGame(@DestinationVariable long roomId, String nickname) {
-        log.info("{} 님 {} 번 방 게임 준비 상태 대기로 변경", nickname, roomId);
-
-        User user = userService.getUserByNickname(nickname);
-
-        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
-
-        gameManager.waitGame(user);
-
-        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
-    }
-
-    /**
-     * 참가자가 해당 게임을 나갈 경우 처리하는 API
-     *
-     * @param roomId
-     * @param nickname
-     */
-    @MessageMapping("/ud/leave/{roomId}")
-    public void leaveGame(@DestinationVariable long roomId, String nickname) {
-        log.info("{} 님 {} 번 방 퇴장", nickname, roomId);
-
-        User user = userService.getUserByNickname(nickname);
-
-        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
-
-        gameManager.leaveGame(user);
-
-        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
-    }
+//    /**
+//     * 참가자가 해당 게임을 나갈 경우 처리하는 API
+//     *
+//     * @param roomId
+//     * @param nickname
+//     */
+//    @MessageMapping("/ud/leave/{roomId}")
+//    public void leaveGame(@DestinationVariable long roomId, String nickname) {
+//        log.info("{} 님 {} 번 방 퇴장", nickname, roomId);
+//
+//        User user = userService.getUserByNickname(nickname);
+//
+//        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
+//
+//        gameManager.leaveGame(user);
+//
+//        template.convertAndSend("/from/ud/status/" + roomId, BaseGameStatusRes.of(gameManager));
+//    }
 
     @MessageMapping("/ud/chat/{roomId}")
     public void sendChat(@DestinationVariable long roomId, Message message) {
@@ -138,19 +92,23 @@ public class UpDownController {
      * 모든 참가자 READY 시 방장에 의해 시작되는 게임 시작 API
      *
      * @param roomId
-     * @param startInfo
      */
     @MessageMapping("/ud/start/{roomId}")
-    public void startGame(@DestinationVariable long roomId, GameStartReq startInfo) {
+    public void startGame(@DestinationVariable long roomId) {
         log.info("{} 번 방 게임 시작", roomId);
 
-        GameManager gameManager = ManagerHolder.gameManagers.get(roomId);
+        // 현재 방에 있는 사용자 정보를 불러와 새로운 게임 매니저 생성
+        List<User> users = historyService.getUserInRoom(roomId);
+        GameManager gameManager = new GameManager(users);
+        ManagerHolder.gameManagers.put(roomId, gameManager);
 
-        gameManager.startGame(startInfo);
+        // TODO: Game 시작 시 DB에 데이터 집어넣고, 해당 game id 저장
 
-        log.info("{} 번 방 정답: ", gameManager.getAnswer());
+        gameManager.startGame();
 
-        template.convertAndSend("/from/ud/status/" + roomId, PlayGameStatusRes.of(gameManager, GameResultType.START));
+        log.info("{} 번 방 정답: {}", roomId, gameManager.getAnswer());
+
+        template.convertAndSend("/from/ud/status/" + roomId, GameStatusRes.of(gameManager, GameResultType.START, 0));
     }
 
     @MessageMapping("/ud/check/{roomId}")
@@ -161,29 +119,25 @@ public class UpDownController {
 
         GameResultType resultType = gameManager.checkAnswer(checkInfo);
 
+        int answer = checkInfo.getNumber();
         log.info("{} 님의 결과: {}", checkInfo.getNickname(), resultType);
 
-        if (resultType == GameResultType.CORRECT) {
-            // 맞았을 경우
-            finishGame(roomId);
-        } else {
-            // 틀렸을 경우
-            if (resultType == GameResultType.TIMEOUT) {
-                gameOver(roomId);
-            }
+
+        if (resultType == GameResultType.CORRECT || resultType == GameResultType.TIMEOUT) {
+            finishGame(roomId, resultType, checkInfo.getNickname());
+        }
+        if (resultType == GameResultType.TIMEOUT) {
+            answer = gameManager.getAnswer();
         }
 
-        // TODO: [2022-02-06] 게임 결과 Response 데이터 값 정리
-        template.convertAndSend("/from/ud/status/" + roomId, PlayGameStatusRes.of(gameManager, resultType, checkInfo.getNumber()));
+        template.convertAndSend("/from/ud/status/" + roomId, GameStatusRes.of(gameManager, resultType, answer));
 
     }
 
-    // TODO: [2022-02-06] 게임 데이터를 시작할 때 넣을 지, 끝나고  한 번에 넣을 지 결정 후 코드 작성
-    private void finishGame(long roomId) {
+    private void finishGame(long roomId, GameResultType resultType, String nickname) {
         log.info("{} 번 방 종료", roomId);
+
+        // TODO: Game 종료 후 DB 집어넣기
     }
 
-    private void gameOver(long roomId) {
-        log.info("{} 번 방 시간 초과로 게임 종료", roomId);
-    }
 }
