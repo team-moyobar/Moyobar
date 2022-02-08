@@ -140,14 +140,12 @@ export default function Profile() {
   const [status, setStatus] = useState<string>('profile');
 
   const [userFlag, setFlag] = useState<boolean>(true);
-  const myNickname = useSelector(
-    (state: RootState) => state.authReducer.nickname
-  );
+  const myNickname = getToken('nickname');
   const { userNickname } = useParams<ParamTypes>();  
 
   useEffect(() => {
     if (myNickname != userNickname) {
-      setFlag(true);
+      setFlag(false);
     }
     console.log(`현재 로그인한 닉네임 : ${myNickname}`)
     console.log(`프로필 보고싶은 사람 닉네임 : ${userNickname}`)
