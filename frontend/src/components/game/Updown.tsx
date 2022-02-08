@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
+import { Client } from "@stomp/stompjs";
 
-//let sockJS = new SockJS("http://localhost:8080/moyobar");
-let sockJS = new SockJS("http://i6d210.p.ssafy.io:8080/moyobar");
-let stompClient: Stomp.Client = Stomp.over(sockJS);
-
-stompClient.debug = () => {};
+// stomp client 변수
+var client: Client | null = null;
 
 interface message {
   username: string;
@@ -15,63 +11,90 @@ interface message {
   date: Date;
 }
 
-function Updown() {
+function StompUpdown() {
   const [nickname, setNickname] = useState("");
   const [roomId, setRoomId] = useState(13);
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState(Number);
   const [turnOwner, setTurnOwner] = useState("");
 
-  stompClient.connect({}, () => {
-    console.log("connected");
-    console.log(roomId);
-    receiveGameStatus();
-    receiveMessage();
-  });
+  useEffect(() => {
+    connect(); // Stomp 연결 설정
+    return () => clearObject();
+  }, []);
+
+  const clearObject = () => {
+    if (client != null) {
+      if (client.connected) client.deactivate();
+    }
+  };
+
+  const connect = () => {
+    client = new Client({
+      //brokerURL: "ws://localhost:8080/moyobar/websocket",
+      brokerURL: "ws://i6d210.p.ssafy.io:8080/moyobar/websocket",
+      reconnectDelay: 10000, // 재접속 시간 10초
+      // debug: function (str) {
+      //   console.log(str);
+      // },
+      onConnect: () => {
+        console.log("connected");
+        console.log(roomId);
+        receiveGameStatus();
+        receiveMessage();
+      },
+    });
+
+    client.activate();
+  };
 
   const receiveMessage = () => {
-    stompClient.subscribe("/from/ud/chat/" + roomId, (data) => {
-      addMessage(JSON.parse(data.body));
-      console.log(JSON.parse(data.body));
-    });
+    if (client != null) {
+      client.subscribe("/from/ud/chat/" + roomId, (data) => {
+        addMessage(JSON.parse(data.body));
+        console.log(JSON.parse(data.body));
+      });
+    }
   };
 
   const receiveGameStatus = () => {
-    stompClient.subscribe("/from/ud/status/" + roomId, (data) => {
-      let info = JSON.parse(data.body);
+    if (client != null) {
+      client.subscribe("/from/ud/status/" + roomId, (data) => {
+        let info = JSON.parse(data.body);
 
-      console.log(info);
+        console.log(info);
 
-      let game_status = info.game_status;
-      let user_order = info.user_order;
-      let next_user_index = info.next_user_index;
-      let result = info.result;
+        let game_status = info.game_status;
+        let user_order = info.user_order;
+        let next_user_index = info.next_user_index;
+        let result = info.result;
 
-      setTurnOwner(user_order[next_user_index]);
+        setTurnOwner(user_order[next_user_index]);
 
-      console.log(game_status);
+        console.log(game_status);
 
-      if (game_status === "START") {
-        console.log("다음 순서는 " + user_order[next_user_index]);
-      } else if (game_status === "PLAY") {
-        console.log(
-          "지난 순서 " +
+        if (game_status === "START") {
+          console.log("다음 순서는 " + user_order[next_user_index]);
+        } else if (game_status === "PLAY") {
+          console.log(
+            "지난 순서 " +
+              result.user_name +
+              "님 의 입력 " +
+              result.user_answer +
+              "의 결과는: " +
+              result.result_type
+          );
+          console.log("다음 순서는 " + user_order[next_user_index]);
+        } else if (game_status === "FINISH") {
+          console.log(
             result.user_name +
-            "님 의 입력 " +
-            result.user_answer +
-            "의 결과는: " +
-            result.result_type
-        );
-        console.log("다음 순서는 " + user_order[next_user_index]);
-      } else if (game_status === "FINISH") {
-        console.log(
-          result.user_name +
-            "님이 " +
-            result.result_type +
-            "를 입력해 맞았습니다!"
-        );
-      }
-    });
+              "님이 " +
+              result.result_type +
+              "를 입력해 맞았습니다!"
+          );
+        }
+      });
+    }
   };
 
   const chatSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -81,13 +104,26 @@ function Updown() {
       content: message,
       date: new Date(),
     };
-    stompClient.send("/to/ud/chat/" + roomId, {}, JSON.stringify(data));
-    setMessage("");
+    if (client != null) {
+      client.publish({
+        destination: "/to/ud/chat/" + roomId,
+        body: JSON.stringify({
+          data,
+        }),
+      });
+      setMessage("");
+    }
   };
 
   const startBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    stompClient.send("/to/ud/start/" + roomId, {});
+    if (client != null) {
+      let str: string = "";
+      client.publish({
+        destination: "/to/ud/start/" + roomId,
+        body: str,
+      });
+    }
   };
 
   const answerBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -96,7 +132,13 @@ function Updown() {
       nickname: nickname,
       number: answer,
     };
-    stompClient.send("/to/ud/check/" + roomId, {}, JSON.stringify(data));
+
+    if (client != null) {
+      client.publish({
+        destination: "/to/ud/check/" + roomId,
+        body: JSON.stringify(data),
+      });
+    }
   };
 
   const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,16 +208,6 @@ function Updown() {
           ) : null}
         </tbody>
       </table>
-
-      <div id="chat">
-        <h3>채팅 목록</h3>
-        <ChattingBox id="chatting_box"></ChattingBox>
-      </div>
-      <div>
-        채팅:
-        <input type="number" value={message} onChange={onMessageChange} />
-        <button onClick={chatSubmitBtn}>send</button>
-      </div>
     </div>
   );
 }
@@ -186,4 +218,4 @@ const TableButton = styled.button`
 const ChattingBox = styled.div`
   height: 300px;
 `;
-export default Updown;
+export default StompUpdown;

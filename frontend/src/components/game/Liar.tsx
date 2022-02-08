@@ -152,6 +152,7 @@ const StompLiar = () => {
     client = new Client({
       //brokerURL: "ws://localhost:8080/moyobar/websocket",
       brokerURL: "ws://i6d210.p.ssafy.io:8080/moyobar/websocket",
+      reconnectDelay: 10000, // 재접속 시간 10초
       // debug: function (str) {
       //   console.log(str);
       // },
