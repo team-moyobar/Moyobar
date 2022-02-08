@@ -18,7 +18,7 @@ function App() {
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/lobby" component={Lobby} />
-        <Route path="/profile/:userId" component={Profile} />
+        <Route path="/profile/:userNickname" component={Profile} />
         <Route path="/room/:roomId" component={Room} />
       </Router>
     </Provider>
