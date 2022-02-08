@@ -50,26 +50,39 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game updateGame(long gameId, List<String> winners) {
+    public Game updateGame(long gameId, String winner) {
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
 
-        for (String nickname : winners){
-            User user = userService.getUserByNickname(nickname);
-
-            GameWinner winner = new GameWinner();
-            winner.setGame(game);
-            winner.setWinner(user);
-
-            winnerRepository.save(winner);
-        }
-
+        createGameWinner(game, winner);
         game.setEnd(LocalDateTime.now());
 
         return gameRepository.save(game);
     }
 
     @Override
-    public List<User> getWinners(long gameId){
+    public Game updateGame(long gameId, List<String> winners) {
+        Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
+
+        for (String nickname : winners) {
+            createGameWinner(game, nickname);
+        }
+        game.setEnd(LocalDateTime.now());
+
+        return gameRepository.save(game);
+    }
+
+    private void createGameWinner(Game game, String nickname) {
+        User user = userService.getUserByNickname(nickname);
+
+        GameWinner winner = new GameWinner();
+        winner.setGame(game);
+        winner.setWinner(user);
+
+        winnerRepository.save(winner);
+    }
+
+    @Override
+    public List<User> getWinners(long gameId) {
         return winnerRepository.findUserById(gameId);
     }
 }
