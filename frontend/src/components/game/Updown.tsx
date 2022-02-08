@@ -15,7 +15,7 @@ interface message {
   date: Date;
 }
 
-function App() {
+function Updown() {
   const [nickname, setNickname] = useState("");
   const [roomId, setRoomId] = useState(13);
   const [message, setMessage] = useState("");
@@ -186,4 +186,4 @@ const TableButton = styled.button`
 const ChattingBox = styled.div`
   height: 300px;
 `;
-export default App;
+export default Updown;
