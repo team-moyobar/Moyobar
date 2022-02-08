@@ -1,8 +1,8 @@
 package com.ssafy.stomp.updown.controller;
 
 import com.ssafy.api.service.HistoryService;
-import com.ssafy.db.entity.Game;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.game.Game;
+import com.ssafy.db.entity.user.User;
 import com.ssafy.stomp.entity.Message;
 import com.ssafy.stomp.service.GameService;
 import com.ssafy.stomp.updown.model.CheckResultType;
@@ -91,9 +91,8 @@ public class UpDownController {
 
         if (gameManager.getGameStatus() == GameStatusType.FINISH) {
             log.info("{} 번 방 종료", roomId);
-            gameService.updateGame(gameManager.getGameId(), username);
 
-            //
+            gameService.updateGame(gameManager.getGameId(), username);
         }
 
         template.convertAndSend("/from/ud/status/" + roomId, GameInfoRes.of(gameManager, CheckResultRes.of(username, number, resultType)));
