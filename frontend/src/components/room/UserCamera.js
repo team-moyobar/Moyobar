@@ -6,19 +6,21 @@ import UserVideoComponent from './UserVideoComponent';
 import Button from '@mui/material/Button';
 import Messages from './Messages';
 import GameSelect from './GameSelect';
+import { Link } from "react-router-dom";
+
+import { getToken } from "../../routes/auth/Login";
 
 
 const OPENVIDU_SERVER_URL = 'https://i6d210.p.ssafy.io:4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
-
 
 class UserCamera extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
+            mySessionId: props.roomId,
+            myUserName: getToken('nickname'),
             session: undefined,
             mainStreamManager: undefined,
             publisher: undefined,
@@ -268,6 +270,7 @@ class UserCamera extends Component {
             mainStreamManager: undefined,
             publisher: undefined
         });
+        this.props.history.push('/lobby');
     }
 
     componentDidMount() {
@@ -291,6 +294,8 @@ class UserCamera extends Component {
         const myUserName = this.state.myUserName;
 
         const messages = this.state.messages;
+
+        const { history } = this.props;
     
         let query;
         
