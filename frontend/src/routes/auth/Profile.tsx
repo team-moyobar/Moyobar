@@ -53,12 +53,12 @@ function ProfileUpdateButton(props: UserProps) {
 
   if (userFlag) {
     return (
-      <span>
+      <a href="javascript:void(0);">
         <span className="profile-menu-title">
           <BuildOutline />
         </span>
         <span className="profile-menu-title">회원 정보 수정</span>
-      </span>
+      </a>
     );
   } else {
     return null;
@@ -139,14 +139,14 @@ function ProfileContent(props: StatusProps) {
 export default function Profile() {
   const [status, setStatus] = useState<string>('profile');
 
-  const [userFlag, setFlag] = useState<boolean>(false);
+  const [userFlag, setFlag] = useState<boolean>(true);
   const myNickname = useSelector(
     (state: RootState) => state.authReducer.nickname
   );
   const { userNickname } = useParams<ParamTypes>();  
 
   useEffect(() => {
-    if (myNickname === userNickname) {
+    if (myNickname != userNickname) {
       setFlag(true);
     }
     console.log(`현재 로그인한 닉네임 : ${myNickname}`)
@@ -183,10 +183,8 @@ export default function Profile() {
               <span className="profile-menu-title">회원 프로필</span>
             </a>
           </li>
-          <li>
-            <a href="javascript:void(0);" onClick={setStatusUpdate}>
-              <ProfileUpdateButton userFlag={userFlag} />
-            </a>
+          <li onClick={setStatusUpdate} >
+            <ProfileUpdateButton userFlag={userFlag} />
           </li>
           <li>
             <a href="javascript:void(0);">
