@@ -1,6 +1,6 @@
-package com.ssafy.db.repository;
+package com.ssafy.db.repository.game;
 
-import com.ssafy.db.entity.GameInRoom;
+import com.ssafy.db.entity.game.GameInRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -19,7 +19,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.common.util.ResponseBodyWriteUtil;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 
 /**
  * 요청 헤더에 jwt 토큰이 있는 경우, 토큰 검증 및 인증 처리 로직 정의.

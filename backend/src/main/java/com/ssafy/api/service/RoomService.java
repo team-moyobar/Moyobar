@@ -2,14 +2,13 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.RoomRegisterPostReq;
 import com.ssafy.api.request.RoomUpdatePutReq;
-import com.ssafy.db.entity.ActionType;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.room.ActionType;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RoomService {
     Room createRoom(RoomRegisterPostReq roomRegisterInfo, User owner);

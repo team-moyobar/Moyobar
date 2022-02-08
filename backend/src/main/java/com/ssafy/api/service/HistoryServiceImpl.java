@@ -1,20 +1,16 @@
 package com.ssafy.api.service;
 
-import com.ssafy.common.exception.BusinessException;
 import com.ssafy.common.exception.RoomNotFoundException;
-import com.ssafy.db.entity.ActionType;
-import com.ssafy.db.entity.History;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.HistoryRepository;
+import com.ssafy.db.entity.room.ActionType;
+import com.ssafy.db.entity.room.History;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.user.User;
+import com.ssafy.db.repository.room.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("historyService")

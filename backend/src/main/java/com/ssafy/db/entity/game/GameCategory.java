@@ -1,5 +1,6 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.game;
 
+import com.ssafy.db.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
