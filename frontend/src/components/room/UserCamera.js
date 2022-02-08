@@ -3,8 +3,9 @@ import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
 import './UserCamera.css';
 import UserVideoComponent from './UserVideoComponent';
-
+import Button from '@mui/material/Button';
 import Messages from './Messages';
+import GameSelect from './GameSelect';
 
 
 const OPENVIDU_SERVER_URL = 'https://i6d210.p.ssafy.io:4443';
@@ -23,6 +24,7 @@ class UserCamera extends Component {
             publisher: undefined,
             subscribers: [],
             messages: [],
+            isGameSelectButtonClicked: false,
         };
 
         this.joinSession = this.joinSession.bind(this);
@@ -272,32 +274,44 @@ class UserCamera extends Component {
         this.joinSession();
     }
 
+    handleGameSelectButton(){ 
+        if (this.state.isGameSelectButtonClicked == false){
+            this.setState({
+                isGameSelectButtonClicked : true
+            }) 
+        } else {
+            this.setState({
+                isGameSelectButtonClicked : false
+            }) 
+        }
+    }
+
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
 
         const messages = this.state.messages;
     
-    let query;
-    
-    switch(this.state.subscribers.length){
-        case 0 : query = 1
-            break;
-        case 1 : query = 2
-            break;
-        case 2 : query = 3
-            break;
-        case 3 : query = 3
-            break;
-        case 4 : query = 4
-            break;
-        case 5 : query = 4
-            break;
-        case 6 : query = 5
-            break;
-        case 7 : query = 5
-            break;
-    }
+        let query;
+        
+        switch(this.state.subscribers.length){
+            case 0 : query = 1
+                break;
+            case 1 : query = 2
+                break;
+            case 2 : query = 3
+                break;
+            case 3 : query = 3
+                break;
+            case 4 : query = 4
+                break;
+            case 5 : query = 4
+                break;
+            case 6 : query = 5
+                break;
+            case 7 : query = 5
+                break;
+        }
 
     console.log(query)
         return (
@@ -371,42 +385,48 @@ class UserCamera extends Component {
                                     onClick={this.leaveSession}
                                     value="방 나가기"
                                 />
-                        </div>
-                        <div className="chatbox">
-                            {this.state.chaton ? (
-                                <div className="chat chatbox__support chatbox--active">
-                                <div className="chat chatbox__header" />
-                                <div className="chatbox__messages" ref="chatoutput">
-                                    {/* {this.displayElements} */}
-                                    <Messages messages={messages} />
-                                    <div />
-                                </div>
-                                <div className="chat chatbox__footer">
-                                    <input
-                                    id="chat_message"
-                                    type="text"
-                                    placeholder="Write a message..."
-                                    onChange={this.handleChatMessageChange}
-                                    onKeyPress={this.sendmessageByEnter}
-                                    value={this.state.message}
-                                    />
-                                    <p
-                                    className="chat chatbox__send--footer"
-                                    onClick={this.sendmessageByClick}
-                                    >
-                                    Send
-                                    </p>
-                                </div>
-                                </div>
-                            ) : null}
-                            <div className="chatbox__button" ref={this.chatButton}>
-                                <button onClick={this.chattoggle}>
-                                    메세지
-                                </button>
-                            </div>
+                                <Button color='secondary' variant="outlined" onClick={() => this.handleGameSelectButton()}>게임 선택</Button>
                         </div>
                     </div>
                 ) : null}
+                    <div className='gamebox'>
+                        {this.state.isGameSelectButtonClicked != false ? (
+                            <GameSelect></GameSelect>
+                        ) : null}
+                    </div>
+                    <div className="chatbox">
+                        {this.state.chaton ? (
+                            <div className="chat chatbox__support chatbox--active">
+                            <div className="chat chatbox__header" />
+                            <div className="chatbox__messages" ref="chatoutput">
+                                {/* {this.displayElements} */}
+                                <Messages messages={messages} />
+                                <div />
+                            </div>
+                            <div className="chat chatbox__footer">
+                                <input
+                                id="chat_message"
+                                type="text"
+                                placeholder="메시지를 입력하세요"
+                                onChange={this.handleChatMessageChange}
+                                onKeyPress={this.sendmessageByEnter}
+                                value={this.state.message}
+                                />
+                                <p
+                                className="chat chatbox__send--footer"
+                                onClick={this.sendmessageByClick}
+                                >
+                                보내기
+                                </p>
+                            </div>
+                            </div>
+                        ) : null}
+                        <div className="chatbox__button" ref={this.chatButton}>
+                            <button onClick={this.chattoggle}>
+                                메세지
+                            </button>
+                        </div>
+                    </div> 
             </div>
         );
     }
