@@ -1,20 +1,14 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserChangePwdPutReq;
-import com.ssafy.common.exception.ErrorCode;
-import com.ssafy.common.exception.InvalidValueException;
 import com.ssafy.api.request.UserUpdatePutReq;
-import com.ssafy.common.exception.RoomNotFoundException;
 import com.ssafy.common.exception.UserNotFoundException;
-import com.ssafy.db.entity.Drink;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.repository.DrinkRepository;
+import com.ssafy.db.entity.user.Drink;
+import com.ssafy.db.repository.user.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,15 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepository;
-import com.ssafy.db.repository.UserRepositorySupport;
+import com.ssafy.db.entity.user.User;
+import com.ssafy.db.repository.user.UserRepository;
+import com.ssafy.db.repository.user.UserRepositorySupport;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.

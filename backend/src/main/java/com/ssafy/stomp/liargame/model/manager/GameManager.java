@@ -1,7 +1,7 @@
 package com.ssafy.stomp.liargame.model.manager;
 
 import com.ssafy.api.service.RoomService;
-import com.ssafy.db.entity.ActionType;
+import com.ssafy.db.entity.room.ActionType;
 import com.ssafy.stomp.liargame.model.Player;
 
 import com.ssafy.stomp.liargame.response.GameEndRes;
@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 
 import java.util.*;
 

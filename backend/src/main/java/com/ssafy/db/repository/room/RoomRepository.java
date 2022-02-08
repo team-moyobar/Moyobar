@@ -1,7 +1,7 @@
-package com.ssafy.db.repository;
+package com.ssafy.db.repository.room;
 
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

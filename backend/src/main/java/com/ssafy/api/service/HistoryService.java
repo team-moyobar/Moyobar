@@ -1,8 +1,8 @@
 package com.ssafy.api.service;
 
-import com.ssafy.db.entity.History;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.room.History;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.user.User;
 
 import java.util.List;
 

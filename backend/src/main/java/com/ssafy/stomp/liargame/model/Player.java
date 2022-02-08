@@ -3,7 +3,7 @@ package com.ssafy.stomp.liargame.model;
 import com.ssafy.stomp.liargame.model.role.Role;
 import lombok.Getter;
 import lombok.Setter;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 
 /**
  * 게임 참가자에 대한 정보 정의

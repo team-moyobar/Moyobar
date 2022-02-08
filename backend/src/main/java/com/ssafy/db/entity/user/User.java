@@ -1,9 +1,11 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.ssafy.db.entity.BaseEntity;
+import com.ssafy.db.entity.room.History;
 import lombok.Getter;
 import lombok.Setter;
 import com.ssafy.security.oauth2.entity.ProviderType;
@@ -19,7 +21,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Column(name = "user_id")
     private String userId;
