@@ -1,7 +1,7 @@
 package com.ssafy.security.oauth2.service;
 
-import com.ssafy.db.repository.UserRepository;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.user.UserRepository;
+import com.ssafy.db.entity.user.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,6 @@
 package com.ssafy.stomp.liargame.model;
 
-import com.ssafy.db.entity.User;
-import com.ssafy.stomp.liargame.model.Player;
+import com.ssafy.db.entity.user.User;
 import com.ssafy.stomp.liargame.model.role.Role;
 import lombok.extern.slf4j.Slf4j;
 

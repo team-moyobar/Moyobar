@@ -1,4 +1,4 @@
-package com.ssafy.db.repository;
+package com.ssafy.db.repository.room;
 
 import org.springframework.stereotype.Repository;
 

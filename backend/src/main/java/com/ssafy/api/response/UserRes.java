@@ -1,12 +1,10 @@
 package com.ssafy.api.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.entity.Drink;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.Drink;
+import com.ssafy.db.entity.user.User;
 
 import com.ssafy.security.oauth2.entity.ProviderType;
 import io.swagger.annotations.ApiModel;

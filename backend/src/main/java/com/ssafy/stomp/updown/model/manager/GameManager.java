@@ -2,9 +2,8 @@ package com.ssafy.stomp.updown.model.manager;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 import com.ssafy.stomp.updown.model.*;
-import com.ssafy.stomp.updown.request.CheckAnswerReq;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

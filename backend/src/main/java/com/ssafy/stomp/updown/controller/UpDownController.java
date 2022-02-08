@@ -1,8 +1,10 @@
 package com.ssafy.stomp.updown.controller;
 
 import com.ssafy.api.service.HistoryService;
+import com.ssafy.db.entity.Game;
 import com.ssafy.db.entity.User;
 import com.ssafy.stomp.entity.Message;
+import com.ssafy.stomp.service.GameService;
 import com.ssafy.stomp.updown.model.CheckResultType;
 import com.ssafy.stomp.updown.model.GameStatusType;
 import com.ssafy.stomp.updown.model.manager.GameManager;
@@ -29,6 +31,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class UpDownController {
 
+    private static final String GAME_NAME = "업다운";
+
     // 모든 게임을 관리할 수 있는 싱글톤 클래스
     private static final class ManagerHolder {
         private static final Map<Long, GameManager> gameManagers = new ConcurrentHashMap<>();
@@ -38,6 +42,8 @@ public class UpDownController {
     private SimpMessagingTemplate template;
     @Autowired
     private HistoryService historyService;
+    @Autowired
+    private GameService gameService;
 
     @MessageMapping("/ud/chat/{roomId}")
     public void sendChat(@DestinationVariable long roomId, Message message) {
@@ -60,8 +66,8 @@ public class UpDownController {
         GameManager gameManager = new GameManager(users);
         ManagerHolder.gameManagers.put(roomId, gameManager);
 
-        // TODO: Game 시작 시 DB에 데이터 집어넣고, 해당 game id 저장
-//        gameManager.setGameId(gameId);
+        Game game = gameService.createGame(GAME_NAME);
+        gameManager.setGameId(game.getId());
 
         gameManager.startGame();
 
@@ -84,16 +90,13 @@ public class UpDownController {
         log.info("{} 님의 결과: {}", username, resultType);
 
         if (gameManager.getGameStatus() == GameStatusType.FINISH) {
-            finishGame(roomId, username);
+            log.info("{} 번 방 종료", roomId);
+            gameService.updateGame(gameManager.getGameId(), username);
+
+            //
         }
 
         template.convertAndSend("/from/ud/status/" + roomId, GameInfoRes.of(gameManager, CheckResultRes.of(username, number, resultType)));
 
-    }
-
-    private void finishGame(long roomId, String nickname) {
-        log.info("{} 번 방 종료", roomId);
-
-        // TODO: Game 종료 후 DB 집어넣기
     }
 }
