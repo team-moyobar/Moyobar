@@ -1,0 +1,80 @@
+.lobby-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(/public/images/bg3.jpg);
+  display: flex;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  background-size: cover;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lobby-main {
+  width: 100%;
+  height: 92%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.lobby-header {
+  height: 8%;
+  width: 100%;
+  min-height: 48px;
+  background-color: burlywood;
+}
+
+.lobby-left {
+  position: relative;
+  width: 20%;
+  margin: 3rem 0 3rem 3rem;
+  align-self: stretch;
+  min-width: 200px;
+  min-height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 10px;
+  background: rgba(24, 24, 24, 0.5);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border-radius: 8px 0px 0px 8px;
+  backdrop-filter: blur(15px);
+  text-align: center;
+}
+
+.lobby-left h3 {
+  color: white;
+  margin-bottom: 20px;
+}
+.lobby-right {
+  width: 80%;
+  align-self: stretch;
+  margin: 3rem 3rem 3rem 0rem;
+  min-width: 200px;
+  min-height: 500px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 8px 8px 0px;
+  backdrop-filter: blur(15px);
+  text-align: center;
+}
+
+.lobby-left::-webkit-scrollbar {
+  width: 0px;
+}
+
+.lobby-button {
+  width: 100%;
+  display: flex;
+  height: 10%;
+  align-items: center;
+  justify-content: center;
+}
+
+.lobby-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10%;
+}
