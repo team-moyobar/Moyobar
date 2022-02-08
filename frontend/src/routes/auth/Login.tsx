@@ -8,6 +8,12 @@ import { loginCheck } from "../../redux/auth/action";
 
 const cookies = new Cookies();
 
+const setNickname = (nickname: string) => {
+  cookies.set("nickname", nickname, {
+    path: "/",
+  });
+};
+
 const setToken = (token: string) => {
   cookies.set("jwtToken", token, {
     path: "/",
@@ -47,6 +53,7 @@ export default function Login() {
       })
       .then((res) => {
         setToken(res.data.accessToken);
+        setNickname(res.data.nickname);
         dispatch(loginCheck(res.data.nickname));
         history.push("/lobby");
       })
