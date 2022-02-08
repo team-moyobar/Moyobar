@@ -1,5 +1,7 @@
 package com.ssafy.stomp.service;
 import com.ssafy.db.entity.game.Game;
+import com.ssafy.db.entity.game.GameInRoom;
+import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.user.User;
 
 import java.util.List;
@@ -9,4 +11,5 @@ public interface GameService {
     Game updateGame(long gameId, String winner);
     Game updateGame(long gameId, List<String> winners);
     List<User> getWinners(long gameId);
+    void createGameInRoom(Room room, Game game);
 }

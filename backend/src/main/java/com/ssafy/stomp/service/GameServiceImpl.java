@@ -2,12 +2,17 @@ package com.ssafy.stomp.service;
 
 
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.exception.RoomNotFoundException;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.db.entity.game.GameCategory;
+import com.ssafy.db.entity.game.GameInRoom;
 import com.ssafy.db.entity.game.GameWinner;
+import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.game.GameCategoryRepository;
+import com.ssafy.db.repository.game.GameInRoomRepository;
 import com.ssafy.db.repository.game.GameWinnerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ssafy.db.repository.game.GameRepository;
@@ -16,18 +21,19 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service("gameService")
 public class GameServiceImpl implements GameService {
-
     @Autowired
     GameRepository gameRepository;
+    @Autowired
+    GameInRoomRepository gameInRoomRepository;
     @Autowired
     GameCategoryRepository categoryRepository;
     @Autowired
     GameWinnerRepository winnerRepository;
     @Autowired
     UserService userService;
-
 
     @Override
     public Game createGame(String gameName) {
@@ -63,9 +69,13 @@ public class GameServiceImpl implements GameService {
     public Game updateGame(long gameId, List<String> winners) {
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
 
-        for (String nickname : winners) {
-            createGameWinner(game, nickname);
+        //게임 끝나지도 않았는데 게임 시작 버튼 또 눌렀을 시에는 winner정보는 저장되지 않음
+        if(winners!=null) {
+            for (String nickname : winners) {
+                createGameWinner(game, nickname);
+            }
         }
+        
         game.setEnd(LocalDateTime.now());
 
         return gameRepository.save(game);
@@ -84,5 +94,15 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<User> getWinners(long gameId) {
         return winnerRepository.findUserById(gameId);
+    }
+
+    @Override
+    public void createGameInRoom(Room room, Game game) {
+        log.info("gameName : {}", game.getCategory().getName());
+
+        GameInRoom gameInRoom  = new GameInRoom();
+        gameInRoom.setRoom(room);
+        gameInRoom.setGame(game);
+        gameInRoomRepository.save(gameInRoom);
     }
 }

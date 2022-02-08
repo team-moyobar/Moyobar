@@ -1,3 +1,4 @@
+
 package com.ssafy.stomp.liargame.model.manager;
 
 import com.ssafy.api.service.RoomService;
@@ -28,15 +29,22 @@ public class GameManager {
     private RoomService roomService; //DB로부터 해당 방에 참가 중인 참가자 정보 얻어오기 위함
     private GamePlayer gamePlayers; //해당 방의 플레이어 정보
     private Map<String, Integer> votePlayers; //투표 정보
+    private List<String> gameWinners; //승자 닉네임
 
     private Long roomId; //현재 방 번호
     private boolean isGameStarted; //게임 시작 여부
+    private Long gameId;
+
+    public boolean getGameStatus(){
+        return this.isGameStarted;
+    }
 
     //방 별로 라이어 게임 시작 후, 필요한 정보를 저장한다 : 유저별로 역할 분담 & 제시어 주기
     public GameManager (Long roomId, RoomService roomService, String theme) {
         this.roomId = roomId;
         this.roomService = roomService;
         this.isGameStarted= true;
+        gameWinners = new ArrayList<>(); //초기화
 
         //해당 방에 있는 참가자 정보 모두 가져오기
         List<User> users = roomService.findUserListByRoomId(roomId, ActionType.JOIN);
@@ -82,9 +90,16 @@ public class GameManager {
         log.info("투표 현황: {}", this.votePlayers.toString());
     }
 
-    // 투표 정보에 따라 게임 결과를 응답
+    public void gameEnd(){
+        if(this.isGameStarted){ //게임 종료
+            this.isGameStarted = false;
+        }
+    }
+
+    // 투표 정보에 따라 게임 결과를 응답 & 이긴 사람 저장
     public GameEndRes getVoteResult(){
         String liar = this.gamePlayers.getLiar().getUser().getNickname(); //라이어
+        List<Player> members = this.gamePlayers.getMembers();
         int mostVotePlayerCnt = 0; //가장 많은 득표 받은 사람의 득표 수 저장
         int mostVoteCnt=0; //최다득표수 동점인 사람 몇 명인지 카운팅
 
@@ -120,11 +135,21 @@ public class GameManager {
 
         // 가장 많은 득표 수 받은 사람 == liar 한 명일 경우
         if(mostVoteCnt==1 && this.votePlayers.get(liar)==mostVotePlayerCnt) {
+            for(Player p: members){
+                gameWinners.add(p.getUser().getNickname());
+            }
+
             return new GameEndRes(liar, votingList, "player");
         }
         else { //동점자 발생 및 다른 사람이 득표 많이 받은 경우
+            gameWinners.add(liar);
+
             return new GameEndRes(liar, votingList, "liar");
         }
+    }
+
+    public List<String> getWinners(){
+        return this.gameWinners;
     }
 
     @Override
