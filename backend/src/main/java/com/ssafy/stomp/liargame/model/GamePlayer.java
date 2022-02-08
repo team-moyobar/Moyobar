@@ -44,6 +44,20 @@ public class GamePlayer {
         return null;
     }
 
+    // 일반 플레이어 누구?
+    public List<Player> getMembers(){
+        List<Player> members = new ArrayList<>();
+
+        for (int i = 0; i < countOfPlayers(); i++) { // role 분배
+            if(this.players.get(i).getRole().isLiar()) {
+                continue;
+            }
+            members.add(this.players.get(i));
+        }
+
+        return members;
+    }
+
     // 랜덤 역할 분배
     public void setRole(List<Role> roles) {
         for (int i = 0; i < countOfPlayers(); i++) { // role 분배

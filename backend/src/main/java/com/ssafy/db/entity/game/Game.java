@@ -20,7 +20,7 @@ public class Game extends BaseEntity {
     @UpdateTimestamp
     private LocalDateTime end;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private GameCategory category;
 }
