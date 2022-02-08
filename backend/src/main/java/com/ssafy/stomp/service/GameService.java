@@ -4,6 +4,6 @@ import com.ssafy.db.entity.GameCategory;
 import com.ssafy.db.entity.User;
 
 public interface GameService {
-    Game createGame(GameCategory category);
+    Game createGame(String gameName);
     Game updateGame(long gameId, User winner);
 }
