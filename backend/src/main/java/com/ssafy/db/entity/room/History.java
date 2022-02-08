@@ -1,11 +1,10 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.room;
 
+import com.ssafy.db.entity.BaseEntity;
+import com.ssafy.db.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

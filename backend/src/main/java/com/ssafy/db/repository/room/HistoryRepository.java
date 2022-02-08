@@ -1,9 +1,9 @@
-package com.ssafy.db.repository;
+package com.ssafy.db.repository.room;
 
-import com.ssafy.db.entity.ActionType;
-import com.ssafy.db.entity.History;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.room.ActionType;
+import com.ssafy.db.entity.room.History;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,5 +1,7 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.game;
 
+import com.ssafy.db.entity.BaseEntity;
+import com.ssafy.db.entity.room.Room;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "meeting_has_game")
-public class GameInRoom extends BaseEntity{
+public class GameInRoom extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "meeting_id")
