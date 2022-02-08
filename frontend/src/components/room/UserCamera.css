@@ -48,6 +48,14 @@
 	align-items: center;
 }
 
+.gamebox {
+	width: 15%;
+	height: 80%;
+	background-color: rgba(255, 255, 255, 0.7);
+	border-radius: 10px;
+	margin: 2%;
+}
+
 .stream-container1 {
 	height: 80%;
 	width: 80%;
