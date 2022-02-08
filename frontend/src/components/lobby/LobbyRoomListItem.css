@@ -1,15 +1,30 @@
 .lobby-room-list-item-info {
+  background-image: linear-gradient(
+      120deg,
+      rgb(0, 0, 0) 65%,
+      rgba(0, 0, 0, 0) 35%
+    ),
+    url(/public/images/bg4.jpg);
+  background-size: cover;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: start;
   justify-content: start;
-  background: black;
   background-size: cover;
   height: 100%;
   width: 100%;
   color: white;
   background-position: center;
   padding: 20px;
+  border-radius: 10px;
+  transition: 0.5s;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.lobby-room-list-item-info:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
 }
 
 .lobby-room-list-item-info p span {
@@ -17,8 +32,29 @@
 }
 
 .lobby-room-list-item-info Button {
-  align-self: flex-end;
   height: 50%;
   width: 20%;
   border-radius: 0;
+}
+
+.room-thumbnail {
+  height: 100%;
+  width: 25%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.room-thumbnail img {
+  height: 100%;
+}
+
+.room-content {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  padding: 10px;
+}
+
+.room-content h4 {
+  margin: 0;
 }
