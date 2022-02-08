@@ -1,0 +1,24 @@
+.lobby-room-list-item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  background: black;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  color: white;
+  background-position: center;
+  padding: 20px;
+}
+
+.lobby-room-list-item-info p span {
+  margin-right: 5px;
+}
+
+.lobby-room-list-item-info Button {
+  align-self: flex-end;
+  height: 50%;
+  width: 20%;
+  border-radius: 0;
+}
