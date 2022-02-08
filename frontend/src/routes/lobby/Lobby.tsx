@@ -124,7 +124,9 @@ export default function Lobby() {
               <LobbyRoomSearchBar onSubmit={handleLoad} />
               <LobbyRoomOrder onClick={handleLoad} />
             </div>
-            <LobbyRoomList items={items} />
+            <div className="lobby-room-list">
+              <LobbyRoomList items={items} />
+            </div>
             <div className="lobby-pagination">
               <LobbyPagination
                 totalPages={totalPages}

@@ -34,19 +34,27 @@ export default function LobbyRoomListItem({ item }: any) {
 
   return (
     <div
-      style={{
-        backgroundImage: `url(/assets/images/theme${item.theme}.png)`,
-      }}
+      // style={{
+      //   backgroundImage: `url(/assets/images/theme${item.theme}.png)`,
+      // }}
       className="lobby-room-list-item-info"
     >
-      {item.title ? <h4>{item.title}</h4> : <h4>무제</h4>}
-      <h4>{item.title}</h4>
-      <p>
-        인원 : <span>{item.participants.length}</span>
-        <span>/</span>
-        <span>{item.max}</span>
-      </p>
-      {item.type === "PRIVATE" ? <p>비공개방</p> : <p>공개방</p>}
+      <div className="room-thumbnail">
+        <img src="/images/bg3.jpg" alt="" />
+      </div>
+      <div className="room-content">
+        {item.title ? <h4>{item.title}</h4> : <h4>무제</h4>}
+        <p>
+          인원 : <span>{item.participants.length}</span>
+          <span>/</span>
+          <span>{item.max}</span>
+        </p>
+        <p>
+          {item.description} {item.start}
+        </p>
+
+        {item.type === "PRIVATE" ? <p>비공개방</p> : <p>공개방</p>}
+      </div>
       <Button onClick={handleOpen} variant="contained" color="secondary">
         방 입장
       </Button>

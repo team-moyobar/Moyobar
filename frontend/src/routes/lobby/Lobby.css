@@ -1,7 +1,7 @@
 .lobby-container {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
     url(/public/images/bg3.jpg);
   display: flex;
   background-repeat: no-repeat;
@@ -22,12 +22,11 @@
   height: 8%;
   width: 100%;
   min-height: 48px;
-  background-color: burlywood;
 }
 
 .lobby-left {
   position: relative;
-  width: 20%;
+  width: 23%;
   margin: 3rem 0 3rem 3rem;
   align-self: stretch;
   min-width: 200px;
@@ -47,7 +46,7 @@
   margin-bottom: 20px;
 }
 .lobby-right {
-  width: 80%;
+  width: 77%;
   align-self: stretch;
   margin: 3rem 3rem 3rem 0rem;
   min-width: 200px;
@@ -72,6 +71,12 @@
   justify-content: center;
 }
 
+.lobby-room-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
 .lobby-pagination {
   display: flex;
   justify-content: center;
