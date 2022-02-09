@@ -13,7 +13,7 @@ const INITIAL_VALUES = {
   title: "",
   membercount: 2,
   roominfo: "",
-  privateroom: false,
+  privateroom: "PUBLIC",
   password: "",
   theme: 1,
 };
@@ -32,7 +32,7 @@ export default function LobbyCreateRoom() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target);
+    // console.log(e.target);
     const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
@@ -42,9 +42,11 @@ export default function LobbyCreateRoom() {
 
   const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
+    let isPrivate : any
+    {checked == true ? isPrivate = "PRIVATE" : isPrivate = "PUBLIC" }
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: checked,
+      [name]: isPrivate,
       password: "",
     }));
   };
@@ -55,6 +57,9 @@ export default function LobbyCreateRoom() {
       theme: value,
     }));
   };
+
+  var passwordDisabled 
+  {values.privateroom === "PRIVATE" ? passwordDisabled = false : passwordDisabled = true}
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -74,7 +79,7 @@ export default function LobbyCreateRoom() {
       description: values.roominfo,
       thumbnail: "string",
       theme: values.theme,
-      type: "PRIVATE",
+      type: values.privateroom,
       password: values.password,
     };
 
@@ -93,7 +98,7 @@ export default function LobbyCreateRoom() {
         setValues(INITIAL_VALUES);
       });
   };
-
+  
   return (
     <div style={{ display: "inline" }}>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -151,14 +156,13 @@ export default function LobbyCreateRoom() {
             <input
               type="checkbox"
               name="privateroom"
-              checked={values.privateroom}
               onChange={handleCheckedChange}
               color="secondary"
-            />{" "}
+            />
             비공개
           </label>
           <TextField
-            disabled={!values.privateroom}
+            disabled={passwordDisabled}
             autoFocus
             margin="dense"
             id="name"
