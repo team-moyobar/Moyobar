@@ -6,18 +6,18 @@ import UserVideoComponent from './UserVideoComponent';
 import Button from '@mui/material/Button';
 import Messages from './Messages';
 import GameSelect from './GameSelect';
-import { Link } from "react-router-dom";
 
 import { getToken } from "../../routes/auth/Login";
+import { withRouter } from "react-router-dom";
 
 
 const OPENVIDU_SERVER_URL = 'https://i6d210.p.ssafy.io:4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
+const TOKEN = getToken("jwtToken");
 
 class UserCamera extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             mySessionId: props.roomId,
             myUserName: getToken('nickname'),
@@ -270,7 +270,25 @@ class UserCamera extends Component {
             mainStreamManager: undefined,
             publisher: undefined
         });
-        this.props.history.push('/lobby');
+        // this.props.history.push('/lobby');
+
+        axios
+          .delete(`/rooms/${this.state.mySessionId}`,
+          {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${TOKEN}`, 
+            }
+          })
+          .then((res) => {
+            console.log("success")
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log("Fail..");
+            console.log(err);
+          })
+        this.props.history.push("/lobby");
     }
 
     componentDidMount() {
@@ -513,4 +531,4 @@ class UserCamera extends Component {
     }
 }
 
-export default UserCamera;
+export default withRouter(UserCamera);

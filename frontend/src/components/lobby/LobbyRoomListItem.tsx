@@ -43,39 +43,30 @@ export default function LobbyRoomListItem({ item }: any) {
   }
 
   const entranceRoom = () => {
-    if (item.type === "PRIVATE") {
-      const TOKEN = getToken("jwtToken");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      };
-
-      var data = {
-        password: password
-      };
-
-      axios
-        .post(`/rooms/${item.room_id}/password`, data, config)
-        .then((res) => {
-          console.log("success");
-          console.log(res);
-          if (res.data) {
-            history.push(`/room/${item.room_id}`)
-          } else {
-            alert('비밀번호가 틀렸습니다.')
-          }
-        })
-        .catch((err) => {
-          console.log("Fail..");
-          console.log(err);
-        })
-
-    } else {
-      history.push(`/room/${item.room_id}`);
+    const TOKEN = getToken("jwtToken");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+    var data = {
+      password: password
     }
+
+    axios
+      .post(`/rooms/${item.room_id}`, data, config)
+      .then((res) => {
+        console.log("success");
+        console.log(res);
+        history.push(`/room/${item.room_id}`)
+      })
+      .catch((err) => {
+        console.log("Fail..");
+        console.log(err.response.data.code);
+      })
   };
+
 
   return (
     <div
