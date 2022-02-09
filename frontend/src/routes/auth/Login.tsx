@@ -68,7 +68,7 @@ export default function Login() {
   const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
 
   useEffect(() => {
-    if (getToken('jwtToken')) {
+    if (getToken("jwtToken")) {
       history.push("/lobby");
     }
   }, []);

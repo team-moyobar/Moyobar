@@ -18,7 +18,6 @@ function App() {
 
   useEffect(() => {
     if (nickname) {
-      console.log(nickname);
       dispatch(loginCheck(nickname));
     }
   }, []);
