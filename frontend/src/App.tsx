@@ -1,27 +1,37 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./redux/store";
 
 import Home from "./routes/auth/home";
 import Signup from "./routes/auth/Signup";
-import Login from "./routes/auth/Login";
+import Login, { getToken } from "./routes/auth/Login";
 import Lobby from "./routes/lobby/Lobby";
 import Profile from "./routes/auth/Profile";
 
 import Room from "./routes/room/Room.js";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loginCheck } from "./redux/auth/action";
+
 function App() {
+  const dispatch = useDispatch();
+  const nickname = getToken("nickname");
+
+  useEffect(() => {
+    if (nickname) {
+      console.log(nickname);
+      dispatch(loginCheck(nickname));
+    }
+  }, []);
+
   return (
-    <Provider store={store}>
-      <Router>
-        <Route path="/" exact component={Home} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/lobby" component={Lobby} />
-        <Route path="/profile/:userNickname" component={Profile} />
-        <Route path="/room/:roomId" component={Room} />
-      </Router>
-    </Provider>
+    <Router>
+      <Route path="/" exact component={Home} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/login" component={Login} />
+      <Route path="/lobby" component={Lobby} />
+      <Route path="/profile/:userNickname" component={Profile} />
+      <Route path="/room/:roomId" component={Room} />
+    </Router>
   );
 }
 
