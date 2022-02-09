@@ -110,8 +110,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUserOnline(String userId) {
-        // 온라인 유저 추가
+        // 접속중인 유저 추가
         userOnlineSet.add(userId);
+    }
+
+    @Override
+    public boolean delUserOnline(String userId){
+        // 접속중인 유저 삭제
+        return userOnlineSet.remove(userId);
     }
 
     @Override
