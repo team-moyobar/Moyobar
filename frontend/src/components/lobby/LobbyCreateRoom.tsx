@@ -23,6 +23,9 @@ export default function LobbyCreateRoom() {
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState(INITIAL_VALUES);
   const [errorMessage, setErrorMessage] = React.useState(false);
+  const [cnt, setCnt] = React.useState(false)
+  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false)
+  const [passwordCnt, setPasswordCnt] = React.useState(false)
 
   const history = useHistory();
 
@@ -33,20 +36,24 @@ export default function LobbyCreateRoom() {
   const handleClose = () => {
     setOpen(false);
     setValues(INITIAL_VALUES);
+    setErrorMessage(false)
+    setCnt(false)
+    setPasswordErrorMessage(false)
+    setPasswordCnt(false)
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target);
     const { name, value } = e.target;
-    if (name == "title"){
-      if (values.title !== ""){
-        setErrorMessage(false)
-      }
-    }
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
+    if (name == 'title'){
+      setErrorMessage(false)
+    }
+    if (name == 'password'){
+      setPasswordErrorMessage(false)
+    }
   };
 
   const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,8 +85,14 @@ export default function LobbyCreateRoom() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (values.title == "") {
+    if (values.title == "" || (values.privateroom == "PRIVATE" && values.password == "" )) {
+      if(values.title == ""){
       setErrorMessage(true)
+      setCnt(true)}
+      if(values.privateroom == "PRIVATE" && values.password == ""){
+        setPasswordErrorMessage(true)
+        setPasswordCnt(true)
+      }
     } else {
       const TOKEN = getToken("jwtToken");
       console.log(TOKEN);
@@ -117,6 +130,19 @@ export default function LobbyCreateRoom() {
         });
     }
   };
+
+  React.useEffect(() => {
+    if(cnt == true && values.title == ""){
+      setErrorMessage(true)
+    }
+    if(passwordCnt == true && values.password == ""){
+      setPasswordErrorMessage(true)
+    }
+    if(passwordCnt == true && values.privateroom == "PUBLIC"){
+      setPasswordErrorMessage(false)
+      setPasswordCnt(false)
+    }
+  }, [values.title, values.password, values.privateroom])
 
   return (
     <div style={{ display: "inline" }}>
@@ -194,6 +220,8 @@ export default function LobbyCreateRoom() {
             value={values.password}
             onChange={handleChange}
             color="secondary"
+            error={ passwordErrorMessage == true ? true : false}
+            helperText={ passwordErrorMessage == true ? "비밀번호를 입력해주세요" : false}
           />
           <LobbyCreateRoomTheme onChange={handleThemeChange} />
         </DialogContent>
