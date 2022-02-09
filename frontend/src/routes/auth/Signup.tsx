@@ -3,6 +3,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Signup.css";
+import { RootState } from "../../redux/store";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { getToken } from "./Login";
 
 enum emailEnum {
   naver = "naver",
@@ -130,6 +134,13 @@ export default function Signup() {
       alert("아이디 중복검사 해주세요");
     }
   };
+  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
+
+  useEffect(() => {
+    if (getToken("jwtToken")) {
+      history.push("/lobby");
+    }
+  }, []);
 
   return (
     <div className="signup-container">
