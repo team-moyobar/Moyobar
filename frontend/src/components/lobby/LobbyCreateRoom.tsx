@@ -8,6 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import axios from "axios";
 import { getToken } from "../../routes/auth/Login";
 import LobbyCreateRoomTheme from "./LobbyCreateRoomTheme";
+import { useHistory } from "react-router-dom";
 
 const INITIAL_VALUES = {
   title: "",
@@ -22,6 +23,8 @@ export default function LobbyCreateRoom() {
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState(INITIAL_VALUES);
   const [errorMessage, setErrorMessage] = React.useState(false);
+
+  const history = useHistory();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -102,6 +105,7 @@ export default function LobbyCreateRoom() {
         .then((res) => {
           console.log("success");
           console.log(res);
+          history.push(`/room/${res.data.room_id}`)
         })
         .catch((err) => {
           console.log("Fail..");
