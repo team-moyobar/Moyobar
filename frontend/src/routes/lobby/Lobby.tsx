@@ -1,5 +1,5 @@
 import "./Lobby.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import LobbySideBar from "../../components/lobby/LobbySideBar";
 import { useEffect, useState } from "react";
@@ -11,6 +11,10 @@ import LobbyRoomSearchBar from "../../components/lobby/LobbyRoomSearchBar";
 import LobbyCreateRoom from "../../components/lobby/LobbyCreateRoom";
 import LobbyRoomList from "../../components/lobby/LobbyRoomList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import { logoutCheck } from "../../redux/auth/action";
+import { useHistory } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 const darkTheme = createTheme({
   palette: {
@@ -48,6 +52,11 @@ export default function Lobby() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(6);
   const [totalPages, setTotalPages] = useState(1);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const cookies = new Cookies();
+
   const nickname = useSelector(
     (state: RootState) => state.authReducer.nickname
   );
@@ -98,6 +107,17 @@ export default function Lobby() {
       });
   };
 
+  const cookieLogout = () => {
+    cookies.remove("jwtToken");
+    cookies.remove("nickname");
+  };
+
+  const handlelogout = () => {
+    dispatch(logoutCheck());
+    cookieLogout();
+    history.push("/login");
+  };
+
   const handleChange = (value: any) => {
     setPage(value);
   };
@@ -112,6 +132,9 @@ export default function Lobby() {
       <div className="lobby-container">
         <div className="lobby-header">
           <p>{nickname}</p>
+          <button onClick={handlelogout} className="lobby-logout">
+            로그아웃
+          </button>
         </div>
         <div className="lobby-main">
           <div className="lobby-left">
