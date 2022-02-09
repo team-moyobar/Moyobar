@@ -3,6 +3,7 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.security.oauth2.entity.ProviderType;
@@ -72,7 +73,7 @@ public class AuthController {
 		}
 	}
 
-	@GetMapping("/logout/{userId}")
+	@GetMapping("/logout")
 	@ApiOperation(value = "로그아웃", notes = "로그아웃 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -80,9 +81,14 @@ public class AuthController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
 	})
-	private ResponseEntity<? extends BaseResponseBody> logout(@ApiIgnore Authentication authentication, @PathVariable @ApiParam(value = "로그아웃 ID") String userId) {
+	private ResponseEntity<? extends BaseResponseBody> logout(@ApiIgnore Authentication authentication) {
 		if (authentication == null)
 			throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
+
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		String userId = userDetails.getUsername();
+		User user = userService.getUserByUserId(userId);
+		if(userId == null || user == null) throw new UserNotFoundException();
 
 		// 접속중인 유저 리스트에서 삭제
 		if(userService.delUserOnline(userId)) {
