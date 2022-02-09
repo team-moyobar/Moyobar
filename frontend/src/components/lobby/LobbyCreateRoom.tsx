@@ -21,6 +21,7 @@ const INITIAL_VALUES = {
 export default function LobbyCreateRoom() {
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState(INITIAL_VALUES);
+  const [errorMessage, setErrorMessage] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,6 +35,11 @@ export default function LobbyCreateRoom() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target);
     const { name, value } = e.target;
+    if (name == "title"){
+      if (values.title !== ""){
+        setErrorMessage(false)
+      }
+    }
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -42,8 +48,10 @@ export default function LobbyCreateRoom() {
 
   const handleCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
-    let isPrivate : any
-    {checked == true ? isPrivate = "PRIVATE" : isPrivate = "PUBLIC" }
+    let isPrivate: any;
+    {
+      checked == true ? (isPrivate = "PRIVATE") : (isPrivate = "PUBLIC");
+    }
     setValues((prevValues) => ({
       ...prevValues,
       [name]: isPrivate,
@@ -58,47 +66,54 @@ export default function LobbyCreateRoom() {
     }));
   };
 
-  var passwordDisabled 
-  {values.privateroom === "PRIVATE" ? passwordDisabled = false : passwordDisabled = true}
+  var passwordDisabled;
+  {
+    values.privateroom === "PRIVATE"
+      ? (passwordDisabled = false)
+      : (passwordDisabled = true);
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    if (values.title == "") {
+      setErrorMessage(true)
+    } else {
+      const TOKEN = getToken("jwtToken");
+      console.log(TOKEN);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      };
 
-    const TOKEN = getToken("jwtToken");
-    console.log(TOKEN);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`,
-      },
-    };
+      var userData = {
+        title: values.title,
+        max: values.membercount,
+        description: values.roominfo,
+        thumbnail: "string",
+        theme: values.theme,
+        type: values.privateroom,
+        password: values.password,
+      };
 
-    var userData = {
-      title: values.title,
-      max: values.membercount,
-      description: values.roominfo,
-      thumbnail: "string",
-      theme: values.theme,
-      type: values.privateroom,
-      password: values.password,
-    };
-
-    axios
-      .post("/rooms", userData, config)
-      .then((res) => {
-        console.log("success");
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("Fail..");
-        console.log(err);
-      })
-      .finally(() => {
-        handleClose();
-        setValues(INITIAL_VALUES);
-      });
+      axios
+        .post("/rooms", userData, config)
+        .then((res) => {
+          console.log("success");
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log("Fail..");
+          console.log(err);
+        })
+        .finally(() => {
+          handleClose();
+          setValues(INITIAL_VALUES);
+        });
+    }
   };
-  
+
   return (
     <div style={{ display: "inline" }}>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -121,6 +136,8 @@ export default function LobbyCreateRoom() {
             value={values.title}
             onChange={handleChange}
             color="secondary"
+            error={errorMessage == true ? true : false}
+            helperText={errorMessage == true ? "방이름을 입력해주세요" : false}
           />
           <TextField
             autoFocus
