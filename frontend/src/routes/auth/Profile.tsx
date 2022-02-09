@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import "./Profile.css";
 import axios from "axios";
@@ -15,9 +15,10 @@ import {
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { useHistory } from "react-router-dom";
 
-import ProfileUserInfo from "../../components/auth/ProfileUserInfo"
-import ProfileUpdateForm from "../../components/auth/ProfileUpdateForm"
+import ProfileUserInfo from "../../components/auth/ProfileUserInfo";
+import ProfileUpdateForm from "../../components/auth/ProfileUpdateForm";
 
 interface ParamTypes {
   userNickname: string;
@@ -49,7 +50,7 @@ interface UserProps {
 }
 
 function ProfileUpdateButton(props: UserProps) {
-  const userFlag = props.userFlag
+  const userFlag = props.userFlag;
 
   if (userFlag) {
     return (
@@ -62,7 +63,7 @@ function ProfileUpdateButton(props: UserProps) {
     );
   } else {
     return null;
-  };
+  }
 }
 
 function ProfileContent(props: StatusProps) {
@@ -79,8 +80,8 @@ function ProfileContent(props: StatusProps) {
       soju: 0,
       liquor: 0,
     },
-    phone: '',
-    type: ''
+    phone: "",
+    type: "",
   });
 
   // const [user_id, setUserId] = useState("");
@@ -94,7 +95,7 @@ function ProfileContent(props: StatusProps) {
   // const [phone, setPhone] = useState("");
   // const [type, setType] = useState("");
 
-  const userStatus = props.status
+  const userStatus = props.status;
 
   const handleProfileLoad = () => {
     const TOKEN = getToken("jwtToken");
@@ -117,48 +118,49 @@ function ProfileContent(props: StatusProps) {
       });
   };
 
-
   useEffect(() => {
     handleProfileLoad();
   }, []);
-  
+
   switch (userStatus) {
-    case 'profile':
-      return (
-        <ProfileUserInfo user={user}></ProfileUserInfo>
-      )
-    case 'update':
-      return (
-        <ProfileUpdateForm user={user}/>
-      )
+    case "profile":
+      return <ProfileUserInfo user={user}></ProfileUserInfo>;
+    case "update":
+      return <ProfileUpdateForm user={user} />;
     default:
       return null;
   }
 }
 
 export default function Profile() {
-  const [status, setStatus] = useState<string>('profile');
+  const [status, setStatus] = useState<string>("profile");
 
   const [userFlag, setFlag] = useState<boolean>(true);
-  const myNickname = getToken('nickname');
-  const { userNickname } = useParams<ParamTypes>();  
+  const myNickname = getToken("nickname");
+  const { userNickname } = useParams<ParamTypes>();
+
+  const history = useHistory();
+  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
 
   useEffect(() => {
-    if (myNickname != userNickname) {
+    if (isLogin === false) {
+      history.push("/login");
+    }
+    if (myNickname !== userNickname) {
       setFlag(false);
     }
-    console.log(`현재 로그인한 닉네임 : ${myNickname}`)
-    console.log(`프로필 보고싶은 사람 닉네임 : ${userNickname}`)
+
+    console.log(`현재 로그인한 닉네임 : ${myNickname}`);
+    console.log(`프로필 보고싶은 사람 닉네임 : ${userNickname}`);
   }, []);
 
   const setStatusProfile = () => {
-    setStatus('profile')
-  }
+    setStatus("profile");
+  };
 
   const setStatusUpdate = () => {
-    setStatus('update')
-  }
-
+    setStatus("update");
+  };
 
   // let list = document.querySelectorAll(".profile-menu li");
   // function activeLink(this: any) {
@@ -181,7 +183,7 @@ export default function Profile() {
               <span className="profile-menu-title">회원 프로필</span>
             </a>
           </li>
-          <li onClick={setStatusUpdate} >
+          <li onClick={setStatusUpdate}>
             <ProfileUpdateButton userFlag={userFlag} />
           </li>
           <li>
@@ -203,7 +205,7 @@ export default function Profile() {
         </ul>
       </div>
       <div className="profile-userinfo">
-        <ProfileContent status={status}/>
+        <ProfileContent status={status} />
       </div>
     </div>
   );

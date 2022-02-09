@@ -61,6 +61,8 @@ export default function Lobby() {
     (state: RootState) => state.authReducer.nickname
   );
 
+  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
+
   const handleLoad = ({ searchBy = "null", keyword = "null" }: any) => {
     const query = `&page=${page}&size=${size}&searchBy=${searchBy}&keyword=${keyword}`;
     const TOKEN = getToken("jwtToken");
@@ -125,6 +127,9 @@ export default function Lobby() {
   useEffect(() => {
     handleLoad({ title, page, size });
     handleUserLoad();
+    if (isLogin === false) {
+      history.push("/login");
+    }
   }, [page]);
 
   return (
