@@ -5,6 +5,9 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginCheck } from "../../redux/auth/action";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useEffect } from "react";
 
 const cookies = new Cookies();
 
@@ -61,6 +64,14 @@ export default function Login() {
         history.push("/login");
       });
   };
+
+  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
+
+  useEffect(() => {
+    if (getToken('jwtToken')) {
+      history.push("/lobby");
+    }
+  }, []);
 
   return (
     <div className="login-container">
