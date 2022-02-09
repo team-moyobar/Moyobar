@@ -186,8 +186,13 @@ dependencies {
     compile("javax.annotation:javax.annotation-api:1.2")
 
     testImplementation("org.springframework.security:spring-security-test") //security testing용 추가
-    implementation("org.projectlombok:lombok:1.18.20")
-    annotationProcessor("org.projectlombok:lombok:1.18.20")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompile 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
+
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
