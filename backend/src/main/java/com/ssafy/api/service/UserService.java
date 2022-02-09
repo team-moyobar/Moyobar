@@ -26,6 +26,8 @@ public interface UserService {
 
 	void addUserOnline(String userId);
 
+	boolean delUserOnline(String userId);
+
 	List<UserRes> getUsersOnlineList();
 
 	User getUserByUserId(String userId);
