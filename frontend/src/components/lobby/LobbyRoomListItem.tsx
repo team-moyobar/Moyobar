@@ -1,11 +1,19 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import "./LobbyRoomListItem.css";
+import axios from "axios";
+import { getToken } from "../../routes/auth/Login";
+
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+
+interface PrivateProps {
+  roomStatus: string;
+}
 
 const style = {
   position: "absolute",
@@ -24,12 +32,49 @@ export default function LobbyRoomListItem({ item }: any) {
 
   const history = useHistory();
 
-  const [open, setOpen] = React.useState(false);
+  const [password, setPassword] = React.useState('');
+
+  const [open, setOpen] = React.useState(false); 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  }
+
   const entranceRoom = () => {
-    history.push(`/room/${item.room_id}`);
+    if (item.type === "PRIVATE") {
+      const TOKEN = getToken("jwtToken");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      };
+
+      var data = {
+        password: password
+      };
+
+      axios
+        .post(`/rooms/${item.room_id}/password`, data, config)
+        .then((res) => {
+          console.log("success");
+          console.log(res);
+          if (res.data) {
+            history.push(`/room/${item.room_id}`)
+          } else {
+            alert('비밀번호가 틀렸습니다.')
+          }
+        })
+        .catch((err) => {
+          console.log("Fail..");
+          console.log(err);
+        })
+
+    } else {
+      history.push(`/room/${item.room_id}`);
+    }
   };
 
   return (
@@ -74,6 +119,15 @@ export default function LobbyRoomListItem({ item }: any) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {item.description}
           </Typography>
+          {item.type === "PRIVATE" ? 
+            <TextField 
+              autoFocus
+              margin="dense"
+              label="비밀번호"
+              fullWidth
+              variant="standard"
+              onChange={handleChangePassword}
+            /> : null}
           <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
             <Button onClick={entranceRoom}>입장하기</Button>
           </Box>
