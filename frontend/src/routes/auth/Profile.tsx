@@ -47,7 +47,10 @@ function ProfileUpdateButton(props: UserProps) {
   if (userFlag) {
     return (
       <a href="javascript:void(0);">
-        <span className="profile-menu-title"></span>
+        <span className="profile-menu-title">
+          <img src="/icons/edit-white.png" alt="" />
+          <img src="/icons/edit-black.png" alt="" />
+        </span>
         <span className="profile-menu-title">회원 정보 수정</span>
       </a>
     );
@@ -171,7 +174,10 @@ export default function Profile() {
         <ul>
           <li>
             <a href="javascript:void(0);" onClick={setStatusProfile}>
-              <span className="profile-menu-title"></span>
+              <span className="profile-menu-title">
+                <img src="/icons/profile-white.png" alt="" />
+                <img src="/icons/profile-black.png" alt="" />
+              </span>
               <span className="profile-menu-title">회원 프로필</span>
             </a>
           </li>
@@ -180,13 +186,19 @@ export default function Profile() {
           </li>
           <li>
             <a href="javascript:void(0);">
-              <span className="profile-menu-title"></span>
+              <span className="profile-menu-title">
+                <img src="/icons/cup-white.png" alt="" />
+                <img src="/icons/cup-black.png" alt="" />
+              </span>
               <span className="profile-menu-title">참가 로그</span>
             </a>
           </li>
           <li>
             <a href="javascript:void(0);">
-              <span className="profile-menu-title"></span>
+              <span className="profile-menu-title">
+                <img src="/icons/etc-white.png" alt="" />
+                <img src="/icons/etc-black.png" alt="" />
+              </span>
               <span className="profile-menu-title">나머지 기능</span>
             </a>
           </li>
