@@ -35,8 +35,12 @@ export default function LobbyRoomListItem({ item }: any) {
   const [password, setPassword] = React.useState('');
 
   const [open, setOpen] = React.useState(false); 
+  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false)
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+    setPasswordErrorMessage(false)
+  };
 
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -60,10 +64,14 @@ export default function LobbyRoomListItem({ item }: any) {
         console.log("success");
         console.log(res);
         history.push(`/room/${item.room_id}`)
+        setPasswordErrorMessage(false)
       })
       .catch((err) => {
         console.log("Fail..");
         console.log(err.response.data.code);
+        if(err.response.data.code == 'U003') {
+          setPasswordErrorMessage(true)
+        }
       })
   };
 
@@ -118,6 +126,8 @@ export default function LobbyRoomListItem({ item }: any) {
               fullWidth
               variant="standard"
               onChange={handleChangePassword}
+              error={ passwordErrorMessage == true ? true : false}
+              helperText={ passwordErrorMessage == true ? "올바른 비밀번호를 입력해주세요" : false}
             /> : null}
           <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
             <Button onClick={entranceRoom}>입장하기</Button>
