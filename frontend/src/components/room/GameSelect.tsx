@@ -27,7 +27,7 @@ const GameSelect = () => {
     <div>
       {gameSelected == false ? (
         <div>
-          <h2>게임을 골라주세요</h2>
+          <p>게임을 골라주세요</p>
           <Button variant="contained" onClick={handleLiar}>
             라이어게임
           </Button>
