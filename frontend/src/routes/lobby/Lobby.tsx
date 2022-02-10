@@ -1,5 +1,5 @@
 import "./Lobby.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import LobbySideBar from "../../components/lobby/LobbySideBar";
 import { useEffect, useState } from "react";

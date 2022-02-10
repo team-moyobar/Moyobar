@@ -5,19 +5,18 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginCheck } from "../../redux/auth/action";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useEffect } from "react";
+import { logoutCheck } from "../../redux/auth/action";
 
 const cookies = new Cookies();
 
-const setNickname = (nickname: string) => {
+const setCookieNickname = (nickname: string) => {
   cookies.set("nickname", nickname, {
     path: "/",
   });
 };
 
-const setToken = (token: string) => {
+const setCookieToken = (token: string) => {
   cookies.set("jwtToken", token, {
     path: "/",
   });
@@ -25,6 +24,11 @@ const setToken = (token: string) => {
 
 export const getToken = (data: any) => {
   return cookies.get(data);
+};
+
+const deleteCookie = () => {
+  cookies.remove("jwtToken");
+  cookies.remove("nickname");
 };
 
 enum emailEnum {
@@ -55,8 +59,8 @@ export default function Login() {
         type: "LOCAL",
       })
       .then((res) => {
-        setToken(res.data.accessToken);
-        setNickname(res.data.nickname);
+        setCookieToken(res.data.accessToken);
+        setCookieNickname(res.data.nickname);
         dispatch(loginCheck(res.data.nickname));
         history.push("/lobby");
       })
@@ -65,11 +69,10 @@ export default function Login() {
       });
   };
 
-  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
-
   useEffect(() => {
     if (getToken("jwtToken")) {
-      history.push("/lobby");
+      deleteCookie();
+      dispatch(logoutCheck());
     }
   }, []);
 
