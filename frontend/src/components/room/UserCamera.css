@@ -1,101 +1,163 @@
-.stream-container {
-	padding: 0;
-	height: 50%;
-}
 .room-container {
-	width: 100vw;
+  width: 100vw;
   height: 100vh;
-	background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(/public/images/roombg.jpeg);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	display: flex;
-}
-#session {
-	width: 85%;
-	display: flex;
-	flex-direction: column;
-	background-color: rgba( 0, 0, 0, 0.7 );
-	border-radius: 10px;
-	/* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/public/images/room-session-bg.jpeg);
-	background-repeat: no-repeat;
-	background-size: cover; */
-	margin: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-image: url(/public/images/bg3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
-#session-header {
-	align-self: center;
-	text-align: center;
-	height: 10%;
-	display: flex;
-	align-items: center;
+.session {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 0;
+  border-radius: 5px;
 }
 
-#video-container {
-	display: flex;
-	width: 100%;
-	height: 80%;
-	flex-wrap: wrap;
-	justify-content: space-around;
-	align-content: space-around;
+.session-header {
+  height: 7%;
+  display: flex;
+  justify-content: start;
+  padding-left: 1%;
+  align-items: center;
+  width: 100%;
+  border-top-left-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  color: aliceblue;
+  font-size: 30px;
 }
 
-#session-footer {
-	align-self: center;
-	text-align: center;
-	height: 10%;
-	display: flex;
-	align-items: center;
+.stream-container {
+  padding: 0;
+  height: 50%;
+}
+
+.video-container {
+  border-left: 3px solid rgb(0, 0, 0);
+  display: flex;
+  width: 100%;
+  height: 83%;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.session-footer {
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  border-bottom-left-radius: 5px;
+  backdrop-filter: blur(5px);
+}
+.session-footer img {
+  height: 50%;
 }
 
 .gamebox {
-	width: 15%;
-	height: 80%;
-	background-color: rgba(255, 255, 255, 0.7);
-	border-radius: 10px;
-	margin: 2%;
+  width: 20%;
+  height: 100%;
+  border-radius: 0 5px 5px 0;
 }
 
+.gamebox-top {
+  height: 7%;
+  width: 100%;
+  border-top-right-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.gamebox-center {
+  width: 100%;
+  height: 83%;
+  background: rgba(29, 29, 29, 0.97);
+}
+
+.gamebox-bottom {
+  height: 10%;
+  width: 100%;
+  border-bottom-right-radius: 5px;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gamebox-bottom button {
+  font-size: 20px;
+  border: 0;
+  background: #ff4040;
+  border-radius: 10px;
+  color: white;
+  width: 80%;
+  height: 70%;
+  justify-self: end;
+}
+
+.session-footer button {
+  font-size: 20px;
+  border: 0;
+  background: #5636cc;
+  border-radius: 10px;
+  color: white;
+  width: 30%;
+  height: 70%;
+  justify-self: flex-start;
+}
+
+.chatbox__button {
+  margin-bottom: 100px;
+  margin-right: 10px;
+}
 .stream-container1 {
-	height: 80%;
-	width: 80%;
+  height: 80%;
+  width: 80%;
 }
 .stream-container2 {
-	flex-grow: 1;
-	height: 50%;
+  flex-grow: 1;
+  height: 50%;
 }
 .stream-container3 {
-	width: 40%;
-	height: 45%;
+  width: 40%;
+  height: 45%;
 }
 .stream-container4 {
-	width: 33%;
-	height: 40%
+  width: 33%;
+  height: 40%;
 }
 .stream-container5 {
-	width: 24%;
-	height: 40%
+  width: 24%;
+  height: 40%;
 }
 @media (max-width: 1600px) {
-	.stream-container5{
-		width: 24%;
-		height: 30%
-	}
+  .stream-container5 {
+    width: 24%;
+    height: 30%;
+  }
 }
 
 @media (max-width: 1200px) {
-	.stream-container3{
-		width: 45%;
-		height: 33%
-	}
-	.stream-container4{
-		width: 45%;
-		height: 33%;
-	}
-	.stream-container5{
-		width: 40%;
-		height: 23%
-	}
+  .stream-container3 {
+    width: 45%;
+    height: 33%;
+  }
+  .stream-container4 {
+    width: 45%;
+    height: 33%;
+  }
+  .stream-container5 {
+    width: 40%;
+    height: 23%;
+  }
 }
-
-
