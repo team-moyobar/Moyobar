@@ -92,6 +92,12 @@ public class WordController {
         log.info("현재 플레이어: {}, 입력단어: {}, 초성: {}", checkWordReq.getNickname(), checkWordReq.getWord(), checkWordReq.getInitial());
         CheckInvalidateWordRes checkInvalidateWordRes = new CheckInvalidateWordRes(checkWordReq.getNickname(), checkWordReq.getWord(), checkWordReq.getInitial());
 
+        //사용자가 단어 입력 안 했을 시에는 바로 return fail
+        if(checkWordReq.getWord().trim().length()==0) {
+            checkInvalidateWordRes.setResult("Fail");
+            return checkInvalidateWordRes;
+        }
+
         boolean check_initial = false;
         boolean check_dictionary = false;
         boolean check_newWord = false;
