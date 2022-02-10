@@ -16,6 +16,7 @@ import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.room.RoomType;
 import com.ssafy.db.entity.user.User;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,11 @@ import java.util.stream.Collectors;
  * 미팅룸 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "미팅룸 API", tags = {"Meeting Room"})
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/rooms")
 public class RoomController {
 
-    private final Logger logger = LoggerFactory.getLogger(RoomController.class);
     @Autowired
     RoomService roomService;
     @Autowired
@@ -72,8 +73,6 @@ public class RoomController {
             throw new UserAlreadyInActiveRoomException();
 
         Room room = roomService.createRoom(registerInfo, owner);
-
-        historyService.createHistory(room, owner);
 
         return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId()));
     }
