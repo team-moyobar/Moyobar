@@ -18,7 +18,7 @@ export default function LobbySideBarUserListItem({ item }: any) {
   return (
     <div className="lobby-sidebar-item-container">
       <div className="lobby-left-img">
-        <img src="/images/profile1.jfif" alt="" />
+        <img src="/images/profile1.jfif" alt=""/>
       </div>
       <div className="lobby-left-content">
         <div onClick={routeProfile} className="lobby-profile">

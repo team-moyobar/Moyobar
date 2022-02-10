@@ -2,6 +2,7 @@ import "./Profile.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getToken } from "./Login";
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -151,6 +152,10 @@ export default function Profile() {
     setStatus("update");
   };
 
+  const handleClose = () => {
+    history.push('/lobby');
+  }
+
   // let list = document.querySelectorAll(".profile-menu li");
   // function activeLink(this: any) {
   //   list.forEach((item) => item.classList.remove("hovered"));
@@ -189,6 +194,9 @@ export default function Profile() {
       </div>
       <div className="profile-userinfo">
         <ProfileContent status={status} />
+        <span className="close-icon">
+          <CloseIcon color="error" sx={{ fontSize: 40}} onClick={handleClose}></CloseIcon>
+        </span>
       </div>
     </div>
   );
