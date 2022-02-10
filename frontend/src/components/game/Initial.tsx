@@ -24,7 +24,7 @@ export interface ResultObj {
   corrcnt: string; // 맞춘횟수
 }
 
-export default function Consonant() {
+export default function StompInitial() {
   // Props 또는 Redux로 전달받아야함
   const [nickName, setNickName] = useState("test1");
   const [roomId, setRoomId] = useState("13");
