@@ -31,6 +31,7 @@ const ProfileUpdateForm = (props: { user: UserInfo }) => {
 
   const onChangeImg = useCallback((e) => {
     setImg(e.target.value);
+    console.log(e.target.value);
   }, []);
 
   const updateProfile = (e: any) => {
@@ -84,6 +85,7 @@ const ProfileUpdateForm = (props: { user: UserInfo }) => {
           value={img}
           onChange={onChangeImg}
         />
+        <input type="text" value={img} onChange={onChangeImg} />
         <br />
         {/* <label>주량 : </label>
                 <select name="" id="">
