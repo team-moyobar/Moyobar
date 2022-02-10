@@ -10,9 +10,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.nio.charset.StandardCharsets;
 
 @SpringBootApplication
-public class GroupCallApplication {
+public class MoyobarApplication {
 	public static void main(String[] args) {
-        new SpringApplicationBuilder(GroupCallApplication.class)
+        new SpringApplicationBuilder(MoyobarApplication.class)
                 .properties("spring.config.location=classpath:/application.yml"+",classpath:/application-secret.yml")
                 .run(args);
     }
