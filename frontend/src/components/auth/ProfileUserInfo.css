@@ -12,13 +12,26 @@
 }
 
 .profile-picture-img{
-  height: 80%;
+  align-self: center;
+  width: 30%;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-picture-img:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 
 .profile-picture-img img{
+  position: absolute;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
   border-radius: 70%;
-  border:rgba(0, 0, 0, 0.418)
+  object-position: top;
+  border:rgba(255, 0, 0, 0.418);
 }
 
 .profile-item{
