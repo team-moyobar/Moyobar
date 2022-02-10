@@ -1,0 +1,37 @@
+.profile-userinfo-contents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-picture{
+  display: flex;
+  height: 40%;
+  margin-left: 10%;
+}
+
+.profile-picture-img{
+  height: 80%;
+}
+
+.profile-picture-img img{
+  height: 100%;
+  border-radius: 70%;
+  border:rgba(0, 0, 0, 0.418)
+}
+
+.profile-item{
+  display: flex;
+  height: 20%;
+  font-weight: 600;
+  font-size: 18px;
+  border-top: 1px solid rgba(0, 0, 0, 0.418);
+  padding-top: 5%;
+  padding-left: 5%
+}
+
+.profile-item-title {
+  width: 30%
+}
+

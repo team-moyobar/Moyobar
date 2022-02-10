@@ -50,9 +50,7 @@
 .profile-menu ul li.hovered a {
   color: #222222;
 }
-PersonOutline {
-  color: #ecf0f3;
-}
+
 .profile-menu-title {
   position: relative;
   display: block;
@@ -93,6 +91,7 @@ PersonOutline {
 }
 
 .profile-userinfo {
+  position: relative;
   background-color: #ecf0f3;
   grid-column: 4 / 10;
   grid-row: 2 / 10;
@@ -101,4 +100,28 @@ PersonOutline {
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
   padding: 40px;
+}
+
+.close-icon{
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  cursor: pointer;
+}
+
+.profile-menu-title img{
+  height: 50%;
+}
+
+.profile-menu ul li img:last-child,
+.profile-menu ul li img:last-child {
+  display: none;
+}
+.profile-menu ul li:hover img:first-child,
+.profile-menu ul li.hovered img:first-child {
+  display: none;
+}
+.profile-menu ul li:hover img:last-child,
+.profile-menu ul li.hovered img:last-child {
+  display: inline-block;
 }

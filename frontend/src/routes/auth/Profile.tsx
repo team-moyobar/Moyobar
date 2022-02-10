@@ -5,12 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { getToken } from "./Login";
 
-import {
-  PersonOutline,
-  BuildOutline,
-  CloudOutline,
-  EllipsisHorizontalOutline,
-} from "react-ionicons";
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -56,7 +51,8 @@ function ProfileUpdateButton(props: UserProps) {
     return (
       <a href="javascript:void(0);">
         <span className="profile-menu-title">
-          <BuildOutline />
+          <img src="/icons/edit-white.png" alt="" />
+          <img src="/icons/edit-black.png" alt="" />
         </span>
         <span className="profile-menu-title">회원 정보 수정</span>
       </a>
@@ -162,6 +158,10 @@ export default function Profile() {
     setStatus("update");
   };
 
+  const handleClose = () => {
+    history.push('/lobby');
+  }
+
   // let list = document.querySelectorAll(".profile-menu li");
   // function activeLink(this: any) {
   //   list.forEach((item) => item.classList.remove("hovered"));
@@ -178,7 +178,8 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);" onClick={setStatusProfile}>
               <span className="profile-menu-title">
-                <PersonOutline />
+                <img src="/icons/profile-white.png" alt="" />
+                <img src="/icons/profile-black.png" alt="" />
               </span>
               <span className="profile-menu-title">회원 프로필</span>
             </a>
@@ -189,7 +190,8 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);">
               <span className="profile-menu-title">
-                <CloudOutline />
+                <img src="/icons/cup-white.png" alt="" />
+                <img src="/icons/cup-black.png" alt="" />
               </span>
               <span className="profile-menu-title">참가 로그</span>
             </a>
@@ -197,7 +199,8 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);">
               <span className="profile-menu-title">
-                <EllipsisHorizontalOutline />
+                <img src="/icons/etc-white.png" alt="" />
+                <img src="/icons/etc-black.png" alt="" />
               </span>
               <span className="profile-menu-title">나머지 기능</span>
             </a>
@@ -206,6 +209,9 @@ export default function Profile() {
       </div>
       <div className="profile-userinfo">
         <ProfileContent status={status} />
+        <span className="close-icon">
+          <CloseIcon color="error" sx={{ fontSize: 40}} onClick={handleClose}></CloseIcon>
+        </span>
       </div>
     </div>
   );
