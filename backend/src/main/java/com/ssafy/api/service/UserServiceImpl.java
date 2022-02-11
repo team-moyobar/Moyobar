@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
         List<UserRes> res = new ArrayList<>();
         // DB에서 유저 ID에 해당하는 유저리스트를 불러옴
         for (String userId : userOnlineSet) {
-            res.add(UserRes.of(userRepository.findByUserId(userId).get()));
+            res.add(UserRes.of(getUserByUserId(userId)));
         }
 
         return res;
@@ -134,8 +134,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUserId(String userId) {
         // 디비에 유저 정보 조회 (userId 를 통한 조회).
-        User user = userRepository.findByUserId(userId).get();
-        return user;
+        return userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -149,7 +148,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changeUserPwd(String userId, String password, String newpassword) {
-        User user = userRepository.findByUserId(userId).get();
+        User user = getUserByUserId(userId);
 
         //현재 비밀번호를 받아와 DB에 저장된 내용과 일치하는지를 확인한 후에,
         boolean check = passwordEncoder.matches(password, user.getPassword());
