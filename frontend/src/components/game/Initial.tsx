@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
+import { useParams } from "react-router";
 
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 
 import SpeechToText from "./SpeechToText";
+
+import { getToken } from "../../routes/auth/Login";
 
 // stomp client 변수
 var client: Client | null = null;
@@ -24,12 +27,19 @@ export interface ResultObj {
   corrcnt: string; // 맞춘횟수
 }
 
+export interface ParamsObj {
+  roomId: string;
+  owner: string;
+}
+
 export default function StompInitial() {
-  // Props 또는 Redux로 전달받아야함
-  const [nickName, setNickName] = useState("test1");
-  const [roomId, setRoomId] = useState("13");
-  const [owner, setOwner] = useState("test1");
-  //////////////////////////////
+  const nickName = getToken("nickname");
+  const { roomId } = useParams<{ roomId?: string }>();
+  const { owner } = useParams<{ owner?: string }>();
+
+  // const [nickName, setNickName] = useState("test1");
+  // const [roomId, setRoomId] = useState("13");
+  // const [owner, setOwner] = useState("test1");
 
   const playersRef = useRef<PlayersObj[]>(); // 플레이어 레퍼런스
   const gameLogRef = useRef<string>(""); // 게임 로그 레퍼런스
@@ -99,6 +109,7 @@ export default function StompInitial() {
         subscribeStart(); // 게임시작 메시지 처리
         subscribeNextTurn(); // 다음턴 메시지 처리
         subscribeCheckWord(); // 단어 확인 메시지 처리
+        subscribeGameResult(); // 게임 결과 메시지 처리
       },
     });
 
@@ -189,6 +200,7 @@ export default function StompInitial() {
         );
 
         setGameLog(gameLogRef.current); // 로깅 메시지 설정
+
         reqNextTurn(); // 다음 턴 이동
       });
     }
@@ -275,10 +287,11 @@ export default function StompInitial() {
           {roomId} 번방 {nickName} 님 환영합니다
         </h1>
       </div>
-      <Button variant="contained" onClick={handleClickStart}>
-        Game Start
-      </Button>
-      {/* <button onClick={() => handleOpenStt()}>음성인식</button> */}
+      {nickName === owner && (
+        <Button variant="contained" onClick={handleClickStart}>
+          Game Start
+        </Button>
+      )}
       <div>
         <SpeechToText
           open={open}
