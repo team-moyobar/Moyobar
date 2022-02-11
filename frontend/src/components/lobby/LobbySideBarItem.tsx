@@ -16,12 +16,15 @@ export default function LobbySideBarUserListItem({ item }: any) {
   }
 
   return (
-    <div className="lobby-sidebar-item-container">
+    <div onClick={routeProfile} className="lobby-sidebar-item-container">
       <div className="lobby-left-img">
-        <img src="https://pds.joins.com/news/component/htmlphoto_mmdata/202105/17/cf5ac1a6-edd6-4f56-9375-4e208c02a7a5.jpg" alt=""/>
+        <img
+          src="https://pds.joins.com/news/component/htmlphoto_mmdata/202105/17/cf5ac1a6-edd6-4f56-9375-4e208c02a7a5.jpg"
+          alt=""
+        />
       </div>
       <div className="lobby-left-content">
-        <div onClick={routeProfile} className="lobby-profile">
+        <div className="lobby-profile">
           <span>정보</span>
         </div>
         <h4>{item.nickname}</h4>
