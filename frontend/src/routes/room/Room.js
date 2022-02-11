@@ -4,11 +4,11 @@ import { useParams } from "react-router";
 import UserCamera from '../../components/room/UserCamera.js'
 
 export default function Room() {
-  const { roomId } = useParams();
+  const { roomId, owner } = useParams();
 
   return (
     <div>
-      <UserCamera roomId={roomId} />
+      <UserCamera roomId={roomId} owner={owner}/>
     </div>
   );
 }
