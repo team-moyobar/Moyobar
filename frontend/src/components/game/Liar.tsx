@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
+import { useParams } from "react-router";
 
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -10,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+import { getToken } from "../../routes/auth/Login";
 import { VoteDlg } from "./VoteDlg";
 
 // stomp client 변수
@@ -39,10 +41,12 @@ export interface voteResultObj {
 }
 
 const StompLiar = () => {
-  // Props 또는 Redux로 전달받아야함
-  const [nickName, setNickName] = useState("test10");
-  const [roomId, setRoomId] = useState("17");
-  //////////////////////////////
+  const nickName = getToken("nickname");
+  const { roomId } = useParams<{ roomId?: string }>();
+  const { owner } = useParams<{ owner?: string }>();
+
+  // const [nickName, setNickName] = useState("test10");
+  // const [roomId, setRoomId] = useState("17");
 
   const gameTime = useRef(10); // 게임시간
   const voteTime = useRef(10); // 투표시간
@@ -198,28 +202,30 @@ const StompLiar = () => {
           {roomId} 번방 {nickName} 님 환영합니다
         </h1>
       </div>
-      <Stack spacing={2} direction="row">
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-label">주제</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={subject}
-              label="주제"
-              onChange={handleChange}
-            >
-              <MenuItem value={"동물"}>동물</MenuItem>
-              <MenuItem value={"나라"}>나라</MenuItem>
-              <MenuItem value={"음식"}>음식</MenuItem>
-              <MenuItem value={"영화"}>영화</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Button variant="contained" onClick={handler}>
-          Game Start
-        </Button>
-      </Stack>
+      {nickName === owner && (
+        <Stack spacing={2} direction="row">
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-label">주제</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={subject}
+                label="주제"
+                onChange={handleChange}
+              >
+                <MenuItem value={"동물"}>동물</MenuItem>
+                <MenuItem value={"나라"}>나라</MenuItem>
+                <MenuItem value={"음식"}>음식</MenuItem>
+                <MenuItem value={"영화"}>영화</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Button variant="contained" onClick={handler}>
+            Game Start
+          </Button>
+        </Stack>
+      )}
       <div>
         <h3>당신이 받은 제시어는 {keyword} 입니다. 라이어를 찾으세요!</h3>
         {/* <h3>당신은 {} 입니다. 라이어를 찾으세요!</h3> */}
