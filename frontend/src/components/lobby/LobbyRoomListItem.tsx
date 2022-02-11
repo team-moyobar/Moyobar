@@ -63,7 +63,7 @@ export default function LobbyRoomListItem({ item }: any) {
       .then((res) => {
         console.log("success");
         console.log(res);
-        history.push(`/room/${item.room_id}`)
+        history.push(`/room/${item.room_id}/${item.owner}`)
         setPasswordErrorMessage(false)
       })
       .catch((err) => {
