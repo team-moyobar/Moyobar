@@ -16,12 +16,14 @@ public class RoomRegisterPostRes extends BaseResponseBody {
 
     @ApiModelProperty(name = "생성된 방 번호", example = "8")
     long roomId;
+    String owner;
 
-    public static RoomRegisterPostRes of(Integer status, String message, long roomId) {
+    public static RoomRegisterPostRes of(Integer status, String message, long roomId, String owner) {
         RoomRegisterPostRes res = new RoomRegisterPostRes();
         res.setStatus(status);
         res.setMessage(message);
         res.setRoomId(roomId);
+        res.setOwner(owner);
         return res;
     }
 }
