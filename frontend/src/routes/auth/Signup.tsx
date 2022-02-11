@@ -145,11 +145,11 @@ export default function Signup() {
   return (
     <div className="signup-container">
       <div className="signup-left">
-        <p>좋은 문구는 바로 적어주세요!</p>
+        <p>당신의 술자리를 새롭게, MOYOBAR</p>
       </div>
       <div className="signup-right">
         <p className="signup">SIGNUP</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="signup-form">
             <div className="signup-icon"></div>
             <div className="signup-input signup-border">
