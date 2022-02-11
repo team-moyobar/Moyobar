@@ -9,6 +9,7 @@ import axios from "axios";
 import { getToken } from "../../routes/auth/Login";
 import LobbyCreateRoomTheme from "./LobbyCreateRoomTheme";
 import { useHistory } from "react-router-dom";
+import "./LobbyCreateRoom.css";
 
 const INITIAL_VALUES = {
   title: "",
@@ -23,9 +24,9 @@ export default function LobbyCreateRoom() {
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState(INITIAL_VALUES);
   const [errorMessage, setErrorMessage] = React.useState(false);
-  const [cnt, setCnt] = React.useState(false)
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false)
-  const [passwordCnt, setPasswordCnt] = React.useState(false)
+  const [cnt, setCnt] = React.useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false);
+  const [passwordCnt, setPasswordCnt] = React.useState(false);
 
   const history = useHistory();
 
@@ -36,10 +37,10 @@ export default function LobbyCreateRoom() {
   const handleClose = () => {
     setOpen(false);
     setValues(INITIAL_VALUES);
-    setErrorMessage(false)
-    setCnt(false)
-    setPasswordErrorMessage(false)
-    setPasswordCnt(false)
+    setErrorMessage(false);
+    setCnt(false);
+    setPasswordErrorMessage(false);
+    setPasswordCnt(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,11 +49,11 @@ export default function LobbyCreateRoom() {
       ...prevValues,
       [name]: value,
     }));
-    if (name == 'title'){
-      setErrorMessage(false)
+    if (name === "title") {
+      setErrorMessage(false);
     }
-    if (name == 'password'){
-      setPasswordErrorMessage(false)
+    if (name === "password") {
+      setPasswordErrorMessage(false);
     }
   };
 
@@ -60,7 +61,7 @@ export default function LobbyCreateRoom() {
     const { name, checked } = e.target;
     let isPrivate: any;
     {
-      checked == true ? (isPrivate = "PRIVATE") : (isPrivate = "PUBLIC");
+      checked === true ? (isPrivate = "PRIVATE") : (isPrivate = "PUBLIC");
     }
     setValues((prevValues) => ({
       ...prevValues,
@@ -85,7 +86,7 @@ export default function LobbyCreateRoom() {
 
   const intoRoom = (e: any) => {
     const TOKEN = getToken("jwtToken");
-    const owner = getToken("nickname")
+    const owner = getToken("nickname");
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -94,31 +95,35 @@ export default function LobbyCreateRoom() {
     };
 
     var userData = {
-      password: values.password
-    }
+      password: values.password,
+    };
 
     axios
       .post(`rooms/${e.room_id}`, userData, config)
       .then((res) => {
-        console.log("입장성공")
-        console.log(res)
-        history.push(`/room/${res.data.room_id}/${owner}`)
+        console.log("입장성공");
+        console.log(res);
+        history.push(`/room/${res.data.room_id}/${owner}`);
       })
       .catch((err) => {
         console.log("Fail..");
         console.log(err);
-      })
-  }
+      });
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (values.title == "" || (values.privateroom == "PRIVATE" && values.password == "" )) {
-      if(values.title == ""){
-      setErrorMessage(true)
-      setCnt(true)}
-      if(values.privateroom == "PRIVATE" && values.password == ""){
-        setPasswordErrorMessage(true)
-        setPasswordCnt(true)
+    if (
+      values.title === "" ||
+      (values.privateroom == "PRIVATE" && values.password === "")
+    ) {
+      if (values.title === "") {
+        setErrorMessage(true);
+        setCnt(true);
+      }
+      if (values.privateroom === "PRIVATE" && values.password === "") {
+        setPasswordErrorMessage(true);
+        setPasswordCnt(true);
       }
     } else {
       const TOKEN = getToken("jwtToken");
@@ -145,7 +150,7 @@ export default function LobbyCreateRoom() {
         .then((res) => {
           console.log("success");
           console.log(res);
-          intoRoom(res.data)
+          intoRoom(res.data);
         })
         .catch((err) => {
           console.log("Fail..");
@@ -159,22 +164,27 @@ export default function LobbyCreateRoom() {
   };
 
   React.useEffect(() => {
-    if(cnt == true && values.title == ""){
-      setErrorMessage(true)
+    if (cnt === true && values.title === "") {
+      setErrorMessage(true);
     }
-    if(passwordCnt == true && values.password == ""){
-      setPasswordErrorMessage(true)
+    if (passwordCnt === true && values.password === "") {
+      setPasswordErrorMessage(true);
     }
-    if(passwordCnt == true && values.privateroom == "PUBLIC"){
-      setPasswordErrorMessage(false)
-      setPasswordCnt(false)
+    if (passwordCnt === true && values.privateroom === "PUBLIC") {
+      setPasswordErrorMessage(false);
+      setPasswordCnt(false);
     }
-  }, [values.title, values.password, values.privateroom])
+  }, [values.title, values.password, values.privateroom]);
 
   return (
-    <div style={{ display: "inline" }}>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        방 만들기
+    <div className="create-button-container">
+      <Button
+        className="create-button"
+        variant="outlined"
+        color="primary"
+        onClick={handleClickOpen}
+      >
+        <p>방 생성</p>
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
         {/* <DialogTitle>방 만들기</DialogTitle> */}
@@ -247,8 +257,10 @@ export default function LobbyCreateRoom() {
             value={values.password}
             onChange={handleChange}
             color="secondary"
-            error={ passwordErrorMessage == true ? true : false}
-            helperText={ passwordErrorMessage == true ? "비밀번호를 입력해주세요" : false}
+            error={passwordErrorMessage == true ? true : false}
+            helperText={
+              passwordErrorMessage == true ? "비밀번호를 입력해주세요" : false
+            }
           />
           <LobbyCreateRoomTheme onChange={handleThemeChange} />
         </DialogContent>
