@@ -2,11 +2,9 @@ import "./Profile.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getToken } from "./Login";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useHistory } from "react-router-dom";
 
 import ProfileUserInfo from "../../components/auth/ProfileUserInfo";
@@ -48,8 +46,8 @@ function ProfileUpdateButton(props: UserProps) {
     return (
       <a href="javascript:void(0);">
         <span className="profile-menu-title">
-          <img src="/icons/edit-white.png" alt="" />
-          <img src="/icons/edit-black.png" alt="" />
+          <img src="/icons/auth/edit-white.png" alt="" />
+          <img src="/icons/auth/edit-black.png" alt="" />
         </span>
         <span className="profile-menu-title">회원 정보 수정</span>
       </a>
@@ -76,17 +74,6 @@ function ProfileContent(props: StatusProps) {
     phone: "",
     type: "",
   });
-
-  // const [user_id, setUserId] = useState("");
-  // const [nickname, setNickname] = useState("");
-  // const [birthday, setBirthDay] = useState("");
-  // const [img, setImg] = useState("");
-  // const [score, setScore] = useState(0);
-  // const [beer, setBeer] = useState(0);
-  // const [soju, setSoju] = useState(0);
-  // const [liquor, setLiquor] = useState(0);
-  // const [phone, setPhone] = useState("");
-  // const [type, setType] = useState("");
 
   const userStatus = props.status;
 
@@ -133,10 +120,9 @@ export default function Profile() {
   const { userNickname } = useParams<ParamTypes>();
 
   const history = useHistory();
-  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
 
   useEffect(() => {
-    if (isLogin === false) {
+    if (getToken("jwtToken") === undefined) {
       history.push("/login");
     }
     if (myNickname !== userNickname) {
@@ -156,17 +142,8 @@ export default function Profile() {
   };
 
   const handleClose = () => {
-    history.push('/lobby');
-  }
-
-  // let list = document.querySelectorAll(".profile-menu li");
-  // function activeLink(this: any) {
-  //   list.forEach((item) => item.classList.remove("hovered"));
-  //   this.classList.add("hovered");
-  //   console.log(this);
-  // }
-
-  // list.forEach((item) => item.addEventListener("mouseover", activeLink));
+    history.push("/lobby");
+  };
 
   return (
     <div className="profile-page-container">
@@ -175,8 +152,8 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);" onClick={setStatusProfile}>
               <span className="profile-menu-title">
-                <img src="/icons/profile-white.png" alt="" />
-                <img src="/icons/profile-black.png" alt="" />
+                <img src="/icons/auth/profile-white.png" alt="" />
+                <img src="/icons/auth/profile-black.png" alt="" />
               </span>
               <span className="profile-menu-title">회원 프로필</span>
             </a>
@@ -187,8 +164,8 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);">
               <span className="profile-menu-title">
-                <img src="/icons/cup-white.png" alt="" />
-                <img src="/icons/cup-black.png" alt="" />
+                <img src="/icons/auth/cup-white.png" alt="" />
+                <img src="/icons/auth/cup-black.png" alt="" />
               </span>
               <span className="profile-menu-title">참가 로그</span>
             </a>
@@ -196,8 +173,8 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);">
               <span className="profile-menu-title">
-                <img src="/icons/etc-white.png" alt="" />
-                <img src="/icons/etc-black.png" alt="" />
+                <img src="/icons/auth/etc-white.png" alt="" />
+                <img src="/icons/auth/etc-black.png" alt="" />
               </span>
               <span className="profile-menu-title">나머지 기능</span>
             </a>
@@ -207,7 +184,11 @@ export default function Profile() {
       <div className="profile-userinfo">
         <ProfileContent status={status} />
         <span className="close-icon">
-          <CloseIcon color="error" sx={{ fontSize: 40}} onClick={handleClose}></CloseIcon>
+          <CloseIcon
+            color="inherit"
+            sx={{ fontSize: 30 }}
+            onClick={handleClose}
+          ></CloseIcon>
         </span>
       </div>
     </div>

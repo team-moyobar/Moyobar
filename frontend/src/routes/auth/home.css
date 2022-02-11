@@ -4,12 +4,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
-    url(/public/images/homebg1.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)),
+    url(/public/images/auth/bg2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 100% 25%;
+  background-position: 100% 50%;
   color: white;
+  transition: 0.5s;
+}
+
+.home-container.login-move {
+  background-position: 100% 20%;
 }
 
 .home-box {
@@ -22,10 +27,10 @@
 .home-box img {
   width: 300px;
   margin-bottom: 250px;
-  background: white;
 }
 
 .home-button {
+  display: block;
   position: relative;
   display: inline-block;
   font-size: 20px;

@@ -7,20 +7,20 @@ import Button from "@mui/material/Button";
 import Messages from "./Messages";
 import GameSelect from "./GameSelect";
 
-import { getToken } from "../../routes/auth/Login";
+import { getToken as getCookie } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
 import { NoEncryption } from "@mui/icons-material";
 
 const OPENVIDU_SERVER_URL = "https://i6d210.p.ssafy.io:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-const TOKEN = getToken("jwtToken");
+const TOKEN = getCookie("jwtToken");
 
 class UserCamera extends Component {
   constructor(props) {
     super(props);
     this.state = {
       mySessionId: props.roomId,
-      myUserName: getToken("nickname"),
+      myUserName: getCookie("nickname"),
       session: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
@@ -389,7 +389,7 @@ class UserCamera extends Component {
                   this.setState({ audiostate: !this.state.audiostate });
                 }}
               >
-                <img src="/images/mic.png" alt=""></img>
+                <img src="/icons/room/mic.png" alt=""></img>
               </button>
               <button
                 onClick={() => {
@@ -397,7 +397,7 @@ class UserCamera extends Component {
                   this.setState({ videostate: !this.state.videostate });
                 }}
               >
-                <img src="/images/camera.png" alt=""></img>
+                <img src="/icons/room/camera.png" alt=""></img>
               </button>
               <button onClick={() => this.handleGameSelectButton()}>
                 {this.state.isGameSelectButtonClicked !== false
@@ -418,7 +418,9 @@ class UserCamera extends Component {
             {/* ) : null} */}
           </div>
           <div className="gamebox-bottom">
-            <button onClick={this.leaveSession}>나가기</button>
+            <button onClick={this.leaveSession}>
+              <img className="exit-button" src="/icons/room/exit.png" alt="">나가기</img>
+            </button>
           </div>
         </div>
         <div className="chatbox">

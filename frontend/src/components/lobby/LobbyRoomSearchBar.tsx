@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import "./LobbyRoomSearchBar.css";
 
 export default function LobbyRoomSearchBar({ onSubmit }: any) {
   const [searchBy, setSearchBy] = React.useState("all");
@@ -25,8 +26,8 @@ export default function LobbyRoomSearchBar({ onSubmit }: any) {
   };
 
   return (
-    <Box sx={{ width: 400, display: "inline-block" }}>
-      <FormControl size="small" sx={{ width: 100 }}>
+    <Box className="search-container">
+      <FormControl className="search-menu" size="small">
         <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -45,17 +46,19 @@ export default function LobbyRoomSearchBar({ onSubmit }: any) {
         id="outlined-basic"
         label="검색어"
         variant="outlined"
-        size="small"
+        size="medium"
         name="keyword"
         onChange={keywordChange}
+        className="search-input"
       />
       <Button
         variant="outlined"
         sx={{ height: 40 }}
         color="primary"
         onClick={handleSubmit}
+        className="search-button"
       >
-        검색
+        <p>검색</p>
       </Button>
     </Box>
   );
