@@ -83,6 +83,33 @@ export default function LobbyCreateRoom() {
       : (passwordDisabled = true);
   }
 
+  const intoRoom = (e: any) => {
+    const TOKEN = getToken("jwtToken");
+    const owner = getToken("nickname")
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+
+    var userData = {
+      password: values.password
+    }
+
+    axios
+      .post(`rooms/${e.room_id}`, userData, config)
+      .then((res) => {
+        console.log("입장성공")
+        console.log(res)
+        history.push(`/room/${res.data.room_id}/${owner}`)
+      })
+      .catch((err) => {
+        console.log("Fail..");
+        console.log(err);
+      })
+  }
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (values.title == "" || (values.privateroom == "PRIVATE" && values.password == "" )) {
@@ -118,7 +145,7 @@ export default function LobbyCreateRoom() {
         .then((res) => {
           console.log("success");
           console.log(res);
-          history.push(`/room/${res.data.room_id}`)
+          intoRoom(res.data)
         })
         .catch((err) => {
           console.log("Fail..");
