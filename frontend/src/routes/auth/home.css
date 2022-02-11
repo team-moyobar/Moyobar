@@ -4,11 +4,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(/public/images/bg5.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+    url(/public/images/homebg1.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 100% 100%;
+  background-position: 100% 30%;
   color: white;
 }
 
@@ -22,6 +22,7 @@
 .home-box img {
   width: 300px;
   margin-bottom: 300px;
+  background: white;
 }
 
 .home-button {
@@ -37,7 +38,7 @@
   background-color: #e74c3c;
   box-shadow: 0 0 0 1px #c63702 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
     0 8px 0 0 #c24032, 0 8px 0 1px rgba(54, 54, 54, 0.4),
-    0 8px 8px 1px rgba(54, 54, 54, 0.5);
+    0 15px 15px 10px rgba(27, 27, 27, 0.7);
   cursor: pointer;
   border: 0;
 }
@@ -45,5 +46,5 @@
 .home-button:active {
   top: 9px;
   box-shadow: 0 0 0 1px #c63702 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
-    0 0 0 1px rgba(54, 54, 54, 0.4);
+    0 10px 10px 1px rgba(54, 54, 54, 0.4);
 }

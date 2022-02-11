@@ -110,9 +110,10 @@ export default function Lobby() {
   };
 
   useEffect(() => {
+    console.log(getToken("jwtToken"));
     handleLoad({ title, page, size });
     handleUserLoad();
-    if (isLogin === false) {
+    if (getToken("jwtToken") === undefined) {
       history.push("/login");
     }
   }, [page]);
