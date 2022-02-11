@@ -29,7 +29,7 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/lobby" component={Lobby} />
       <Route path="/profile/:userNickname" component={Profile} />
-      <Route path="/room/:roomId" component={Room} />
+      <Route path="/room/:roomId/:owner" component={Room} />
     </Router>
   );
 }
