@@ -5,34 +5,52 @@ import StompInitial from "../game/Initial";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 
-const GameSelect = () => {
-  const [gameSelected, setGameSelected] = useState(false);
-  const [liar, setLiar] = useState(false);
-  const [upDown, setUpDown] = useState(false);
-  const [initial, setInitial] = useState(false);
+export interface SelectGameProps {
+  mySession: any;
+  receiveGameSelect: string;
+}
 
+const GameSelect = (props: SelectGameProps) => {
   const handleLiar = () => {
-    setLiar(true);
-    setGameSelected(true);
+    const mySession = props.mySession;
+
+    mySession.signal({
+      data: "Liar",
+      to: [],
+      type: "selgame",
+    });
   };
   const handleUpDown = () => {
-    setUpDown(true);
-    setGameSelected(true);
+    const mySession = props.mySession;
+
+    mySession.signal({
+      data: "Updown",
+      to: [],
+      type: "selgame",
+    });
   };
   const handleInitial = () => {
-    setInitial(true);
-    setGameSelected(true);
+    const mySession = props.mySession;
+
+    mySession.signal({
+      data: "Initial",
+      to: [],
+      type: "selgame",
+    });
   };
   const handleGameChange = () => {
-    setGameSelected(false);
-    setUpDown(false);
-    setLiar(false);
-    setInitial(false);
+    const mySession = props.mySession;
+
+    mySession.signal({
+      data: "None",
+      to: [],
+      type: "selgame",
+    });
   };
 
   return (
     <div>
-      {gameSelected == false ? (
+      {props.receiveGameSelect === "None" ? (
         <div>
           <p>게임을 골라주세요</p>
           <Button variant="contained" onClick={handleLiar}>
@@ -46,7 +64,7 @@ const GameSelect = () => {
           </Button>
         </div>
       ) : null}
-      {liar == true ? (
+      {props.receiveGameSelect === "Liar" ? (
         <div>
           <StompLiar></StompLiar>
           <Button variant="contained" color="error" onClick={handleGameChange}>
@@ -54,7 +72,7 @@ const GameSelect = () => {
           </Button>
         </div>
       ) : null}
-      {upDown == true ? (
+      {props.receiveGameSelect === "Updown" ? (
         <div>
           <StompUpdown></StompUpdown>
           <Button variant="contained" color="error" onClick={handleGameChange}>
@@ -62,7 +80,7 @@ const GameSelect = () => {
           </Button>
         </div>
       ) : null}
-      {initial == true ? (
+      {props.receiveGameSelect === "Initial" ? (
         <div>
           <StompInitial></StompInitial>
           <Button variant="contained" color="error" onClick={handleGameChange}>
