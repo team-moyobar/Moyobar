@@ -9,6 +9,7 @@ import GameSelect from "./GameSelect";
 
 import { getToken } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
+import { NoEncryption } from "@mui/icons-material";
 
 const OPENVIDU_SERVER_URL = "https://i6d210.p.ssafy.io:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -30,6 +31,7 @@ class UserCamera extends Component {
       audiostate: false,
       videostate: false,
 
+      gameSelect: "None",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -192,6 +194,12 @@ class UserCamera extends Component {
               ],
             });
           }
+        });
+
+        mySession.on("signal:selgame", (event) => {
+          this.setState({
+            gameSelect: event.data,
+          });
         });
 
         // On every Stream destroyed...
@@ -402,9 +410,12 @@ class UserCamera extends Component {
         <div className="gamebox">
           <div className="gamebox-top"></div>
           <div className="gamebox-center">
-            {this.state.isGameSelectButtonClicked !== false ? (
-              <GameSelect></GameSelect>
-            ) : null}
+            {/* {this.state.isGameSelectButtonClicked !== false ? ( */}
+            <GameSelect
+              mySession={this.state.session}
+              receiveGameSelect={this.state.gameSelect}
+            ></GameSelect>
+            {/* ) : null} */}
           </div>
           <div className="gamebox-bottom">
             <button onClick={this.leaveSession}>나가기</button>
