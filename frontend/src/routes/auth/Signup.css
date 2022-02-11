@@ -2,8 +2,7 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(/public/images/bg3.jpg);
+  background-image: url(/public/images/bg3.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   grid-template-columns: repeat(10, 1fr);
@@ -11,7 +10,7 @@
 }
 
 .signup-left {
-  grid-column: 2 / 4;
+  grid-column: 2 / 5;
   grid-row: 2 / 4;
   display: flex;
   justify-content: center;
@@ -26,7 +25,7 @@
     0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
     0 0 151px rgb(210, 23, 216);
   text-align: center;
-  animation: flicker 1.5s infinite alternate;
+  animation: flicker 3.0s infinite alternate;
   font-size: 40px;
 }
 

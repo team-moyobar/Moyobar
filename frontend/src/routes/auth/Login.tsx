@@ -65,6 +65,7 @@ export default function Login() {
         history.push("/lobby");
       })
       .catch(() => {
+        alert("이메일과 비밀번호를 확인해주세요")
         history.push("/login");
       });
   };
@@ -79,13 +80,15 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-left">
-        <p>좋은 문구를 추천해주세요</p>
+        <p>당신의 술자리를 새롭게, MOYOBAR</p>
       </div>
       <div className="login-right">
         <p className="login">LOGIN</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="login-form">
-            <div className="login-icon"></div>
+            <div className="login-icon">
+              <img src="/icons/email.png" alt="" />
+            </div>
             <div className="login-input login-email">
               <input placeholder="이메일" {...register("userId")} />
               <select className="login-select" {...register("email")}>
@@ -95,7 +98,9 @@ export default function Login() {
             </div>
           </div>
           <div className="login-form">
-            <div className="login-icon"></div>
+            <div className="login-icon">
+              <img src="/icons/secret.png" alt="" />
+            </div>
             <div className="login-input">
               <input
                 placeholder="비밀번호"
@@ -116,8 +121,14 @@ export default function Login() {
           <div className="line-or">or</div>
           <div className="line"></div>
         </div>
-        <button className="login-kakao-button">Kakao 로그인</button>
-        <button className="login-google-button">Google 로그인</button>
+        <button className="login-kakao-button">
+          <img src="/images/kakao.jpg" alt="" />
+          Kakao 로그인
+        </button>
+        <button className="login-google-button">
+          <img src="/images/google.png" alt="" />
+          Google 로그인
+        </button>
       </div>
     </div>
   );
