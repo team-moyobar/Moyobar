@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { logoutCheck } from "../../redux/auth/action";
 import { useHistory } from "react-router-dom";
 import { getToken } from "../../routes/auth/Login";
+import "./Logout.css";
 
 export default function Logout() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export default function Logout() {
       axios
         .get("/auth/logout", config)
         .then((res) => {
-          console.log(res);
+          alert("로그아웃 되었습니다.");
           dispatch(logoutCheck());
           cookies.remove("jwtToken");
           cookies.remove("nickname");
@@ -34,5 +35,9 @@ export default function Logout() {
         });
     }
   }
-  return <button onClick={handlelogout}>로그아웃</button>;
+  return (
+    <button className="logout-button" onClick={handlelogout}>
+      로그아웃
+    </button>
+  );
 }

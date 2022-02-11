@@ -31,6 +31,7 @@ function App() {
       <Route path="/profile/:userNickname" component={Profile} />
       <Route path="/room/:roomId/:owner" component={Room} />
     </Router>
+    
   );
 }
 

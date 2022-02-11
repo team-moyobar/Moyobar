@@ -1,30 +1,38 @@
 .lobby-container {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-    url(/public/images/bg3.jpg);
+  background-image: url(/public/images/lobby/bg16.jpg);
   display: flex;
   background-repeat: no-repeat;
+  background-position: 100% 70%;
   overflow: hidden;
   background-size: cover;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .lobby-main {
-  width: 100%;
-  height: 92%;
+  width: 90%;
+  height: 85%;
   display: flex;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(5px);
 }
+
+.lobby-main {
+  cursor: default;
+}
+
 .lobby-header {
-  height: 8%;
-  width: 100%;
+  display: flex;
+  height: 7%;
+  width: 90%;
   min-height: 48px;
   color: white;
-  text-align: end;
-  padding: 50px;
+  align-items: center;
+  justify-content: end;
 }
 
 .lobby-logout {
@@ -33,18 +41,15 @@
 
 .lobby-left {
   position: relative;
-  width: 23%;
-  margin: 3rem 0 3rem 3rem;
+  width: 22%;
   align-self: stretch;
   min-width: 200px;
   min-height: 500px;
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 10px;
-  background: rgba(24, 24, 24, 0.5);
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  background: rgba(24, 24, 24, 0.7);
   border-radius: 8px 0px 0px 8px;
-  backdrop-filter: blur(15px);
   text-align: center;
 }
 
@@ -53,16 +58,13 @@
   margin-bottom: 20px;
 }
 .lobby-right {
-  width: 77%;
+  width: 78%;
   align-self: stretch;
-  margin: 3rem 3rem 3rem 0rem;
   min-width: 200px;
   min-height: 500px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
   border-radius: 0px 8px 8px 0px;
-  backdrop-filter: blur(15px);
   text-align: center;
 }
 
@@ -75,7 +77,9 @@
   display: flex;
   height: 10%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 .lobby-room-list {

@@ -57,8 +57,6 @@ export default function Lobby() {
     (state: RootState) => state.authReducer.nickname
   );
 
-  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
-
   const handleLoad = ({ searchBy = "null", keyword = "null" }: any) => {
     const query = `&page=${page}&size=${size}&searchBy=${searchBy}&keyword=${keyword}`;
     const TOKEN = getToken("jwtToken");
@@ -109,6 +107,10 @@ export default function Lobby() {
     setPage(value);
   };
 
+  const routeMyProfile = () => {
+    history.push(`/profile/${nickname}`);
+  };
+
   useEffect(() => {
     console.log(getToken("jwtToken"));
     handleLoad({ title, page, size });
@@ -122,12 +124,12 @@ export default function Lobby() {
     <ThemeProvider theme={darkTheme}>
       <div className="lobby-container">
         <div className="lobby-header">
-          <p>{nickname}</p>
+          <p onClick={routeMyProfile}>{nickname}</p>
           <Logout />
         </div>
         <div className="lobby-main">
           <div className="lobby-left">
-            <h3>접속 유저 리스트</h3>
+            <h3>참가 목록</h3>
             <LobbySideBar items={users} />
           </div>
           <div className="lobby-right">

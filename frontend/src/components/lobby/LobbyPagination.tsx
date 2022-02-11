@@ -10,9 +10,10 @@ export default function LobbyPagination({ onChange, totalPages }: any) {
     <Stack spacing={8}>
       <Pagination
         count={totalPages}
-        color="secondary"
+        color="standard"
         onChange={handleChange}
-        variant="outlined"
+        variant="text"
+        size="large"
       />
     </Stack>
   );

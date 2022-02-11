@@ -4,7 +4,7 @@
       rgb(0, 0, 0) 65%,
       rgba(0, 0, 0, 0) 35%
     ),
-    url(/public/images/bg4.jpg);
+    url(/public/images/auth/bg2.jpg);
   background-size: cover;
   background-position: 0% 0%;
   background-repeat: no-repeat;
@@ -21,6 +21,7 @@
   border-radius: 10px;
   transition: 0.5s;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .lobby-room-list-item-info:hover {
@@ -37,17 +38,6 @@
   border-radius: 0;
 }
 
-.room-thumbnail {
-  height: 100%;
-  width: 25%;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.room-thumbnail img {
-  height: 100%;
-}
-
 .room-content {
   display: flex;
   flex-direction: column;
@@ -57,4 +47,11 @@
 
 .room-content h4 {
   margin: 0;
+}
+
+.lobby-room-list-item-info button {
+  background: rgb(107, 25, 184);
+  border: 0;
+  align-self: flex-end;
+  margin-left: auto;
 }
