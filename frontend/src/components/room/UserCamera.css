@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(/public/images/bg3.jpg);
+  background-image: url(/public/images/auth/bg3.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -102,6 +102,10 @@
   width: 80%;
   height: 70%;
   justify-self: end;
+}
+
+.exit-button {
+  height: 60%;
 }
 
 .session-footer button {

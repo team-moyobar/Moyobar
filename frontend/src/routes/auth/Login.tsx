@@ -87,7 +87,7 @@ export default function Login() {
         <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="login-form">
             <div className="login-icon">
-              <img src="/icons/email.png" alt="" />
+              <img src="/icons/auth/email.png" alt="" />
             </div>
             <div className="login-input login-email">
               <input placeholder="이메일" {...register("userId")} />
@@ -99,7 +99,7 @@ export default function Login() {
           </div>
           <div className="login-form">
             <div className="login-icon">
-              <img src="/icons/secret.png" alt="" />
+              <img src="/icons/auth/secret.png" alt="" />
             </div>
             <div className="login-input">
               <input
@@ -122,11 +122,11 @@ export default function Login() {
           <div className="line"></div>
         </div>
         <button className="login-kakao-button">
-          <img src="/images/kakao.jpg" alt="" />
+          <img src="/icons/auth/kakao.jpg" alt="" />
           Kakao 로그인
         </button>
         <button className="login-google-button">
-          <img src="/images/google.png" alt="" />
+          <img src="/icons/auth/google.png" alt="" />
           Google 로그인
         </button>
       </div>

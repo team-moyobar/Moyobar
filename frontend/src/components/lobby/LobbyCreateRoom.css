@@ -1,0 +1,13 @@
+.create-button-container {
+  width: 8%;
+  height: 50%;
+}
+
+.create-button {
+  width: 100%;
+  height: 100%;
+}
+
+.create-button p {
+  font-size: 15px;
+}

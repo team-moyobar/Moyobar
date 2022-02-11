@@ -2,7 +2,7 @@
   width: 100vw;
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-    url(/public/images/bg3.jpg);
+    url(/public/images/lobby/bg16.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   display: grid;
@@ -12,21 +12,23 @@
 }
 
 .profile-menu {
-  background-color: #222222;
+  background-color: rgba(0, 0, 0, 0.6);
   grid-column: 2 / 4;
   grid-row: 2 / 10;
   margin: 30px;
   margin-right: 0;
-  border-left: 10px solid #222222;
+  border-left: 10px solid rgba(0, 0, 0, 0);
   transition: 0.5s;
   overflow: hidden;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
 }
+
 .profile-menu ul {
   width: 100%;
   padding: 0;
 }
+
 .profile-menu ul li {
   width: 100%;
   list-style: none;
@@ -34,8 +36,7 @@
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
 }
-.profile-menu ul li:hover,
-.profile-menu ul li.hovered {
+.profile-menu ul li:hover {
   background: #ecf0f3;
 }
 
@@ -45,9 +46,9 @@
   display: flex;
   text-decoration: none;
   color: #ecf0f3;
+  transition: 0.2s;
 }
-.profile-menu ul li:hover a,
-.profile-menu ul li.hovered a {
+.profile-menu ul li:hover a {
   color: #222222;
 }
 
@@ -97,19 +98,19 @@
   grid-row: 2 / 10;
   margin: 30px;
   margin-left: 0;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
   padding: 40px;
 }
 
-.close-icon{
+.close-icon {
   position: absolute;
   right: 2%;
   top: 2%;
   cursor: pointer;
 }
 
-.profile-menu-title img{
+.profile-menu-title img {
   height: 50%;
 }
 

@@ -34,12 +34,18 @@ interface IFormInput {
 export default function Signup() {
   const history = useHistory();
 
+  function routeLogin() {
+    history.push("/login");
+  }
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("naver");
 
   const [flagNickname, setCheckNickname] = useState(false);
   const [flagUserId, setCheckUserId] = useState(false);
+
+  const [emailOn, setemailOn] = useState<boolean>(false);
+  const [nickNameOn, setnickNameOn] = useState<boolean>(false);
 
   const setFlagNickname = () => {
     setCheckNickname(true);
@@ -50,6 +56,7 @@ export default function Signup() {
   };
 
   const changeUserId = (e: any) => {
+    setemailOn(true);
     setId(e.target.value);
     setCheckUserId(false);
   };
@@ -59,6 +66,7 @@ export default function Signup() {
   };
 
   const changeNickname = (e: any) => {
+    setnickNameOn(true);
     setNickname(e.target.value);
     setCheckNickname(false);
   };
@@ -134,7 +142,6 @@ export default function Signup() {
       alert("아이디 중복검사 해주세요");
     }
   };
-  const isLogin = useSelector((state: RootState) => state.authReducer.isLogin);
 
   useEffect(() => {
     if (getToken("jwtToken")) {
@@ -151,8 +158,10 @@ export default function Signup() {
         <p className="signup">SIGNUP</p>
         <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="signup-form">
-            <div className="signup-icon"></div>
-            <div className="signup-input signup-border">
+            <div className="signup-icon">
+              <img src="/icons/auth/email.png" alt="" />
+            </div>
+            <div className="signup-radius signup-border">
               <input
                 placeholder="이메일"
                 {...register("userId")}
@@ -168,13 +177,15 @@ export default function Signup() {
                 </option>
                 <option value="gmail">gmail.com</option>
               </select>
-              <div className="signup-duplicate">
-                <button onClick={checkId}>중복확인</button>
+              <div className={`signup-duplicate ${emailOn ? "email-on" : ""}`}>
+                <button onClick={checkId}>확인</button>
               </div>
             </div>
           </div>
           <div className="signup-form">
-            <div className="signup-icon"></div>
+            <div className="signup-icon">
+              <img src="/icons/auth/secret.png" alt="" />
+            </div>
             <div className="signup-input">
               <input
                 placeholder="비밀번호"
@@ -184,7 +195,9 @@ export default function Signup() {
             </div>
           </div>
           <div className="signup-form">
-            <div className="signup-icon"></div>
+            <div className="signup-icon">
+              <img src="/icons/auth/secret.png" alt="" />
+            </div>
             <div className="signup-input">
               <input
                 placeholder="비밀번호 확인"
@@ -194,26 +207,36 @@ export default function Signup() {
             </div>
           </div>
           <div className="signup-form">
-            <div className="signup-icon"></div>
-            <div className="signup-input">
+            <div className="signup-icon">
+              <img src="/icons/auth/nickname.png" alt="" />
+            </div>
+            <div className="signup-radius">
               <input
                 placeholder="닉네임"
                 {...register("userNickName")}
                 onChange={changeNickname}
               />
-              <div className="signup-duplicate">
-                <button onClick={checkNickname}>중복확인</button>
+              <div
+                className={`signup-duplicate ${
+                  nickNameOn ? "nickname-on" : ""
+                }`}
+              >
+                <button onClick={checkNickname}>확인</button>
               </div>
             </div>
           </div>
           <div className="signup-form">
-            <div className="signup-icon"></div>
+            <div className="signup-icon">
+              <img src="/icons/auth/phone.png" alt="" />
+            </div>
             <div className="signup-input">
               <input placeholder="휴대전화 번호" {...register("phoneNumber")} />
             </div>
           </div>
           <div className="signup-form">
-            <div className="signup-icon"></div>
+            <div className="signup-icon">
+              <img src="/icons/auth/calendar.png" alt="" />
+            </div>
             <div className="signup-input">
               <input
                 type="datetime"
@@ -223,7 +246,9 @@ export default function Signup() {
             </div>
           </div>
           <div className="signup-form">
-            <div className="signup-icon"></div>
+            <div className="signup-icon">
+              <img src="/icons/auth/alcohol.png" alt="" />
+            </div>
             <div className="signup-input signup-border-al">
               <select className="signup-select-al" {...register("alcohol")}>
                 <option value="soju" selected>
@@ -243,6 +268,9 @@ export default function Signup() {
             회원가입
           </button>
         </form>
+        <button onClick={routeLogin} className="signup-login">
+          로그인
+        </button>
       </div>
     </div>
   );
