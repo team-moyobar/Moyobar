@@ -66,7 +66,6 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<UserRes> getOtherUserInfo(@ApiIgnore Authentication authentication, @PathVariable @ApiParam(value="조회하려는 회원의 닉네임") String nickname) {
-        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
         //해당 api 호출한 사람이 접속 중인 유저인지 판단
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
@@ -123,7 +122,6 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     private ResponseEntity<? extends BaseResponseBody> updateUserInfo(@ApiIgnore Authentication authentication, @ApiParam(value = "업데이트할 유저 정보") @RequestBody UserUpdatePutReq userUpdatePutreq) {
-        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
         //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
@@ -153,7 +151,6 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     private ResponseEntity<? extends BaseResponseBody> changeUserPwd(@ApiIgnore Authentication authentication, @ApiParam(value = "새로운 유저 비밀번호") @RequestBody UserChangePwdPutReq userChangePwdPutReq) {
-        if(authentication == null) throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
