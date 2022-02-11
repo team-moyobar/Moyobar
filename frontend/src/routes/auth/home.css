@@ -8,7 +8,7 @@
     url(/public/images/homebg1.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 100% 30%;
+  background-position: 100% 25%;
   color: white;
 }
 
@@ -21,7 +21,7 @@
 
 .home-box img {
   width: 300px;
-  margin-bottom: 300px;
+  margin-bottom: 250px;
   background: white;
 }
 
@@ -29,22 +29,28 @@
   position: relative;
   display: inline-block;
   font-size: 20px;
+  font-weight: 700;
   padding: 20px 60px;
-  color: white;
+  color: rgba(55, 7, 100, 0.2);
   margin: 20px 10px 10px;
   border-radius: 6px;
   text-align: center;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-  background-color: #e74c3c;
-  box-shadow: 0 0 0 1px #c63702 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
-    0 8px 0 0 #c24032, 0 8px 0 1px rgba(54, 54, 54, 0.4),
+  background-color: #8b4dee;
+  box-shadow: 0 0 0 1px #662ec2 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
+    0 8px 0 0 #452d6b, 0 8px 0 1px rgba(54, 54, 54, 0.4),
     0 15px 15px 10px rgba(27, 27, 27, 0.7);
   cursor: pointer;
   border: 0;
+  transition: 0.2s;
 }
 
 .home-button:active {
   top: 9px;
-  box-shadow: 0 0 0 1px #c63702 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
-    0 10px 10px 1px rgba(54, 54, 54, 0.4);
+  box-shadow: 0 0 0 1px #662ec2 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
+    0 10px 10px 1px rgba(27, 27, 27, 0.6);
+}
+
+.home-button:hover {
+  color: rgba(55, 7, 100, 0.8);
 }

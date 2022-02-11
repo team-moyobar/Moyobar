@@ -25,7 +25,7 @@
     0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
     0 0 151px rgb(210, 23, 216);
   text-align: center;
-  animation: flicker 3.0s infinite alternate;
+  animation: flicker 3s infinite alternate;
   font-size: 40px;
 }
 
@@ -67,6 +67,8 @@
   font-size: 40px;
   margin-bottom: 7%;
   cursor: default;
+  position: absolute;
+  top: 100px;
 }
 
 .login-form {
@@ -84,17 +86,18 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 150px;
 }
 
 .login-submit {
-  background: rgb(209, 17, 216);
+  background: rgb(139, 77, 238);
   border: 0;
   width: 75%;
   height: 45px;
   border-radius: 3px;
   color: rgba(255, 255, 255, 0.7);
   margin-top: 20px;
-  transition: 0.05s;
+  transition: 0.2s;
 }
 
 .login-submit:hover {
@@ -134,7 +137,7 @@
   background-color: transparent;
   border: 0;
   height: 100%;
-  width: 80%;
+  width: 50%;
   border-radius: 0px 5px 5px 0px;
   text-align: center;
   color: rgba(177, 177, 177, 0.65);
@@ -205,7 +208,8 @@
   margin-top: 30px;
   font-weight: 700;
   border: 0;
-  color: black;
+  color: rgba(0, 0, 0, 0.5);
+  transition: 0.2s;
 }
 
 .login-kakao-button img {
@@ -221,10 +225,19 @@
   margin-top: 10px;
   font-weight: 700;
   border: 0;
-  color: white;
+  color: rgba(255, 255, 255, 0.5);
+  transition: 0.2s;
 }
 
 .login-google-button img {
   float: left;
   height: 60%;
+}
+
+.login-google-button:hover {
+  color: rgb(255, 255, 255);
+}
+
+.login-kakao-button:hover {
+  color: rgb(0, 0, 0);
 }

@@ -25,7 +25,7 @@
     0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
     0 0 151px rgb(210, 23, 216);
   text-align: center;
-  animation: flicker 3.0s infinite alternate;
+  animation: flicker 3s infinite alternate;
   font-size: 40px;
 }
 
@@ -56,28 +56,31 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-  backdrop-filter: blur(15px);
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
   color: white;
+  padding: 5px;
 }
 
 .signup {
   font-size: 40px;
-  margin-bottom: 70px;
+  margin-bottom: 7%;
   cursor: default;
+  position: absolute;
+  top: 100px;
 }
 
 .signup-select {
   background-color: transparent;
   border: 0;
   height: 100%;
-  width: 70%;
+  width: 50%;
   border-radius: 0px 5px 5px 0px;
   text-align: center;
-  color: rgba(136, 136, 136, 0.8);
-  font-size: 15px;
-  font-weight: 700;
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+  font-weight: 600;
   margin-right: 10px;
 }
 
@@ -85,12 +88,12 @@
   background-color: transparent;
   border: 0;
   height: 100%;
-  width: 25%;
+  width: 20%;
   border-radius: 0px 5px 5px 0px;
   text-align: center;
-  color: rgba(136, 136, 136, 0.8);
-  font-size: 15px;
-  font-weight: 700;
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+  font-weight: 600;
   margin-right: 10px;
 }
 
@@ -100,11 +103,12 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .signup-input {
   background: rgba(167, 167, 167, 0.4);
-  width: 315px;
+  width: 68%;
   height: 45px;
   display: flex;
   flex-direction: row;
@@ -125,27 +129,31 @@
   width: 100%;
 }
 
+.signup-input input::placeholder {
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+}
+
 .signup-submit {
-  background: inherit;
-  border: 1px solid rgb(133, 133, 133);
-  width: 360px;
+  background: rgb(139, 77, 238);
+  border: 0;
+  width: 75%;
   height: 45px;
   border-radius: 3px;
-  color: rgb(133, 133, 133);
+  color: rgba(255, 255, 255, 0.7);
   margin-top: 20px;
-  transition: 0.5s;
+  transition: 0.2s;
 }
 
 .signup-submit:hover {
-  border: 1px solid rgb(185, 185, 185);
-  color: rgb(185, 185, 185);
+  border: 0;
+  color: rgb(255, 255, 255);
 }
 
 .signup-icon {
   background: rgba(167, 167, 167, 0.4);
-  width: 45px;
+  width: 7%;
   height: 45px;
-
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -159,11 +167,12 @@
 }
 
 .signup-duplicate {
+  position: static;
   border: 0;
   background-color: rgba(24, 24, 24, 0.5);
   border-radius: 0px 3px 3px 0px;
   margin-left: 1px;
-  width: 100px;
+  width: 30%;
   height: 100%;
   display: flex;
   justify-content: center;
