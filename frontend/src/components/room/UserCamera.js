@@ -26,6 +26,10 @@ class UserCamera extends Component {
       subscribers: [],
       messages: [],
       isGameSelectButtonClicked: false,
+
+      audiostate: false,
+      videostate: false,
+
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -218,8 +222,8 @@ class UserCamera extends Component {
               let publisher = this.OV.initPublisher(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: undefined, // The source of video. If undefined default webcam
-                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+                publishVideo: false, // Whether you want to start publishing with your video enabled or not
                 resolution: "640x480", // The resolution of your video
                 frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
@@ -371,8 +375,22 @@ class UserCamera extends Component {
               ))}
             </div>
             <div className="session-footer">
-              <img src="/images/camera.png" alt=""></img>
-              <img src="/images/mic.png" alt=""></img>
+              <button
+                onClick={() => {
+                  this.state.publisher.publishAudio(!this.state.audiostate);
+                  this.setState({ audiostate: !this.state.audiostate });
+                }}
+              >
+                <img src="/images/mic.png" alt=""></img>
+              </button>
+              <button
+                onClick={() => {
+                  this.state.publisher.publishVideo(!this.state.videostate);
+                  this.setState({ videostate: !this.state.videostate });
+                }}
+              >
+                <img src="/images/camera.png" alt=""></img>
+              </button>
               <button onClick={() => this.handleGameSelectButton()}>
                 {this.state.isGameSelectButtonClicked !== false
                   ? "게임 종료"
