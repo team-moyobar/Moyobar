@@ -74,7 +74,7 @@ public class RoomController {
 
         Room room = roomService.createRoom(registerInfo, owner);
 
-        return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId()));
+        return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId(), owner.getNickname()));
     }
 
 
@@ -186,7 +186,7 @@ public class RoomController {
         if (currentUserCount == room.getMax())
             throw new RoomAlreadyMaxUserException();
 
-        if (room.getType() == RoomType.PRIVATE) {
+        if (room.getOwner() != user && room.getType() == RoomType.PRIVATE) {
             if (joinInfo.getPassword() == null || !passwordEncoder.matches(joinInfo.getPassword(), room.getPassword()))
                 throw new InvalidValueException(ErrorCode.PASSWORD_MISMATCH);
         }
