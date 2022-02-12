@@ -74,6 +74,7 @@ public class RoomController {
 
         Room room = roomService.createRoom(registerInfo, owner);
 
+        log.info("방 주인 ID: {}, 방 번호: {}, 생성",userId, room.getId());
         return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId(), owner.getNickname()));
     }
 
@@ -112,6 +113,7 @@ public class RoomController {
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
 
+        log.info("방 주인 ID: {}, 방 번호: {}, 수정",userId, roomId);
         User authUser = userService.getUserByUserId(userId);
         Room room = roomService.getRoomById(roomId);
 
@@ -122,7 +124,6 @@ public class RoomController {
         // 이미 닫힌 방 접근 시
         if (room.getIsActive() == 1)
             throw new BadRequestException("잘못된 접근입니다.");
-
         User owner = authUser;
         if (updateInfo.getOwner() != null) {
             owner = userService.getUserByNickname(updateInfo.getOwner());
@@ -145,6 +146,7 @@ public class RoomController {
             @RequestParam @ApiParam(name = "keyword", required = false) @Nullable String keyword,
             @PageableDefault(size = 10, sort = "start", direction = Sort.Direction.DESC) Pageable pageable,
             @ApiIgnore Authentication authentication) {
+        log.info("방 목록 조회");
 
         Page<Room> rooms = roomService.getActiveRoomList(searchBy, keyword, pageable);
         List<RoomRes> result = rooms.getContent()
@@ -191,7 +193,7 @@ public class RoomController {
                 throw new InvalidValueException(ErrorCode.PASSWORD_MISMATCH);
         }
 
-
+        log.info("방 입장 사용자 ID: {}, 방 번호: {}", userId, roomId);
         historyService.createHistory(room, user);
         List<User> users = historyService.getUserInRoom(room.getId());
         return ResponseEntity.status(200).body(RoomRes.of(room, users));
@@ -217,6 +219,8 @@ public class RoomController {
 
         Room room = roomService.getRoomById(roomId);
 
+        log.info("방 퇴장 사용자 ID: {}, 방 번호: {}", userId, roomId);
+
         historyService.leaveRoom(user, room);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
@@ -230,6 +234,7 @@ public class RoomController {
     })
     public ResponseEntity<Boolean> checkPassword(@PathVariable @ApiParam(value = "방 번호") long roomId,
                                                  @RequestBody @ApiParam(value = "방 입장 비밀번호 정보", required = false) RoomJoinPostReq roomJoinInfo) {
+
         Room room = roomService.getRoomById(roomId);
         if (room.getIsActive() == 1) throw new RoomNotFoundException();
 
