@@ -389,7 +389,7 @@ class UserCamera extends Component {
                   this.setState({ audiostate: !this.state.audiostate });
                 }}
               >
-                <img src="/icons/room/mic.png" alt=""></img>
+                {/* <img src="/icons/room/mic.png" alt=""></img> */}
               </button>
               <button
                 onClick={() => {
@@ -397,7 +397,7 @@ class UserCamera extends Component {
                   this.setState({ videostate: !this.state.videostate });
                 }}
               >
-                <img src="/icons/room/camera.png" alt=""></img>
+                {/* <img src="/icons/room/camera.png" alt=""></img> */}
               </button>
               <button onClick={() => this.handleGameSelectButton()}>
                 {this.state.isGameSelectButtonClicked !== false
@@ -419,7 +419,8 @@ class UserCamera extends Component {
           </div>
           <div className="gamebox-bottom">
             <button onClick={this.leaveSession}>
-              <img className="exit-button" src="/icons/room/exit.png" alt="">나가기</img>
+              <img className="exit-button" src="/icons/room/exit.png" alt=""></img>
+              나가기
             </button>
           </div>
         </div>
