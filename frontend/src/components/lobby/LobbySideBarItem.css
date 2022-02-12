@@ -44,30 +44,31 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.5);
   z-index: 1;
 }
 
 .lobby-profile {
   position: absolute;
-  cursor: pointer;
-  right: -150px;
-  color: #ffffff;
-  transition: 0.5s;
-  font-size: 12px;
-  border-radius: 5px;
-  background: rgba(44, 44, 44, 0.8);
+  right: -100px;
+  transition: 0.3s;
   width: 18%;
   height: 50%;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 3px 3px 5px rgba(151, 151, 151, 0.5);
+}
+
+.lobby-profile img {
+  height: 100%;
 }
 
 .lobby-sidebar-item-container:hover .lobby-profile {
-  right: 20px;
+  right: 10px;
+}
+
+.lobby-sidebar-item-container:hover .lobby-left-content {
+  color: rgb(255, 255, 255);
 }
 
 .lobby-left-content h4 {

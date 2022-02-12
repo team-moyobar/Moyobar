@@ -35,7 +35,13 @@ export default function LobbyRoomListItem({ item }: any) {
 
   const [open, setOpen] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (item.participants.length === item.max) {
+      alert("인원이 초과되었습니다.");
+    } else {
+      setOpen(true);
+    }
+  };
   const handleClose = () => {
     setOpen(false);
     setPasswordErrorMessage(false);
@@ -73,6 +79,7 @@ export default function LobbyRoomListItem({ item }: any) {
         }
       });
   };
+  const date = item.start.split(".");
 
   return (
     <div
@@ -84,22 +91,26 @@ export default function LobbyRoomListItem({ item }: any) {
     >
       <div className="room-content">
         <p className="lobby-room-title">
-          {item.title}{" "}
+          {item.title}
+          <span className="lobby-room-count">
+            <span>{item.participants.length}</span>
+            <span>/</span>
+            <span>{item.max}</span>
+          </span>
           {item.type === "PRIVATE" ? (
-            <span>
-              <img src="/icons/lobby/lock.png" alt="" />
-            </span>
+            <img className="room-lock" src="/icons/lobby/lock.png" alt="" />
           ) : null}
         </p>
-        <p className="lobby-room-count">
-          인원 : <span>{item.participants.length}</span>
-          <span>/</span>
-          <span>{item.max}</span>
-        </p>
-        <p className="lobby-room-time">{item.start}</p>
-        <p className="lobby-room-content">{item.description}</p>
+        <div className="room-exp">
+          <p className="lobby-room-time">{date[0]}</p>
+          <p className="lobby-room-content">{item.description}</p>
+        </div>
       </div>
-      <img onClick={handleOpen} src="/icons/lobby/enter.png" alt="" />
+      {item.participants.length === item.max ? (
+        <div className="red-light" />
+      ) : (
+        <div className="green-light" />
+      )}
       <Modal
         open={open}
         onClose={handleClose}
