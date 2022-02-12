@@ -3,6 +3,7 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.RoomJoinPostReq;
 import com.ssafy.api.request.RoomRegisterPostReq;
 import com.ssafy.api.request.RoomUpdatePutReq;
+import com.ssafy.api.response.BroadcastMessage;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.response.RoomRegisterPostRes;
 import com.ssafy.api.response.RoomRes;
@@ -17,12 +18,11 @@ import com.ssafy.db.entity.room.RoomType;
 import com.ssafy.db.entity.user.User;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +51,9 @@ public class RoomController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SimpMessagingTemplate template;
+
     @PostMapping()
     @ApiOperation(value = "미팅 룸 생성", notes = "<stong>방 정보</strong>를 통해 방을 생성한다.")
     @ApiResponses({
@@ -75,9 +78,9 @@ public class RoomController {
         Room room = roomService.createRoom(registerInfo, owner);
 
         log.info("방 주인 ID: {}, 방 번호: {}, 생성",userId, room.getId());
+        broadcastToUserInLobby();
         return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId(), owner.getNickname()));
     }
-
 
     @GetMapping("/{roomId}")
     @ApiOperation(value = "미팅 룸 상세 조회", notes = "<stong>방 아이디</strong>를 통해 방 정보를 조회한다.")
@@ -130,6 +133,8 @@ public class RoomController {
         }
         roomService.updateRoom(room, updateInfo, owner);
 
+        broadcastToUserInLobby();
+        broadcastToRoom(roomId);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
@@ -196,6 +201,9 @@ public class RoomController {
         log.info("방 입장 사용자 ID: {}, 방 번호: {}", userId, roomId);
         historyService.createHistory(room, user);
         List<User> users = historyService.getUserInRoom(room.getId());
+
+        broadcastToRoom(roomId);
+        broadcastToUserInLobby();
         return ResponseEntity.status(200).body(RoomRes.of(room, users));
     }
 
@@ -223,6 +231,8 @@ public class RoomController {
 
         historyService.leaveRoom(user, room);
 
+        broadcastToRoom(roomId);
+        broadcastToUserInLobby();
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
@@ -249,4 +259,13 @@ public class RoomController {
 
         return ResponseEntity.status(200).body(result);
     }
+
+    private void broadcastToRoom(long roomId){
+        template.convertAndSend("/from/room/info/" + roomId, new BroadcastMessage("Room Info changed"));
+    }
+
+    private void broadcastToUserInLobby(){
+        template.convertAndSend("/from/lobby/rooms", new BroadcastMessage("Room List changed"));
+    }
+
 }
