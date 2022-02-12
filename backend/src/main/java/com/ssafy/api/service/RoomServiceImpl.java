@@ -99,7 +99,7 @@ public class RoomServiceImpl implements RoomService {
 
         if (searchBy.equals("all")){
             List<User> users = userService.searchUserByNickname(keyword);
-            return roomRepository.findAllByDescriptionContainingIgnoreCaseOrTitleContainingIgnoreCaseOrOwnerInAndIsActive(keyword, keyword,users, 0, pageable);
+            return roomRepository.findAllByIsActiveAndKeyword(0, keyword, pageable);
         }
         else if (searchBy.equals("title")) {
             return roomRepository.findAllByIsActiveAndTitleContainingIgnoreCase(0, keyword, pageable);
