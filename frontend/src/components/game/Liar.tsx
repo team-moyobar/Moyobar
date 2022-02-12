@@ -46,11 +46,11 @@ const StompLiar = () => {
   const { roomId } = useParams<{ roomId?: string }>();
   const { owner } = useParams<{ owner?: string }>();
 
-  const gameTime = useRef(60); // 게임시간
+  const gameTime = useRef(180); // 게임시간
   const gameStart = useRef(false); // 게임 시작 여부
   const voteUser = useRef(""); // 투표 유저
 
-  const [gameTimeSec, setGameTimeSec] = useState(60); // 게임시간
+  const [gameTimeSec, setGameTimeSec] = useState(180); // 게임시간
   const [userList, setUserList] = React.useState([""]); // 방에있는 사용자 정보
   const [subject, setSubject] = React.useState("동물"); // 게임 주제
   const [role, setRole] = useState(""); // 역할 (Player or Liar)
@@ -97,7 +97,7 @@ const StompLiar = () => {
         setUserList(userList);
 
         gameStart.current = true;
-        gameTime.current = 60;
+        gameTime.current = 180;
 
         setIsGameStart(true);
         setIsGameResult(false);
@@ -161,7 +161,7 @@ const StompLiar = () => {
   const connect = () => {
     client = new Client({
       //brokerURL: "ws://localhost:8080/moyobar/websocket",
-      brokerURL: "ws://i6d210.p.ssafy.io:8080/moyobar/websocket",
+      brokerURL: "wss://i6d210.p.ssafy.io/moyobar/websocket",
       reconnectDelay: 10000, // 재접속 시간 10초
       onConnect: () => {
         subscribe();
