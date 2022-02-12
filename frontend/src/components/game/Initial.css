@@ -1,0 +1,25 @@
+.initial-component {
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  color: white;
+}
+
+.user-order {
+  padding-top: 10px;
+}
+
+.MuiFormControl-root {
+  color: white;
+  font-size: large;
+}
+
+.MuiSelect-select {
+  color: white;
+  font-size: large;
+}
+
+.MuiInputLabel-root {
+  color: white;
+  font-size: large;
+}

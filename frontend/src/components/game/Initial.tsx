@@ -3,11 +3,14 @@ import { Client } from "@stomp/stompjs";
 import { useParams } from "react-router";
 
 import Button from "@mui/material/Button";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+import Paper from "@mui/material/Paper";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 import SpeechToText from "./SpeechToText";
-
 import { getToken } from "../../routes/auth/Login";
+
+import "./Initial.css";
 
 // stomp client 변수
 var client: Client | null = null;
@@ -37,24 +40,28 @@ export default function StompInitial() {
   const { roomId } = useParams<{ roomId?: string }>();
   const { owner } = useParams<{ owner?: string }>();
 
-  // const [nickName, setNickName] = useState("test1");
-  // const [roomId, setRoomId] = useState("13");
-  // const [owner, setOwner] = useState("test1");
-
   const playersRef = useRef<PlayersObj[]>(); // 플레이어 레퍼런스
   const gameLogRef = useRef<string>(""); // 게임 로그 레퍼런스
   const consonantRef = useRef<string>(""); // 초성 레퍼런스
   const curUserTurnRef = useRef<string>(""); // 현재 턴 유저 이름
   const curRoundRef = useRef<number>(0); // 현재 턴 정보
+  const gameLogListRef = useRef<string[]>([]);
 
   const [open, setOpen] = React.useState(false);
-  const [consonant, setConsontant] = React.useState("ㅇㅈ");
+  const [consonant, setConsontant] = React.useState(""); // 초성
   const [answer, setAnswer] = React.useState("");
   const [gameLog, setGameLog] = React.useState("");
 
+  const [userOrder, setUserOrder] = React.useState<Array<string>>([]); // 유저순서 목록
+  const [gameLogList, setGameLogList] = React.useState<Array<string>>([]); // 게임 로그 목록
+
+  const [isGameStart, setIsGameStart] = React.useState(false);
+
   const handleOpenStt = () => {
-    setOpen(true);
-    setAnswer("");
+    if (curUserTurnRef.current === nickName) {
+      setOpen(true);
+      setAnswer("");
+    }
   };
 
   const handleCloseStt = (word: string) => {
@@ -68,8 +75,10 @@ export default function StompInitial() {
 
   // 초성게임 시작 메시지 전송
   const handleClickStart = () => {
-    gameLogRef.current = "";
-    setGameLog(gameLogRef.current);
+    gameLogListRef.current = [];
+    setGameLogList(gameLogListRef.current);
+
+    setConsontant("");
 
     if (client != null) {
       if (!client.connected) return;
@@ -99,7 +108,7 @@ export default function StompInitial() {
   const connect = () => {
     client = new Client({
       // brokerURL: "ws://localhost:8080/moyobar/websocket",
-      brokerURL: "ws://i6d210.p.ssafy.io:8080/moyobar/websocket",
+      brokerURL: "wss://i6d210.p.ssafy.io/moyobar/websocket",
       reconnectDelay: 10000, // 재접속 시간 10초
       // debug: function (str) {
       //   console.log(str);
@@ -122,60 +131,58 @@ export default function StompInitial() {
         let players: PlayersObj[] = JSON.parse(data.body).players;
         playersRef.current = players;
 
+        setIsGameStart(true); // 게임시작 설정
+
         // 게임 시작 로그
-        gameLogRef.current = gameLogRef.current.concat(
-          "초성찾기 게임시작" + "\n"
-        );
+        gameLogListRef.current.push("초성찾기 게임시작");
+        setGameLogList(gameLogListRef.current);
 
-        // 게임 순서 로그
-        for (let i = 0; i < players.length; i++) {
-          gameLogRef.current = gameLogRef.current.concat(
-            "닉네임[" +
-              players[i].nickname +
-              "] 순서[" +
-              players[i].turn +
-              "]\n"
-          );
-        }
-
-        setGameLog(gameLogRef.current); // 로깅 메시지 설정
+        // setTimeout(() => {
         reqNextTurn(); // 다음 턴 이동
+        // }, 5000);
       });
     }
   };
 
+  // 프로미스 함수로 비동기 함수를 생성
+  // setTimeout으로 난수로 만든 시간을 통해 값을 출력
+  const testPromise = (msg: string) => {
+    //let ms: number = Math.floor(Math.random() * 1000) + 1;
+    return new Promise((resolve) => {
+      //setTimeout(resolve, ms, msg);
+      // setTimeout(() => {
+      //   handleOpenStt();
+      // }, 5000);
+    }).then((v) => {
+      //console.log(v, ms + "ms");
+    });
+  };
+
   const subscribeNextTurn = () => {
     if (client != null) {
-      client.subscribe("/from/word/next/" + roomId, (data: any) => {
+      client.subscribe("/from/word/next/" + roomId, async (data: any) => {
         curUserTurnRef.current = JSON.parse(data.body).next; // 다음 유저
         consonantRef.current = JSON.parse(data.body).initial; // 초성
         let gameTurn: number = JSON.parse(data.body).gameturn + 1; // 게임 턴
 
         if (gameTurn <= 3) {
-          if (curUserTurnRef.current === nickName) {
-            // 5초이후에 음성인식 호출
-            setTimeout(() => {
-              setConsontant(consonantRef.current);
-              handleOpenStt();
-            }, 5000);
-          }
-
-          if (curRoundRef.current !== gameTurn) {
-            curRoundRef.current = gameTurn;
-            gameLogRef.current = gameLogRef.current.concat(
-              "<< round " + gameTurn + " >>\n"
-            );
-          }
           // 게임 턴 로그
-          gameLogRef.current = gameLogRef.current.concat(
-            "5초 이후에 [" + curUserTurnRef.current + "] 음성인식 Start\n"
-          );
+          setConsontant(consonantRef.current); // 초성 설정
 
-          setGameLog(gameLogRef.current); // 로깅 메시지 설정
+          gameLogListRef.current.push(
+            "[" + curUserTurnRef.current + "] 음성인식 중..\n"
+          );
+          setGameLogList(gameLogListRef.current); // 로깅 메시지 설정
+
+          // 5초이후에 음성인식 호출
+          setTimeout(() => {
+            handleOpenStt();
+          }, 5000);
         } else {
-          // 3턴 이후에 게임 종료 요청
-          curRoundRef.current = 0;
-          reqGameResult();
+          setTimeout(() => {
+            // 3턴 이후에 게임 종료 요청
+            reqGameResult();
+          }, 5000);
         }
       });
     }
@@ -186,22 +193,26 @@ export default function StompInitial() {
     if (client != null) {
       client.subscribe("/from/word/check/" + roomId, (data: any) => {
         let nickname: string = JSON.parse(data.body).nickname; // 닉네임
-        let initial: string = JSON.parse(data.body).initial; // 단어
+        //let initial: string = JSON.parse(data.body).initial; // 단어
         let word: string = JSON.parse(data.body).word; // 단어
         let result: string = JSON.parse(data.body).result; // 결과
 
-        // 게임 턴 로그
-        gameLogRef.current = gameLogRef.current.concat(
-          "닉네임 [" + nickname + "] 제시어[" + initial + "]\n"
+        gameLogListRef.current.push(
+          "[" +
+            nickname +
+            "] " +
+            "음성인식 [" +
+            word +
+            "] 결과 [" +
+            result +
+            "].\n"
         );
 
-        gameLogRef.current = gameLogRef.current.concat(
-          "인식단어 [" + word + "] 결과는 [" + result + "].\n"
-        );
+        setGameLogList(gameLogListRef.current); // 로깅 메시지 설정
 
-        setGameLog(gameLogRef.current); // 로깅 메시지 설정
-
+        // setTimeout(() => {
         reqNextTurn(); // 다음 턴 이동
+        // }, 5000);
       });
     }
   };
@@ -212,14 +223,16 @@ export default function StompInitial() {
       client.subscribe("/from/word/result/" + roomId, (data: any) => {
         let result: ResultObj[] = JSON.parse(data.body).gameresult;
 
+        setIsGameStart(false); // 게임시작 설정
+
+        gameLogListRef.current = [];
+
         // 게임 시작 로그
-        gameLogRef.current = gameLogRef.current.concat(
-          "초성찾기 게임종료" + "\n"
-        );
+        gameLogListRef.current.push("초성찾기 게임종료" + "\n");
 
         // 게임 순서 로그
         for (let i = 0; i < result.length; i++) {
-          gameLogRef.current = gameLogRef.current.concat(
+          gameLogListRef.current.push(
             "닉네임[" +
               result[i].nickname +
               "] 맞춘횟수[" +
@@ -228,7 +241,7 @@ export default function StompInitial() {
           );
         }
 
-        setGameLog(gameLogRef.current); // 로깅 메시지 설정
+        setGameLogList(gameLogListRef.current); // 로깅 메시지 설정
       });
     }
   };
@@ -281,31 +294,39 @@ export default function StompInitial() {
   };
 
   return (
-    <div>
+    <div className="initial-component">
       <div>
-        <h1>
-          {roomId} 번방 {nickName} 님 환영합니다
-        </h1>
+        <h3>&lt;초성게임&gt;</h3>
       </div>
-      {nickName === owner && (
+      {nickName === owner && isGameStart === false && (
         <Button variant="contained" onClick={handleClickStart}>
-          Game Start
+          <h4>게임시작</h4>
         </Button>
       )}
-      <div>
-        <SpeechToText
-          open={open}
-          consonant={consonant}
-          onClose={handleCloseStt}
-        ></SpeechToText>
-      </div>
-      <TextareaAutosize
-        maxRows={20}
-        aria-label="maximum height"
-        placeholder="Maximum 4 rows"
-        defaultValue={gameLog}
-        style={{ width: 250, height: 400 }}
-      />
+      {isGameStart === true && (
+        <div>
+          <h4>제시어 : {consonant}</h4>
+        </div>
+      )}
+      {isGameStart === true && (
+        <div className="user-order">
+          {userOrder.map((user) => (
+            <div>
+              <h4>{user}</h4>
+            </div>
+          ))}
+        </div>
+      )}
+      <Paper style={{ width: 270, maxHeight: 400, overflow: "auto" }}>
+        {gameLogList.map((gameLog, idx) => (
+          <ListItem key={idx}>{gameLog}</ListItem>
+        ))}
+      </Paper>
+      <SpeechToText
+        open={open}
+        consonant={consonant}
+        onClose={handleCloseStt}
+      ></SpeechToText>
     </div>
   );
 }
