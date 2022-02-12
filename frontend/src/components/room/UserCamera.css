@@ -40,10 +40,10 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-content: space-around;
-  background-image: url(/public/images/room/izakaya.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-image: url("/public/images/room/2.jpg");
 }
 
 .session-footer {
@@ -85,7 +85,7 @@
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 
 .gamebox-bottom button {
@@ -94,7 +94,7 @@
   background: #ff4040;
   border-radius: 10px;
   color: white;
-  width: 80%;
+  width: 50%;
   height: 70%;
   justify-self: end;
   padding: 10px;
@@ -109,7 +109,7 @@
   background: #5636cc;
   border-radius: 10px;
   color: white;
-  width: 30%;
+  width: 10%;
   height: 70%;
   justify-self: flex-start;
 }
@@ -118,7 +118,7 @@
   font-size: 20px;
   border: 0;
   background: #ffffff;
-  border-radius: 10px;
+  border-radius: 50%;
   color: white;
   width: 5%;
   height: 70%;
