@@ -24,9 +24,14 @@
   flex-direction: column;
 }
 
-.home-box img {
+.home-img {
   width: 300px;
   margin-bottom: 250px;
+  visibility: hidden;
+}
+
+.home-img.home-vis {
+  visibility: visible;
 }
 
 .home-button {
