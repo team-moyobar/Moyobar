@@ -9,15 +9,16 @@
   height: 100%;
   width: 100%;
   color: white;
-  background-position: center;
+  background-position: 100% 50%;
   padding: 0px;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: 0.3s;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .lobby-room-list-item-info:hover {
-  box-shadow: 0px 10px 20px rgba(196, 32, 211, 0.8);
+  box-shadow: 0px 10px 20px rgba(40, 133, 221, 0.8);
 }
 
 .lobby-room-list-item-info p span {
@@ -34,10 +35,10 @@
   display: flex;
   flex-direction: column;
   text-align: start;
-  background: rgba(19, 19, 19, 0.95);
-  width: 60%;
+  width: 70%;
   height: 100%;
-  padding: 10px;
+  padding: 1%;
+  overflow: hidden;
 }
 
 .lobby-room-list-item-info button {
@@ -52,13 +53,74 @@
 .lobby-room-title {
   font-size: 20px;
   font-weight: 700;
-  padding-bottom: 2%;
-  margin-bottom: 2%;
-  border-bottom: 1px solid white;
+  margin-bottom: 1%;
+  width: 100%;
+  height: 25%;
+  background: rgba(95, 95, 95, 0.8);
+  display: flex;
+  align-items: center;
+  padding: 2%;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+.room-lock {
+  height: 100%;
+  float: right;
 }
 
+.lobby-room-count {
+  display: flex;
+  justify-content: center;
+  font-size: 15px;
+  margin-left: 2%;
+  background-color: rgb(31, 31, 31);
+  padding: 1%;
+  border-radius: 10px;
+}
+
+.lobby-room-count span {
+  margin-right: 3px;
+  margin-left: 3px;
+}
+.room-exp {
+  width: 100%;
+  height: 75%;
+  background-color: rgba(43, 43, 43, 0.9);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  padding: 2%;
+  border-radius: 10px;
+}
 .lobby-room-list-item-info img {
   margin-left: auto;
   align-self: flex-end;
-  height: 30%;
+  height: 100%;
+}
+
+.lobby-room-content {
+  width: 80%;
+}
+
+.green-light {
+  border-radius: 50%;
+  margin-left: auto;
+  margin-top: 2%;
+  margin-right: 2%;
+  background: #03ff25;
+  box-shadow: 0 0 50px #03ff25;
+  width: 10px;
+  height: 10px;
+}
+
+.red-light {
+  border-radius: 50%;
+  margin-left: auto;
+  margin-top: 2%;
+  margin-right: 2%;
+  background: #f70d1a;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #d64b4b 0 -1px 9px,
+    rgba(212, 20, 20, 0.719) 0 2px 12px;
+  width: 10px;
+  height: 10px;
 }

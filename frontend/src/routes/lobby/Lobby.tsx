@@ -13,6 +13,10 @@ import LobbyRoomList from "../../components/lobby/LobbyRoomList";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Logout from "../../components/auth/Logout";
 import { useHistory } from "react-router-dom";
+import { Client } from "@stomp/stompjs";
+import { ConnectedTv } from "@mui/icons-material";
+
+var client: Client | null = null;
 
 const darkTheme = createTheme({
   palette: {
@@ -111,10 +115,50 @@ export default function Lobby() {
     history.push(`/profile/${nickname}`);
   };
 
+  const connect = () => {
+    client = new Client({
+      // brokerURL: "ws://localhost:8080/moyobar/websocket",
+      brokerURL: "ws://i6d210.p.ssafy.io:8080/moyobar/websocket",
+      reconnectDelay: 10000, // 재접속 시간 10초
+      // debug: function (str) {
+      //   console.log(str);
+      // },
+      onConnect: () => {
+        console.log("connected");
+        subscribeLobbyChanged();
+        subscribeUsersChanged();
+      },
+    });
+
+    client.activate();
+  };
+
+  const subscribeLobbyChanged = () => {
+    if (client != null) {
+      client.subscribe("/from/lobby/rooms", (data: any) => {
+        let temp = JSON.parse(data.body);
+        console.log("로비 업데이트!");
+        console.log(temp);
+        handleLoad({ title, page, size });
+      });
+    }
+  };
+  const subscribeUsersChanged = () => {
+    if (client != null) {
+      client.subscribe("/from/lobby/users", (data: any) => {
+        let temp = JSON.parse(data.body);
+        console.log(temp);
+        console.log("유저 업데이트!");
+        handleUserLoad();
+      });
+    }
+  };
+  
   useEffect(() => {
     console.log(getToken("jwtToken"));
     handleLoad({ title, page, size });
     handleUserLoad();
+    connect();
     if (getToken("jwtToken") === undefined) {
       history.push("/login");
     }
@@ -128,9 +172,13 @@ export default function Lobby() {
           <Logout />
         </div>
         <div className="lobby-main">
+          <div className="left-container">
+          <div className="left-title">
+            <h3>user list</h3>
+          </div>
           <div className="lobby-left">
-            <h3>참가 목록</h3>
             <LobbySideBar items={users} />
+          </div>
           </div>
           <div className="lobby-right">
             <div className="lobby-button">

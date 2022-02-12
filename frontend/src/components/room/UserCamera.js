@@ -277,9 +277,7 @@ class UserCamera extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
     });
-    // this.props.history.push('/lobby');
     const TOKEN = getCookie("jwtToken");
-    // setTimeout(function () {}, 1000);
     axios
       .delete(`/rooms/${this.state.mySessionId}`, {
         headers: {

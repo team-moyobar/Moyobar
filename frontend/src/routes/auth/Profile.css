@@ -21,8 +21,8 @@
   border-left: 10px solid rgba(0, 0, 0, 0);
   transition: 0.5s;
   overflow: hidden;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
 }
 
 .profile-menu ul {
@@ -99,8 +99,8 @@
   grid-row: 2 / 10;
   margin: 30px;
   margin-left: 0;
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
   padding: 40px;
 }
 
