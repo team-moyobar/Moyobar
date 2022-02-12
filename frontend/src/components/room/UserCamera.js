@@ -384,22 +384,35 @@ class UserCamera extends Component {
             </div>
             <div className="session-footer">
               <button
+                className="control-button"
                 onClick={() => {
                   this.state.publisher.publishAudio(!this.state.audiostate);
                   this.setState({ audiostate: !this.state.audiostate });
                 }}
               >
-                {/* <img src="/icons/room/mic.png" alt=""></img> */}
+                {this.state.audiostate ? (
+                  <img src="/icons/room/mic-on.png" alt="" />
+                ) : (
+                  <img src="/icons/room/mic-off.png" alt="" />
+                )}
               </button>
               <button
+                className="control-button"
                 onClick={() => {
                   this.state.publisher.publishVideo(!this.state.videostate);
                   this.setState({ videostate: !this.state.videostate });
                 }}
               >
-                {/* <img src="/icons/room/camera.png" alt=""></img> */}
+                {this.state.videostate ? (
+                  <img src="/icons/room/video-off.png" alt="" />
+                ) : (
+                  <img src="/icons/room/video-on.png" alt="" />
+                )}
               </button>
-              <button onClick={() => this.handleGameSelectButton()}>
+              <button
+                className="game-select-button"
+                onClick={() => this.handleGameSelectButton()}
+              >
                 {this.state.isGameSelectButtonClicked !== false
                   ? "게임 종료"
                   : "게임 선택"}
@@ -419,8 +432,7 @@ class UserCamera extends Component {
           </div>
           <div className="gamebox-bottom">
             <button onClick={this.leaveSession}>
-              <img className="exit-button" src="/icons/room/exit.png" alt=""></img>
-              나가기
+              <img className="exit-button" src="/icons/room/exit.png" alt="" />
             </button>
           </div>
         </div>
