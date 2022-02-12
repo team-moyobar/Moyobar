@@ -1,6 +1,6 @@
 .lobby-roomlist-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: start;
   align-content: space-between;
   flex-wrap: wrap;
   height: 100%;
