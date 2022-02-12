@@ -65,7 +65,7 @@ export default function Login() {
         history.push("/lobby");
       })
       .catch(() => {
-        alert("이메일과 비밀번호를 확인해주세요")
+        alert("이메일과 비밀번호를 확인해주세요");
         history.push("/login");
       });
   };

@@ -25,7 +25,7 @@ export default function LobbySideBarUserListItem({ item }: any) {
       </div>
       <div className="lobby-left-content">
         <div className="lobby-profile">
-          <span>정보</span>
+          <img src="/icons/lobby/lobbyprofile.png" alt="" />
         </div>
         <h4>{item.nickname}</h4>
         <p>
