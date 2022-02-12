@@ -1,9 +1,10 @@
 .profile-page-container {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(/public/images/lobby/bg16.jpg);
   background-repeat: no-repeat;
+  background-position: 100% 70%;
   background-size: cover;
   display: grid;
   grid-template-columns: repeat(10, 1fr);

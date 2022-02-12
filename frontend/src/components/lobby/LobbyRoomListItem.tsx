@@ -68,27 +68,38 @@ export default function LobbyRoomListItem({ item }: any) {
       .catch((err) => {
         console.log("Fail..");
         console.log(err.response.data.code);
-        if (err.response.data.code == "U003") {
+        if (err.response.data.code === "U003") {
           setPasswordErrorMessage(true);
         }
       });
   };
 
   return (
-    <div className="lobby-room-list-item-info">
+    <div
+      className="lobby-room-list-item-info"
+      onClick={handleOpen}
+      style={{
+        backgroundImage: `url(/images/room/${item.theme}.jpg)`,
+      }}
+    >
       <div className="room-content">
-        <h4>{item.title}</h4>
-        <p>
+        <p className="lobby-room-title">
+          {item.title}{" "}
+          {item.type === "PRIVATE" ? (
+            <span>
+              <img src="/icons/lobby/lock.png" alt="" />
+            </span>
+          ) : null}
+        </p>
+        <p className="lobby-room-count">
           인원 : <span>{item.participants.length}</span>
           <span>/</span>
           <span>{item.max}</span>
         </p>
-        <p>{item.start}</p>
-        <p>{item.description}</p>
-        {item.type === "PRIVATE" ? <p>비공개방</p> : <p>공개방</p>}
-        
+        <p className="lobby-room-time">{item.start}</p>
+        <p className="lobby-room-content">{item.description}</p>
       </div>
-      <button onClick={handleOpen}>방 입장</button>
+      <img onClick={handleOpen} src="/icons/lobby/enter.png" alt="" />
       <Modal
         open={open}
         onClose={handleClose}
@@ -113,7 +124,7 @@ export default function LobbyRoomListItem({ item }: any) {
               fullWidth
               variant="standard"
               onChange={handleChangePassword}
-              error={passwordErrorMessage == true ? true : false}
+              error={passwordErrorMessage === true ? true : false}
               helperText={
                 passwordErrorMessage === true
                   ? "올바른 비밀번호를 입력해주세요"

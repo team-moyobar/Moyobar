@@ -1,12 +1,5 @@
 .lobby-room-list-item-info {
-  background-image: linear-gradient(
-      120deg,
-      rgb(0, 0, 0) 65%,
-      rgba(0, 0, 0, 0) 35%
-    ),
-    url(/public/images/auth/bg2.jpg);
   background-size: cover;
-  background-position: 0% 0%;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: row;
@@ -17,15 +10,14 @@
   width: 100%;
   color: white;
   background-position: center;
-  padding: 20px;
-  border-radius: 10px;
-  transition: 0.5s;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  padding: 0px;
+  border-radius: 8px;
+  transition: 0.3s;
+  overflow: hidden;
 }
 
 .lobby-room-list-item-info:hover {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 10px 20px rgba(196, 32, 211, 0.8);
 }
 
 .lobby-room-list-item-info p span {
@@ -42,16 +34,31 @@
   display: flex;
   flex-direction: column;
   text-align: start;
+  background: rgba(19, 19, 19, 0.95);
+  width: 60%;
+  height: 100%;
   padding: 10px;
 }
 
-.room-content h4 {
-  margin: 0;
-}
-
 .lobby-room-list-item-info button {
-  background: rgb(107, 25, 184);
-  border: 0;
+  background: none;
+  width: 20%;
+  height: 40%;
   align-self: flex-end;
   margin-left: auto;
+  border: 0;
+}
+
+.lobby-room-title {
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 2%;
+  margin-bottom: 2%;
+  border-bottom: 1px solid white;
+}
+
+.lobby-room-list-item-info img {
+  margin-left: auto;
+  align-self: flex-end;
+  height: 30%;
 }

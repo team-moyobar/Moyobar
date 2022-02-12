@@ -10,23 +10,23 @@ import TextField from "@mui/material/TextField";
 const images = [
   {
     label: "전통술집",
-    imgPath: "/images/bg2.jpg",
+    imgPath: "/images/room/1.jpg",
   },
   {
-    label: "유치원",
-    imgPath: "/images/bg2.jpg",
+    label: "이자카야",
+    imgPath: "/images/room/2.jpg",
   },
   {
-    label: "MT",
-    imgPath: "/images/bg2.jpg",
+    label: "놀이터",
+    imgPath: "/images/room/3.jpg",
   },
   {
-    label: "밤의 놀이터",
-    imgPath: "/images/bg2.jpg",
+    label: "모던바",
+    imgPath: "/images/room/4.jpg",
   },
   {
     label: "클럽",
-    imgPath: "/images/bg2.jpg",
+    imgPath: "/images/room/5.jpg",
   },
 ];
 
@@ -59,15 +59,15 @@ export default function LobbyCreateRoomTheme({ onChange }: any) {
       />
       {images.map((step, index) => (
         <div key={step.label}>
-          {activeStep - index == 0 ? (
+          {activeStep - index === 0 ? (
             <Box
               component="img"
               sx={{
-                height: 255,
+                height: "255px",
                 display: "block",
                 maxWidth: 400,
                 overflow: "hidden",
-                width: "100%",
+                width: "500px",
               }}
               src={step.imgPath}
               alt={step.label}
