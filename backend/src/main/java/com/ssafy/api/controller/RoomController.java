@@ -78,7 +78,7 @@ public class RoomController {
         Room room = roomService.createRoom(registerInfo, owner);
 
         log.info("방 주인 ID: {}, 방 번호: {}, 생성",userId, room.getId());
-        broadcastToUserInLobby();
+        broadcastToLobby();
         return ResponseEntity.status(200).body(RoomRegisterPostRes.of(200, ResponseMessage.SUCCESS, room.getId(), owner.getNickname()));
     }
 
@@ -133,7 +133,7 @@ public class RoomController {
         }
         roomService.updateRoom(room, updateInfo, owner);
 
-        broadcastToUserInLobby();
+        broadcastToLobby();
         broadcastToRoom(roomId);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
@@ -203,7 +203,7 @@ public class RoomController {
         List<User> users = historyService.getUserInRoom(room.getId());
 
         broadcastToRoom(roomId);
-        broadcastToUserInLobby();
+        broadcastToLobby();
         return ResponseEntity.status(200).body(RoomRes.of(room, users));
     }
 
@@ -232,7 +232,7 @@ public class RoomController {
         historyService.leaveRoom(user, room);
 
         broadcastToRoom(roomId);
-        broadcastToUserInLobby();
+        broadcastToLobby();
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
     }
 
@@ -264,7 +264,7 @@ public class RoomController {
         template.convertAndSend("/from/room/info/" + roomId, new BroadcastMessage("Room Info changed"));
     }
 
-    private void broadcastToUserInLobby(){
+    private void broadcastToLobby(){
         template.convertAndSend("/from/lobby/rooms", new BroadcastMessage("Room List changed"));
     }
 
