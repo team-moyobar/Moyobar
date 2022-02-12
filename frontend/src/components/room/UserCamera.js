@@ -13,8 +13,6 @@ import { NoEncryption } from "@mui/icons-material";
 
 const OPENVIDU_SERVER_URL = "https://i6d210.p.ssafy.io:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
-const TOKEN = getCookie("jwtToken");
-
 class UserCamera extends Component {
   constructor(props) {
     super(props);
@@ -280,7 +278,8 @@ class UserCamera extends Component {
       publisher: undefined,
     });
     // this.props.history.push('/lobby');
-
+    const TOKEN = getCookie("jwtToken");
+    // setTimeout(function () {}, 1000);
     axios
       .delete(`/rooms/${this.state.mySessionId}`, {
         headers: {
@@ -291,12 +290,12 @@ class UserCamera extends Component {
       .then((res) => {
         console.log("success");
         console.log(res);
+        this.props.history.push("/lobby");
       })
       .catch((err) => {
         console.log("Fail..");
         console.log(err);
       });
-    this.props.history.push("/lobby");
   }
 
   componentDidMount() {
