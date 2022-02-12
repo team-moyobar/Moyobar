@@ -75,7 +75,7 @@ export default function LobbyRoomListItem({ item }: any) {
   };
 
   return (
-    <div className="lobby-room-list-item-info" onClick={handleOpen}>
+    <div className="lobby-room-list-item-info">
       <div className="room-content">
         <h4>{item.title}</h4>
         <p>
