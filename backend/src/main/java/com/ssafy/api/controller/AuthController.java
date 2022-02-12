@@ -7,6 +7,7 @@ import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.security.oauth2.entity.ProviderType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,6 +30,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "인증 API", tags = {"Auth"})
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -49,9 +51,9 @@ public class AuthController {
 		String userId = loginInfo.getUserId();
 		String password = loginInfo.getPassword();
 
-		User user = userService.getUserByUserId(userId);
+		log.info("로그인 시도: ID: {}", userId);
 
-		if(user == null) throw new UserNotFoundException();
+		User user = userService.getUserByUserId(userId);
 
 		boolean first = user.getFirst() == 0;
 
@@ -62,12 +64,14 @@ public class AuthController {
 
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if (user.getType() != ProviderType.LOCAL || passwordEncoder.matches(password, user.getPassword())) {
+			log.info("로그인 시도: ID: {}, 성공", userId);
 			// 접속중인 유저 리스트에 추가
 			userService.addUserOnline(user.getUserId());
 
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId), first, user.getNickname()));
 		}else{
+			log.info("로그인 시도: ID: {} 실패", userId);
 			// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 			throw new InvalidValueException(ErrorCode.INVALID_INPUT_VALUE);
 		}
@@ -82,14 +86,12 @@ public class AuthController {
 			@ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
 	})
 	private ResponseEntity<? extends BaseResponseBody> logout(@ApiIgnore Authentication authentication) {
-		if (authentication == null)
-			throw new FailedAuthenticationException("It's not authentication. Send a request using the Bearer Authorization Token."); //401 에러
 
 		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		if(userId == null || user == null) throw new UserNotFoundException();
 
+		log.info("로그아웃 시도: ID: {}, 성공", userId);
 		// 접속중인 유저 리스트에서 삭제
 		if(userService.delUserOnline(userId)) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
