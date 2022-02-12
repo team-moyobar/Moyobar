@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserChangePwdPutReq;
+import com.ssafy.api.response.BroadcastMessage;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -10,6 +11,7 @@ import com.ssafy.security.oauth2.entity.ProviderType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,9 @@ public class AuthController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private SimpMessagingTemplate template;
 
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
@@ -94,9 +99,14 @@ public class AuthController {
 		log.info("로그아웃 시도: ID: {}, 성공", userId);
 		// 접속중인 유저 리스트에서 삭제
 		if(userService.delUserOnline(userId)) {
+			broadcastToLobby();
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, ResponseMessage.SUCCESS));
 		}else{
 			return ResponseEntity.status(404).body(BaseResponseBody.of(404, ResponseMessage.FAIL));
 		}
 	}
+	private void broadcastToLobby(){
+		template.convertAndSend("/from/lobby/users", new BroadcastMessage("User List changed"));
+	}
+
 }
