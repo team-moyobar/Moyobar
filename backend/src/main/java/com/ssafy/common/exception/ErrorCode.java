@@ -21,12 +21,12 @@ public enum ErrorCode {
     USER_NOT_FOUND(400, "U004", "User Not Found"),
     USER_ALREADY_IN_ROOM(400, "U005", "User Already In Active Room"),
     PASSWORD_DUPLICATION(400, "U006", "Same Value As The Current Password"),
-
+    FILE_IS_INVALID(400,"U007" , "File is Invalid"),
     // Meeting
     ROOM_NOT_FOUND(400, "R001", "Room Not Found"),
     USER_NOT_ROOM_OWNER(401, "R002", "Request User is Not Owner of Room"),
-    ROOM_ALREADY_MAX_USER(400, "R003", "Room Already Has Max User");
-
+    ROOM_ALREADY_MAX_USER(400, "R003", "Room Already Has Max User"),
+    ;
     private int status;
     private final String code;
     private final String message;

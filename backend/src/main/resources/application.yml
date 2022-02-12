@@ -4,7 +4,7 @@ build:
 
 server:
   port: 8080
-  address: localhost
+#  address: localhost
   servlet:
     contextPath: /
     encoding:
@@ -42,7 +42,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
-
+  multipart:
+    max-file: 10MB
+    max-request-file: 10MB
 spa:
   default-file: /dist/index.html
 
@@ -81,3 +83,4 @@ management:
       enabled: true
     diskspace:
       enabled: true
+
