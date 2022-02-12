@@ -176,7 +176,7 @@ dependencies {
     testImplementation("com.jayway.jsonpath:json-path:2.4.0")
 
     implementation("com.auth0:java-jwt:3.10.3")
-    
+
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-data-rest:3.0.0")
@@ -193,10 +193,11 @@ dependencies {
     testCompile 'org.projectlombok:lombok'
     testImplementation 'org.projectlombok:lombok'
 
-
     testCompile('org.springframework.boot:spring-boot-starter-test')
-}
 
+    // AWS S3
+    implementation('io.awspring.cloud:spring-cloud-starter-aws:2.3.1')
+}
 test {
     useJUnitPlatform()
 }
