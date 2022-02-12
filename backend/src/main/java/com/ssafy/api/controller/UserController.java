@@ -2,11 +2,13 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.api.request.UserUpdatePutReq;
+import com.ssafy.api.response.BroadcastMessage;
 import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @PostMapping()
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
@@ -170,5 +175,9 @@ public class UserController {
         }else{ //현재 비밀번호 정보 입력 잘못했을 시
             throw new InvalidValueException(ErrorCode.INVALID_INPUT_VALUE);
         }
+    }
+
+    private void broadcastToLobby(){
+        template.convertAndSend("/from/lobby/users", new BroadcastMessage("User List changed"));
     }
 }
