@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Messages from "./Messages";
 import GameSelect from "./GameSelect";
 import { CheersDlg } from "./CheersDlg";
+import { GameSelectDlg } from "./GameSelectDlg";
 
 import { getToken as getCookie } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
@@ -26,7 +27,8 @@ class UserCamera extends Component {
       subscribers: [],
       messages: [],
       isGameSelectButtonClicked: false,
-      isCheersOpen: false,
+      openCheers: false,
+      openGameSelect: false,
       cheerCallUser: "",
 
       audiostate: false,
@@ -345,6 +347,18 @@ class UserCamera extends Component {
     });
   }
 
+  handleOpenGameSelect() {
+    this.setState({
+      openGameSelect: true,
+    });
+  }
+
+  handleCloseGameSelect() {
+    this.setState({
+      openGameSelect: false,
+    });
+  }
+
   render() {
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
@@ -446,12 +460,10 @@ class UserCamera extends Component {
                 <img src="/icons/room/cheers.png" alt="" />
               </button>
               <button
-                className="game-select-button"
-                onClick={() => this.handleGameSelectButton()}
+                className="gameselect-button"
+                onClick={() => this.handleOpenGameSelect()}
               >
-                {this.state.isGameSelectButtonClicked !== false
-                  ? "게임 종료"
-                  : "게임 선택"}
+                <img src="/icons/room/game.png" alt="" />
               </button>
             </div>
           </div>
@@ -459,12 +471,7 @@ class UserCamera extends Component {
         <div className="gamebox">
           <div className="gamebox-top"></div>
           <div className="gamebox-center">
-            {/* {this.state.isGameSelectButtonClicked !== false ? ( */}
-            <GameSelect
-              mySession={this.state.session}
-              receiveGameSelect={this.state.gameSelect}
-            ></GameSelect>
-            {/* ) : null} */}
+            <GameSelect receiveGameSelect={this.state.gameSelect}></GameSelect>
           </div>
           <div className="gamebox-bottom">
             <button onClick={this.leaveSession}>
@@ -508,6 +515,12 @@ class UserCamera extends Component {
           onClose={this.handleCloseCheers.bind(this)}
           callUser={this.state.cheerCallUser}
         ></CheersDlg>
+        <GameSelectDlg
+          mySession={this.state.session}
+          receiveGameSelect={this.state.gameSelect}
+          open={this.state.openGameSelect}
+          onClose={this.handleCloseGameSelect.bind(this)}
+        ></GameSelectDlg>
       </div>
     );
   }
