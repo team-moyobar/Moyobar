@@ -1,4 +1,20 @@
 .logout-button {
-  border: 0;
-  background: inherit;
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-decoration: none;
+  font-size: 18px;
+  overflow: hidden;
+  transition: 0.2s;
+  border-radius: 10px;
+  color: #dd4f0d;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  color: #691607;
+  background: #dd4f0d;
+  box-shadow: 0 0 10px #dd4f0d, 0 0 20px #dd4f0d, 0 0 40px #dd4f0d;
 }

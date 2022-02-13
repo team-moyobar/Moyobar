@@ -97,20 +97,23 @@ export default function LobbyRoomListItem({ item }: any) {
             <span>/</span>
             <span>{item.max}</span>
           </span>
-          {item.type === "PRIVATE" ? (
-            <img className="room-lock" src="/icons/lobby/lock.png" alt="" />
-          ) : null}
+          {item.participants.length === item.max ? (
+            <div className="red-light" />
+          ) : (
+            <div className="green-light" />
+          )}
         </p>
         <div className="room-exp">
           <p className="lobby-room-time">{date[0]}</p>
           <p className="lobby-room-content">{item.description}</p>
+          {item.type === "PRIVATE" ? (
+            <div className="room-lock">
+              <img src="/icons/lobby/lock.png" alt="" />
+            </div>
+          ) : null}
         </div>
       </div>
-      {item.participants.length === item.max ? (
-        <div className="red-light" />
-      ) : (
-        <div className="green-light" />
-      )}
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -118,13 +121,13 @@ export default function LobbyRoomListItem({ item }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Title : {item.title}
+          <Typography id="modal-modal-title" sx={{ mt: 2, fontSize: 30 }}>
+            방 이름 : {item.title}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Owner : {item.owner}
+          <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: 18 }}>
+            방장 : {item.owner}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: 18 }}>
             {item.description}
           </Typography>
           {item.type === "PRIVATE" ? (

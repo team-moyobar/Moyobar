@@ -184,7 +184,7 @@ export default function LobbyCreateRoom() {
         color="primary"
         onClick={handleClickOpen}
       >
-        <p>방 생성</p>
+        <p>방 만들기</p>
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
         {/* <DialogTitle>방 만들기</DialogTitle> */}

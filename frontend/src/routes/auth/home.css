@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)),
-    url(/public/images/auth/bg2.jpg);
+    url(/public/images/auth/bg2_c.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100% 50%;
@@ -41,7 +41,7 @@
   font-size: 20px;
   font-weight: 700;
   padding: 20px 60px;
-  color: rgba(55, 7, 100, 0.2);
+  color: rgba(55, 7, 100, 0.5);
   margin: 20px 10px 10px;
   border-radius: 6px;
   text-align: center;
@@ -52,7 +52,7 @@
     0 15px 15px 10px rgba(27, 27, 27, 0.7);
   cursor: pointer;
   border: 0;
-  transition: 0.2s;
+  transition: top 0.2s;
 }
 
 .home-button:active {
@@ -62,5 +62,6 @@
 }
 
 .home-button:hover {
+  background-color: #824bda;
   color: rgba(55, 7, 100, 0.8);
 }

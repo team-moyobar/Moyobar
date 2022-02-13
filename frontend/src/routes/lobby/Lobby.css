@@ -4,7 +4,7 @@
   background-image: url(/public/images/lobby/bg16.jpg);
   display: flex;
   background-repeat: no-repeat;
-  background-position: 100% 70%;
+  background-position: 100% 90%;
   overflow: hidden;
   background-size: cover;
   flex-direction: column;
@@ -33,6 +33,40 @@
   color: white;
   align-items: center;
   justify-content: end;
+  font-family: consolas;
+}
+.header-container {
+  border: 1px solid rgba(131, 131, 131, 0.5);
+  background: rgba(36, 36, 36, 0.7);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+  overflow: hidden;
+  padding: 1%;
+}
+
+.my-profile {
+  position: relative;
+  display: inline-block;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-decoration: none;
+  font-size: 18px;
+  overflow: hidden;
+  transition: 0.2s;
+  border-radius: 10px;
+  color: #2196f3;
+  cursor: pointer;
+  margin-right: 5%;
+}
+
+.my-profile:hover {
+  color: #255784;
+  background: #2196f3;
+  box-shadow: 0 0 10px #2196f3, 0 0 20px #2196f3, 0 0 40px #2196f3;
 }
 
 .lobby-logout {
@@ -73,6 +107,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: consolas;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .lobby-left h3 {
@@ -99,7 +136,7 @@
   display: flex;
   height: 10%;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   padding-left: 4%;
   padding-right: 4%;
 }

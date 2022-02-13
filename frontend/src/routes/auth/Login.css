@@ -75,6 +75,9 @@
   cursor: default;
   position: absolute;
   top: 10%;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-family: consolas;
 }
 
 .login-form {
