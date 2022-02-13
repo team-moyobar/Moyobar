@@ -1,0 +1,15 @@
+.MuiDialog-root {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+
+.MuiDialogTitle-root {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+
+.gs-button-liar {
+  padding: 20px;
+}

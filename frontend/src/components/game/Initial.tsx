@@ -270,7 +270,7 @@ export default function StompInitial() {
           <h4>제시어 : {consonant}</h4>
         </div>
       )}
-      <div className="nitial-gamelog">
+      <div className="intial-gamelog">
         <Paper style={{ width: 270, maxHeight: 400, overflow: "auto" }}>
           {gameLogList.map((gameLogItem, idx) => (
             <ListItem key={idx}>{gameLogItem}</ListItem>
