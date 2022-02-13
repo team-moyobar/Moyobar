@@ -132,6 +132,17 @@
   justify-self: flex-start;
 }
 
+.cheers-button {
+  font-size: 20px;
+  border: 0;
+  background: #ffffff;
+  border-radius: 50%;
+  color: white;
+  width: 5%;
+  height: 70%;
+  justify-self: flex-start;
+}
+
 .control-button img {
   height: 50%;
 }

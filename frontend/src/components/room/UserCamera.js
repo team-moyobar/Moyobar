@@ -6,6 +6,7 @@ import UserVideoComponent from "./UserVideoComponent";
 import Button from "@mui/material/Button";
 import Messages from "./Messages";
 import GameSelect from "./GameSelect";
+import { CheersDlg } from "./CheersDlg";
 
 import { getToken as getCookie } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
@@ -25,6 +26,8 @@ class UserCamera extends Component {
       subscribers: [],
       messages: [],
       isGameSelectButtonClicked: false,
+      isCheersOpen: false,
+      cheerCallUser: "",
 
       audiostate: false,
       videostate: false,
@@ -200,6 +203,13 @@ class UserCamera extends Component {
           });
         });
 
+        mySession.on("signal:cheers", (event) => {
+          this.setState({
+            cheerCallUser: event.data,
+          });
+          this.handleOpenCheers(); // 건배 다이얼로그 오픈
+        });
+
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // Remove the stream from 'subscribers' array
@@ -312,6 +322,29 @@ class UserCamera extends Component {
     }
   }
 
+  sendCheersMsg() {
+    const mySession = this.state.session;
+    const myUserName = this.state.myUserName;
+
+    mySession.signal({
+      data: myUserName,
+      to: [],
+      type: "cheers",
+    });
+  }
+
+  handleOpenCheers() {
+    this.setState({
+      openCheers: true,
+    });
+  }
+
+  handleCloseCheers() {
+    this.setState({
+      openCheers: false,
+    });
+  }
+
   render() {
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
@@ -407,6 +440,12 @@ class UserCamera extends Component {
                 )}
               </button>
               <button
+                className="cheers-button"
+                onClick={() => this.sendCheersMsg()}
+              >
+                <img src="/icons/room/cheers.png" alt="" />
+              </button>
+              <button
                 className="game-select-button"
                 onClick={() => this.handleGameSelectButton()}
               >
@@ -464,6 +503,11 @@ class UserCamera extends Component {
             <button onClick={this.chattoggle}>● ● ●</button>
           </div>
         </div>
+        <CheersDlg
+          open={this.state.openCheers}
+          onClose={this.handleCloseCheers.bind(this)}
+          callUser={this.state.cheerCallUser}
+        ></CheersDlg>
       </div>
     );
   }
