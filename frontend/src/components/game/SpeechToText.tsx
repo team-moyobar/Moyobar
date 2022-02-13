@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import useSpeechToText, { ResultType } from "react-hook-speech-to-text";
 
 import Button from "@mui/material/Button";
@@ -11,6 +11,8 @@ export interface SimpleDialogProps {
   consonant: string;
   onClose: (value: string) => void;
 }
+
+const isFullWidth: boolean = true;
 
 export default function SpeechToText(props: SimpleDialogProps) {
   const {
@@ -63,7 +65,10 @@ export default function SpeechToText(props: SimpleDialogProps) {
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={handleClose} open={open} fullWidth={isFullWidth}>
+      <div className="liar-role-msg-dlg-role">
+        <h3>음성인식</h3>
+      </div>
       <DialogTitle>제시어 : {consonant}</DialogTitle>
       <TextField
         label="정답을 말하고 닫기를 누르세요"
