@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
 
 import { getToken } from "../../routes/auth/Login";
 import { VoteDlg } from "./VoteDlg";
@@ -205,23 +206,25 @@ const StompLiar = () => {
       </div>
       {nickName === owner && isGameStart === false && (
         <Stack spacing={2} direction="row">
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-label">주제</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={subject}
-                label="주제"
-                onChange={handleChange}
-              >
-                <MenuItem value={"동물"}>동물</MenuItem>
-                <MenuItem value={"나라"}>나라</MenuItem>
-                <MenuItem value={"음식"}>음식</MenuItem>
-                <MenuItem value={"영화"}>영화</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
+          <Paper style={{ width: 150, maxHeight: 400, overflow: "auto" }}>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-label">주제</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={subject}
+                  label="주제"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"동물"}>동물</MenuItem>
+                  <MenuItem value={"나라"}>나라</MenuItem>
+                  <MenuItem value={"음식"}>음식</MenuItem>
+                  <MenuItem value={"영화"}>영화</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Paper>
           <Button variant="contained" onClick={handler}>
             게임 시작
           </Button>
