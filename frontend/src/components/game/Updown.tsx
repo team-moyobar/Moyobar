@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Client } from "@stomp/stompjs";
+import { useParams } from "react-router";
+
+import { getToken } from "../../routes/auth/Login";
+
+// 게임 타이머
+import Timer from "./timer/Timer.js";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
+
+// style
+import "./Updown.css";
 
 // stomp client 변수
 var client: Client | null = null;
@@ -12,8 +22,21 @@ interface message {
 }
 
 function StompUpdown() {
-  const [nickname, setNickname] = useState("");
-  const [roomId, setRoomId] = useState(13);
+  const nickname = getToken("nickname");
+  const { roomId } = useParams<{ roomId?: string }>();
+  const { owner } = useParams<{ owner?: string }>();
+  const [gameStatus, setGameStatus] = useState("");
+
+  const [resultUser, setResultUser] = useState("");
+  const [resultType, setResultType] = useState("");
+  const [resultAnswer, setResultAnswer] = useState("");
+
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [count, setCount] = useState(10);
+  const [countKey, setCountKey] = useState(0);
+
+  // const [nickname, setNickname] = useState("");
+  // const [roomId, setRoomId] = useState(77);
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState(Number);
   const [turnOwner, setTurnOwner] = useState("");
@@ -70,7 +93,19 @@ function StompUpdown() {
         let result = info.result;
 
         setTurnOwner(user_order[next_user_index]);
+        setGameStatus(game_status);
 
+        if (game_status === "PLAY") {
+          setResultUser(result.user_name)
+          setResultType(result.result_type)
+          setResultAnswer(result.user_answer)
+        } else if (game_status === "FINISH") {
+          setResultUser(result.user_name)
+          setResultType(result.result_type)
+          setResultAnswer(result.user_answer)
+        }
+
+        setCountKey((prevKey) => prevKey+1);
         console.log(game_status);
 
         if (game_status === "START") {
@@ -139,17 +174,34 @@ function StompUpdown() {
         body: JSON.stringify(data),
       });
     }
+    setCount(10);
+    setCountKey((prevKey) => prevKey+1);
   };
 
-  const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setNickname(e.target.value);
-  };
+  const timeOut = () => {
+    let data = {
+      nickname: nickname,
+      number: resultAnswer,
+    };
+    if (client != null && nickname === turnOwner) {
+      client.publish({
+        destination: "/to/ud/check/" + roomId,
+        body: JSON.stringify(data),
+      })
+    }
+    setCount(10);
+    setCountKey((prevKey) => prevKey+1);
+  }
 
-  const onRoomIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setRoomId(parseInt(e.target.value));
-  };
+  // const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   e.preventDefault();
+  //   setNickname(e.target.value);
+  // };
+
+  // const onRoomIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   e.preventDefault();
+  //   setRoomId(parseInt(e.target.value));
+  // };
 
   const onMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -171,51 +223,63 @@ function StompUpdown() {
 
   return (
     <div>
-      <table>
-        <tbody>
-          <tr>
-            <td>참가 방번호</td>
-            <td>
-              <input type="number" value={roomId} onChange={onRoomIdChange} />
-            </td>
-          </tr>
-          <tr>
-            <td>참가 닉네임</td>
-            <td>
-              <input type="text" value={nickname} onChange={onNicknameChange} />
-            </td>
-          </tr>
-          {nickname === "test1" ? (
-            <tr>
-              <td>[방장]게임 시작</td>
-              <td>
-                <TableButton onClick={startBtn}>start</TableButton>
-              </td>
-            </tr>
-          ) : (
-            ""
-          )}
-          {nickname !== "" && turnOwner === nickname ? (
-            <tr>
-              <td>숫자 입력</td>
-              <td>
-                <input type="text" value={answer} onChange={onAnswerChange} />
-              </td>
-              <td>
-                <TableButton onClick={answerBtn}>submit</TableButton>
-              </td>
-            </tr>
-          ) : null}
-        </tbody>
-      </table>
+      {gameStatus === "START" ? (
+        <div>
+          <h1 className="tracking-in-expand">업다운 게임</h1>
+          <p>지금 차례 : {turnOwner}</p>
+        </div>
+      ) : null}
+      {gameStatus === "PLAY" ? (
+        <div>
+          <h1>업다운 게임 중</h1>
+          <CountdownCircleTimer
+            isPlaying={isPlaying}
+            duration={count}
+            isSmoothColorTransition={false}
+            // updateInterval={1}
+            colors="#aabbcc"
+            key={countKey}
+            // colors="url(#test-it)"
+            // colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+            // colorsTime={[8, 6.66, 3.33, 0]}
+            onComplete={timeOut}
+          >
+            {({ remainingTime }) => remainingTime}
+          </CountdownCircleTimer>
+          <p>지금 차례 : {turnOwner}</p>
+          <p>이전 결과</p>
+          <p>{resultUser}가 {resultAnswer}을 말했습니다.</p>
+          <p>그 결과 : {resultType}</p>
+        </div>
+      ) : null}
+      {gameStatus === "FINISH" ? (
+        <div>
+          <h1>게임 종료</h1>
+          <p>승자 : {resultUser}</p>
+        </div>
+      ) : null}
+
+      {nickname === owner && gameStatus === "" ? (
+        <div>
+          <button onClick={startBtn}>START</button>
+        </div>
+      ) : null}
+
+      {nickname !== owner && gameStatus === "" ? (
+        <div>
+          <p>게임 시작 준비중입니다...</p>
+        </div>
+      ) : null}
+
+      {nickname !== "" && turnOwner === nickname && (gameStatus === "PLAY" || gameStatus === "START") ? (
+        <div>
+          <input type="text" onChange={onAnswerChange}/>
+          <br />
+          <button onClick={answerBtn}>SUBMIT</button>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-const TableButton = styled.button`
-  width: 100%;
-`;
-const ChattingBox = styled.div`
-  height: 300px;
-`;
 export default StompUpdown;
