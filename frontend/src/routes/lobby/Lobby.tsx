@@ -153,7 +153,7 @@ export default function Lobby() {
       });
     }
   };
-  
+
   useEffect(() => {
     console.log(getToken("jwtToken"));
     handleLoad({ title, page, size });
@@ -168,17 +168,21 @@ export default function Lobby() {
     <ThemeProvider theme={darkTheme}>
       <div className="lobby-container">
         <div className="lobby-header">
-          <p onClick={routeMyProfile}>{nickname}</p>
+          <div className="header-container">
+          <p className="my-profile" onClick={routeMyProfile}>
+            mypage
+          </p>
           <Logout />
+          </div>
         </div>
         <div className="lobby-main">
           <div className="left-container">
-          <div className="left-title">
-            <h3>user list</h3>
-          </div>
-          <div className="lobby-left">
-            <LobbySideBar items={users} />
-          </div>
+            <div className="left-title">
+              <h3>user list</h3>
+            </div>
+            <div className="lobby-left">
+              <LobbySideBar items={users} />
+            </div>
           </div>
           <div className="lobby-right">
             <div className="lobby-button">
