@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
 import SpeechToText from "./SpeechToText";
@@ -41,21 +40,15 @@ export default function StompInitial() {
   const { owner } = useParams<{ owner?: string }>();
 
   const playersRef = useRef<PlayersObj[]>(); // 플레이어 레퍼런스
-  const gameLogRef = useRef<string>(""); // 게임 로그 레퍼런스
   const consonantRef = useRef<string>(""); // 초성 레퍼런스
   const curUserTurnRef = useRef<string>(""); // 현재 턴 유저 이름
-  const curRoundRef = useRef<number>(0); // 현재 턴 정보
-  const gameLogListRef = useRef<string[]>([]);
 
   const [open, setOpen] = React.useState(false);
   const [consonant, setConsontant] = React.useState(""); // 초성
   const [answer, setAnswer] = React.useState("");
-  const [gameLog, setGameLog] = React.useState("");
 
-  const [userOrder, setUserOrder] = React.useState<Array<string>>([]); // 유저순서 목록
   const [gameLogList, setGameLogList] = React.useState<Array<string>>([]); // 게임 로그 목록
-
-  const [isGameStart, setIsGameStart] = React.useState(false);
+  const [isGameStart, setIsGameStart] = React.useState(false); // 게임 시작 여부
 
   const handleOpenStt = () => {
     if (curUserTurnRef.current === nickName) {
@@ -75,11 +68,6 @@ export default function StompInitial() {
 
   // 초성게임 시작 메시지 전송
   const handleClickStart = () => {
-    gameLogListRef.current = [];
-    setGameLogList(gameLogListRef.current);
-
-    setConsontant("");
-
     if (client != null) {
       if (!client.connected) return;
 
@@ -133,56 +121,36 @@ export default function StompInitial() {
 
         setIsGameStart(true); // 게임시작 설정
 
-        // 게임 시작 로그
-        gameLogListRef.current.push("초성찾기 게임시작");
-        setGameLogList(gameLogListRef.current);
+        setGameLogList([]); // 로그 초기화
 
-        // setTimeout(() => {
+        // 게임 시작 로그
+        let logMsg: string = "초성찾기 게임시작!!"; // 로깅 메시지 설정
+        setGameLogList((gameLogList) => [...gameLogList, logMsg]);
+
         reqNextTurn(); // 다음 턴 이동
-        // }, 5000);
       });
     }
   };
 
-  // 프로미스 함수로 비동기 함수를 생성
-  // setTimeout으로 난수로 만든 시간을 통해 값을 출력
-  const testPromise = (msg: string) => {
-    //let ms: number = Math.floor(Math.random() * 1000) + 1;
-    return new Promise((resolve) => {
-      //setTimeout(resolve, ms, msg);
-      // setTimeout(() => {
-      //   handleOpenStt();
-      // }, 5000);
-    }).then((v) => {
-      //console.log(v, ms + "ms");
-    });
-  };
-
   const subscribeNextTurn = () => {
     if (client != null) {
-      client.subscribe("/from/word/next/" + roomId, async (data: any) => {
+      client.subscribe("/from/word/next/" + roomId, (data: any) => {
         curUserTurnRef.current = JSON.parse(data.body).next; // 다음 유저
         consonantRef.current = JSON.parse(data.body).initial; // 초성
         let gameTurn: number = JSON.parse(data.body).gameturn + 1; // 게임 턴
 
         if (gameTurn <= 3) {
-          // 게임 턴 로그
           setConsontant(consonantRef.current); // 초성 설정
 
-          gameLogListRef.current.push(
-            "[" + curUserTurnRef.current + "] 음성인식 중..\n"
-          );
-          setGameLogList(gameLogListRef.current); // 로깅 메시지 설정
+          let logMsg: string =
+            "[" + curUserTurnRef.current + "] 음성인식 중..\n"; // 로깅 메시지 설정
+          setGameLogList((gameLogList) => [...gameLogList, logMsg]);
 
-          // 5초이후에 음성인식 호출
-          setTimeout(() => {
-            handleOpenStt();
-          }, 5000);
+          // 음성인식 호출
+          handleOpenStt();
         } else {
-          setTimeout(() => {
-            // 3턴 이후에 게임 종료 요청
-            reqGameResult();
-          }, 5000);
+          // 3턴 이후에 게임 종료 요청
+          reqGameResult();
         }
       });
     }
@@ -197,22 +165,18 @@ export default function StompInitial() {
         let word: string = JSON.parse(data.body).word; // 단어
         let result: string = JSON.parse(data.body).result; // 결과
 
-        gameLogListRef.current.push(
+        let logMsg: string =
           "[" +
-            nickname +
-            "] " +
-            "음성인식 [" +
-            word +
-            "] 결과 [" +
-            result +
-            "].\n"
-        );
+          nickname +
+          "] " +
+          "음성인식 [" +
+          word +
+          "] 결과 [" +
+          result +
+          "].\n"; // 로깅 메시지 설정
+        setGameLogList((gameLogList) => [...gameLogList, logMsg]);
 
-        setGameLogList(gameLogListRef.current); // 로깅 메시지 설정
-
-        // setTimeout(() => {
         reqNextTurn(); // 다음 턴 이동
-        // }, 5000);
       });
     }
   };
@@ -222,17 +186,15 @@ export default function StompInitial() {
     if (client != null) {
       client.subscribe("/from/word/result/" + roomId, (data: any) => {
         let result: ResultObj[] = JSON.parse(data.body).gameresult;
+        let logMsgs: string[] = [];
 
-        setIsGameStart(false); // 게임시작 설정
+        curUserTurnRef.current = "";
+        setIsGameStart(false); // 게임종료 설정
 
-        gameLogListRef.current = [];
-
-        // 게임 시작 로그
-        gameLogListRef.current.push("초성찾기 게임종료" + "\n");
-
-        // 게임 순서 로그
+        logMsgs.push("초성찾기 게임종료\n");
+        // 게임 종료 로그
         for (let i = 0; i < result.length; i++) {
-          gameLogListRef.current.push(
+          logMsgs.push(
             "닉네임[" +
               result[i].nickname +
               "] 맞춘횟수[" +
@@ -241,7 +203,7 @@ export default function StompInitial() {
           );
         }
 
-        setGameLogList(gameLogListRef.current); // 로깅 메시지 설정
+        setGameLogList(logMsgs); // 로깅 메시지 설정
       });
     }
   };
@@ -304,24 +266,17 @@ export default function StompInitial() {
         </Button>
       )}
       {isGameStart === true && (
-        <div>
+        <div className="initial-consonant">
           <h4>제시어 : {consonant}</h4>
         </div>
       )}
-      {isGameStart === true && (
-        <div className="user-order">
-          {userOrder.map((user) => (
-            <div>
-              <h4>{user}</h4>
-            </div>
+      <div className="nitial-gamelog">
+        <Paper style={{ width: 270, maxHeight: 400, overflow: "auto" }}>
+          {gameLogList.map((gameLogItem, idx) => (
+            <ListItem key={idx}>{gameLogItem}</ListItem>
           ))}
-        </div>
-      )}
-      <Paper style={{ width: 270, maxHeight: 400, overflow: "auto" }}>
-        {gameLogList.map((gameLog, idx) => (
-          <ListItem key={idx}>{gameLog}</ListItem>
-        ))}
-      </Paper>
+        </Paper>
+      </div>
       <SpeechToText
         open={open}
         consonant={consonant}
