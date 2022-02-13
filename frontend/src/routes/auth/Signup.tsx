@@ -268,9 +268,9 @@ export default function Signup() {
             회원가입
           </button>
         </form>
-        <button onClick={routeLogin} className="signup-login">
-          로그인
-        </button>
+        <p className="signup-login" onClick={routeLogin}>
+          로그인으로 돌아가기
+        </p>
       </div>
     </div>
   );

@@ -75,6 +75,9 @@
   cursor: default;
   position: absolute;
   top: 10%;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-family: consolas;
 }
 
 .signup-select {
@@ -241,18 +244,12 @@
 }
 
 .signup-login {
-  background: rgb(93, 21, 209);
-  border: 0;
-  width: 75%;
-  height: 45px;
-  border-radius: 3px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 20px;
+  margin-top: 2rem;
+  color: #0095f6;
+  cursor: pointer;
   transition: 0.2s;
 }
 
 .signup-login:hover {
-  border: 0;
-  color: rgb(255, 255, 255);
-  background: rgb(80, 13, 187);
+  color: #1fa0f7;
 }
