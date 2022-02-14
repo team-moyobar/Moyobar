@@ -4,7 +4,7 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(/public/images/lobby/bg16.jpg);
   background-repeat: no-repeat;
-  background-position: 100% 70%;
+  background-position: 100% 90%;
   background-size: cover;
   display: grid;
   grid-template-columns: repeat(10, 1fr);

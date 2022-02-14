@@ -1,9 +1,11 @@
 .search-container {
   display: flex;
   justify-content: flex-end;
-  margin-left: auto;
-  height: 50%;
+  height: 70%;
   padding-right: 5px;
+  margin-left: auto;
+  font-size: 13px;
+  width: 35%;
 }
 
 .search-menu {
@@ -12,7 +14,7 @@
   justify-content: center;
 }
 .search-button {
-  width: 30%;
+  width: 20%;
 }
 .search-button p {
   font-size: 13px;
@@ -35,5 +37,5 @@
 
 .search-input::placeholder {
   color: rgba(148, 148, 148, 0.8);
-  font-size: 12px;
+  font-size: 13px;
 }

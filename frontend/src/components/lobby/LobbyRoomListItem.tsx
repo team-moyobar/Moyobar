@@ -37,11 +37,11 @@ export default function LobbyRoomListItem({ item }: any) {
   const [open, setOpen] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false);
   const handleOpen = () => {
-    if (item.participants.length === item.max) {
-      alert("인원이 초과되었습니다.");
-    } else {
-      setOpen(true);
-    }
+    // if (item.participants.length === item.max) {
+    //   alert("인원이 초과되었습니다.");
+    // } else {
+    setOpen(true);
+    // }
   };
   const handleClose = () => {
     setOpen(false);
@@ -139,21 +139,25 @@ export default function LobbyRoomListItem({ item }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" sx={{ mt: 2, fontSize: 30 }}>
-            방 이름 : {item.title}
+          <Typography id="modal-modal-title" sx={{ fontSize: 30, mb: 1 }}>
+            {item.title}
           </Typography>
+          <hr />
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: 18 }}>
-            방장 : {item.owner}
+            <img src="/icons/lobby/crown.png" alt="" /> {item.owner}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: 18 }}>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2, mb: 4, fontSize: 18 }}
+          >
             {item.description}
           </Typography>
           {item.type === "PRIVATE" ? (
             <TextField
               autoFocus
-              margin="dense"
               label="비밀번호"
               fullWidth
+              sx={{ height: 80, pb: 3 }}
               variant="standard"
               onChange={handleChangePassword}
               error={passwordErrorMessage === true ? true : false}
@@ -165,7 +169,10 @@ export default function LobbyRoomListItem({ item }: any) {
             />
           ) : null}
           <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
-            <Button onClick={entranceRoom}>입장하기</Button>
+            <Button onClick={entranceRoom}>
+              <img src="/icons/lobby/enter.png" alt="" />
+              입장하기
+            </Button>
           </Box>
         </Box>
       </Modal>
