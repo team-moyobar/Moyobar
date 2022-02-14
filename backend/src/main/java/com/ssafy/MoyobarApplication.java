@@ -7,10 +7,13 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class MoyobarApplication {
+
 	public static void main(String[] args) {
         new SpringApplicationBuilder(MoyobarApplication.class)
                 .properties("spring.config.location=classpath:/application.yml"+",classpath:/application-secret.yml")
