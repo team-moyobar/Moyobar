@@ -19,10 +19,13 @@
     "@types/react-dom": "^17.0.11",
     "@types/react-redux": "^7.1.22",
     "@types/react-router-dom": "^5.3.3",
+    "apexcharts": "^3.33.1",
     "antd": "^4.18.6",
     "axios": "^0.25.0",
+    "lodash": "^4.17.21",
     "openvidu-browser": "2.20.0",
     "react": "^17.0.2",
+    "react-apexcharts": "^1.3.9",
     "react-countdown-circle-timer": "^3.0.8",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.25.3",
@@ -62,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "@types/sockjs-client": "^1.5.1",
     "@types/stompjs": "^2.3.5",
     "@types/styled-components": "^5.1.22",
