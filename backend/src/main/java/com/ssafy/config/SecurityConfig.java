@@ -112,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login() //로그인 창에서 로그인 및 사용자 동의 얻은 후
                 .authorizationEndpoint() //인증 요청 받으면
-                .baseUri("/oauth2/authorization") //해당 url(provider별 AuthorizationURl)로 redirect
+                .baseUri("/api/oauth2/authorization") //해당 url(provider별 AuthorizationURl)로 redirect
                 .authorizationRequestRepository(cookieAuthorizationRequestRepository()) //authorization request 관련 state 저장
 
                 //Resource Server
