@@ -1,6 +1,8 @@
 .create-button-container {
   width: 8%;
-  height: 50%;
+  height: 70%;
+  margin-right: auto;
+  margin-left: 20px;
 }
 
 .create-button {
@@ -9,5 +11,5 @@
 }
 
 .create-button p {
-  font-size: 13px;
+  font-size: 14px;
 }
