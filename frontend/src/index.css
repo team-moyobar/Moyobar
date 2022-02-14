@@ -3,3 +3,7 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+p {
+  letter-spacing: 2px;
+}
