@@ -2,6 +2,7 @@ package com.ssafy.stomp.model.service;
 
 
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.db.entity.game.GameCategory;
 import com.ssafy.db.entity.game.GameInRoom;
@@ -11,6 +12,7 @@ import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.game.GameCategoryRepository;
 import com.ssafy.db.repository.game.GameInRoomRepository;
 import com.ssafy.db.repository.game.GameWinnerRepository;
+import com.ssafy.db.repository.user.UserRepository;
 import com.ssafy.stomp.model.GameUpdateInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,7 @@ public class GameServiceImpl implements GameService {
     @Autowired
     GameWinnerRepository winnerRepository;
     @Autowired
-    UserService userService;
-
+    UserRepository userRepository;
     @Override
     public Game createGame(String gameName) {
 
@@ -90,7 +91,7 @@ public class GameServiceImpl implements GameService {
     }
 
     private void createGameWinner(Game game, String nickname) {
-        User user = userService.getUserByNickname(nickname);
+        User user = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new);
 
         GameWinner winner = new GameWinner();
         winner.setGame(game);
@@ -115,10 +116,12 @@ public class GameServiceImpl implements GameService {
     }
 
     public void updateUserScore(GameUpdateInfo info) {
-        User user = userService.getUserByNickname(info.getNickname());
+        User user = userRepository.findByNickname(info.getNickname()).orElseThrow(UserNotFoundException::new);
 
+        log.info("{} 님 변경 전 score: {}", user.getNickname(), user.getScore());
         user.setScore(user.getScore() + info.getAddedScore());
+        log.info("{} 님 변경 후 score: {}", user.getNickname(), user.getScore());
 
-        userService.updateUser(user);
+        userRepository.save(user);
     }
 }
