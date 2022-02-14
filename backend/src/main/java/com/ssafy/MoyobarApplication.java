@@ -14,6 +14,11 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class MoyobarApplication {
 
+    @PostConstruct
+    void started(){
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
+
 	public static void main(String[] args) {
         new SpringApplicationBuilder(MoyobarApplication.class)
                 .properties("spring.config.location=classpath:/application.yml"+",classpath:/application-secret.yml")
