@@ -3,6 +3,8 @@ package com.ssafy.stomp.updown.model.manager;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ssafy.db.entity.user.User;
+import com.ssafy.stomp.model.manager.BaseGameManager;
+import com.ssafy.stomp.model.GameUpdateInfo;
 import com.ssafy.stomp.updown.model.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,7 @@ import java.util.*;
 @Setter
 @Slf4j
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class GameManager {
+public class GameManager implements BaseGameManager {
 
     private long gameId;
 
@@ -79,5 +81,21 @@ public class GameManager {
             return CheckResultType.UP;
         else
             return CheckResultType.DOWN;
+    }
+
+    @Override
+    public List<GameUpdateInfo> getGameUpdateInfoList() {
+        List<GameUpdateInfo> list = new ArrayList<>();
+
+        String winner = userOrder.get(orderIndex);
+        int score = getGameScore();
+
+        list.add(new GameUpdateInfo(winner, score, true));
+
+        return list;
+    }
+
+    private int getGameScore(){
+        return (100 - turnCount) / 7;
     }
 }
