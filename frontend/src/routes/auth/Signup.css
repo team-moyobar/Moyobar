@@ -194,7 +194,7 @@
   position: absolute;
   right: 3%;
   border: 0;
-  background-color: rgba(85, 116, 218, 0.3);
+  background-color: rgba(231, 55, 55, 0.3);
   border-radius: 0px 3px 3px 0px;
   margin-left: 1px;
   width: 10%;
@@ -202,18 +202,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.5s;
 }
 
 .signup-duplicate.email-on {
-  background-color: rgba(74, 105, 206, 0.8);
+  background-color: rgba(71, 223, 33, 0.8);
 }
 
 .signup-duplicate.nickname-on {
-  background-color: rgba(74, 105, 206, 0.8);
+  background-color: rgba(71, 223, 33, 0.8);
 }
 
 .signup-duplicate.birth-on {
-  background-color: rgba(74, 105, 206, 0.8);
+  background-color: rgba(71, 223, 33, 0.8);
 }
 
 .signup-duplicate button {
