@@ -4,6 +4,7 @@ import com.ssafy.api.request.UserChangePwdPutReq;
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.BroadcastMessage;
 import com.ssafy.api.response.ResponseMessage;
+import com.ssafy.api.response.UserLogRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.service.S3Service;
@@ -199,6 +200,25 @@ public class UserController {
             throw new InvalidValueException(ErrorCode.INVALID_INPUT_VALUE);
         }
     }
+
+    @GetMapping("/users/logs")
+    @ApiOperation(value = "사용자의 참여 로그 조회", notes = "로그인 한 사용자의 참여 로그를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<UserLogRes>> getUserLogs(@ApiIgnore Authentication authentication) {
+
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+        List<UserLogRes> res = userService.getUserLogs(userId);
+
+        return ResponseEntity.status(200).body(res);
+    }
+
 
     private void broadcastToLobby(){
         template.convertAndSend("/from/lobby/users", new BroadcastMessage("User List changed"));

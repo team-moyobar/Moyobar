@@ -22,7 +22,7 @@ public class History extends BaseEntity {
 
     private Date inserted;
 
-    private LocalDateTime exited;
+    private Date exited;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
