@@ -19,7 +19,7 @@ const ProfileUserInfo = (props: { user: UserInfo }) => {
       <div className="profile-picture">
         <div className="profile-picture-img">
           <img
-            src="https://pds.joins.com/news/component/htmlphoto_mmdata/202105/17/cf5ac1a6-edd6-4f56-9375-4e208c02a7a5.jpg"
+            src={user.img}
             alt=""
           />
         </div>
