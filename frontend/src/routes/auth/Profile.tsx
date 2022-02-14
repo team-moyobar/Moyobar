@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 
 import ProfileUserInfo from "../../components/auth/ProfileUserInfo";
 import ProfileUpdateForm from "../../components/auth/ProfileUpdateForm";
+import Chart from "../../components/auth/Chart"
 
 interface ParamTypes {
   userNickname: string;
@@ -29,6 +30,7 @@ export interface UserInfo {
   drink: DrinkType;
   phone: string;
   type: string;
+  description: string;
 }
 
 interface StatusProps {
@@ -73,6 +75,7 @@ function ProfileContent(props: StatusProps) {
     },
     phone: "",
     type: "",
+    description: "",
   });
 
   const userStatus = props.status;
@@ -107,6 +110,8 @@ function ProfileContent(props: StatusProps) {
       return <ProfileUserInfo user={user}></ProfileUserInfo>;
     case "update":
       return <ProfileUpdateForm user={user} />;
+    case "log":
+      return <Chart />;
     default:
       return null;
   }
@@ -141,6 +146,10 @@ export default function Profile() {
     setStatus("update");
   };
 
+  const setStatusLog = () => {
+    setStatus("log");
+  };
+
   const handleClose = () => {
     history.push("/lobby");
   };
@@ -162,7 +171,7 @@ export default function Profile() {
             <ProfileUpdateButton userFlag={userFlag} />
           </li>
           <li>
-            <a href="javascript:void(0);">
+            <a href="javascript:void(0);" onClick={setStatusLog}>
               <span className="profile-menu-title">
                 <img src="/icons/auth/etc-white.png" alt="" />
                 <img src="/icons/auth/etc-black.png" alt="" />
