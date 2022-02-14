@@ -257,13 +257,10 @@ export default function StompInitial() {
 
   return (
     <div className="initial-component">
-      <div>
-        <h3>&lt;초성게임&gt;</h3>
-      </div>
       {nickName === owner && isGameStart === false && (
-        <Button variant="contained" onClick={handleClickStart}>
-          <h4>게임시작</h4>
-        </Button>
+        <button className="game-start-button" onClick={handleClickStart}>
+          START
+        </button>
       )}
       {isGameStart === true && (
         <div className="initial-consonant">

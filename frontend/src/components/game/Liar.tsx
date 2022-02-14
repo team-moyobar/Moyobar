@@ -249,12 +249,9 @@ const StompLiar = () => {
 
   return (
     <div className="liar-component">
-      <div>
-        <h3>&lt;라이어게임&gt;</h3>
-      </div>
       {nickName === owner && isGameStart === false && (
-        <Stack spacing={2} direction="row">
-          <Paper style={{ width: 150, maxHeight: 400, overflow: "auto" }}>
+        <Stack spacing={2} direction="column">
+          <Paper style={{ width: 200, maxHeight: 400, overflow: "auto" }}>
             <Box sx={{ minWidth: 120 }}>
               <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="demo-simple-select-label">주제</InputLabel>
@@ -273,9 +270,9 @@ const StompLiar = () => {
               </FormControl>
             </Box>
           </Paper>
-          <Button variant="contained" onClick={handler}>
-            게임 시작
-          </Button>
+          <button className="game-start-button" onClick={handler}>
+            START
+          </button>
         </Stack>
       )}
       {role === "LIAR" && isGameStart === true && (

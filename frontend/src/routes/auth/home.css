@@ -39,8 +39,9 @@
   position: relative;
   display: inline-block;
   font-size: 20px;
+  letter-spacing: 4px;
   font-weight: 700;
-  padding: 20px 60px;
+  padding: 20px 50px;
   color: rgba(55, 7, 100, 0.5);
   margin: 20px 10px 10px;
   border-radius: 6px;
@@ -64,4 +65,101 @@
 .home-button:hover {
   background-color: #824bda;
   color: rgba(55, 7, 100, 0.8);
+}
+
+@font-face {
+  font-family: clipneon;
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/clip.ttf);
+}
+@font-face {
+  font-family: moon;
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/moon.ttf);
+}
+
+.logo {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 10%;
+}
+
+.neon-circle {
+  -moz-box-shadow: 0px 0px 0px 8px rgba(254, 208, 40, 1),
+    0px 0px 8px 10px rgba(240, 19, 11, 1),
+    inset 0px 0px 8px 4px rgba(240, 19, 11, 1),
+    0px 0px 98px 8px rgba(250, 29, 22, 1),
+    inset 0px 0px 98px 8px rgba(250, 29, 22, 1);
+  -webkit-box-shadow: 0px 0px 0px 8px rgba(254, 208, 40, 1),
+    0px 0px 8px 10px rgba(240, 19, 11, 1),
+    inset 0px 0px 8px 4px rgba(240, 19, 11, 1),
+    0px 0px 98px 8px rgba(250, 29, 22, 1),
+    inset 0px 0px 98px 8px rgba(250, 29, 22, 1);
+  background: none;
+  border-radius: 13vw;
+  box-shadow: 0px 0px 0px 8px rgba(254, 208, 40, 1),
+    0px 0px 8px 10px rgba(240, 19, 11, 1),
+    inset 0px 0px 8px 4px rgba(240, 19, 11, 1),
+    0px 0px 98px 8px rgba(250, 29, 22, 1),
+    inset 0px 0px 98px 8px rgba(250, 29, 22, 1);
+  height: 18vw;
+  width: 18vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-content {
+  font-family: clipneon;
+  font-size: 4vw;
+  line-height: 4vw;
+  text-shadow: 0.1vw 0vw 0.25vw #28d7fe, 0.2vw 0vw 0.25vw #28d7fe,
+    0.4vw 0vw 0.25vw #28d7fe, 0.1vw 0vw 0.1vw #1041ff, 0.2vw 0vw 0vw #1041ff,
+    0.4vw 0vw 0vw #1041ff, 0.1vw 0vw 0.1vw #1041ff, 0.2vw 0vw 0.1vw #1041ff,
+    0.4vw 0vw 0vw #1041ff, 0.1vw 0vw 0.8vw #1041ff, 0.2vw 0vw 0.8vw #1041ff,
+    0.4vw 0vw 0.8vw #1041ff, 0.2vw 0vw 0.5vw #1041ff, 0.1vw 0vw 0.5vw #1041ff,
+    0.2vw 0vw 0.5vw #1041ff, 0.4vw 0vw 0.5vw #1041ff, 0.1vw 0vw 10vw #1041ff,
+    0.2vw 0vw 10vw #1041ff, 0.4vw 0vw 10vw #1041ff;
+  color: #28d7fe;
+}
+
+.logo-to {
+  color: #fed128;
+  padding-top: 0.5vw;
+  text-shadow: -0.1vw 0vw 0.25vw #fed128, -0.2vw 0vw 0.25vw #fed128,
+    -0.4vw 0vw 0.25vw #fed128, -0.1vw 0vw 0.1vw #f0130b,
+    -0.2vw 0vw 0.1vw #f0130b, -0.4vw 0vw 0.1vw #f0130b, -0.1vw 0vw 0.1vw #f0130b,
+    -0.2vw 0vw 0.1vw #f0130b, -0.4vw 0vw 0.1vw #f0130b, -0.1vw 0vw 0.8vw #f0130b,
+    -0.2vw 0vw 0.8vw #f0130b, -0.4vw 0vw 0.8vw #f0130b, 0.2vw 0vw 0.5vw #f0130b,
+    -0.1vw 0vw 0.5vw #f0130b, -0.2vw 0vw 0.5vw #f0130b, -0.4vw 0vw 0.5vw #f0130b,
+    -0.1vw 0vw 10vw #fa1c16, -0.2vw 0vw 10vw #fa1c16, -0.4vw 0vw 10vw #fa1c16;
+}
+
+.logo2 {
+  font-family: moon;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 10%;
+  font-size: 6.3vw;
+  margin-left: 1.5vw;
+  animation: logo2 1s 0s ease infinite;
+  -webkit-animation: logo2 1s 0.5s ease infinite;
+}
+
+@keyframes logo2 {
+  0%,
+  100% {
+    text-shadow: -0.1vw 0vw 0.1vw #fed128, -0.15vw 0vw 0.2vw #fed128,
+      -0.2vw 0vw 0.2vw #fed128, -0.1vw 0vw 3vw #f0130b, -0.2vw 0vw 2vw #f0130b,
+      -0.4vw 0vw 3vw #f0130b, -0.1vw 0vw 5vw #f0130b, -0.2vw 0vw 4vw #f0130b,
+      -0.4vw 0vw 0.8vw #f0130b, 0.2vw 0vw 0vw #f0130b;
+    color: #fed128;
+  }
+  50% {
+    text-shadow: -0.1vw 0vw 0.1vw #fed128, -0.15vw 0vw 0.2vw #fed128,
+      -0.2vw 0vw 0.2vw #fed128, -0.1vw 0vw 3vw #f0130b, -0.2vw 0vw 3vw #f0130b,
+      -0.4vw 0vw 2vw #f0130b, -0.1vw 0vw 5vw #f0130b, -0.2vw 0vw 5vw #f0130b,
+      -0.4vw 0vw 0.2vw #f0130b, 0.2vw 0vw 5vw #f0130b;
+    color: #fed128;
+  }
 }
