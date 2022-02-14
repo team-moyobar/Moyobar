@@ -136,9 +136,10 @@
   display: flex;
   height: 10%;
   align-items: center;
-  justify-content: flex-start;
-  padding-left: 4%;
-  padding-right: 4%;
+  justify-content:space-around;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 20px;
 }
 
 .lobby-room-list {
