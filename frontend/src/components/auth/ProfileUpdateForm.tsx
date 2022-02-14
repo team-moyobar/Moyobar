@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -170,6 +171,7 @@ const ProfileUpdateForm = (props: { user: UserInfo }) => {
             variant="outlined"
             value={nickname}
             onChange={onChangeNickname}
+            sx={{width: 1/4}}
           />
         </div>
         <div>
@@ -187,11 +189,14 @@ const ProfileUpdateForm = (props: { user: UserInfo }) => {
         <div>
           <TextField
             type="file"
-            label="프로필사진 변경"
+            label="프로필 사진"
             inputProps={{ accept: "image/png, image/jpeg, image/jpg" }}
-            // value={img}
             onChange={onChangeImg}
             sx={{width: 1/3}}
+            InputProps={{
+              startAdornment: <InputAdornment position="start"></InputAdornment>,
+            }}
+            // defaultValue="파일을 선택해주세요"
           />
         </div>
         <div>
@@ -222,11 +227,12 @@ const ProfileUpdateForm = (props: { user: UserInfo }) => {
             variant="outlined"
             value={drinkCnt}
             onChange={onChangeDrinkCnt}
+            sx={{width: 1/4}}
           />
         </div>
         <div>
           <Button variant="outlined" onClick={updateProfile} size="large">
-            정보수정
+            수정하기
           </Button>
         </div>
       </form>
