@@ -20,6 +20,7 @@ public class UserLogRes {
 
     @ApiModelProperty(name = "Date")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "Asia/Seoul")
     private Date date;
 
     @ApiModelProperty(name = "Count of Entrance")

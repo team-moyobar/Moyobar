@@ -45,6 +45,8 @@ spring:
   multipart:
     max-file: 10MB
     max-request-file: 10MB
+  jackson:
+    time-zone: Asia/Seoul
 spa:
   default-file: /dist/index.html
 
