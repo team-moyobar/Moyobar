@@ -111,10 +111,13 @@ export default function Signup() {
   const checkBirth = () => {
     var year = birth?.getFullYear();
     console.log(birth);
-    if (year && birthAnimal === year % 12) {
+    if (year && birthAnimal === (year % 12)) {
+      alert("성인인증 성공!")
       setCheckBirth(true);
+      setOpenBirthDlg(false);
     } else {
       setCheckBirth(false);
+      alert("성인인증 실패!")
     }
   };
 
