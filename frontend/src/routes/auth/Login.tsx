@@ -70,6 +70,16 @@ export default function Login() {
       });
   };
 
+  const socialLoginKakao = () => {
+    window.location.href =
+      "https://i6d210.p.ssafy.io/api/oauth2/authorization/kakao";
+  };
+
+  const socialLoginGoogle = () => {
+    window.location.href =
+      "https://i6d210.p.ssafy.io/api/oauth2/authorization/google";
+  };
+
   useEffect(() => {
     if (getToken("jwtToken")) {
       deleteCookie();
@@ -121,11 +131,11 @@ export default function Login() {
           <div className="line-or">or</div>
           <div className="line"></div>
         </div>
-        <button className="login-kakao-button">
+        <button className="login-kakao-button" onClick={socialLoginKakao}>
           <img src="/icons/auth/kakao.jpg" alt="" />
           Kakao 로그인
         </button>
-        <button className="login-google-button">
+        <button className="login-google-button" onClick={socialLoginGoogle}>
           <img src="/icons/auth/google.png" alt="" />
           Google 로그인
         </button>
