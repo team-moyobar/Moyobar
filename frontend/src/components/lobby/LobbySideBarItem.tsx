@@ -19,7 +19,7 @@ export default function LobbySideBarUserListItem({ item }: any) {
     <div onClick={routeProfile} className="lobby-sidebar-item-container">
       <div className="lobby-left-img">
         <img
-          src="https://pds.joins.com/news/component/htmlphoto_mmdata/202105/17/cf5ac1a6-edd6-4f56-9375-4e208c02a7a5.jpg"
+          src={item.img}
           alt=""
         />
       </div>
