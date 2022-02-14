@@ -64,6 +64,10 @@ public class UserServiceImpl implements UserService {
             drink.setLiquor(userRegisterInfo.getDrink().getLiquor());
         }
         user.setDrink(drink);
+
+        if (userRegisterInfo.getDescription() != null){
+            user.setDescription(userRegisterInfo.getDescription());
+        }
         return userRepository.save(user);
     }
 
@@ -93,6 +97,11 @@ public class UserServiceImpl implements UserService {
             drink.setLiquor(userUpdatePutReq.getDrink().getLiquor());
             drinkRepository.save(drink); //Drink table update 후에
             user.setDrink(drink); //User table에 반영
+        }
+
+        // 자기소개 수정
+        if (userUpdatePutReq.getDescription() != null){
+            user.setDescription(userUpdatePutReq.getDescription());
         }
 
         return userRepository.save(user);
