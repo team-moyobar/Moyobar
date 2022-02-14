@@ -2,15 +2,13 @@ package com.ssafy.stomp.liargame.controller;
 
 import com.ssafy.api.service.RoomService;
 import com.ssafy.db.entity.game.Game;
-import com.ssafy.db.entity.game.GameInRoom;
-import com.ssafy.db.entity.game.GameWinner;
 import com.ssafy.stomp.liargame.model.manager.GameManager;
 import com.ssafy.stomp.liargame.request.GameStartReq;
 import com.ssafy.stomp.liargame.request.VoteReq;
 import com.ssafy.stomp.liargame.response.GameEndRes;
 import com.ssafy.stomp.liargame.response.RoleSubjectRes;
 import com.ssafy.stomp.liargame.response.VoteRes;
-import com.ssafy.stomp.service.GameService;
+import com.ssafy.stomp.model.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +16,8 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

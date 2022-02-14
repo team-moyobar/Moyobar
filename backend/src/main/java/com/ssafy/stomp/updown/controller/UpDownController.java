@@ -4,7 +4,7 @@ import com.ssafy.api.service.HistoryService;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.stomp.entity.Message;
-import com.ssafy.stomp.service.GameService;
+import com.ssafy.stomp.model.service.GameService;
 import com.ssafy.stomp.updown.model.CheckResultType;
 import com.ssafy.stomp.updown.model.GameStatusType;
 import com.ssafy.stomp.updown.model.manager.GameManager;

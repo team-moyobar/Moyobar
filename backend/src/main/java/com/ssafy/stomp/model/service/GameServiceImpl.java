@@ -1,8 +1,7 @@
-package com.ssafy.stomp.service;
+package com.ssafy.stomp.model.service;
 
 
 import com.ssafy.api.service.UserService;
-import com.ssafy.common.exception.RoomNotFoundException;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.db.entity.game.GameCategory;
 import com.ssafy.db.entity.game.GameInRoom;
@@ -19,6 +18,7 @@ import com.ssafy.db.repository.game.GameRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -49,7 +49,7 @@ public class GameServiceImpl implements GameService {
         }
 
         Game game = new Game();
-        game.setStart(LocalDateTime.now());
+        game.setStart(new Date());
         game.setCategory(category);
 
         return gameRepository.save(game);
@@ -60,7 +60,7 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
 
         createGameWinner(game, winner);
-        game.setEnd(LocalDateTime.now());
+        game.setEnd(new Date());
 
         return gameRepository.save(game);
     }
@@ -76,7 +76,7 @@ public class GameServiceImpl implements GameService {
             }
         }
         
-        game.setEnd(LocalDateTime.now());
+        game.setEnd(new Date());
 
         return gameRepository.save(game);
     }
