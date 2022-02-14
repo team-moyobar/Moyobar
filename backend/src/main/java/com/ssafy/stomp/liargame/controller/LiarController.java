@@ -96,7 +96,7 @@ public class LiarController {
             List<String> winners = gameManager.getWinners();
             log.info("이긴 사람: {} ", winners.toString());
 
-            gameService.updateGame(gameManager.getGameId(), winners);
+            gameService.updateGame(gameManager.getGameId(), gameManager.getGameUpdateInfoList());
         }
 
         return gameEndRes;
