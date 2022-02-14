@@ -2,18 +2,32 @@ version: "3"
 services:
   backend:
     container_name: moyobar_backend
-    image: "moyobar_backend:0.1"               
+    image: "moyobar_backend:0.1"
     build:
       dockerfile: Dockerfile
       context: ./backend
     ports:
       - "8080:8080"
+    networks:
+      - moyobar
   nginx:
     restart: always
     container_name: "moyobar_frontend"
-    image: "moyobar_frontend:0.1" 
+    image: "moyobar_frontend:0.1"
     build:
       dockerfile: Dockerfile
-      context: ./frontend_test
-    ports: 
+      context: ./frontend
+    ports:
       - "3000:80"
+    networks:
+      - moyobar
+
+  #openvidu:
+  #  image: openvidu/openvidu-server-kms:2.19.0
+  #  restart: always
+  #  ports:
+  #    - "4443:4443"
+  #  environment:
+  #    OPENVIDU_SECRET: MY_SECRET
+networks:
+  moyobar:

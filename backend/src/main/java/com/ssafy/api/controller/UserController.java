@@ -7,6 +7,7 @@ import com.ssafy.api.response.ResponseMessage;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.service.S3Service;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import java.util.List;
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "유저 API", tags = {"User"})
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -134,8 +136,10 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     private ResponseEntity<? extends BaseResponseBody> updateUserInfo(@ApiIgnore Authentication authentication,
-                                                                      @ApiParam(value = "업데이트할 유저 정보") @RequestPart(name = "update_info") UserUpdatePutReq updateInfo,
+                                                                      @ApiParam(value = "업데이트할 유저 정보") @RequestPart(value = "update_info") UserUpdatePutReq updateInfo,
                                                                       @RequestPart(value = "img", required = false) MultipartFile multipartFile) {
+
+        log.info("file: {}",multipartFile);
 
         //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();

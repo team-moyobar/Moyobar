@@ -40,6 +40,8 @@ public class UserRes {
 	private String phone;
 	@ApiModelProperty(name = "User login type")
 	private ProviderType type;
+	@ApiModelProperty(name = "User description", example = "안녕하세요 모여바 입니다.")
+	private String description;
 
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
@@ -51,6 +53,7 @@ public class UserRes {
 		res.setDrink(user.getDrink());
 		res.setPhone(user.getPhone());
 		res.setType(user.getType());
+		res.setDescription(user.getDescription());
 		return res;
 	}
 }

@@ -84,3 +84,9 @@ management:
     diskspace:
       enabled: true
 
+app:
+  #소셜 로그인 완료 후 가게 될 화면
+  authorizedRedirectUris:
+#    http://localhost:3000/lobby #로컬 테스팅
+     https://i6d210.p.ssafy.io/lobby #배포
+

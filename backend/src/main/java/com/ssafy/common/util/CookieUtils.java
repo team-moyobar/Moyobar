@@ -31,7 +31,7 @@ public class CookieUtils {
                                  int maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false); // 로비 페이지로 넘어가기 위해 httponly 설정 false로
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
