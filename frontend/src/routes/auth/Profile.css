@@ -23,6 +23,7 @@
   overflow: hidden;
   border-bottom-left-radius: 8px;
   border-top-left-radius: 8px;
+  min-height: 700px;
 }
 
 .profile-menu ul {
@@ -102,6 +103,7 @@
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
   padding: 40px;
+  min-height: 700px;
 }
 
 .close-icon {
