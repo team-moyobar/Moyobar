@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -15,10 +16,10 @@ import java.time.LocalDateTime;
 public class Game extends BaseEntity {
 
     @CreationTimestamp
-    private LocalDateTime start;
+    private Date start;
 
     @UpdateTimestamp
-    private LocalDateTime end;
+    private Date end;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

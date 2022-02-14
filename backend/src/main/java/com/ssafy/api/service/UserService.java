@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserUpdatePutReq;
+import com.ssafy.api.response.UserLogRes;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.UserRegisterPostReq;
@@ -37,4 +38,6 @@ public interface UserService {
 	User getUserByNickname(String owner);
 
     List<User> searchUserByNickname(String keyword);
+
+    List<UserLogRes> getUserLogs(String userId);
 }
