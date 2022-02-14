@@ -403,9 +403,11 @@ class UserCamera extends Component {
         {this.state.session !== undefined ? (
           <div className="session">
             <div className="session-header">
-              <p>{mySessionId}번 방제목 필요합니다</p>
+              <p>{mySessionId}번</p>
+              <i class="fa fa-heart-o"></i>
+              <i class="fa-regular fa-game-console-handheld"></i>
             </div>
-            <div className="video-container">
+            <div className="session-center">
               {this.state.publisher !== undefined ? (
                 <div
                   className={`stream-container${query}`}
@@ -427,56 +429,56 @@ class UserCamera extends Component {
               ))}
             </div>
             <div className="session-footer">
-              <button
-                className="control-button"
+              <div
+                className={`control-button-audio ${
+                  this.state.audiostate ? "room-green" : ""
+                } `}
                 onClick={() => {
                   this.state.publisher.publishAudio(!this.state.audiostate);
                   this.setState({ audiostate: !this.state.audiostate });
                 }}
               >
                 {this.state.audiostate ? (
-                  <img src="/icons/room/mic-on.png" alt="" />
+                  <ion-icon name="mic-outline"></ion-icon>
                 ) : (
-                  <img src="/icons/room/mic-off.png" alt="" />
+                  <ion-icon name="mic-off-outline"></ion-icon>
                 )}
-              </button>
-              <button
-                className="control-button"
+              </div>
+              <div
+                className={`control-button-mic ${
+                  this.state.videostate ? "room-green" : ""
+                } `}
                 onClick={() => {
                   this.state.publisher.publishVideo(!this.state.videostate);
                   this.setState({ videostate: !this.state.videostate });
                 }}
               >
                 {this.state.videostate ? (
-                  <img src="/icons/room/video-off.png" alt="" />
+                  <ion-icon name="videocam-outline"></ion-icon>
                 ) : (
-                  <img src="/icons/room/video-on.png" alt="" />
+                  <ion-icon name="videocam-off-outline"></ion-icon>
                 )}
-              </button>
-              <button
-                className="cheers-button"
-                onClick={() => this.sendCheersMsg()}
-              >
-                <img src="/icons/room/cheers.png" alt="" />
-              </button>
-              <button
-                className="gameselect-button"
-                onClick={() => this.handleOpenGameSelect()}
-              >
-                <img src="/icons/room/game.png" alt="" />
-              </button>
+              </div>
             </div>
           </div>
         ) : null}
         <div className="gamebox">
-          <div className="gamebox-top"></div>
+          <div className="gamebox-top">
+            <div className="cheers-button" onClick={() => this.sendCheersMsg()}>
+              <ion-icon name="beer-outline"></ion-icon>
+            </div>
+            <div
+              className="game-select-button"
+              onClick={() => this.handleOpenGameSelect()}
+            >
+              <ion-icon name="game-controller-outline"></ion-icon>
+            </div>
+          </div>
           <div className="gamebox-center">
             <GameSelect receiveGameSelect={this.state.gameSelect}></GameSelect>
           </div>
-          <div className="gamebox-bottom">
-            <button onClick={this.leaveSession}>
-              <img className="exit-button" src="/icons/room/exit.png" alt="" />
-            </button>
+          <div onClick={this.leaveSession} className="gamebox-bottom">
+            <ion-icon name="power-outline"></ion-icon>
           </div>
         </div>
         <div className="chatbox">
