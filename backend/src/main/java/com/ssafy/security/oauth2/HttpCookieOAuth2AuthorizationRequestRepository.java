@@ -3,6 +3,7 @@ package com.ssafy.security.oauth2;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.ssafy.common.util.CookieUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
     public static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request";
     public static final String REDIRECT_URI_PARAM_COOKIE_NAME = "redirect_uri";
     private static final int cookieExpireSeconds = 180; //3분
+    @Value("${app.authorizedRedirectUris}")
+    private String targetUri;
 
     @Override
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
@@ -47,7 +50,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
         CookieUtils.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME, CookieUtils.serialize(authorizationRequest), cookieExpireSeconds);
 
         //로그인 이후의 redirect_uri값 또한 쿠키에 저장
-        String redirectUriAfterLogin = "https://i6d210.p.ssafy.io/login/oauth/redirect"; //로컬 테스팅용: http://localhost:3000/oauth/redirect
+        String redirectUriAfterLogin = targetUri;
         if (StringUtils.isNotBlank(redirectUriAfterLogin)) {
             CookieUtils.addCookie(response, REDIRECT_URI_PARAM_COOKIE_NAME, redirectUriAfterLogin,cookieExpireSeconds);
         }
