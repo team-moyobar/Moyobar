@@ -39,5 +39,5 @@ public interface UserService {
 
     List<User> searchUserByNickname(String keyword);
 
-    List<UserLogRes> getUserLogs(String userId);
+    List<UserLogRes> getUserLogs(String nickname);
 }
