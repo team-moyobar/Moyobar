@@ -153,7 +153,7 @@ public class UserController {
         if (updateInfo.getNickname() != null) {
             String newNickname = updateInfo.getNickname();
 
-            if (userService.nicknameDuplicated(newNickname))
+            if (!user.getNickname().equals(newNickname) && userService.nicknameDuplicated(newNickname))
                 throw new NicknameDuplicatedException();
         }
 
