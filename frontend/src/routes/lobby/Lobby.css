@@ -146,6 +146,8 @@
   justify-content: center;
   align-items: center;
   height: 80%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 .lobby-pagination {
   display: flex;

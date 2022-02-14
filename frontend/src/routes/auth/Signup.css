@@ -71,7 +71,6 @@
 
 .signup {
   font-size: 40px;
-  margin-bottom: 7%;
   cursor: default;
   position: absolute;
   top: 10%;
@@ -79,7 +78,16 @@
   letter-spacing: 10px;
   font-family: consolas;
 }
-
+.input-date {
+  background: rgba(167, 167, 167, 0.4);
+  width: 68%;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 3px 3px 0px;
+}
 .signup-select {
   background-color: transparent;
   border: 0;
@@ -105,7 +113,38 @@
   font-weight: 600;
   margin-right: 10px;
 }
-
+.ant-picker::placeholder {
+  color: red !important;
+}
+.ant-picker {
+  background: transparent !important;
+  height: 100%;
+  border: 0 !important;
+  width: 100%;
+}
+.ant-picker-focused {
+  box-shadow: none !important;
+}
+.ant-picker-input > input {
+  color: rgba(177, 177, 177, 0.65) !important;
+  font-size: 14px !important;
+}
+.ant-picker-input input::placeholder {
+  color: rgba(177, 177, 177, 0.65) !important;
+  font-size: 14px !important;
+}
+.signup-select-date {
+  background-color: transparent;
+  border: 0;
+  height: 100%;
+  width: 20%;
+  border-radius: 0px 5px 5px 0px;
+  text-align: center;
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 10px;
+}
 .signup-form {
   display: flex;
   margin-bottom: 10px;
@@ -114,7 +153,6 @@
   align-items: center;
   width: 100%;
 }
-
 .signup-input {
   background: rgba(167, 167, 167, 0.4);
   width: 68%;
