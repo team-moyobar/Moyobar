@@ -7,7 +7,8 @@ import { RootState } from "../../redux/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getToken } from "./Login";
-
+import { DatePicker } from "antd";
+import "antd/dist/antd.css";
 enum emailEnum {
   naver = "naver",
   gmail = "gmail",
@@ -237,12 +238,15 @@ export default function Signup() {
             <div className="signup-icon">
               <img src="/icons/auth/calendar.png" alt="" />
             </div>
-            <div className="signup-input">
-              <input
-                type="datetime"
-                placeholder="생년월일"
-                {...register("birth")}
-              />
+            <div className="input-date">
+              <DatePicker className="date-picker" />
+              <div
+                className={`signup-duplicate ${
+                  nickNameOn ? "nickname-on" : ""
+                }`}
+              >
+                <button onClick={checkNickname}>확인</button>
+              </div>
             </div>
           </div>
           <div className="signup-form">
