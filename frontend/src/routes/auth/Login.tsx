@@ -113,9 +113,9 @@ export default function Login() {
             로그인
           </button>
         </form>
-        {/* <p className="login-signup" onClick={routeSignup}>
+        <p className="login-signup" onClick={routeSignup}>
           회원이 아니신가요? 지금 가입하세요
-        </p> */}
+        </p>
         <div className="login-line">
           <div className="line"></div>
           <div className="line-or">or</div>
