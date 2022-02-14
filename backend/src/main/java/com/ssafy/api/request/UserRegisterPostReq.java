@@ -33,4 +33,6 @@ public class UserRegisterPostReq {
 	private ProviderType type; //enum 타입-local, google, kakao
 	@ApiModelProperty(name = "유저 주량 정보")
 	private DrinkReq drink;
+	@ApiModelProperty(name = "유저 자기소개", example = "안녕하세요 모여바입니다.")
+	private String description;
 }

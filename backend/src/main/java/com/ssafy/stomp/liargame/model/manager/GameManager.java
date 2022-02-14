@@ -5,6 +5,7 @@ import com.ssafy.api.service.RoomService;
 import com.ssafy.db.entity.room.ActionType;
 import com.ssafy.stomp.liargame.model.Player;
 
+import com.ssafy.stomp.liargame.request.VoteReq;
 import com.ssafy.stomp.liargame.response.GameEndRes;
 import com.ssafy.stomp.liargame.model.GamePlayer;
 import com.ssafy.stomp.liargame.response.RoleSubjectRes;
@@ -81,13 +82,37 @@ public class GameManager {
     }
 
     // 참가자들이 투표한 사람이 누구인지에 대한 정보 저장
-    public void setVoteInfo(String voteInfo){
+    public void setVoteInfo(VoteReq voteReq){
+        String voteInfo = voteReq.getVote();
+
+        // 누가 누굴 투표했는지 정보를 저장
+        List<Player> players = this.gamePlayers.getPlayers();
+
+        for(int i=0; i<players.size(); i++){
+            if(voteReq.getVoter().equals(players.get(i).getUser().getNickname())){
+                players.get(i).setVoteTurn(true); //해당 참가자는 투표에 방금 막 참여했음
+                players.get(i).setVote(voteInfo); //해당 참가자가 투표한 사람
+            }
+        }
+
         // 투표 정보 갱신
         for(Map.Entry<String, Integer> e : this.votePlayers.entrySet()) {
             if(e.getKey().equals(voteInfo)) this.votePlayers.put(voteInfo, e.getValue()+1);
         }
 
         log.info("투표 현황: {}", this.votePlayers.toString());
+    }
+
+    //투표에 참가한 사람의 수 (무효표 상관없이)
+    public int getVoterCnt(){
+        List<Player> players = this.gamePlayers.getPlayers();
+        int cnt = 0;
+
+        for(int i=0; i<players.size(); i++){
+            if(players.get(i).isVoteTurn()) cnt++;
+        }
+
+        return cnt;
     }
 
     public void gameEnd(){

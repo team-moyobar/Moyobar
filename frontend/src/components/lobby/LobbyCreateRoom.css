@@ -1,6 +1,8 @@
 .create-button-container {
   width: 8%;
-  height: 50%;
+  height: 70%;
+  margin-right: auto;
+  margin-left: 20px;
 }
 
 .create-button {
@@ -9,5 +11,23 @@
 }
 
 .create-button p {
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.private-room {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-private {
+  align-self: flex-start;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.create-button-container-title {
+  font-size: 30px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 10px !important;
+  font-family: consolas !important;
 }

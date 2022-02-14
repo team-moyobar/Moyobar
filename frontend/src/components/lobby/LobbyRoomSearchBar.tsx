@@ -1,13 +1,10 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./LobbyRoomSearchBar.css";
-import { height } from "@mui/system";
 
 export default function LobbyRoomSearchBar({ onSubmit }: any) {
   const [searchBy, setSearchBy] = React.useState("all");
@@ -36,6 +33,7 @@ export default function LobbyRoomSearchBar({ onSubmit }: any) {
           value={searchBy}
           label="searchBy"
           onChange={handleChange}
+          sx={{ height: 1 / 1, width: 90, fontSize: 14 }}
         >
           <MenuItem value={"all"}>전체</MenuItem>
           <MenuItem value={"title"}>제목</MenuItem>
@@ -44,12 +42,11 @@ export default function LobbyRoomSearchBar({ onSubmit }: any) {
         </Select>
       </FormControl>
       <input
-        placeholder="검색어"
+        placeholder="키워드"
         name="keyword"
         onChange={keywordChange}
         className="search-input"
       />
-
       <Button
         variant="outlined"
         color="primary"

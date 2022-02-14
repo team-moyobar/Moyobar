@@ -27,6 +27,7 @@ const style = {
 };
 
 export default function LobbyRoomListItem({ item }: any) {
+  console.log(item);
   let query = (item.room_id % 5) + 1;
 
   const history = useHistory();
@@ -79,8 +80,8 @@ export default function LobbyRoomListItem({ item }: any) {
         }
       });
   };
-  const date = item.start.split(".");
-
+  const date = item.start.split("T");
+  const datetime = date[1].split(".");
   return (
     <div
       className="lobby-room-list-item-info"
@@ -92,7 +93,11 @@ export default function LobbyRoomListItem({ item }: any) {
       <div className="room-content">
         <p className="lobby-room-title">
           {item.title}
-          <span className="lobby-room-count">
+          <span
+            className={`lobby-room-count ${
+              item.participants.length === item.max ? "room-full" : ""
+            }`}
+          >
             <span>{item.participants.length}</span>
             <span>/</span>
             <span>{item.max}</span>
@@ -104,13 +109,26 @@ export default function LobbyRoomListItem({ item }: any) {
           )}
         </p>
         <div className="room-exp">
-          <p className="lobby-room-time">{date[0]}</p>
-          <p className="lobby-room-content">{item.description}</p>
-          {item.type === "PRIVATE" ? (
-            <div className="room-lock">
-              <img src="/icons/lobby/lock.png" alt="" />
-            </div>
-          ) : null}
+          <div className="room-left">
+            <p>
+              <img
+                className="lobby-owner"
+                src="/icons/lobby/crown.png"
+                alt=""
+              />
+              {item.owner}
+            </p>
+            <p className="lobby-room-content">{item.description}</p>
+          </div>
+          <div className="room-right">
+            {item.type === "PRIVATE" ? (
+              <div className="room-lock">
+                <img src="/icons/lobby/lock.png" alt="" />
+              </div>
+            ) : null}
+            <p className="lobby-room-time">{date[0]}</p>
+            <p className="lobby-room-time2">{datetime[0]}</p>
+          </div>
         </div>
       </div>
 
@@ -121,21 +139,25 @@ export default function LobbyRoomListItem({ item }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" sx={{ mt: 2, fontSize: 30 }}>
-            방 이름 : {item.title}
+          <Typography id="modal-modal-title" sx={{ fontSize: 30, mb: 1 }}>
+            {item.title}
           </Typography>
+          <hr />
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: 18 }}>
-            방장 : {item.owner}
+            <img src="/icons/lobby/crown.png" alt="" /> {item.owner}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: 18 }}>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2, mb: 4, fontSize: 18 }}
+          >
             {item.description}
           </Typography>
           {item.type === "PRIVATE" ? (
             <TextField
               autoFocus
-              margin="dense"
               label="비밀번호"
               fullWidth
+              sx={{ height: 80, pb: 3 }}
               variant="standard"
               onChange={handleChangePassword}
               error={passwordErrorMessage === true ? true : false}
@@ -147,7 +169,10 @@ export default function LobbyRoomListItem({ item }: any) {
             />
           ) : null}
           <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
-            <Button onClick={entranceRoom}>입장하기</Button>
+            <Button onClick={entranceRoom}>
+              <img src="/icons/lobby/enter.png" alt="" />
+              입장하기
+            </Button>
           </Box>
         </Box>
       </Modal>

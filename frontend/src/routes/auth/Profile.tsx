@@ -173,19 +173,19 @@ export default function Profile() {
           <li>
             <a href="javascript:void(0);" onClick={setStatusLog}>
               <span className="profile-menu-title">
-                <img src="/icons/auth/cup-white.png" alt="" />
-                <img src="/icons/auth/cup-black.png" alt="" />
+                <img src="/icons/auth/etc-white.png" alt="" />
+                <img src="/icons/auth/etc-black.png" alt="" />
               </span>
-              <span className="profile-menu-title">참가 로그</span>
+              <span className="profile-menu-title">참가 내역</span>
             </a>
           </li>
           <li>
             <a href="javascript:void(0);">
               <span className="profile-menu-title">
-                <img src="/icons/auth/etc-white.png" alt="" />
-                <img src="/icons/auth/etc-black.png" alt="" />
+                <img src="/icons/auth/cup-white.png" alt="" />
+                <img src="/icons/auth/cup-black.png" alt="" />
               </span>
-              <span className="profile-menu-title">나머지 기능</span>
+              <span className="profile-menu-title">랭킹</span>
             </a>
           </li>
         </ul>
