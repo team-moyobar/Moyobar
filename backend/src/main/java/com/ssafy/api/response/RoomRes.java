@@ -1,5 +1,6 @@
 package com.ssafy.api.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ssafy.db.entity.room.Room;
@@ -34,8 +35,10 @@ public class RoomRes {
     @ApiModelProperty(name = "Room max number of people")
     private int max;
     @ApiModelProperty(name = "Room started date")
+    @JsonFormat(timezone = "Asia/Seoul")
     private Date start;
     @ApiModelProperty(name = "Room ended date")
+    @JsonFormat(timezone = "Asia/Seoul")
     private Date end;
     @ApiModelProperty(name = "Room thumbnail")
     private String thumbnail;
