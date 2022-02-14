@@ -190,10 +190,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserLogRes> getUserLogs(String userId) {
+    public List<UserLogRes> getUserLogs(String nickname) {
         Map<String, UserLogRes> temp = new HashMap<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        User user = getUserByUserId(userId);
+        User user = getUserByNickname(nickname);
 
         historyRepository.findAllByUserId(user.getId())
                 .forEach(history -> {
