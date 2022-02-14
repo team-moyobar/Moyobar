@@ -17,5 +17,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class VoteReq {
+    private String voter; // 투표 참여한 플레이어
     private String vote; // 플레이어가 누구를 투표했는지
 }
