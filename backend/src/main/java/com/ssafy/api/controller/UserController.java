@@ -157,7 +157,7 @@ public class UserController {
                 throw new NicknameDuplicatedException();
         }
 
-        if (!multipartFile.isEmpty()) {
+        if (multipartFile!= null && !multipartFile.isEmpty()) {
             try {
                 updateInfo.setImg(s3Service.upload(multipartFile));
             } catch (IOException e) {
