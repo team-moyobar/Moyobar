@@ -5,10 +5,27 @@ import { useHistory } from "react-router-dom";
 import "./Signup.css";
 import { RootState } from "../../redux/store";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { AnyIfEmpty, useSelector } from "react-redux";
 import { getToken } from "./Login";
-import { DatePicker } from "antd";
-import "antd/dist/antd.css";
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import DialogActions from '@mui/material/DialogActions';
+
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+
+
 enum emailEnum {
   naver = "naver",
   gmail = "gmail",
@@ -41,12 +58,18 @@ export default function Signup() {
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("naver");
+  const [birth, setBirth] = useState<Date | null>(new Date());
 
   const [flagNickname, setCheckNickname] = useState(false);
   const [flagUserId, setCheckUserId] = useState(false);
+  const [flagBirth, setCheckBirth] = useState(false);
 
   const [emailOn, setemailOn] = useState<boolean>(false);
   const [nickNameOn, setnickNameOn] = useState<boolean>(false);
+  const [birthOn, setBirthOn] = useState<boolean>(false);
+
+  const [openBirthDlg, setOpenBirthDlg] = useState(false);
+  const [birthAnimal, setBirthAnimal] = useState<number>(1);
 
   const setFlagNickname = () => {
     setCheckNickname(true);
@@ -61,6 +84,7 @@ export default function Signup() {
     setId(e.target.value);
     setCheckUserId(false);
   };
+
   const changeEmail = (e: any) => {
     setEmail(e.target.value);
     setCheckUserId(false);
@@ -71,6 +95,29 @@ export default function Signup() {
     setNickname(e.target.value);
     setCheckNickname(false);
   };
+
+  const handleOpenBirthDlg = (e: any) => {
+    e.preventDefault();
+    setOpenBirthDlg(true);
+  }
+
+  const handleCloseBirthDlg = () => {
+    setOpenBirthDlg(false);
+  }
+
+  const changeBirthAnimal = (e: any) => {
+    setBirthAnimal(e.target.value);
+  }
+
+  const checkBirth = () => {
+    var year = birth?.getFullYear();
+    console.log(birth)
+    if (year && birthAnimal === (year % 12)) {
+      setCheckBirth(true);
+    } else {
+      setCheckBirth(false);
+    }
+  }
 
   const checkId = (e: any) => {
     e.preventDefault();
@@ -115,7 +162,8 @@ export default function Signup() {
       console.log(`flagUserId : ${flagUserId}`);
       if (flagNickname) {
         console.log(`flagNickname : ${flagNickname}`);
-        axios
+        if (flagBirth) {
+          axios
           .post("/users", {
             user_id: `${data.userId}@${data.email}.com`,
             drink: {
@@ -123,7 +171,7 @@ export default function Signup() {
             },
             nickname: data.userNickName,
             password: data.passWord,
-            birthday: data.birth,
+            birthday: birth,
             phone: data.phoneNumber,
             type: "LOCAL",
           })
@@ -136,6 +184,9 @@ export default function Signup() {
             console.log("Fail..");
             console.log(err);
           });
+        } else {
+          alert("생년월일 인증 해주세요")
+        }
       } else {
         alert("닉네임 중복검사 해주세요");
       }
@@ -239,13 +290,23 @@ export default function Signup() {
               <img src="/icons/auth/calendar.png" alt="" />
             </div>
             <div className="input-date">
-              <DatePicker className="date-picker" />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={birth}
+                  onChange={(newValue) => {
+                    setBirthOn(true);
+                    setCheckBirth(false);
+                    setBirth(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
               <div
                 className={`signup-duplicate ${
-                  nickNameOn ? "nickname-on" : ""
+                  birthOn ? "birth-on" : ""
                 }`}
               >
-                <button onClick={checkNickname}>확인</button>
+                <button onClick={handleOpenBirthDlg}>확인</button>
               </div>
             </div>
           </div>
@@ -275,6 +336,56 @@ export default function Signup() {
         <p className="signup-login" onClick={routeLogin}>
           로그인으로 돌아가기
         </p>
+      </div>
+      <div>
+        <Dialog
+          onClose={handleCloseBirthDlg}
+          open={openBirthDlg}
+        >
+          <DialogTitle>성인인증</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              당신은 무슨 띠 인가요?
+            </DialogContentText>
+            <Box
+              noValidate
+              component="form"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                m: 'auto',
+                width: 'fit-content',
+              }}
+            >
+              <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                <InputLabel>띠</InputLabel>
+                <Select
+                  autoFocus
+                  value={birthAnimal}
+                  onChange={changeBirthAnimal}
+                  label="띠"
+                >
+                  <MenuItem value={1} selected>닭</MenuItem>
+                  <MenuItem value={2}>개</MenuItem>
+                  <MenuItem value={3}>돼지</MenuItem>
+                  <MenuItem value={4}>쥐</MenuItem>
+                  <MenuItem value={5}>소</MenuItem>
+                  <MenuItem value={6}>호랑이</MenuItem>
+                  <MenuItem value={7}>토끼</MenuItem>
+                  <MenuItem value={8}>용</MenuItem>
+                  <MenuItem value={9}>뱀</MenuItem>
+                  <MenuItem value={10}>말</MenuItem>
+                  <MenuItem value={11}>양</MenuItem>
+                  <MenuItem value={0}>원숭이</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={checkBirth}>Check</Button>
+            <Button onClick={handleCloseBirthDlg}>Close</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
