@@ -38,7 +38,7 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(name = "birth")
-    @JsonFormat(pattern = "yyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     private String img;

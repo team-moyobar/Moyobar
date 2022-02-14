@@ -1,4 +1,4 @@
-package com.ssafy.stomp.service;
+package com.ssafy.stomp.model.service;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.db.entity.game.GameInRoom;
 import com.ssafy.db.entity.room.Room;

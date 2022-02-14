@@ -1,8 +1,10 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserUpdatePutReq;
+import com.ssafy.api.response.UserLogRes;
 import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.entity.user.Drink;
+import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.user.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +23,13 @@ import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.user.UserRepository;
 import com.ssafy.db.repository.user.UserRepositorySupport;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 /**
  * 유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -35,6 +42,8 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     DrinkRepository drinkRepository;
+    @Autowired
+    HistoryRepository historyRepository;
 
     @Autowired
     UserRepositorySupport userRepositorySupport;
@@ -178,5 +187,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> searchUserByNickname(String keyword) {
         return userRepository.findByNicknameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public List<UserLogRes> getUserLogs(String userId) {
+        Map<String, UserLogRes> temp = new HashMap<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        User user = getUserByUserId(userId);
+
+        historyRepository.findAllByUserId(user.getId())
+                .forEach(history -> {
+
+                    long min = (history.getExited().getTime() - history.getInserted().getTime()) / 60000;
+
+                    String str = format.format(history.getInserted());
+
+                    if (!temp.containsKey(str)) {
+                        UserLogRes log = new UserLogRes();
+                        try {
+                            log.setDate(format.parse(str));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        temp.put(str, log);
+                    }
+
+                    UserLogRes res = temp.get(str);
+
+                    res.setCount(res.getCount() + 1);
+                    res.setElapsedTime(res.getElapsedTime() + min);
+                });
+
+        return new ArrayList<>(temp.values());
     }
 }

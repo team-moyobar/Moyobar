@@ -1,10 +1,12 @@
 package com.ssafy.db.repository.room;
 
+import com.ssafy.api.response.UserLogRes;
 import com.ssafy.db.entity.room.ActionType;
 import com.ssafy.db.entity.room.History;
 import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,4 +23,5 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
     //방 번호와 방 실행 상태 여부를 넘겨주기
     List<History> findAllByRoomIdAndAction(long roomId, ActionType actionType);
 
+    List<History> findAllByUserId(long userId);
 }

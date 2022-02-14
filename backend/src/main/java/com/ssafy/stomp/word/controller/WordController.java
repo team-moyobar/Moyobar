@@ -6,7 +6,7 @@ import com.ssafy.stomp.word.model.service.WordCheckService;
 import com.ssafy.stomp.word.request.CheckWordReq;
 import com.ssafy.stomp.word.response.*;
 import com.ssafy.stomp.word.model.manager.GameManager;
-import com.ssafy.stomp.service.GameService;
+import com.ssafy.stomp.model.service.GameService;
 
 import com.ssafy.stomp.word.request.CurrPlayerReq;
 import lombok.RequiredArgsConstructor;
