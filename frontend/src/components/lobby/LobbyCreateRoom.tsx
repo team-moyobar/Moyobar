@@ -184,13 +184,12 @@ export default function LobbyCreateRoom() {
         color="primary"
         onClick={handleClickOpen}
       >
-        <p>방 만들기</p>
+        <p>방 생성</p>
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
-        {/* <DialogTitle>방 만들기</DialogTitle> */}
         <DialogContent>
-          <DialogContentText>
-            술자리를 위한 새로운 방을 만들어 주세요
+          <DialogContentText className="create-button-container-title">
+            create room
           </DialogContentText>
           <TextField
             autoFocus
@@ -202,7 +201,7 @@ export default function LobbyCreateRoom() {
             name="title"
             value={values.title}
             onChange={handleChange}
-            color="secondary"
+            color="primary"
             error={errorMessage == true ? true : false}
             helperText={errorMessage == true ? "방이름을 입력해주세요" : false}
           />
@@ -218,7 +217,7 @@ export default function LobbyCreateRoom() {
             value={values.membercount}
             onChange={handleChange}
             InputProps={{ inputProps: { min: 2, max: 8 } }}
-            color="secondary"
+            color="primary"
           />
           <TextField
             autoFocus
@@ -233,42 +232,43 @@ export default function LobbyCreateRoom() {
             value={values.roominfo}
             onChange={handleChange}
             inputProps={{ maxLength: 100 }}
-            color="secondary"
+            color="primary"
           />
-          <p>공개여부</p>
-          <label>
-            <input
-              type="checkbox"
-              name="privateroom"
-              onChange={handleCheckedChange}
-              color="secondary"
+          <div className="private-room">
+            <label className="create-private">
+              <input
+                type="checkbox"
+                name="privateroom"
+                onChange={handleCheckedChange}
+                color="primary"
+              />
+              비공개
+            </label>
+            <TextField
+              disabled={passwordDisabled}
+              autoFocus
+              fullWidth
+              margin="dense"
+              id="name"
+              label="비밀번호"
+              variant="standard"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+              color="primary"
+              error={passwordErrorMessage == true ? true : false}
+              helperText={
+                passwordErrorMessage == true ? "비밀번호를 입력해주세요" : false
+              }
             />
-            비공개
-          </label>
-          <TextField
-            disabled={passwordDisabled}
-            autoFocus
-            margin="dense"
-            id="name"
-            label="비밀번호"
-            fullWidth
-            variant="standard"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            color="secondary"
-            error={passwordErrorMessage == true ? true : false}
-            helperText={
-              passwordErrorMessage == true ? "비밀번호를 입력해주세요" : false
-            }
-          />
+          </div>
           <LobbyCreateRoomTheme onChange={handleThemeChange} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} color="primary">
             취소
           </Button>
-          <Button onClick={handleSubmit} type="submit" color="secondary">
+          <Button onClick={handleSubmit} type="submit" color="primary">
             생성하기
           </Button>
         </DialogActions>
