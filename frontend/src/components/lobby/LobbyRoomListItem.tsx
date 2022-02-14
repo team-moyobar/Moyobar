@@ -37,11 +37,11 @@ export default function LobbyRoomListItem({ item }: any) {
   const [open, setOpen] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(false);
   const handleOpen = () => {
-    // if (item.participants.length === item.max) {
-    //   alert("인원이 초과되었습니다.");
-    // } else {
-    setOpen(true);
-    // }
+    if (item.participants.length === item.max) {
+      alert("인원이 초과되었습니다.");
+    } else {
+      setOpen(true);
+    }
   };
   const handleClose = () => {
     setOpen(false);
