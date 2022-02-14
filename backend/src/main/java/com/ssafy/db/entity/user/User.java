@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     @Column(name = "nick")
     private String nickname;
 
-    @Column(name = "desc")
+    @Column(name = "`desc`")
     private String description;
     
     @JsonIgnore
