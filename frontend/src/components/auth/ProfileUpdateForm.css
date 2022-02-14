@@ -1,0 +1,16 @@
+.profile-update-content{
+  width: 100;
+}
+
+.profile-update-form-contents{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-top: 5%;
+  margin-left: 2%;
+}
+.profile-update-form-contents div{
+  margin-top: 1.5%;
+  margin-bottom: 1%;
+}
