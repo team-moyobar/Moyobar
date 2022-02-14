@@ -29,6 +29,7 @@ public class UserRes {
 	private String nickname;
 	@ApiModelProperty(name = "User birthday")
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(timezone = "Asia/Seoul")
 	private Date birthday;
 	@ApiModelProperty(name = "User profile img path")
 	private String img;
