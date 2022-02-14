@@ -71,11 +71,16 @@ public class LiarController {
     public VoteRes broadcasting(@DestinationVariable long roomId, @Payload VoteReq voteReq) throws Exception{
         GameManager gameManager = ManagerHolder.gameManagerMap.get(roomId);
 
-        log.info("투표한 사람: {} ", voteReq.getVote());
-        gameManager.setVoteInfo(voteReq.getVote());
+        log.info("{}가 투표한 사람: {} ", voteReq.getVoter(), voteReq.getVote());
+        gameManager.setVoteInfo(voteReq);
+
         log.info("게임 투표 gameManager : {} " ,gameManager.toString());
-        if(voteReq.getVote().equals("기권")) return new VoteRes(false);
-        else return new VoteRes(true);
+        int voteCnt = gameManager.getVoterCnt();
+        log.info("투표 참가자 현황(무효표 포함) voteCnt : {} " ,voteCnt);
+        log.info("플레이어 현황: {}", gameManager.getGamePlayers().getPlayers());
+
+        if(voteReq.getVote().equals("기권")) return new VoteRes(false, voteCnt);
+        else return new VoteRes(true, voteCnt);
     }
 
     // 투표 결과를 참가자에게 알림(=게임 종료)
