@@ -8,23 +8,22 @@ import { useEffect } from "react";
 import { AnyIfEmpty, useSelector } from "react-redux";
 import { getToken } from "./Login";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import DialogActions from '@mui/material/DialogActions';
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import DialogActions from "@mui/material/DialogActions";
 
-import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-
+import TextField from "@mui/material/TextField";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
 
 enum emailEnum {
   naver = "naver",
@@ -99,25 +98,25 @@ export default function Signup() {
   const handleOpenBirthDlg = (e: any) => {
     e.preventDefault();
     setOpenBirthDlg(true);
-  }
+  };
 
   const handleCloseBirthDlg = () => {
     setOpenBirthDlg(false);
-  }
+  };
 
   const changeBirthAnimal = (e: any) => {
     setBirthAnimal(e.target.value);
-  }
+  };
 
   const checkBirth = () => {
     var year = birth?.getFullYear();
-    console.log(birth)
-    if (year && birthAnimal === (year % 12)) {
+    console.log(birth);
+    if (year && birthAnimal === year % 12) {
       setCheckBirth(true);
     } else {
       setCheckBirth(false);
     }
-  }
+  };
 
   const checkId = (e: any) => {
     e.preventDefault();
@@ -164,28 +163,28 @@ export default function Signup() {
         console.log(`flagNickname : ${flagNickname}`);
         if (flagBirth) {
           axios
-          .post("/users", {
-            user_id: `${data.userId}@${data.email}.com`,
-            drink: {
-              soju: 3,
-            },
-            nickname: data.userNickName,
-            password: data.passWord,
-            birthday: birth,
-            phone: data.phoneNumber,
-            type: "LOCAL",
-          })
-          .then((res) => {
-            console.log("success");
-            console.log(res);
-            history.push("/login");
-          })
-          .catch((err) => {
-            console.log("Fail..");
-            console.log(err);
-          });
+            .post("/users", {
+              user_id: `${data.userId}@${data.email}.com`,
+              drink: {
+                soju: 3,
+              },
+              nickname: data.userNickName,
+              password: data.passWord,
+              birthday: birth,
+              phone: data.phoneNumber,
+              type: "LOCAL",
+            })
+            .then((res) => {
+              console.log("success");
+              console.log(res);
+              history.push("/login");
+            })
+            .catch((err) => {
+              console.log("Fail..");
+              console.log(err);
+            });
         } else {
-          alert("생년월일 인증 해주세요")
+          alert("생년월일 인증 해주세요");
         }
       } else {
         alert("닉네임 중복검사 해주세요");
@@ -301,11 +300,7 @@ export default function Signup() {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-              <div
-                className={`signup-duplicate ${
-                  birthOn ? "birth-on" : ""
-                }`}
-              >
+              <div className={`signup-duplicate ${birthOn ? "birth-on" : ""}`}>
                 <button onClick={handleOpenBirthDlg}>확인</button>
               </div>
             </div>
@@ -338,23 +333,20 @@ export default function Signup() {
         </p>
       </div>
       <div>
-        <Dialog
-          onClose={handleCloseBirthDlg}
-          open={openBirthDlg}
-        >
-          <DialogTitle>성인인증</DialogTitle>
+        <Dialog onClose={handleCloseBirthDlg} open={openBirthDlg}>
+          <DialogTitle sx={{ color: "black" }}>성인 인증</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText sx={{ color: "black" }}>
               당신은 무슨 띠 인가요?
             </DialogContentText>
             <Box
               noValidate
               component="form"
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                m: 'auto',
-                width: 'fit-content',
+                display: "flex",
+                flexDirection: "column",
+                m: "auto",
+                width: "fit-content",
               }}
             >
               <FormControl sx={{ mt: 2, minWidth: 120 }}>
@@ -365,7 +357,9 @@ export default function Signup() {
                   onChange={changeBirthAnimal}
                   label="띠"
                 >
-                  <MenuItem value={1} selected>닭</MenuItem>
+                  <MenuItem value={1} selected>
+                    닭
+                  </MenuItem>
                   <MenuItem value={2}>개</MenuItem>
                   <MenuItem value={3}>돼지</MenuItem>
                   <MenuItem value={4}>쥐</MenuItem>
