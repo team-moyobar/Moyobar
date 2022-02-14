@@ -3,18 +3,19 @@ package com.ssafy.stomp.liargame.model.manager;
 
 import com.ssafy.api.service.RoomService;
 import com.ssafy.db.entity.room.ActionType;
+import com.ssafy.db.entity.user.User;
+import com.ssafy.stomp.liargame.model.GamePlayer;
 import com.ssafy.stomp.liargame.model.Player;
-
 import com.ssafy.stomp.liargame.request.VoteReq;
 import com.ssafy.stomp.liargame.response.GameEndRes;
-import com.ssafy.stomp.liargame.model.GamePlayer;
 import com.ssafy.stomp.liargame.response.RoleSubjectRes;
 import com.ssafy.stomp.liargame.response.VotingStatusRes;
+import com.ssafy.stomp.model.manager.BaseGameManager;
+import com.ssafy.stomp.model.GameUpdateInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import com.ssafy.db.entity.user.User;
 
 import java.util.*;
 
@@ -26,7 +27,7 @@ import java.util.*;
 @Setter
 @Slf4j
 @NoArgsConstructor
-public class GameManager {
+public class GameManager implements BaseGameManager {
     private RoomService roomService; //DB로부터 해당 방에 참가 중인 참가자 정보 얻어오기 위함
     private GamePlayer gamePlayers; //해당 방의 플레이어 정보
     private Map<String, Integer> votePlayers; //투표 정보
@@ -180,5 +181,24 @@ public class GameManager {
     @Override
     public String toString(){
         return "[라이어]: "+ this.gamePlayers.getLiar().getUser().getNickname()+", [투표]: "+votePlayers.toString();
+    }
+
+    @Override
+    public List<GameUpdateInfo> getGameUpdateInfoList() {
+        List<GameUpdateInfo> list = new ArrayList<>();
+        int gameScore = getGameScore();
+        for (String winner : gameWinners) {
+            list.add(new GameUpdateInfo(winner, gameScore, true));
+        }
+
+        return list;
+    }
+    private int getGameScore(){
+        if (gameWinners.size() == 1 && gameWinners.get(0).equals(gamePlayers.getLiar().getUser().getNickname())){
+            return gamePlayers.countOfPlayers();
+        }else{
+            return 10;
+        }
+
     }
 }
