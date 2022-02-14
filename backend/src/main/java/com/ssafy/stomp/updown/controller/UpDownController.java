@@ -92,7 +92,7 @@ public class UpDownController {
         if (gameManager.getGameStatus() == GameStatusType.FINISH) {
             log.info("{} 번 방 종료", roomId);
 
-            gameService.updateGame(gameManager.getGameId(), username);
+            gameService.updateGame(gameManager.getGameId(), gameManager.getGameUpdateInfoList());
         }
 
         template.convertAndSend("/from/ud/status/" + roomId, GameInfoRes.of(gameManager, CheckResultRes.of(username, number, resultType)));

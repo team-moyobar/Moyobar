@@ -11,6 +11,7 @@ import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.game.GameCategoryRepository;
 import com.ssafy.db.repository.game.GameInRoomRepository;
 import com.ssafy.db.repository.game.GameWinnerRepository;
+import com.ssafy.stomp.model.GameUpdateInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,26 +57,33 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game updateGame(long gameId, String winner) {
+    public Game updateGame(long gameId, GameUpdateInfo info) {
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
 
-        createGameWinner(game, winner);
+        if (info.isWinner()) {
+            createGameWinner(game, info.getNickname());
+        }
+        updateUserScore(info);
+
         game.setEnd(new Date());
 
         return gameRepository.save(game);
     }
 
     @Override
-    public Game updateGame(long gameId, List<String> winners) {
+    public Game updateGame(long gameId, List<GameUpdateInfo> infos) {
         Game game = gameRepository.findById(gameId).orElseThrow(EntityNotFoundException::new);
 
         //게임 끝나지도 않았는데 게임 시작 버튼 또 눌렀을 시에는 winner정보는 저장되지 않음
-        if(winners!=null) {
-            for (String nickname : winners) {
-                createGameWinner(game, nickname);
+        if (infos != null) {
+            for (GameUpdateInfo info : infos) {
+                if (info.isWinner()) {
+                    createGameWinner(game, info.getNickname());
+                }
+                updateUserScore(info);
             }
         }
-        
+
         game.setEnd(new Date());
 
         return gameRepository.save(game);
@@ -100,9 +108,17 @@ public class GameServiceImpl implements GameService {
     public void createGameInRoom(Room room, Game game) {
         log.info("gameName : {}", game.getCategory().getName());
 
-        GameInRoom gameInRoom  = new GameInRoom();
+        GameInRoom gameInRoom = new GameInRoom();
         gameInRoom.setRoom(room);
         gameInRoom.setGame(game);
         gameInRoomRepository.save(gameInRoom);
+    }
+
+    public void updateUserScore(GameUpdateInfo info) {
+        User user = userService.getUserByNickname(info.getNickname());
+
+        user.setScore(user.getScore() + info.getAddedScore());
+
+        userService.updateUser(user);
     }
 }
