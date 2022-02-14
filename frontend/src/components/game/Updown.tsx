@@ -96,16 +96,16 @@ function StompUpdown() {
         setGameStatus(game_status);
 
         if (game_status === "PLAY") {
-          setResultUser(result.user_name)
-          setResultType(result.result_type)
-          setResultAnswer(result.user_answer)
+          setResultUser(result.user_name);
+          setResultType(result.result_type);
+          setResultAnswer(result.user_answer);
         } else if (game_status === "FINISH") {
-          setResultUser(result.user_name)
-          setResultType(result.result_type)
-          setResultAnswer(result.user_answer)
+          setResultUser(result.user_name);
+          setResultType(result.result_type);
+          setResultAnswer(result.user_answer);
         }
 
-        setCountKey((prevKey) => prevKey+1);
+        setCountKey((prevKey) => prevKey + 1);
         console.log(game_status);
 
         if (game_status === "START") {
@@ -175,7 +175,7 @@ function StompUpdown() {
       });
     }
     setCount(10);
-    setCountKey((prevKey) => prevKey+1);
+    setCountKey((prevKey) => prevKey + 1);
   };
 
   const timeOut = () => {
@@ -187,11 +187,11 @@ function StompUpdown() {
       client.publish({
         destination: "/to/ud/check/" + roomId,
         body: JSON.stringify(data),
-      })
+      });
     }
     setCount(10);
-    setCountKey((prevKey) => prevKey+1);
-  }
+    setCountKey((prevKey) => prevKey + 1);
+  };
 
   // const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   e.preventDefault();
@@ -222,64 +222,64 @@ function StompUpdown() {
   };
 
   return (
-    <div>
-      <div className="updown-container">
-        {gameStatus === "START" ? (
-          <div>
-            <h1 className="tracking-in-expand updown-title">업다운 게임</h1>
-            <p>지금 차례 : {turnOwner}</p>
-          </div>
-        ) : null}
-        {gameStatus === "PLAY" ? (
-          <div>
-            <h1 className="updown-title">업다운 게임 중</h1>
-            <CountdownCircleTimer
-              isPlaying={isPlaying}
-              duration={count}
-              isSmoothColorTransition={false}
-              // updateInterval={1}
-              colors="#aabbcc"
-              key={countKey}
-              // colors="url(#test-it)"
-              // colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-              // colorsTime={[8, 6.66, 3.33, 0]}
-              onComplete={timeOut}
-            >
-              {({ remainingTime }) => remainingTime}
-            </CountdownCircleTimer>
-            <p>지금 차례 : {turnOwner}</p>
-            <p>이전 결과</p>
-            <p>{resultUser}가 {resultAnswer}을 말했습니다.</p>
-            <p>그 결과 : {resultType}</p>
-          </div>
-        ) : null}
-        {gameStatus === "FINISH" ? (
-          <div>
-            <h1>게임 종료</h1>
-            <p>승자 : {resultUser}</p>
-          </div>
-        ) : null}
+    <div className="updown-container">
+      {gameStatus === "START" ? (
+        <div>
+          <h1 className="tracking-in-expand updown-title">업다운 게임</h1>
+          <p>지금 차례 : {turnOwner}</p>
+        </div>
+      ) : null}
+      {gameStatus === "PLAY" ? (
+        <div>
+          <h1 className="updown-title">업다운 게임 중</h1>
+          <CountdownCircleTimer
+            isPlaying={isPlaying}
+            duration={count}
+            isSmoothColorTransition={false}
+            // updateInterval={1}
+            colors="#aabbcc"
+            key={countKey}
+            // colors="url(#test-it)"
+            // colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+            // colorsTime={[8, 6.66, 3.33, 0]}
+            onComplete={timeOut}
+          >
+            {({ remainingTime }) => remainingTime}
+          </CountdownCircleTimer>
+          <p>지금 차례 : {turnOwner}</p>
+          <p>이전 결과</p>
+          <p>
+            {resultUser}가 {resultAnswer}을 말했습니다.
+          </p>
+          <p>그 결과 : {resultType}</p>
+        </div>
+      ) : null}
+      {gameStatus === "FINISH" ? (
+        <div>
+          <h1>게임 종료</h1>
+          <p>승자 : {resultUser}</p>
+        </div>
+      ) : null}
 
-        {nickname === owner && gameStatus === "" ? (
-          <div>
-            <button onClick={startBtn}>START</button>
-          </div>
-        ) : null}
+      {nickname === owner && gameStatus === "" ? (
+          <button className="game-start-button" onClick={startBtn}>START</button>
+      ) : null}
 
-        {nickname !== owner && gameStatus === "" ? (
-          <div>
-            <p>게임 시작 준비중입니다...</p>
-          </div>
-        ) : null}
+      {nickname !== owner && gameStatus === "" ? (
+        <div>
+          <p>게임 시작 준비중입니다...</p>
+        </div>
+      ) : null}
 
-        {nickname !== "" && turnOwner === nickname && (gameStatus === "PLAY" || gameStatus === "START") ? (
-          <div>
-            <input type="text" onChange={onAnswerChange}/>
-            <br />
-            <button onClick={answerBtn}>SUBMIT</button>
-          </div>
-        ) : null}
-      </div>
+      {nickname !== "" &&
+      turnOwner === nickname &&
+      (gameStatus === "PLAY" || gameStatus === "START") ? (
+        <div>
+          <input type="text" onChange={onAnswerChange} />
+          <br />
+          <button onClick={answerBtn}>SUBMIT</button>
+        </div>
+      ) : null}
     </div>
   );
 }

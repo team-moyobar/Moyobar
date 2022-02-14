@@ -4,32 +4,20 @@ import StompUpdown from "../game/Updown";
 import StompInitial from "../game/Initial";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-
+import "./GameSelect.css";
 export interface SelectGameProps {
   receiveGameSelect: string;
 }
 
 const GameSelect = (props: SelectGameProps) => {
   return (
-    <div>
-      {/* {props.receiveGameSelect === "None" ? (
-        <div>
-        </div>
-      ) : null} */}
-      {props.receiveGameSelect === "Liar" ? (
-        <div>
-          <StompLiar></StompLiar>
-        </div>
-      ) : null}
+    <div className="game-select-container">
+      {props.receiveGameSelect === "Liar" ? <StompLiar></StompLiar> : null}
       {props.receiveGameSelect === "Updown" ? (
-        <div>
-          <StompUpdown></StompUpdown>
-        </div>
+        <StompUpdown></StompUpdown>
       ) : null}
       {props.receiveGameSelect === "Initial" ? (
-        <div>
-          <StompInitial></StompInitial>
-        </div>
+        <StompInitial></StompInitial>
       ) : null}
     </div>
   );
