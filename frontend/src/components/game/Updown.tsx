@@ -222,27 +222,50 @@ function StompUpdown() {
   };
 
   return (
-    <div className="updown-container tracking-in-expand">
-      {gameStatus === "" && <p className="liar-title">업다운 게임</p>}
+    <div className="updown-container">
+      {gameStatus === "" ? (
+        <div className="updown-ready">
+          <span>U</span>
+          <span>P</span>
+          <span>&#38;</span>
+          <span>D</span>
+          <span>O</span>
+          <span>W</span>
+          <span>N</span>
+        </div>
+      ) : null}
       {gameStatus === "START" ? (
         <div>
-          <h1 className="tracking-in-expand updown-title">업다운 게임</h1>
+          <div className="updown-ready">
+            <span>U</span>
+            <span>P</span>
+            <span>&#38;</span>
+            <span>D</span>
+            <span>O</span>
+            <span>W</span>
+            <span>N</span>
+          </div>
           <p>지금 차례 : {turnOwner}</p>
         </div>
       ) : null}
       {gameStatus === "PLAY" ? (
         <div>
-          <h1 className="updown-title">업다운 게임 중</h1>
+          <div className="updown-ready">
+            <span>U</span>
+            <span>P</span>
+            <span>&#38;</span>
+            <span>D</span>
+            <span>O</span>
+            <span>W</span>
+            <span>N</span>
+          </div>
           <CountdownCircleTimer
             isPlaying={isPlaying}
             duration={count}
-            isSmoothColorTransition={false}
-            // updateInterval={1}
-            colors="#aabbcc"
+            isSmoothColorTransition={true}
             key={countKey}
-            // colors="url(#test-it)"
-            // colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-            // colorsTime={[8, 6.66, 3.33, 0]}
+            colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+            colorsTime={[8, 6.66, 3.33, 0]}
             onComplete={timeOut}
           >
             {({ remainingTime }) => remainingTime}
@@ -253,6 +276,9 @@ function StompUpdown() {
             {resultUser}가 {resultAnswer}을 말했습니다.
           </p>
           <p>그 결과 : {resultType}</p>
+          {resultType === "UP" ? (
+            <img src="/images/game/up.png" alt="up" />
+          ) : <img src="/images/game/down.png" alt="down" /> }
         </div>
       ) : null}
       {gameStatus === "FINISH" ? (
@@ -267,8 +293,19 @@ function StompUpdown() {
       ) : null}
 
       {nickname !== owner && gameStatus === "" ? (
-        <div>
-          <p>게임 시작 준비중입니다...</p>
+        <div className="updown-ready">
+          <span>A</span>
+          <span>R</span>
+          <span>E</span>
+          <span>Y</span>
+          <span>O</span>
+          <span>U</span>
+          <span>R</span>
+          <span>E</span>
+          <span>A</span>
+          <span>D</span>
+          <span>Y</span>
+          <span>?</span>
         </div>
       ) : null}
 

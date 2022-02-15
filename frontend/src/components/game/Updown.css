@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
 .tracking-in-expand {
   -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1)
     both;
@@ -47,6 +49,59 @@
 
 .updown-title {
   margin-top: 0;
+}
+
+.updown-ready {
+  height: 100px;
+  text-align: center;
+}
+
+.updown-ready span {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  animation: bounce .3s ease infinite alternate;
+  font-family: 'Titan One', cursive;
+  font-size: 30px;
+  color: #FFF;
+  text-shadow: 0 1px 0 #CCC,
+               0 2px 0 #CCC,
+               0 3px 0 #CCC,
+               0 4px 0 #CCC,
+               0 5px 0 #CCC,
+               0 6px 0 transparent,
+               0 7px 0 transparent,
+               0 8px 0 transparent,
+               0 9px 0 transparent,
+               0 10px 10px rgba(0, 0, 0, .4);
+}
+
+.updown-ready span:nth-child(2) { animation-delay: .1s; }
+.updown-ready span:nth-child(3) { animation-delay: .2s; }
+.updown-ready span:nth-child(4) { animation-delay: .3s; }
+.updown-ready span:nth-child(5) { animation-delay: .4s; }
+.updown-ready span:nth-child(6) { animation-delay: .5s; }
+.updown-ready span:nth-child(7) { animation-delay: .6s; }
+.updown-ready span:nth-child(8) { animation-delay: .7s; }
+.updown-ready span:nth-child(9) { animation-delay: .8s; }
+.updown-ready span:nth-child(10) { animation-delay: .9s; }
+.updown-ready span:nth-child(11) { animation-delay: 1.0s; }
+.updown-ready span:nth-child(12) { animation-delay: 1.1s; }
+
+@keyframes bounce {
+  100% {
+    top: -20px;
+    text-shadow: 0 1px 0 #CCC,
+                 0 2px 0 #CCC,
+                 0 3px 0 #CCC,
+                 0 4px 0 #CCC,
+                 0 5px 0 #CCC,
+                 0 6px 0 #CCC,
+                 0 7px 0 #CCC,
+                 0 8px 0 #CCC,
+                 0 9px 0 #CCC,
+                 0 50px 25px rgba(0, 0, 0, .2);
+  }
 }
 
 .game-start-button {
