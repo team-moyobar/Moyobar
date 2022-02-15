@@ -17,6 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class VoteRes {
-    private Boolean isvote; //투표 참가했는지 여부
     private int votecnt; //투표 참여한 참가자 수
+    private Boolean participate; //중복 투표 여부
+    private Boolean isvote; //기권이면 false, 누군가를 투표했다면 true
 }
