@@ -17,8 +17,6 @@ public abstract class Role {
         return roleType.name();
     }
 
-//    public abstract void vote(Player player);
-
     @Override
     public String toString() {
         return roleType.name();

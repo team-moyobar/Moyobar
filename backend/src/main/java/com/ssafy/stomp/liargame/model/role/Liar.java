@@ -8,10 +8,4 @@ public class Liar extends Role {
     public Liar() {
         super(RoleType.LIAR);
     }
-
-//    @Override
-//    public void vote(Player player) {
-//
-//    }
-
 }

@@ -1,4 +1,4 @@
-package com.ssafy.stomp.liargame.request;
+package com.ssafy.stomp.liargame.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -7,8 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 /**
- *  라이어 게임 시작 시 클라이언트가 보낼 메시지 형식 정의
+ * 주제 및 플레이어의 닉네임, 역할과 제시어 정보 배열 응답
  */
 
 @Getter
@@ -16,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class GameStartReq {
-    private String subject; //방장이 선택한 주제
+public class GameStartRes {
+    private String subject;
+    private List<RoleKeywordRes> rolekeyword;
 }
