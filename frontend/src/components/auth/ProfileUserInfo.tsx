@@ -1,16 +1,22 @@
 import { UserInfo } from "../../routes/auth/Profile";
 import TextField from "@mui/material/TextField";
 import "./ProfileUserInfo.css";
+import { useState } from "react";
 
 const ProfileUserInfo = (props: { user: UserInfo }) => {
+
   const user = props.user;
   let query;
+  let howMany;
   if (user.drink.soju !== 0) {
     query = "소주";
+    howMany = `${user.drink.soju}병`
   } else if (user.drink.beer !== 0) {
     query = "맥주";
+    howMany = `${user.drink.beer}캔`
   } else if (user.drink.liquor !== 0) {
     query = "양주";
+    howMany = `${user.drink.liquor}잔`
   }
   console.log(user.img);
 
@@ -39,7 +45,7 @@ const ProfileUserInfo = (props: { user: UserInfo }) => {
       <div className="profile-item">
         <span className="profile-item-title">주량</span>
         <span>
-          {query} {user.drink.soju} 잔
+          {query} {howMany} 
         </span>
       </div>
     </div>

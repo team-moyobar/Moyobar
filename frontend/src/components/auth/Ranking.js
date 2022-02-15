@@ -58,11 +58,13 @@ export default function Ranking({ranking, MyScore}) {
   });
 
   return (
-    <Card >
-      <CardHeader title="모여바 게임 랭킹" />
-      <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={CHART_DATA} options={chartOptions} height={364} />
-      </Box>
-    </Card>
+    <div>
+      <Card >
+        <CardHeader title="모여바 게임 랭킹" />
+        <Box sx={{ mx: 3 }} dir="ltr">
+          <ReactApexChart type="bar" series={CHART_DATA} options={chartOptions} height={364} />
+        </Box>
+      </Card>
+    </div>
   );
 }
