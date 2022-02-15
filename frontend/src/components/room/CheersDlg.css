@@ -1,11 +1,9 @@
-.MuiDialog-root {
-  color: white;
-  font-size: large;
-  text-align: center;
+.cheers-text {
+  font-size: 30px;
+  font-family: SBAggroL;
+  letter-spacing: 1px;
 }
 
-.MuiDialogTitle-root {
-  color: white;
-  font-size: large;
-  text-align: center;
+.cheers-text span {
+  color: rgb(63, 240, 87);
 }
