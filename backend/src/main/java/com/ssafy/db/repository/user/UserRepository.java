@@ -1,7 +1,10 @@
 package com.ssafy.db.repository.user;
 
+import com.ssafy.api.response.RankRes;
 import com.ssafy.db.entity.user.User;
+import org.kurento.client.internal.server.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByNickname(String nickname);
 
     List<User> findByNicknameContainingIgnoreCase(String keyword);
+
+    @Query("select count(u.id) + 1 from User u where u.score > :#{#user.score}")
+    long getUserRank(@Param("user") User user);
 }
