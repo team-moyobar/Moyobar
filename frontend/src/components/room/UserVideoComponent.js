@@ -6,6 +6,7 @@ export default class UserVideoComponent extends Component {
 
   getNicknameTag() {
     // Gets the nickName of the user
+    console.log(this.props.owner)
     return JSON.parse(this.props.streamManager.stream.connection.data)
       .clientData;
   }
@@ -19,6 +20,13 @@ export default class UserVideoComponent extends Component {
             </OpenViduVideoComponent>
             <div>
               <p>
+                {this.props.owner === this.getNicknameTag() ?(
+                  <img
+                    className="lobby-owner"
+                    src="/icons/lobby/crown.png"
+                    alt=""
+                  />
+                ) : null}
                 {this.getNicknameTag()}
               </p>
             </div>

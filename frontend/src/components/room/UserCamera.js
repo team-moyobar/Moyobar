@@ -38,6 +38,7 @@ class UserCamera extends Component {
 
       roomTitle: props.roomInfo.title,
       roomTheme: props.roomInfo.theme,
+      owner: props.roomInfo.owner,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -420,7 +421,7 @@ class UserCamera extends Component {
                     this.handleMainVideoStream(this.state.publisher)
                   }
                 >
-                  <UserVideoComponent streamManager={this.state.publisher} />
+                  <UserVideoComponent streamManager={this.state.publisher} owner={this.state.owner}/>
                 </div>
               ) : null}
               {this.state.subscribers.map((sub, i) => (
@@ -429,7 +430,7 @@ class UserCamera extends Component {
                   className={`stream-container${query}`}
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
-                  <UserVideoComponent streamManager={sub} />
+                  <UserVideoComponent streamManager={sub} owner={this.state.owner}/>
                 </div>
               ))}
             </div>
