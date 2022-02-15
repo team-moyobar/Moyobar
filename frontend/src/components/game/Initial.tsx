@@ -2,11 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import { useParams } from "react-router";
 
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import ListItem from "@mui/material/ListItem";
-
 import SpeechToText from "./SpeechToText";
+import { InitialResDlg } from "./InitialResDlg";
+
 import { getToken } from "../../routes/auth/Login";
 
 import "./Initial.css";
@@ -21,6 +19,13 @@ var timer: NodeJS.Timer | null = null;
 export interface PlayersObj {
   nickname: string; // 닉네임
   turn: string; // 라운드
+}
+
+// 초성게임 턴정보 인터페이스
+export interface TurnObj {
+  next: string; // 현재 순서 닉네임
+  initial: string; // 초성
+  gameturn: number; // 현재 턴
 }
 
 // 초성게임 결과 인터페이스
@@ -41,29 +46,38 @@ export default function StompInitial() {
 
   const playersRef = useRef<PlayersObj[]>(); // 플레이어 레퍼런스
   const consonantRef = useRef<string>(""); // 초성 레퍼런스
-  const curUserTurnRef = useRef<string>(""); // 현재 턴 유저 이름
+  const curTurnRecUserRef = useRef<string>(""); // 현재 턴 음성인식 유저 이름
+  const curTurnEndUserRef = useRef<string>(""); // 현재 턴 결과 유저 이름
+  const curTurnWordRef = useRef<string>(""); // 현재 턴 입력 단어
+  const curTurnResRef = useRef<string>(""); // 현재 턴 인식 결과
 
-  const [open, setOpen] = React.useState(false);
+  const [openSttDlg, setOpenSttDlg] = React.useState(false);
+  const [openResDlg, setOpenResDlg] = React.useState(false);
   const [consonant, setConsontant] = React.useState(""); // 초성
-  const [answer, setAnswer] = React.useState("");
 
-  const [gameLogList, setGameLogList] = React.useState<Array<string>>([]); // 게임 로그 목록
+  const [curTurnRecUser, setCurTurnRecUser] = React.useState(""); // 현재턴 음성인식 유저이름
+  const [curTurnEndUser, setCurTurnEndUser] = React.useState(""); // 현재턴 결과 유저이름
+  const [curTurnWord, setCurTurnWord] = React.useState(""); // 현재턴 입력 단어
+  const [curTurnRes, setCurTurnRes] = React.useState(""); // 현재턴 인식결과
+
   const [isGameStart, setIsGameStart] = React.useState(false); // 게임 시작 여부
+  const [gameRes, setGameRes] = React.useState<ResultObj[]>([]); // 투표 결과
 
   const handleOpenStt = () => {
-    if (curUserTurnRef.current === nickName) {
-      setOpen(true);
-      setAnswer("");
+    if (curTurnRecUserRef.current === nickName) {
+      setOpenSttDlg(true);
     }
   };
 
   const handleCloseStt = (word: string) => {
     word = word.trim();
-
-    setOpen(false);
-    setAnswer(word);
-
     reqCheckWord(word); // 단어 맞는지 요청
+    setOpenSttDlg(false);
+  };
+
+  // 게임결과 창 닫기
+  const handleInitialResClose = () => {
+    setOpenResDlg(false);
   };
 
   // 초성게임 시작 메시지 전송
@@ -121,11 +135,16 @@ export default function StompInitial() {
 
         setIsGameStart(true); // 게임시작 설정
 
-        setGameLogList([]); // 로그 초기화
-
-        // 게임 시작 로그
-        let logMsg: string = "초성찾기 게임시작!!"; // 로깅 메시지 설정
-        setGameLogList((gameLogList) => [...gameLogList, logMsg]);
+        // 변수 초기화
+        consonantRef.current = "";
+        curTurnRecUserRef.current = "";
+        curTurnEndUserRef.current = "";
+        curTurnWordRef.current = "";
+        curTurnResRef.current = "";
+        setCurTurnRecUser("");
+        setCurTurnEndUser("");
+        setCurTurnWord("");
+        setCurTurnRes("");
 
         reqNextTurn(); // 다음 턴 이동
       });
@@ -135,21 +154,22 @@ export default function StompInitial() {
   const subscribeNextTurn = () => {
     if (client != null) {
       client.subscribe("/from/word/next/" + roomId, (data: any) => {
-        curUserTurnRef.current = JSON.parse(data.body).next; // 다음 유저
-        consonantRef.current = JSON.parse(data.body).initial; // 초성
-        let gameTurn: number = JSON.parse(data.body).gameturn + 1; // 게임 턴
+        let result: TurnObj = JSON.parse(data.body);
+        let gameTurn: number = result.gameturn + 1; // 게임 턴
 
-        if (gameTurn <= 3) {
-          setConsontant(consonantRef.current); // 초성 설정
+        curTurnRecUserRef.current = result.next; // 현재 턴 유저
+        consonantRef.current = result.initial; // 초성
 
-          let logMsg: string =
-            "[" + curUserTurnRef.current + "] 음성인식 중..\n"; // 로깅 메시지 설정
-          setGameLogList((gameLogList) => [...gameLogList, logMsg]);
+        setCurTurnRecUser(curTurnRecUserRef.current); // 현재 턴 음성인식 유저 설정
+        setConsontant(consonantRef.current); // 초성 설정
 
+        setCurTurnRes(""); // 현재 결과 값 초기화
+
+        if (gameTurn <= 5) {
           // 음성인식 호출
           handleOpenStt();
         } else {
-          // 3턴 이후에 게임 종료 요청
+          // 5턴 이후에 게임 종료 요청
           reqGameResult();
         }
       });
@@ -161,22 +181,26 @@ export default function StompInitial() {
     if (client != null) {
       client.subscribe("/from/word/check/" + roomId, (data: any) => {
         let nickname: string = JSON.parse(data.body).nickname; // 닉네임
-        //let initial: string = JSON.parse(data.body).initial; // 단어
         let word: string = JSON.parse(data.body).word; // 단어
         let result: string = JSON.parse(data.body).result; // 결과
 
-        let logMsg: string =
-          "[" +
-          nickname +
-          "] " +
-          "음성인식 [" +
-          word +
-          "] 결과 [" +
-          result +
-          "].\n"; // 로깅 메시지 설정
-        setGameLogList((gameLogList) => [...gameLogList, logMsg]);
+        curTurnEndUserRef.current = nickname; // 현재 턴 유저
+        curTurnWordRef.current = word; // 현재 턴 유저
+        curTurnResRef.current = result; // 현재 턴 유저
 
-        reqNextTurn(); // 다음 턴 이동
+        setCurTurnEndUser(nickname); // 현재 턴 단어인식 결과 유저 설정
+        setCurTurnWord(word); // 현재 턴 음성인식 단어 설정
+        setCurTurnRes(result); // 현재 턴 음성인식 결과 설정
+
+        if (result === "Fail") {
+          setTimeout(() => {
+            reqGameResult();
+          }, 5000);
+        } else {
+          setTimeout(() => {
+            reqNextTurn(); // 다음 턴 이동
+          }, 3000);
+        }
       });
     }
   };
@@ -186,24 +210,17 @@ export default function StompInitial() {
     if (client != null) {
       client.subscribe("/from/word/result/" + roomId, (data: any) => {
         let result: ResultObj[] = JSON.parse(data.body).gameresult;
-        let logMsgs: string[] = [];
+        setGameRes(result); // 게임 결과 설정
 
-        curUserTurnRef.current = "";
+        setOpenSttDlg(false);
+        setOpenResDlg(true); //
+
+        consonantRef.current = "";
+        curTurnRecUserRef.current = "";
+        curTurnEndUserRef.current = "";
+        curTurnWordRef.current = "";
+        curTurnResRef.current = "";
         setIsGameStart(false); // 게임종료 설정
-
-        logMsgs.push("초성찾기 게임종료\n");
-        // 게임 종료 로그
-        for (let i = 0; i < result.length; i++) {
-          logMsgs.push(
-            "닉네임[" +
-              result[i].nickname +
-              "] 맞춘횟수[" +
-              result[i].corrcnt +
-              "]\n"
-          );
-        }
-
-        setGameLogList(logMsgs); // 로깅 메시지 설정
       });
     }
   };
@@ -216,7 +233,7 @@ export default function StompInitial() {
       client.publish({
         destination: "/to/word/check/" + roomId,
         body: JSON.stringify({
-          nickname: curUserTurnRef.current, // 닉네임
+          nickname: curTurnRecUserRef.current, // 닉네임
           word: word,
           initial: consonantRef.current, // 초성
         }),
@@ -234,7 +251,7 @@ export default function StompInitial() {
         client.publish({
           destination: "/to/word/next/" + roomId,
           body: JSON.stringify({
-            current: curUserTurnRef.current,
+            current: curTurnRecUserRef.current,
           }),
         });
       }
@@ -269,18 +286,29 @@ export default function StompInitial() {
           </p>
         </div>
       )}
-      <div className="intial-gamelog">
-        <Paper style={{ width: 270, maxHeight: 400, overflow: "auto" }}>
-          {gameLogList.map((gameLogItem, idx) => (
-            <ListItem key={idx}>{gameLogItem}</ListItem>
-          ))}
-        </Paper>
-      </div>
+      {isGameStart === true && (
+        <div>
+          {curTurnRecUser !== "" && <p>[{curTurnRecUser}] 음성인식 시작...</p>}
+          {curTurnRes !== "" && (
+            <div>
+              <p>
+                [{curTurnEndUser}] 음성인식 결과 [{curTurnWord}].. [{curTurnRes}
+                ]
+              </p>
+            </div>
+          )}
+        </div>
+      )}
       <SpeechToText
-        open={open}
-        consonant={consonant}
+        open={openSttDlg}
         onClose={handleCloseStt}
+        consonant={consonant}
       ></SpeechToText>
+      <InitialResDlg
+        open={openResDlg}
+        onClose={handleInitialResClose}
+        gameRes={gameRes}
+      />
     </div>
   );
 }
