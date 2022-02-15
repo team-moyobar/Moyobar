@@ -200,6 +200,8 @@ function ProfileContent(props: StatusProps) {
       return <Chart logs={logs} usernickname={userNickname}/>;
     case "ranking":
       return (
+                <div>
+                <h1>당신의 술게임 실력은?</h1>
                 <div className="profile-ranking-container">
                   <div style={{width : "60%" }}>
                     <Ranking ranking={ranking} MyScore={score} />
@@ -207,6 +209,7 @@ function ProfileContent(props: StatusProps) {
                   <div style={{width : "40%"}}>
                     <MyScore score={score}/>
                   </div>
+                </div>
                 </div>)
     default:
       return null;
