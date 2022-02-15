@@ -76,7 +76,7 @@ public class GameManager implements BaseGameManager {
         Collections.shuffle(subjects); //랜덤으로 섞기
         this.subject = subjects.get(0);
 
-        SubjectManager.assignSubectToPlayers(this.gamePlayers, this.subject); //제시어 분담
+        SubjectManager.assignSubjectToPlayers(this.gamePlayers, this.subject); //제시어 분담
     }
 
     //주제(subject) 및 유저의 역할과 제시어를 모두 return

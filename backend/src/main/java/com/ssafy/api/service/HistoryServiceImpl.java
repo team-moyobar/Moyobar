@@ -6,22 +6,21 @@ import com.ssafy.db.entity.room.History;
 import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.room.HistoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service("historyService")
-public class HistoryServiceImpl implements HistoryService{
+public class HistoryServiceImpl implements HistoryService {
 
-    @Autowired
-    HistoryRepository historyRepository;
-
-    @Autowired
-    RoomService roomService;
+    private final HistoryRepository historyRepository;
+    private final RoomService roomService;
 
     @Override
     public History createHistory(Room room, User user) {
@@ -56,9 +55,9 @@ public class HistoryServiceImpl implements HistoryService{
 
         users.remove(user);
 
-        if (users.size() == 0){
+        if (users.size() == 0) {
             room.setIsActive(1);
-        }else if (room.getOwner() == user){
+        } else if (room.getOwner() == user) {
             room.setOwner(users.get(0));
         }
 
