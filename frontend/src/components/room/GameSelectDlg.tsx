@@ -87,67 +87,68 @@ export function GameSelectDlg(props: GameSelectDlgProps) {
         <h2>술게임 선택</h2>
       </DialogTitle>
       <div>
-        {/* <button>
-          <img
-            src="/icons/room/camera.png"
-            alt=""
-            onClick={() => handleClickLiar()}
-          />
-        </button> */}
-        <Button
-          variant="contained"
-          onClick={() => handleClickLiar()}
-          style={{
-            maxWidth: "180px",
-            maxHeight: "70px",
-            minWidth: "180px",
-            minHeight: "70px",
-            margin: "10px",
-          }}
-        >
-          <h4>라이어 게임</h4>
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => handleClickUpdown()}
-          style={{
-            maxWidth: "180px",
-            maxHeight: "70px",
-            minWidth: "180px",
-            minHeight: "70px",
-            margin: "10px",
-          }}
-        >
-          <h4>업다운 게임</h4>
-        </Button>
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          onClick={() => handleClickInitial()}
-          style={{
-            maxWidth: "180px",
-            maxHeight: "70px",
-            minWidth: "180px",
-            minHeight: "70px",
-            margin: "10px",
-          }}
-        >
-          <h4>초성 게임</h4>
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => handleClickNone()}
-          style={{
-            maxWidth: "180px",
-            maxHeight: "70px",
-            minWidth: "180px",
-            minHeight: "70px",
-            margin: "10px",
-          }}
-        >
-          <h4>게임 종료</h4>
-        </Button>
+        {receiveGameSelect === "None" ? (
+
+          <div>
+            <div>
+              <Button
+                variant="contained"
+                onClick={() => handleClickLiar()}
+                style={{
+                  maxWidth: "180px",
+                  maxHeight: "70px",
+                  minWidth: "180px",
+                  minHeight: "70px",
+                  margin: "10px",
+                }}
+              >
+                <h4>라이어 게임</h4>
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => handleClickUpdown()}
+                style={{
+                  maxWidth: "180px",
+                  maxHeight: "70px",
+                  minWidth: "180px",
+                  minHeight: "70px",
+                  margin: "10px",
+                }}
+              >
+                <h4>업다운 게임</h4>
+              </Button>
+            </div>
+            <div>
+              <Button
+                variant="contained"
+                onClick={() => handleClickInitial()}
+                style={{
+                  maxWidth: "180px",
+                  maxHeight: "70px",
+                  minWidth: "180px",
+                  minHeight: "70px",
+                  margin: "10px",
+                }}
+              >
+                <h4>초성 게임</h4>
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={() => handleClickNone()}
+            style={{
+              maxWidth: "180px",
+              maxHeight: "70px",
+              minWidth: "180px",
+              minHeight: "70px",
+              margin: "10px",
+            }}
+          >
+            <h4>게임 종료</h4>
+          </Button>
+        )}
       </div>
     </Dialog>
   );
