@@ -9,16 +9,9 @@ import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.user.UserRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.ssafy.security.oauth2.entity.ProviderType;
-import com.ssafy.security.oauth2.user.OAuth2UserInfo;
-import com.ssafy.security.oauth2.user.OAuth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 

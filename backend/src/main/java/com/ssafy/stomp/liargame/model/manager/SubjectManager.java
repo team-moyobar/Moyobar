@@ -14,7 +14,7 @@ import java.util.*;
 public class SubjectManager {
 
     // 게임 참가자에게 제시어 분배하기
-    public static void assignSubectToPlayers(GamePlayer players, String theme) {
+    public static void assignSubjectToPlayers(GamePlayer players, String theme) {
         log.info("참가자 수 : {}" , players.countOfPlayers());
 
         log.info("방장이 선택한 주제 : {} ", theme);

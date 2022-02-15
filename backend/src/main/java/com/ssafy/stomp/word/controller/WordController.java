@@ -12,7 +12,6 @@ import com.ssafy.stomp.word.request.CurrPlayerReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -31,14 +30,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequiredArgsConstructor
 public class WordController {
+
     private static final String GAME_NAME = "초성";
 
-    @Autowired
-    private RoomService roomService;
-    @Autowired
-    private GameService gameService;
-    @Autowired
-    private WordCheckService wordCheckService;
+    private final RoomService roomService;
+    private final GameService gameService;
+    private final WordCheckService wordCheckService;
 
     // 방 별로 게임 매니징하는 역할. 아래와 같이 Map 형식으로 각각의 방에 대한 게임 매니저 정보를 저장
     private static final class ManagerHolder {
@@ -73,9 +70,9 @@ public class WordController {
 
         NextPlayerRes nextPlayer = null;
 
-        if(currPlayerReq.getCurrent().length()==0){ //공백 문자열을 받았을 시에는 첫 번째 플레이어 반환
+        if (currPlayerReq.getCurrent().length() == 0) { //공백 문자열을 받았을 시에는 첫 번째 플레이어 반환
             nextPlayer = gameManager.getFirstPlayer(currPlayerReq.getCurrent());
-        }else{
+        } else {
             nextPlayer = gameManager.getNextPlayer(currPlayerReq.getCurrent());
         }
 
@@ -93,7 +90,7 @@ public class WordController {
         CheckInvalidateWordRes checkInvalidateWordRes = new CheckInvalidateWordRes(checkWordReq.getNickname(), checkWordReq.getWord(), checkWordReq.getInitial());
 
         //사용자가 단어 입력 안 했을 시에는 바로 return fail
-        if(checkWordReq.getWord().trim().length()==0) {
+        if (checkWordReq.getWord().trim().length() == 0) {
             checkInvalidateWordRes.setResult("Fail");
             return checkInvalidateWordRes;
         }
@@ -109,7 +106,7 @@ public class WordController {
         //3. 이전에 본인, 혹은 다른 플레이어가 말하지 않았던 새로운 단어
         check_newWord = gameManager.isNewWord(checkWordReq.getWord());
 
-        if(check_initial && check_dictionary && check_newWord) {
+        if (check_initial && check_dictionary && check_newWord) {
             checkInvalidateWordRes.setResult("OK");
             gameManager.setPlusGameScore(checkWordReq.getNickname()); //해당 플레이어가 맞춘 개수 갱신
             gameManager.addWord(checkWordReq.getWord()); //맞춘 단어는 모아두기
@@ -121,14 +118,14 @@ public class WordController {
     // 게임 종료 이후, 게임 결과 요청 시
     @MessageMapping("/word/result/{roomId}")
     @SendTo("/from/word/result/{roomId}")
-    public GameEndRes broadcastEnd(@DestinationVariable long roomId) throws Exception{
+    public GameEndRes broadcastEnd(@DestinationVariable long roomId) throws Exception {
         GameManager gameManager = ManagerHolder.gameManagerMap.get(roomId);
         log.info("게임 종료 요청 : {} ", gameManager.toString());
 
         GameEndRes gameEndRes = null;
 
         //db update(최초 1번)
-        if(gameManager.getGameStatus()){
+        if (gameManager.getGameStatus()) {
             gameManager.gameEnd();
             gameEndRes = gameManager.getGameEndInfo(); //결과 가져오기
             log.info("플레이어별 맞춘 횟수: {} ", gameEndRes.toString());

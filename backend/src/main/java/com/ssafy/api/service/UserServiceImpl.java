@@ -9,11 +9,10 @@ import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.user.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,14 +21,9 @@ import org.springframework.stereotype.Service;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.user.UserRepository;
-import com.ssafy.db.repository.user.UserRepositorySupport;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -37,23 +31,18 @@ import java.util.*;
  * 주량 관련 비즈니스 로직도 함께 정의.
  */
 @Slf4j //log함수용
+@RequiredArgsConstructor
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    DrinkRepository drinkRepository;
-    @Autowired
-    HistoryRepository historyRepository;
 
-    @Autowired
-    UserRepositorySupport userRepositorySupport;
+    private final UserRepository userRepository;
+    private final DrinkRepository drinkRepository;
+    private final HistoryRepository historyRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     // 온라인 유저 리스트
-    HashSet<String> userOnlineSet = new HashSet<>();
+    private final HashSet<String> userOnlineSet = new HashSet<>();
 
     @Override
     public User createUser(UserRegisterPostReq userRegisterInfo) {

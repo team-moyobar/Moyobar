@@ -17,12 +17,12 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 
 public class UserUpdatePutReq {
-        @ApiModelProperty(name = "유저 Nickname", example = "ssafy2")
-        private String nickname;
-        @ApiModelProperty(name = "유저 프로필 이미지", example = "profile2.png")
-        private String img;
-        @ApiModelProperty(name = "유저 주량 정보")
-        private DrinkReq drink;
-        @ApiModelProperty(name = "유저 자기소개", example = "안녕하세요 모여바 수정입니다.")
-        private String description;
+    @ApiModelProperty(name = "유저 Nickname", example = "ssafy2")
+    private String nickname;
+    @ApiModelProperty(name = "유저 프로필 이미지", example = "profile2.png")
+    private String img;
+    @ApiModelProperty(name = "유저 주량 정보")
+    private DrinkReq drink;
+    @ApiModelProperty(name = "유저 자기소개", example = "안녕하세요 모여바 수정입니다.")
+    private String description;
 }

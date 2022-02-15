@@ -1,7 +1,7 @@
 package com.ssafy.security.oauth2.handler;
 
 import com.ssafy.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -19,10 +19,10 @@ import com.ssafy.common.util.CookieUtils;
  * 소셜 로그인 인증 실패 시 호출
  */
 
+@RequiredArgsConstructor
 @Component
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    @Autowired
-    HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {

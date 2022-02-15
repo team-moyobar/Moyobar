@@ -13,7 +13,6 @@ import com.ssafy.stomp.updown.response.CheckResultRes;
 import com.ssafy.stomp.updown.response.GameInfoRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -33,17 +32,15 @@ public class UpDownController {
 
     private static final String GAME_NAME = "업다운";
 
+    private final SimpMessagingTemplate template;
+    private final HistoryService historyService;
+    private final GameService gameService;
+
     // 모든 게임을 관리할 수 있는 싱글톤 클래스
     private static final class ManagerHolder {
         private static final Map<Long, GameManager> gameManagers = new ConcurrentHashMap<>();
     }
 
-    @Autowired
-    private SimpMessagingTemplate template;
-    @Autowired
-    private HistoryService historyService;
-    @Autowired
-    private GameService gameService;
 
     @MessageMapping("/ud/chat/{roomId}")
     public void sendChat(@DestinationVariable long roomId, Message message) {
