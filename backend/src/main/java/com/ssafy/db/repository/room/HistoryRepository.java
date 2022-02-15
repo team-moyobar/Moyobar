@@ -23,5 +23,5 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
     //방 번호와 방 실행 상태 여부를 넘겨주기
     List<History> findAllByRoomIdAndAction(long roomId, ActionType actionType);
 
-    List<History> findAllByUserId(long userId);
+    List<History> findAllByUserIdAndAction(long id, ActionType actionType);
 }
