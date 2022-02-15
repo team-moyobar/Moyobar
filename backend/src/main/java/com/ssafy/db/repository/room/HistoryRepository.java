@@ -1,12 +1,10 @@
 package com.ssafy.db.repository.room;
 
-import com.ssafy.api.response.UserLogRes;
 import com.ssafy.db.entity.room.ActionType;
 import com.ssafy.db.entity.room.History;
 import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;

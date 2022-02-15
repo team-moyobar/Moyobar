@@ -19,7 +19,7 @@ import lombok.Setter;
 public class UserLoginPostReq {
 	@ApiModelProperty(name="유저 ID", example="test1@naver.com")
 	private String userId;
-	@ApiModelProperty(name="유저 Password", example="test1test1!")
+	@ApiModelProperty(name="유저 Password", example="testtest1!")
 	private String password;
 	@ApiModelProperty(name = "유저 로그인 유형",example = "LOCAL")
 	private ProviderType type;

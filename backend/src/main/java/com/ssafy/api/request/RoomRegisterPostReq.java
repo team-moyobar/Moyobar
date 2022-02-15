@@ -20,8 +20,6 @@ public class RoomRegisterPostReq {
     private String description;
     @ApiModelProperty(name = "방 최대 인원")
     private int max;
-    @ApiModelProperty(name = "방 사진")
-    private String thumbnail;
     @ApiModelProperty(name = "방 공개여부")
     private RoomType type;
     @ApiModelProperty(name = "방 비밀번호")

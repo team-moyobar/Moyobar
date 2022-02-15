@@ -7,7 +7,6 @@ import com.ssafy.db.entity.user.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 
@@ -23,8 +22,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.ssafy.security.UserPrincipal;
 
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Optional;
 
 import com.ssafy.security.oauth2.exception.OAuth2AuthenticationProcessingException;
@@ -39,8 +36,7 @@ import com.ssafy.security.oauth2.entity.ProviderType;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
-    @Autowired
-    DrinkRepository drinkRepository;
+    private final DrinkRepository drinkRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {

@@ -1,6 +1,5 @@
 package com.ssafy.db.repository.user;
 
-import com.ssafy.api.response.RankRes;
 import com.ssafy.db.entity.user.User;
 import org.kurento.client.internal.server.Param;
 import org.springframework.data.jpa.repository.JpaRepository;

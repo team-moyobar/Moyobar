@@ -8,8 +8,8 @@ import com.ssafy.api.response.UserLogRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.service.S3Service;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -38,17 +38,14 @@ import java.util.List;
  */
 @Api(value = "유저 API", tags = {"User"})
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    @Autowired
-    UserService userService;
-    @Autowired
-    S3Service s3Service;
-
-    @Autowired
-    private SimpMessagingTemplate template;
+    private final UserService userService;
+    private final S3Service s3Service;
+    private final SimpMessagingTemplate template;
 
     @PostMapping()
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
@@ -140,7 +137,7 @@ public class UserController {
                                                                       @ApiParam(value = "업데이트할 유저 정보") @RequestPart(value = "update_info") UserUpdatePutReq updateInfo,
                                                                       @RequestPart(value = "img", required = false) MultipartFile multipartFile) {
 
-        log.info("file: {}",multipartFile);
+        log.info("file: {}", multipartFile);
 
         //수정하려는 회원이 누구인지, 또 허가된 회원인지 확인
         SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
@@ -157,7 +154,7 @@ public class UserController {
                 throw new NicknameDuplicatedException();
         }
 
-        if (multipartFile!= null && !multipartFile.isEmpty()) {
+        if (multipartFile != null && !multipartFile.isEmpty()) {
             try {
                 updateInfo.setImg(s3Service.upload(multipartFile));
             } catch (IOException e) {
@@ -218,7 +215,7 @@ public class UserController {
     }
 
 
-    private void broadcastToLobby(){
+    private void broadcastToLobby() {
         template.convertAndSend("/from/lobby/users", new BroadcastMessage("User List changed"));
     }
 }
