@@ -4,6 +4,9 @@ import ReactApexChart from 'react-apexcharts';
 import { Card, CardHeader, Box } from '@mui/material';
 //
 import BaseOptionChart from './BaseOptionChart';
+import { useEffect } from 'react';
+import { getToken } from '../../routes/auth/Login';
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -25,25 +28,27 @@ const CHART_DATA = [
   }
 ];
 
+
 export default function Chart() {
   const chartOptions = merge(BaseOptionChart(), {
     stroke: { width: [0, 2, 3] },
     plotOptions: { bar: { columnWidth: '20%', borderRadius: 4 } },
     fill: { type: ['solid', 'gradient', 'solid'] },
     labels: [
-      '01/01/2022',
-      '02/01/2022',
-      '03/01/2022',
-      '04/01/2022',
-      '05/01/2022',
-      '06/01/2022',
-      '07/01/2022',
-      '08/01/2022',
-      '09/01/2022',
-      '10/01/2022',
-      '11/01/2022'
+      '2022-01-01',
+      '2022-01-02',
+      '2022-01-03',
+      '2022-01-04',
+      // '05/01/2022',
+      // '06/01/2022',
+      // '07/01/2022',
+      // '08/01/2022',
+      // '09/01/2022',
+      // '10/01/2022',
+      // '11/01/2022'
     ],
     xaxis: { type: 'datetime' },
+    yaxis: { max: 100},
     tooltip: {
       shared: true,
       intersect: false,
@@ -57,6 +62,30 @@ export default function Chart() {
       }
     }
   });
+const handleLogLoad = () => {
+  const TOKEN = getToken("jwtToken");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  };
+
+  axios
+  .get(`/users/users/logs`, config)
+  .then((res) => {
+    console.log(res.data);
+  })
+  .catch((err) => {
+    console.log(err);
+    console.log("fail...");
+  });
+
+}
+
+  useEffect(() => {
+    handleLogLoad();
+  }, []);
 
   return (
     <Card>
