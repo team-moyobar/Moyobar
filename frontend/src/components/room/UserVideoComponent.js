@@ -19,14 +19,14 @@ export default class UserVideoComponent extends Component {
             <OpenViduVideoComponent streamManager={this.props.streamManager}>
             </OpenViduVideoComponent>
             <div>
-              <p>
-                {this.props.owner === this.getNicknameTag() ?(
-                  <img
-                    className="lobby-owner"
-                    src="/icons/lobby/crown.png"
-                    alt=""
-                  />
-                ) : null}
+              {this.props.owner === this.getNicknameTag() ?(
+                <img
+                className="lobby-owner"
+                src="/icons/lobby/crown.png"
+                alt=""
+                />
+              ) : null}
+              <p className="lobby-owner-p">
                 {this.getNicknameTag()}
               </p>
             </div>
