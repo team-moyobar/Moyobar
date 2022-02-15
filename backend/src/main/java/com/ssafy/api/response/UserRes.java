@@ -23,37 +23,37 @@ import java.util.Date;
 @ApiModel("UserResponse")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserRes {
-	@ApiModelProperty(name = "User Id")
-	private String userId;
-	@ApiModelProperty(name = "User Nickname")
-	private String nickname;
-	@ApiModelProperty(name = "User birthday")
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date birthday;
-	@ApiModelProperty(name = "User profile img path")
-	private String img;
-	@ApiModelProperty(name = "User score")
-	private int score;
-	@ApiModelProperty(name = "User drink info")
-	private Drink drink;
-	@ApiModelProperty(name = "User phone number")
-	private String phone;
-	@ApiModelProperty(name = "User login type")
-	private ProviderType type;
-	@ApiModelProperty(name = "User description", example = "안녕하세요 모여바 입니다.")
-	private String description;
+    @ApiModelProperty(name = "User Id")
+    private String userId;
+    @ApiModelProperty(name = "User Nickname")
+    private String nickname;
+    @ApiModelProperty(name = "User birthday")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private Date birthday;
+    @ApiModelProperty(name = "User profile img path")
+    private String img;
+    @ApiModelProperty(name = "User score")
+    private int score;
+    @ApiModelProperty(name = "User drink info")
+    private Drink drink;
+    @ApiModelProperty(name = "User phone number")
+    private String phone;
+    @ApiModelProperty(name = "User login type")
+    private ProviderType type;
+    @ApiModelProperty(name = "User description", example = "안녕하세요 모여바 입니다.")
+    private String description;
 
-	public static UserRes of(User user) {
-		UserRes res = new UserRes();
+    public static UserRes of(User user) {
+        UserRes res = new UserRes();
 
-		res.setUserId(user.getUserId());
-		res.setNickname(user.getNickname());
-		res.setBirthday(user.getBirthday());
-		res.setImg(user.getImg());
-		res.setDrink(user.getDrink());
-		res.setPhone(user.getPhone());
-		res.setType(user.getType());
-		res.setDescription(user.getDescription());
-		return res;
-	}
+        res.setUserId(user.getUserId());
+        res.setNickname(user.getNickname());
+        res.setBirthday(user.getBirthday());
+        res.setImg(user.getImg());
+        res.setDrink(user.getDrink());
+        res.setPhone(user.getPhone());
+        res.setType(user.getType());
+        res.setDescription(user.getDescription());
+        return res;
+    }
 }

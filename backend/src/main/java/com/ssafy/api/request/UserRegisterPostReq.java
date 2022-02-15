@@ -19,20 +19,20 @@ import java.util.Date;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserRegisterPostReq {
 
-	@ApiModelProperty(name = "유저 ID", example = "ssafy@ssafy.com")
-	private String userId;
-	@ApiModelProperty(name = "유저 Nickname", example = "ssafy")
-	private String nickname;
-	@ApiModelProperty(name = "유저 Password", example = "ssafy")
-	private String password;
-	@ApiModelProperty(name = "유저 생년월일",example = "2022-01-19")
-	private Date birthday;
-	@ApiModelProperty(name = "유저 휴대폰 번호", example = "010-1111-1111")
-	private String phone;
-	@ApiModelProperty(name = "유저 로그인 유형", example = "LOCAL")
-	private ProviderType type; //enum 타입-local, google, kakao
-	@ApiModelProperty(name = "유저 주량 정보")
-	private DrinkReq drink;
-	@ApiModelProperty(name = "유저 자기소개", example = "안녕하세요 모여바입니다.")
-	private String description;
+    @ApiModelProperty(name = "유저 ID", example = "ssafy@ssafy.com")
+    private String userId;
+    @ApiModelProperty(name = "유저 Nickname", example = "ssafy")
+    private String nickname;
+    @ApiModelProperty(name = "유저 Password", example = "ssafy")
+    private String password;
+    @ApiModelProperty(name = "유저 생년월일", example = "2022-01-19")
+    private Date birthday;
+    @ApiModelProperty(name = "유저 휴대폰 번호", example = "010-1111-1111")
+    private String phone;
+    @ApiModelProperty(name = "유저 로그인 유형", example = "LOCAL")
+    private ProviderType type; //enum 타입-local, google, kakao
+    @ApiModelProperty(name = "유저 주량 정보")
+    private DrinkReq drink;
+    @ApiModelProperty(name = "유저 자기소개", example = "안녕하세요 모여바입니다.")
+    private String description;
 }

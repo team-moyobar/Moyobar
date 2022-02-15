@@ -4,24 +4,21 @@ import com.ssafy.api.response.RankRes;
 import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service("rankService")
 public class RankServiceImpl implements RankService{
 
     private final int TOP_RANK_COUNT = 10;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<RankRes> getRankList() {

@@ -13,24 +13,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("UserLoginPostResponse")
-public class UserLoginPostRes extends BaseResponseBody{
-	@ApiModelProperty(name="JWT 인증 토큰", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN...")
-	String accessToken;
-	boolean first;
-	@ApiModelProperty(name = "User Nickname")
-	String nickname;
+public class UserLoginPostRes extends BaseResponseBody {
+    @ApiModelProperty(name = "JWT 인증 토큰", example = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN...")
+    String accessToken;
+    boolean first;
+    @ApiModelProperty(name = "User Nickname")
+    String nickname;
 
-	public static UserLoginPostRes of(Integer status, String message, String accessToken) {
-		UserLoginPostRes res = new UserLoginPostRes();
-		res.setStatus(status);
-		res.setMessage(message);
-		res.setAccessToken(accessToken);
-		return res;
-	}
-	public static UserLoginPostRes of(Integer statusCode, String message, String accessToken, boolean first, String nickname) {
-		UserLoginPostRes res = of(statusCode, message, accessToken);
-		res.setFirst(first);
-		res.setNickname(nickname);
-		return res;
-	}
+    public static UserLoginPostRes of(Integer status, String message, String accessToken) {
+        UserLoginPostRes res = new UserLoginPostRes();
+        res.setStatus(status);
+        res.setMessage(message);
+        res.setAccessToken(accessToken);
+        return res;
+    }
+
+    public static UserLoginPostRes of(Integer statusCode, String message, String accessToken, boolean first, String nickname) {
+        UserLoginPostRes res = of(statusCode, message, accessToken);
+        res.setFirst(first);
+        res.setNickname(nickname);
+        return res;
+    }
 }

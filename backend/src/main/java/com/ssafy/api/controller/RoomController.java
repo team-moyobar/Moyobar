@@ -17,8 +17,8 @@ import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.room.RoomType;
 import com.ssafy.db.entity.user.User;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -38,21 +38,17 @@ import java.util.stream.Collectors;
  */
 @Api(value = "미팅룸 API", tags = {"Meeting Room"})
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/rooms")
 public class RoomController {
 
-    @Autowired
-    RoomService roomService;
-    @Autowired
-    HistoryService historyService;
-    @Autowired
-    UserService userService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final RoomService roomService;
+    private final HistoryService historyService;
+    private final UserService userService;
 
-    @Autowired
-    private SimpMessagingTemplate template;
+    private final PasswordEncoder passwordEncoder;
+    private final SimpMessagingTemplate template;
 
     @PostMapping()
     @ApiOperation(value = "미팅 룸 생성", notes = "<stong>방 정보</strong>를 통해 방을 생성한다.")

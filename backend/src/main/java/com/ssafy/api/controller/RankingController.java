@@ -4,8 +4,8 @@ import com.ssafy.api.response.RankRes;
 import com.ssafy.api.service.RankService;
 import com.ssafy.common.exception.ErrorResponse;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +18,12 @@ import java.util.List;
  */
 @Api(value = "랭킹 API", tags = {"Ranking"})
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/rank")
 public class RankingController {
 
-    @Autowired
-    private RankService rankService;
+    private final RankService rankService;
 
     @GetMapping()
     @ApiOperation(value = "랭킹 순위 조회", notes = " 랭킹 순위를 조회 한다")
@@ -48,7 +48,7 @@ public class RankingController {
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<RankRes> userRanking(@ApiIgnore Authentication authentication,
-                                                     @ApiParam(value = "검색할 사용자 닉네임") @PathVariable String nickname ) {
+                                               @ApiParam(value = "검색할 사용자 닉네임") @PathVariable String nickname) {
         log.info("사용자: {} 순위 조회", nickname);
 
         return ResponseEntity.status(200).body(rankService.getUserRank(nickname));
