@@ -286,7 +286,9 @@ const StompLiar = () => {
           남은 투표 수 : <span className="vote-num">{voteNumber}</span>
         </p>
       )}
-      {isGameStart === true && <p className="select-liar">당신이 선택한 라이어 {selectedValue}</p>}
+      {isGameStart === true && (
+        <p className="select-liar">당신이 선택한 라이어 {selectedValue}</p>
+      )}
       {isGameStart === true && (
         <div className="liar-vote-button" onClick={handleClickOpen}>
           투표하기
@@ -313,14 +315,14 @@ const StompLiar = () => {
             ))}
           </ul>
           {winner === "liar" && (
-            <div>
-              <h3>라이어의 승리입니다!!</h3>
-            </div>
+            <p>
+              라이어 <span>승리</span>
+            </p>
           )}
           {winner !== "liar" && (
-            <div>
-              <h3>라이어의 패배입니다!!</h3>
-            </div>
+            <p>
+              라이어 <span>패배</span>
+            </p>
           )}
         </div>
       )}

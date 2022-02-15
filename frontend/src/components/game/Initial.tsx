@@ -264,7 +264,9 @@ export default function StompInitial() {
       )}
       {isGameStart === true && (
         <div className="initial-consonant">
-          <h4>제시어 : {consonant}</h4>
+          <p>
+            제시어 <span>{consonant}</span>
+          </p>
         </div>
       )}
       <div className="intial-gamelog">
