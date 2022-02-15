@@ -103,7 +103,10 @@ export default function LobbyCreateRoom() {
       .then((res) => {
         console.log("입장성공");
         console.log(res);
-        history.push(`/room/${res.data.room_id}/${owner}`);
+        history.push({
+          pathname: `/room/${res.data.room_id}/${owner}`,
+          state: {roomInfo: res.data}
+        });
       })
       .catch((err) => {
         console.log("Fail..");
