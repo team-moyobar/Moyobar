@@ -8,7 +8,8 @@ import com.ssafy.stomp.liargame.model.GamePlayer;
 import com.ssafy.stomp.liargame.model.Player;
 import com.ssafy.stomp.liargame.request.VoteReq;
 import com.ssafy.stomp.liargame.response.GameEndRes;
-import com.ssafy.stomp.liargame.response.RoleSubjectRes;
+import com.ssafy.stomp.liargame.response.GameStartRes;
+import com.ssafy.stomp.liargame.response.RoleKeywordRes;
 import com.ssafy.stomp.liargame.response.VotingStatusRes;
 import com.ssafy.stomp.model.manager.BaseGameManager;
 import com.ssafy.stomp.model.GameUpdateInfo;
@@ -33,6 +34,7 @@ public class GameManager implements BaseGameManager {
     private Map<String, Integer> votePlayers; //투표 정보
     private List<String> gameWinners; //승자 닉네임
 
+    private String subject; //주제(대분류)
     private Long roomId; //현재 방 번호
     private boolean isGameStarted; //게임 시작 여부
     private Long gameId;
@@ -42,7 +44,7 @@ public class GameManager implements BaseGameManager {
     }
 
     //방 별로 라이어 게임 시작 후, 필요한 정보를 저장한다 : 유저별로 역할 분담 & 제시어 주기
-    public GameManager (Long roomId, RoomService roomService, String theme) {
+    public GameManager (Long roomId, RoomService roomService) {
         this.roomId = roomId;
         this.roomService = roomService;
         this.isGameStarted= true;
@@ -64,22 +66,36 @@ public class GameManager implements BaseGameManager {
         }
 
         RoleManager.assignRoleToPlayers(this.gamePlayers); //역할 분담
-        SubjectManager.assignSubectToPlayers(this.gamePlayers, theme); //제시어 분담
+
+        //주제 랜덤 선택
+        List<String> subjects = new ArrayList<String>();
+        subjects.add("동물");
+        subjects.add("나라");
+        subjects.add("음식");
+        subjects.add("영화");
+        Collections.shuffle(subjects); //랜덤으로 섞기
+        this.subject = subjects.get(0);
+
+        SubjectManager.assignSubectToPlayers(this.gamePlayers, this.subject); //제시어 분담
     }
 
-    //유저의 역할과 제시어를 모두 return
-    //ex) [ {nickname: 닉넴, roletype: LIAR, keyword: 하마 }, {nickname: 안녕, roletype: MEMBER, keyword: 오리 }, ... ]
-    public List<RoleSubjectRes> getAllRoleNameSubject() {
-        List<RoleSubjectRes> list = new ArrayList<>();
+    //주제(subject) 및 유저의 역할과 제시어를 모두 return
+    public GameStartRes getStartInfo() {
+        GameStartRes gameStartRes = new GameStartRes();
+
+        List<RoleKeywordRes> list = new ArrayList<>();
 
         List<Player> players = this.gamePlayers.getPlayers();
 
         for(int i=0; i<players.size(); i++){
             //i번째 플레이어의 정보를 list에 담기
-            list.add(new RoleSubjectRes(players.get(i).getUser().getNickname(), players.get(i).getRole().getRoleType(), players.get(i).getSubject()));
+            list.add(new RoleKeywordRes(players.get(i).getUser().getNickname(), players.get(i).getRole().getRoleType(), players.get(i).getSubject()));
         }
 
-        return list;
+        gameStartRes.setSubject(this.subject);
+        gameStartRes.setRolekeyword(list);
+
+        return gameStartRes;
     }
 
     // 참가자들이 투표한 사람이 누구인지에 대한 정보 저장
@@ -120,6 +136,22 @@ public class GameManager implements BaseGameManager {
         if(this.isGameStarted){ //게임 종료
             this.isGameStarted = false;
         }
+    }
+
+    // 현재 투표 중인 플레이어의 정보를 받아 해당 플레이어가 중복 투표를 하지 않았는지 체크
+   public boolean isParticipateVote(String currVoter){
+       boolean check = false;
+
+       List<Player> players = this.gamePlayers.getPlayers();
+
+       for(int i=0; i<players.size(); i++){
+           Player player = players.get(i);
+           if(player.getUser().getNickname().equals(currVoter)){
+               if(player.isVoteTurn()) check = true;
+           }
+       }
+
+        return check;
     }
 
     // 투표 정보에 따라 게임 결과를 응답 & 이긴 사람 저장

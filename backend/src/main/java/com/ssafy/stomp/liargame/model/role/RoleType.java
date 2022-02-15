@@ -5,5 +5,5 @@ package com.ssafy.stomp.liargame.model.role;
  */
 
 public enum RoleType {
-    LIAR, MEMBER
+    LIAR, PLAYER
 }

@@ -3,10 +3,9 @@ package com.ssafy.stomp.liargame.controller;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.stomp.liargame.model.manager.GameManager;
-import com.ssafy.stomp.liargame.request.GameStartReq;
 import com.ssafy.stomp.liargame.request.VoteReq;
 import com.ssafy.stomp.liargame.response.GameEndRes;
-import com.ssafy.stomp.liargame.response.RoleSubjectRes;
+import com.ssafy.stomp.liargame.response.GameStartRes;
 import com.ssafy.stomp.liargame.response.VoteRes;
 import com.ssafy.stomp.model.service.GameService;
 import lombok.RequiredArgsConstructor;
@@ -42,46 +41,53 @@ public class LiarController {
         private static Map<Long, GameManager> gameManagerMap= new ConcurrentHashMap<>();;
     }
 
-    // 방장이 게임 시작 버튼 클릭 => 제시어(대분류) 선택 후 FE가 방 번호, 제시어(대분류) 보내어 동작
-    // 주제어는 객체로 넘어옴 : @Payload가 클라이언트로부터 넘어온 객체 정보 받아올 수 있게 해줌
+    // 방장이 게임 시작 버튼 클릭
+    // @Payload : 클라이언트로부터 넘어온 객체 정보 받아오기
     @MessageMapping("/liar/start/{roomId}")
     @SendTo("/from/liar/start/{roomId}")
-    public List<RoleSubjectRes> broadcasting(@DestinationVariable long roomId, @Payload GameStartReq gameStartReq) throws Exception {
-        GameManager gameManager = new GameManager(roomId, roomService, gameStartReq.getSubject());
+    public GameStartRes broadStart(@DestinationVariable long roomId) throws Exception {
+        GameManager gameManager = new GameManager(roomId, roomService); //게임 매니저 생성 및 역할-제시어 분배
         log.info("게임 start");
         log.info("게임 시작 gameManager : {} " ,ManagerHolder.gameManagerMap.get(roomId));
 
-        ManagerHolder.gameManagerMap.put(roomId, gameManager); //게임 매니저 생성 및 역할-제시어 분배
+        ManagerHolder.gameManagerMap.put(roomId, gameManager);
 
         //db 저장
         Game game = gameService.createGame(GAME_NAME);
         gameManager.setGameId(game.getId());
         gameService.createGameInRoom(roomService.getRoomById(roomId), game);
-        return gameManager.getAllRoleNameSubject();
+        return gameManager.getStartInfo();
     }
 
     // 참가자들의 투표 정보를 요청받아 투표 참여한 참가자에게는 true를, 기권한 참가자에게는 false를 반환
     @MessageMapping("/liar/vote/{roomId}")
     @SendTo("/from/liar/vote/{roomId}")
-    public VoteRes broadcasting(@DestinationVariable long roomId, @Payload VoteReq voteReq) throws Exception{
+    public VoteRes broadVote(@DestinationVariable long roomId, @Payload VoteReq voteReq) throws Exception{
         GameManager gameManager = ManagerHolder.gameManagerMap.get(roomId);
+        boolean isParticipate = gameManager.isParticipateVote(voteReq.getVoter());
+        log.info("{}의 중복 투표 여부 : {}", voteReq.getVoter(), isParticipate);
 
-        log.info("{}가 투표한 사람: {} ", voteReq.getVoter(), voteReq.getVote());
-        gameManager.setVoteInfo(voteReq);
+        if(!isParticipate) {
+            log.info("{}가 투표한 사람: {} ", voteReq.getVoter(), voteReq.getVote());
+            gameManager.setVoteInfo(voteReq); //투표 참가 한번도 안 했던 플레이어만 투표 참가 가능
+        }
 
-        log.info("게임 투표 gameManager : {} " ,gameManager.toString());
+        log.info("게임 투표 현황 gameManager : {} " ,gameManager.toString());
         int voteCnt = gameManager.getVoterCnt();
         log.info("투표 참가자 현황(무효표 포함) voteCnt : {} " ,voteCnt);
         log.info("플레이어 현황: {}", gameManager.getGamePlayers().getPlayers());
 
-        if(voteReq.getVote().equals("기권")) return new VoteRes(false, voteCnt);
-        else return new VoteRes(true, voteCnt);
+        if(voteReq.getVote().equals("기권")) {
+            return new VoteRes(voteCnt, isParticipate, false);
+        }else {
+            return new VoteRes(voteCnt, isParticipate, true);
+        }
     }
 
     // 투표 결과를 참가자에게 알림(=게임 종료)
     @MessageMapping("/liar/result/{roomId}")
     @SendTo("/from/liar/result/{roomId}")
-    public GameEndRes broadcasting(@DestinationVariable long roomId) throws Exception{
+    public GameEndRes broadResult(@DestinationVariable long roomId) throws Exception{
         GameManager gameManager = ManagerHolder.gameManagerMap.get(roomId);
 
         log.info("투표 결과 알리기");

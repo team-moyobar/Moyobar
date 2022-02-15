@@ -6,11 +6,6 @@ package com.ssafy.stomp.liargame.model.role;
 
 public class Member extends Role {
     public Member() {
-        super(RoleType.MEMBER);
+        super(RoleType.PLAYER);
     }
-
-//    @Override
-//    public void vote(Player player) {
-//
-//    }
 }

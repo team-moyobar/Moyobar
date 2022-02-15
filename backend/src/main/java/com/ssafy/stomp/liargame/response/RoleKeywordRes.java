@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class RoleSubjectRes {
+public class RoleKeywordRes {
     private String nickname; //닉네임
     private String roletype; //역할(LIAR or MEMBER)
     private String keyword; //제시어
