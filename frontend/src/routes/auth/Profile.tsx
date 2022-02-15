@@ -35,6 +35,7 @@ export interface UserInfo {
 
 interface StatusProps {
   status: string;
+  flagUpdate: (value: string) => void;
 }
 
 interface UserProps {
@@ -61,6 +62,7 @@ function ProfileUpdateButton(props: UserProps) {
 
 function ProfileContent(props: StatusProps) {
   const { userNickname } = useParams<ParamTypes>();
+  const [updateKey, setUpdateKey] = useState(0);
 
   const [user, setUser] = useState({
     user_id: "",
@@ -101,15 +103,21 @@ function ProfileContent(props: StatusProps) {
       });
   };
 
+  const updateCheck = (value: number) => {
+    setUpdateKey(updateKey + value);
+    props.flagUpdate('profile');
+    console.log(updateKey)
+  } 
+
   useEffect(() => {
     handleProfileLoad();
-  }, []);
+  }, [updateKey]);
 
   switch (userStatus) {
     case "profile":
       return <ProfileUserInfo user={user}></ProfileUserInfo>;
     case "update":
-      return <ProfileUpdateForm user={user} />;
+      return <ProfileUpdateForm user={user} updateCheck={updateCheck}/>;
     case "log":
       return <Chart />;
     default:
@@ -149,6 +157,10 @@ export default function Profile() {
   const setStatusLog = () => {
     setStatus("log");
   };
+
+  const flagUpdate = (value: string) => {
+    setStatus(value);
+  }
 
   const handleClose = () => {
     history.push("/lobby");
@@ -191,7 +203,7 @@ export default function Profile() {
         </ul>
       </div>
       <div className="profile-userinfo">
-        <ProfileContent status={status} />
+        <ProfileContent status={status} flagUpdate={flagUpdate}/>
         <span className="close-icon">
           <CloseIcon
             color="inherit"
