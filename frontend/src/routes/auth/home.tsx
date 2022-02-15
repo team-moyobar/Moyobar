@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <div className={`home-container ${move ? "login-move" : ""}`}>
       <div className="home-box">
-        <div className="logo">
+        {/* <div className="logo">
           <div className="neon-circle">
             <div className="logo-content">
               Welcome
@@ -25,7 +25,7 @@ export default function Home() {
               MOYOBAR
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="logo2">MOYOBAR</div>
         <button onClick={routeLogin} className="home-button">
           입장하기

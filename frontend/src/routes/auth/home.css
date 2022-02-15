@@ -10,7 +10,7 @@
   background-repeat: no-repeat;
   background-position: 100% 50%;
   color: white;
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 .home-container.login-move {
@@ -144,6 +144,7 @@
   margin-left: 1.5vw;
   animation: logo2 1s 0s ease infinite;
   -webkit-animation: logo2 1s 0.5s ease infinite;
+  margin-bottom: 50%;
 }
 
 @keyframes logo2 {
