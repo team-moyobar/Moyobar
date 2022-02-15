@@ -48,10 +48,9 @@ public class S3Service {
     public String upload(MultipartFile multipartFile) throws IOException {
         String ext = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
 
-//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-//        String filename = "Moyobar_file_" + format.format(new Date()) + "." + ext;
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String filename = "Moyobar_file_" + format.format(new Date()) + "." + ext;
 
-        String filename = "Moyobar_file_default."+ext;
         amazonS3Client.putObject(new PutObjectRequest(bucket, filename, multipartFile.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
