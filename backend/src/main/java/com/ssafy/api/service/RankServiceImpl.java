@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Service("rankService")
-public class RankServiceImpl implements RankService{
+public class RankServiceImpl implements RankService {
 
     private final int TOP_RANK_COUNT = 10;
 
@@ -40,15 +40,15 @@ public class RankServiceImpl implements RankService{
 
         res.add(new RankRes(currentRank, users.get(0).getNickname(), users.get(0).getScore()));
 
-        for (int i = 1; i < users.size(); i++){
-            if (currentRank > TOP_RANK_COUNT) break;
+        for (int i = 1; i < users.size(); i++) {
             User user = users.get(i);
             RankRes rank;
             if (res.get(i - 1).getScore() == user.getScore()) {
                 rank = new RankRes(currentRank, user.getNickname(), user.getScore());
                 tieCount++;
-            }else{
+            } else {
                 currentRank += tieCount;
+                if (currentRank > TOP_RANK_COUNT) break;
                 rank = new RankRes(currentRank, user.getNickname(), user.getScore());
                 tieCount = 1;
             }
