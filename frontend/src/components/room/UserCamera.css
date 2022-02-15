@@ -48,11 +48,43 @@
   align-content: space-around;
   overflow: hidden;
   /* border-left: 3px solid rgba(0, 0, 0, 0.6); */
+}
+
+.session-center-bg-1 {
+  background-image: url("/public/images/room/1.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-image: url("/public/images/room/2.jpg");
 }
+
+.session-center-bg-2 {
+  background-image: url("/public/images/room/2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-3 {
+  background-image: url("/public/images/room/3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-4 {
+  background-image: url("/public/images/room/4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-5 {
+  background-image: url("/public/images/room/5.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 
 .session-footer {
   background: #10131c;
