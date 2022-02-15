@@ -19,7 +19,12 @@ import ReactDOM from "react-dom";
 
 import "./ProfileUpdateForm.css";
 
-const ProfileUpdateForm = (props: { user: UserInfo }) => {
+interface UpdateProps {
+  user: UserInfo,
+  updateCheck: (value: number) => void;
+}
+
+const ProfileUpdateForm = (props: UpdateProps) => {
   const dispatch = useDispatch();
   const cookies = new Cookies();
 
@@ -149,6 +154,7 @@ const ProfileUpdateForm = (props: { user: UserInfo }) => {
         dispatch(loginCheck(userData.nickname));
         alert("회원정보가 수정되었습니다.");
         history.push(`${nickname}`);
+        props.updateCheck(1);
       })
       .catch((err) => {
         console.log("fail..");
