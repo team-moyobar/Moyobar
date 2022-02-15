@@ -67,9 +67,13 @@ export default function LobbyRoomListItem({ item }: any) {
     axios
       .post(`/rooms/${item.room_id}`, data, config)
       .then((res) => {
-        console.log("success");
-        console.log(res);
-        history.push(`/room/${item.room_id}/${item.owner}`);
+        console.log("success!!!!!!!!!!!!!!");
+        console.log(res.data);
+        console.log("success!!!!!!!!!!!!!!");
+        history.push({
+          pathname: `/room/${item.room_id}/${item.owner}`,
+          state: {roomInfo: res.data}
+        });
         setPasswordErrorMessage(false);
       })
       .catch((err) => {

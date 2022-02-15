@@ -35,6 +35,9 @@ class UserCamera extends Component {
       videostate: false,
 
       gameSelect: "None",
+
+      roomTitle: props.roomInfo.title,
+      roomTheme: props.roomInfo.theme,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -361,6 +364,8 @@ class UserCamera extends Component {
 
   render() {
     const mySessionId = this.state.mySessionId;
+    const title = this.state.roomTitle;
+    const theme = this.state.roomTheme;
     const myUserName = this.state.myUserName;
 
     const messages = this.state.messages;
@@ -403,11 +408,9 @@ class UserCamera extends Component {
         {this.state.session !== undefined ? (
           <div className="session">
             <div className="session-header">
-              <p>{mySessionId}번</p>
-              <i class="fa fa-heart-o"></i>
-              <i class="fa-regular fa-game-console-handheld"></i>
+              <p>{mySessionId}번 {title}</p>
             </div>
-            <div className="session-center">
+            <div className={`session-center session-center-bg-${theme}`}>
               {this.state.publisher !== undefined ? (
                 <div
                   className={`stream-container${query}`}
