@@ -20,8 +20,8 @@ public class WordCheckServiceImpl implements WordCheckService {
     private final char[] CHOSEONG = {'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
 
     @Value("${opendict.key}")
-    private final String OPEN_DICT_KEY;
-    private final String OPEN_DICT_URL = "http://opendict.korean.go.kr/api/search";
+    private String OPEN_DICT_KEY;
+    private String OPEN_DICT_URL = "http://opendict.korean.go.kr/api/search";
 
     private final RestTemplate restTemplate;
 

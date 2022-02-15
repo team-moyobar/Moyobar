@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +40,8 @@ public class UserServiceImpl implements UserService {
     private final DrinkRepository drinkRepository;
     private final HistoryRepository historyRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // 온라인 유저 리스트
     private final HashSet<String> userOnlineSet = new HashSet<>();
