@@ -198,14 +198,18 @@ function ProfileContent(props: StatusProps) {
     case "log":
       return <Chart logs={logs} usernickname={userNickname} />;
     case "ranking":
+      console.log(score.rank)
       return (
-        <div>
-          <h1>당신의 술게임 실력은?</h1>
+        <div className="rank-container">
+          <p className="rank-title">
+             <span>{userNickname}</span> 님의 술게임 실력은?
+          </p>
+          <p className="rank-content">{userNickname} 님의 순위는 <span className="rank-person">{score.rank}</span>위 입니다.</p>
           <div className="profile-ranking-container">
-            <div style={{ width: "60%" }}>
+            <div style={{ width: "65%" }}>
               <Ranking ranking={ranking} MyScore={score} />
             </div>
-            <div style={{ width: "40%" }}>
+            <div style={{ width: "30%" }}>
               <MyScore score={score} />
             </div>
           </div>

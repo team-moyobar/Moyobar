@@ -32,12 +32,12 @@ export default function Chart({ logs, usernickname }) {
   console.log(logs);
   const CHART_DATA = [
     {
-      name: `모인시간(분)`,
+      name: `모인 시간(분)`,
       type: "column",
       data: columnTime.reverse(),
     },
     {
-      name: "모인횟수(번)",
+      name: "모인 횟수(번)",
       type: "area",
       data: columnCount.reverse(),
     },
@@ -53,14 +53,14 @@ export default function Chart({ logs, usernickname }) {
       {
         max: 100,
         title: {
-          text: "모인시간(분)",
+          text: "모인 시간(분)",
         },
       },
       {
         max: 20,
         opposite: true,
         title: {
-          text: "모인횟수(번)",
+          text: "모인 횟수(번)",
         },
       },
     ],
