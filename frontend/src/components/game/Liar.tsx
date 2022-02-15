@@ -261,7 +261,7 @@ const StompLiar = () => {
 
   const voteNumber = playerCnt - voteCnt;
   return (
-    <div className="liar-container">
+    <div className="liar-container tracking-in-expand">
       {isGameStart === false && <p className="liar-title">라이어 게임</p>}
       {nickName === owner && isGameStart === false && (
         <button className="game-start-button" onClick={handleClickStart}>
@@ -300,7 +300,9 @@ const StompLiar = () => {
         </p>
       )}
       {isGameStart === true && (
-        <p className="select-liar">당신이 선택한 라이어 {selectedValue}</p>
+        <p className="select-liar">
+          당신이 선택한 라이어 <span>{selectedValue}</span>
+        </p>
       )}
       {isGameStart === true && (
         <div

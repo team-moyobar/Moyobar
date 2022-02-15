@@ -10,6 +10,9 @@
   cursor: default;
   text-align: center;
   font-size: 16px;
+  letter-spacing: 2px;
+  font-family: SBAggroL;
+  transition: 0.2s;
 }
 
 .liar-vote-button {
@@ -32,6 +35,14 @@
   border: 1px solid white;
 }
 
+@font-face {
+  font-family: "LAB디지털";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .liar-vote-button:active {
   background-color: rgba(165, 65, 65, 0.6);
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.7);
@@ -39,12 +50,21 @@
 
 .liar-timeout {
   font-size: 40px;
-  color: rgb(45, 240, 20);
+  color: rgb(50, 212, 29);
   letter-spacing: 3px;
   transition: 0.2s;
+  font-family: LAB디지털;
+  filter: drop-shadow(0 0 1px rgb(50, 212, 29))
+    drop-shadow(0 0 1px rgb(50, 212, 29)) drop-shadow(0 0 8px rgb(50, 212, 29));
+  letter-spacing: 5px;
 }
 .liar-red {
   color: rgb(240, 20, 20);
+}
+.liar-timeout.liar-red {
+  color: rgb(240, 20, 20);
+  filter: drop-shadow(0 0 1px rgb(240, 20, 20))
+    drop-shadow(0 0 1px rgb(240, 20, 20)) drop-shadow(0 0 8px rgb(240, 20, 20));
 }
 
 .liar-hero {
@@ -81,6 +101,7 @@
   margin-left: 5px;
   margin-right: 5px;
   color: rgb(46, 122, 221);
+  font-weight: 700;
 }
 
 .liar-vote {
@@ -90,4 +111,9 @@
 
 .select-liar {
   white-space: nowrap;
+}
+.select-liar span {
+  color: rgb(12, 188, 241);
+  font-weight: 800;
+  font-size: 20px;
 }

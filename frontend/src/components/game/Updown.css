@@ -34,10 +34,15 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 8%;
   color: white;
+  cursor: default;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-family: SBAggroL;
 }
 
 .updown-title {
