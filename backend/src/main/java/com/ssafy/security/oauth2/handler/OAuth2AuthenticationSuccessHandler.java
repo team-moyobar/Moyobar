@@ -35,6 +35,7 @@ import java.util.*;
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final AppConfig appConfig;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final UserService userService;
 
     //성공 시 작동
     @Override
@@ -92,8 +93,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
         CookieUtils.addCookie(response, "nickname", nickname,180);
 
-        log.info("nickname: "+nickname);
-        log.info("jwtToken: "+token);
+        // 로그인한 사용자 목록 추가
+        userService.addUserOnline(userId);
+
+        log.info("nickname: {}", nickname);
+        log.info("jwtToken: {}", token);
 
         return redirectUri.orElse(getDefaultTargetUrl());
     }
