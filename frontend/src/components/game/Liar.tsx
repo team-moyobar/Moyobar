@@ -1,18 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import { useParams } from "react-router";
-
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
+// import { SelectChangeEvent } from "@mui/material/Select";
 
 import { getToken } from "../../routes/auth/Login";
 import { VoteDlg } from "./VoteDlg";
+import { LiarResDlg } from "./LiarResDlg";
 
 import "./Liar.css";
 
@@ -21,6 +14,12 @@ var client: Client | null = null;
 
 // 타이머 변수
 var timer: NodeJS.Timer | null = null;
+
+// 라이어 게임 시작 인터페이스
+export interface gameStartObj {
+  subject: string;
+  rolekeyword: gameDataObj[];
+}
 
 // 라이어 게임 인터페이스
 export interface gameDataObj {
@@ -58,11 +57,12 @@ const StompLiar = () => {
   const [role, setRole] = useState(""); // 역할 (Player or Liar)
   const [keyword, setKeyword] = useState(""); // 제시어
 
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("");
+  const [openVoteDlg, setOpenVoteDlg] = React.useState(false); // 투표 창 열기 여부
+  const [selectedValue, setSelectedValue] = React.useState(""); // 투표 선택
+  const [openResDlg, setOpenResDlg] = React.useState(false); // 게임결과 창 열기 여부
 
-  const [isGameStart, setIsGameStart] = React.useState(false);
-  const [isGameResult, setIsGameResult] = React.useState(false);
+  const [isGameStart, setIsGameStart] = React.useState(false); // 게임시작 여부
+  const [isVoted, setIsVoted] = React.useState(false); // 투표 여부
 
   const [liar, setLiar] = React.useState(""); // 라이어
   const [voteCnt, setVoteCnt] = React.useState(0); // 투표 개수
@@ -70,30 +70,49 @@ const StompLiar = () => {
   const [voteRes, setVoteRes] = React.useState<voteResultObj[]>([]); // 투표 결과
   const [winner, setWinner] = React.useState(""); // 승리
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value: string) => {
-    setOpen(false);
-    setSelectedValue(value);
-    voteUser.current = value;
-
-    if (client !== null) {
-      client.publish({
-        destination: "/to/liar/vote/" + roomId,
-        body: JSON.stringify({
-          voter: nickName,
-          vote: value,
-        }),
-      });
+  // 투표 다이얼로그 열기
+  const handleClickVoteOpen = () => {
+    if (isVoted === false) {
+      setOpenVoteDlg(true);
     }
   };
 
+  // 투표 다이얼로그 닫기
+  const handleVoteClose = (value: string) => {
+    setOpenVoteDlg(false);
+
+    // 투표 선택한 사람이 있다면..
+    if (value !== "") {
+      setSelectedValue(value);
+      voteUser.current = value;
+      setIsVoted(true); // 투표 여부
+
+      // 투표 전송
+      if (client !== null) {
+        client.publish({
+          destination: "/to/liar/vote/" + roomId,
+          body: JSON.stringify({
+            voter: nickName,
+            vote: value,
+          }),
+        });
+      }
+    }
+  };
+
+  // 게임결과 창 닫기
+  const handleLiarResClose = () => {
+    setOpenResDlg(false);
+  };
+
+  // 시작 메시지 처리
   const subScribeStart = () => {
     if (client !== null) {
       client.subscribe("/from/liar/start/" + roomId, (data: any) => {
-        let obj: gameDataObj[] = JSON.parse(data.body);
+        let result: gameStartObj = JSON.parse(data.body);
+        setSubject(result.subject); // 주제 설정
+
+        let obj: gameDataObj[] = result.rolekeyword;
 
         let userList: string[] = [];
 
@@ -109,19 +128,20 @@ const StompLiar = () => {
         }
 
         playerCntRef.current = obj.length;
-        setPlayerCnt(playerCntRef.current);
+        setPlayerCnt(playerCntRef.current); // 플레이어 수 설정
 
-        setVoteCnt(0);
-        setUserList(userList);
-        setSelectedValue("");
+        setIsVoted(false); // 투표 여부 초기화
+        setVoteCnt(0); // 투표 갯수 초기화
+        setUserList(userList); // 유저 리스트 설정
+        setSelectedValue(""); // 투표 유저 초기화
 
         gameStart.current = true;
         gameTime.current = 180;
 
-        setVoteRes([]);
+        setOpenVoteDlg(false); // 투표창 닫음
+        setOpenResDlg(false); // 결과창 닫음
 
-        setIsGameStart(true);
-        setIsGameResult(false);
+        setIsGameStart(true); // 게임시작 설정
       });
     }
   };
@@ -132,7 +152,7 @@ const StompLiar = () => {
       client.subscribe("/from/liar/vote/" + roomId, (data: any) => {
         let votecnt: number = JSON.parse(data.body).votecnt;
 
-        setVoteCnt(votecnt);
+        setVoteCnt(votecnt); // 투표 수 설정
 
         // 플레이어 수 = 투표 수 인경우 게임 종료
         if (votecnt === playerCntRef.current) {
@@ -151,15 +171,15 @@ const StompLiar = () => {
     if (client !== null) {
       client.subscribe("/from/liar/result/" + roomId, (data: any) => {
         let result: gameResultObj = JSON.parse(data.body);
-        setLiar(result.liar);
 
+        setLiar(result.liar); // 라이어 설정
         let voteresult: voteResultObj[] = result.voteresult;
-        setVoteRes(voteresult);
+        setVoteRes(voteresult); // 투표 결과 설정
+        setWinner(result.winner); // 승리 설정
 
-        setWinner(result.winner);
-
-        setIsGameStart(false);
-        setIsGameResult(true);
+        setOpenVoteDlg(false); // 투표화면 닫기
+        setOpenResDlg(true); // 결과 화면창 열기
+        setIsGameStart(false); // 게임 종료 설정
       });
     }
   };
@@ -180,13 +200,6 @@ const StompLiar = () => {
       setGameTimeSec(gameTime.current);
 
       if (gameTime.current <= 0 && client != null) {
-        // client.publish({
-        //   destination: "/to/liar/vote/" + roomId,
-        //   body: JSON.stringify({
-        //     voter: nickName,
-        //     vote: voteUser.current,
-        //   }),
-        // });
         gameStart.current = false;
 
         // 5초이후에 결과요청 호출
@@ -197,6 +210,7 @@ const StompLiar = () => {
     }
   };
 
+  // 게임 결과 요청
   const requestResult = () => {
     if (client !== null) {
       client.publish({
@@ -220,19 +234,21 @@ const StompLiar = () => {
     client.activate();
   };
 
-  const handler = () => {
+  // 시작 버튼 클릭 처리
+  const handleClickStart = () => {
     if (client !== null) {
       if (!client.connected) return;
 
       client.publish({
         destination: "/to/liar/start/" + roomId,
-        body: JSON.stringify({
-          subject: subject,
-        }),
+        // body: JSON.stringify({
+        //   subject: subject,
+        // }),
       });
     }
   };
 
+  // 라이브러리 초기화
   const clearObject = () => {
     if (client != null) {
       if (client.connected) client.deactivate();
@@ -243,15 +259,12 @@ const StompLiar = () => {
     }
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSubject(event.target.value as string);
-  };
   const voteNumber = playerCnt - voteCnt;
   return (
     <div className="liar-container">
       {isGameStart === false && <p className="liar-title">라이어 게임</p>}
       {nickName === owner && isGameStart === false && (
-        <button className="game-start-button" onClick={handler}>
+        <button className="game-start-button" onClick={handleClickStart}>
           START
         </button>
       )}
@@ -290,42 +303,26 @@ const StompLiar = () => {
         <p className="select-liar">당신이 선택한 라이어 {selectedValue}</p>
       )}
       {isGameStart === true && (
-        <div className="liar-vote-button" onClick={handleClickOpen}>
+        <div
+          className={`liar-vote-button ${isVoted == true ? "liar-red" : ""}`}
+          onClick={handleClickVoteOpen}
+        >
           투표하기
         </div>
       )}
       <VoteDlg
+        open={openVoteDlg}
+        onClose={handleVoteClose}
         selectedValue={selectedValue}
-        open={open}
-        onClose={handleClose}
         users={userList}
       />
-      {isGameResult === true && (
-        <div>
-          <h2>게임결과</h2>
-          <div>
-            <h3>라이어 : [{liar}]</h3>
-          </div>
-          <h2>투표결과</h2>
-          <ul>
-            {voteRes.map((voteres) => (
-              <li key={voteres.nickname}>
-                {voteres.nickname} : {voteres.votecnt} 표
-              </li>
-            ))}
-          </ul>
-          {winner === "liar" && (
-            <p>
-              라이어 <span>승리</span>
-            </p>
-          )}
-          {winner !== "liar" && (
-            <p>
-              라이어 <span>패배</span>
-            </p>
-          )}
-        </div>
-      )}
+      <LiarResDlg
+        open={openResDlg}
+        onClose={handleLiarResClose}
+        liar={liar}
+        voteRes={voteRes}
+        winner={winner}
+      />
     </div>
   );
 };

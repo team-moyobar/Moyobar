@@ -1,0 +1,25 @@
+.MuiDialog-root {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+
+.MuiDialogTitle-root {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+
+.liarresdlg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8%;
+  color: white;
+  cursor: default;
+  text-align: center;
+  font-size: 16px;
+}
