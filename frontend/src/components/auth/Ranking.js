@@ -26,11 +26,6 @@ export default function Ranking({ ranking, MyScore }) {
   for (let i = 0; i < ranking.length; i++) {
     score.push(ranking[i]["score"]);
   }
-
-  score.push(MyScore.score);
-
-  console.log(player);
-  console.log(score);
   const CHART_DATA = [{ data: score }];
 
   const chartOptions = merge(BaseOptionChart(), {
