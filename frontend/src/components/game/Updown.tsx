@@ -222,7 +222,8 @@ function StompUpdown() {
   };
 
   return (
-    <div className="updown-container">
+    <div className="updown-container tracking-in-expand">
+      {gameStatus === "" && <p className="liar-title">업다운 게임</p>}
       {gameStatus === "START" ? (
         <div>
           <h1 className="tracking-in-expand updown-title">업다운 게임</h1>
