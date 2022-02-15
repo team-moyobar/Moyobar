@@ -1,0 +1,16 @@
+.profile-log {
+  width: 100%;
+  height: 100%
+}
+
+.profile-log p {
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin-bottom: 3%;
+  margin-top: 3%;
+  text-align: center;
+}
+
+.profile-log p span {
+  font-weight: 800;
+}
