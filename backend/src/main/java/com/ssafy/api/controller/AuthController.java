@@ -33,14 +33,14 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "인증 API", tags = {"Auth"})
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    private final UserService userService;
-    private final SimpMessagingTemplate template;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SimpMessagingTemplate template;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

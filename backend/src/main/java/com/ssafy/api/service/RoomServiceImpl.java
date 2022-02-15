@@ -12,6 +12,7 @@ import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.room.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,9 +33,11 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final HistoryRepository historyRepository;
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Room createRoom(RoomRegisterPostReq registerInfo, User owner) {
