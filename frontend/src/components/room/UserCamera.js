@@ -408,7 +408,9 @@ class UserCamera extends Component {
         {this.state.session !== undefined ? (
           <div className="session">
             <div className="session-header">
-              <p>{mySessionId}번 {title}</p>
+              <p>
+                {mySessionId}번 {title}
+              </p>
             </div>
             <div className={`session-center session-center-bg-${theme}`}>
               {this.state.publisher !== undefined ? (
