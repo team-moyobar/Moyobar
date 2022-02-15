@@ -1,24 +1,93 @@
-.liar-component {
+.liar-container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 8%;
+  color: white;
+  cursor: default;
+  text-align: center;
+  font-size: 16px;
 }
 
-.MuiFormControl-root {
-  color: white;
-  font-size: large;
+.liar-vote-button {
+  cursor: pointer;
+  text-align: center;
+  font-size: 17px;
+  width: 60%;
+  letter-spacing: 4px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  color: #ebebeb;
+  background-color: rgba(29, 29, 29, 0.95);
+  transition: 0.2s;
+  margin-bottom: auto;
+  margin-top: 20%;
+  box-shadow: 0px 10px 10px black;
+  border: 1px solid white;
 }
 
-.MuiSelect-select {
-  color: white;
-  font-size: large;
+.liar-vote-button:active {
+  background-color: rgba(165, 65, 65, 0.6);
+  box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.7);
 }
 
-.MuiInputLabel-root {
-  color: white;
-  font-size: large;
+.liar-timeout {
+  font-size: 40px;
+  color: rgb(45, 240, 20);
+  letter-spacing: 3px;
+  transition: 0.2s;
+}
+.liar-red {
+  color: rgb(240, 20, 20);
+}
+
+.liar-hero {
+  color: rgb(221, 99, 28);
+  margin-left: 10px;
+}
+
+.liar-exp {
+  font-size: 25px;
+  letter-spacing: 4px;
+  white-space: nowrap;
+  margin-top: 13%;
+  margin-bottom: 13%;
+}
+
+.liar-title {
+  position: absolute;
+  top: 15%;
+  font-size: 30px;
+  letter-spacing: 4px;
+}
+
+.not-liar {
+  color: rgb(58, 58, 219);
+}
+
+.liar-keyword {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: gold;
+}
+
+.vote-num {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: rgb(46, 122, 221);
+}
+
+.liar-vote {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.select-liar {
+  white-space: nowrap;
 }
