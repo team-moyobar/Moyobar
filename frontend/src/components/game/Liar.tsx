@@ -246,74 +246,52 @@ const StompLiar = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setSubject(event.target.value as string);
   };
-
+  const voteNumber = playerCnt - voteCnt;
   return (
-    <div className="liar-component">
+    <div className="liar-container">
+      {isGameStart === false && <p className="liar-title">라이어 게임</p>}
       {nickName === owner && isGameStart === false && (
-        <Stack spacing={2} direction="column">
-          <Paper style={{ width: 200, maxHeight: 400, overflow: "auto" }}>
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">주제</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={subject}
-                  label="주제"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={"동물"}>동물</MenuItem>
-                  <MenuItem value={"나라"}>나라</MenuItem>
-                  <MenuItem value={"음식"}>음식</MenuItem>
-                  <MenuItem value={"영화"}>영화</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Paper>
-          <button className="game-start-button" onClick={handler}>
-            START
-          </button>
-        </Stack>
+        <button className="game-start-button" onClick={handler}>
+          START
+        </button>
       )}
+      {isGameStart === true && (
+        <p className={`liar-timeout ${gameTimeSec < 60 ? "liar-red" : ""}`}>
+          {gameTimeSec}
+        </p>
+      )}
+
       {role === "LIAR" && isGameStart === true && (
-        <div>
-          <div>
-            <h3>당신은 [라이어] 입니다</h3>
-          </div>
-        </div>
+        <p className="liar-exp">
+          당신은<span className="liar-hero">라이어</span>입니다
+        </p>
       )}
       {role !== "LIAR" && isGameStart === true && (
         <div>
-          <div>
-            <h3>당신은 [라이어]가 아닙니다</h3>
-          </div>
-          <div>
-            <h3>당신의 제시어는 [{keyword}]</h3>
-          </div>
+          <p className="liar-exp">
+            당신은<span className="liar-hero not-liar">플레이어</span>입니다
+          </p>
+          <p>
+            제시어 [<span className="liar-keyword">{keyword}</span>]
+          </p>
         </div>
       )}
-      {isGameStart === true && (
-        <div>
-          <h4>남은 게임 시간: {gameTimeSec} 초</h4>
-        </div>
+      {isGameStart === true && role === "LIAR" && (
+        <p>
+          주제 [<span className="liar-keyword">{subject}</span>]
+        </p>
       )}
       {isGameStart === true && (
-        <div>
-          <Button variant="contained" onClick={handleClickOpen}>
-            <h4>투표하기</h4>
-          </Button>
-        </div>
+        <p className="liar-vote">
+          남은 투표 수 : <span className="vote-num">{voteNumber}</span>
+        </p>
       )}
       {isGameStart === true && (
-        <div>
-          <h4>
-            투표 진행 상황 : {voteCnt} / {playerCnt}
-          </h4>
-        </div>
+        <p className="select-liar">당신이 선택한 라이어 {selectedValue}</p>
       )}
       {isGameStart === true && (
-        <div>
-          <h4>당신이 선택한 라이어: {selectedValue}</h4>
+        <div className="liar-vote-button" onClick={handleClickOpen}>
+          투표하기
         </div>
       )}
       <VoteDlg
@@ -337,14 +315,14 @@ const StompLiar = () => {
             ))}
           </ul>
           {winner === "liar" && (
-            <div>
-              <h3>라이어의 승리입니다!!</h3>
-            </div>
+            <p>
+              라이어 <span>승리</span>
+            </p>
           )}
           {winner !== "liar" && (
-            <div>
-              <h3>라이어의 패배입니다!!</h3>
-            </div>
+            <p>
+              라이어 <span>패배</span>
+            </p>
           )}
         </div>
       )}
