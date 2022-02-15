@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.UserLogRes;
 import com.ssafy.common.exception.UserNotFoundException;
+import com.ssafy.db.entity.room.ActionType;
 import com.ssafy.db.entity.user.Drink;
 import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.user.DrinkRepository;
@@ -195,7 +196,7 @@ public class UserServiceImpl implements UserService {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         User user = getUserByNickname(nickname);
 
-        historyRepository.findAllByUserId(user.getId())
+        historyRepository.findAllByUserIdAndAction(user.getId(), ActionType.EXIT)
                 .forEach(history -> {
 
                     long min = (history.getExited().getTime() - history.getInserted().getTime()) / 60000;
