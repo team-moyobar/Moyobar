@@ -8,7 +8,6 @@ import com.ssafy.stomp.liargame.response.GameEndRes;
 import com.ssafy.stomp.liargame.response.GameStartRes;
 import com.ssafy.stomp.liargame.response.VoteRes;
 import com.ssafy.stomp.model.service.GameService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -27,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 public class LiarController {
     private static final String GAME_NAME = "라이어";
 

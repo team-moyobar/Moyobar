@@ -4,7 +4,6 @@ import com.ssafy.api.response.RankRes;
 import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.user.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

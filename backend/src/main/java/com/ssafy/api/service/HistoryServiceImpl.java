@@ -6,7 +6,6 @@ import com.ssafy.db.entity.room.History;
 import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.room.HistoryRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

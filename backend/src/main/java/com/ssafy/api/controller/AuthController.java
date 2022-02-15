@@ -7,7 +7,6 @@ import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.security.oauth2.entity.ProviderType;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

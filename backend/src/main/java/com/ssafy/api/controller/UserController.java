@@ -8,7 +8,6 @@ import com.ssafy.api.response.UserLogRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.service.S3Service;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -14,8 +14,8 @@ import com.ssafy.db.repository.game.GameInRoomRepository;
 import com.ssafy.db.repository.game.GameWinnerRepository;
 import com.ssafy.db.repository.user.UserRepository;
 import com.ssafy.stomp.model.GameUpdateInfo;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ssafy.db.repository.game.GameRepository;
 
@@ -24,14 +24,19 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service("gameService")
 public class GameServiceImpl implements GameService {
-    private final GameRepository gameRepository;
-    private final GameInRoomRepository gameInRoomRepository;
-    private final GameCategoryRepository categoryRepository;
-    private final GameWinnerRepository winnerRepository;
-    private final UserRepository userRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
+    @Autowired
+    private GameInRoomRepository gameInRoomRepository;
+    @Autowired
+    private GameCategoryRepository categoryRepository;
+    @Autowired
+    private GameWinnerRepository winnerRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Game createGame(String gameName) {
