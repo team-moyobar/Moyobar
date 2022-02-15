@@ -4,7 +4,7 @@ import ReactApexChart from "react-apexcharts";
 import { Card, CardHeader, Box } from "@mui/material";
 //
 import BaseOptionChart from "./BaseOptionChart";
-
+import "./Chart.css";
 // ----------------------------------------------------------------------
 
 export default function Chart({ logs, usernickname }) {
@@ -79,8 +79,10 @@ export default function Chart({ logs, usernickname }) {
   });
 
   return (
-    <div>
-      <h1>모여바에서 얼마나 모였을까요?</h1>
+    <div className="profile-log">
+      <p>
+        <span>{usernickname}</span> 님의 참가내역
+      </p>
       <Card>
         <CardHeader />
         <Box sx={{ p: 3, pb: 1 }} dir="ltr">
