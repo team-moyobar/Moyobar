@@ -92,3 +92,6 @@ app:
 #    http://localhost:3000/lobby #로컬 테스팅
      https://i6d210.p.ssafy.io/lobby #배포
 
+moyobar:
+  profile:
+    default: https://moyobar.s3.ap-northeast-2.amazonaws.com/Moyobar_file_default.jpg
