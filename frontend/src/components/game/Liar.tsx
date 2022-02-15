@@ -50,6 +50,7 @@ const StompLiar = () => {
   const gameTime = useRef(180); // 게임시간
   const gameStart = useRef(false); // 게임 시작 여부
   const voteUser = useRef(""); // 투표 유저
+  const playerCntRef = useRef(0); // 플레이어 수
 
   const [gameTimeSec, setGameTimeSec] = useState(180); // 게임시간
   const [userList, setUserList] = React.useState([""]); // 방에있는 사용자 정보
@@ -63,9 +64,11 @@ const StompLiar = () => {
   const [isGameStart, setIsGameStart] = React.useState(false);
   const [isGameResult, setIsGameResult] = React.useState(false);
 
-  const [liar, setLiar] = React.useState(""); //
+  const [liar, setLiar] = React.useState(""); // 라이어
+  const [voteCnt, setVoteCnt] = React.useState(0); // 투표 개수
+  const [playerCnt, setPlayerCnt] = React.useState(0); // 플레이어 수
   const [voteRes, setVoteRes] = React.useState<voteResultObj[]>([]); // 투표 결과
-  const [winner, setWinner] = React.useState("");
+  const [winner, setWinner] = React.useState(""); // 승리
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,10 +78,20 @@ const StompLiar = () => {
     setOpen(false);
     setSelectedValue(value);
     voteUser.current = value;
+
+    if (client !== null) {
+      client.publish({
+        destination: "/to/liar/vote/" + roomId,
+        body: JSON.stringify({
+          voter: nickName,
+          vote: value,
+        }),
+      });
+    }
   };
 
-  const subscribe = () => {
-    if (client != null) {
+  const subScribeStart = () => {
+    if (client !== null) {
       client.subscribe("/from/liar/start/" + roomId, (data: any) => {
         let obj: gameDataObj[] = JSON.parse(data.body);
 
@@ -95,15 +108,47 @@ const StompLiar = () => {
           }
         }
 
+        playerCntRef.current = obj.length;
+        setPlayerCnt(playerCntRef.current);
+
+        setVoteCnt(0);
         setUserList(userList);
+        setSelectedValue("");
 
         gameStart.current = true;
         gameTime.current = 180;
 
+        setVoteRes([]);
+
         setIsGameStart(true);
         setIsGameResult(false);
       });
+    }
+  };
 
+  // 투표 메시지 처리
+  const subScribeVote = () => {
+    if (client !== null) {
+      client.subscribe("/from/liar/vote/" + roomId, (data: any) => {
+        let votecnt: number = JSON.parse(data.body).votecnt;
+
+        setVoteCnt(votecnt);
+
+        // 플레이어 수 = 투표 수 인경우 게임 종료
+        if (votecnt === playerCntRef.current) {
+          gameStart.current = false;
+          // 5초이후에 결과요청 호출
+          setTimeout(() => {
+            requestResult();
+          }, 5000);
+        }
+      });
+    }
+  };
+
+  // 게임 결과 메시지 처리
+  const subScribeResult = () => {
+    if (client !== null) {
       client.subscribe("/from/liar/result/" + roomId, (data: any) => {
         let result: gameResultObj = JSON.parse(data.body);
         setLiar(result.liar);
@@ -135,12 +180,13 @@ const StompLiar = () => {
       setGameTimeSec(gameTime.current);
 
       if (gameTime.current <= 0 && client != null) {
-        client.publish({
-          destination: "/to/liar/vote/" + roomId,
-          body: JSON.stringify({
-            vote: voteUser.current,
-          }),
-        });
+        // client.publish({
+        //   destination: "/to/liar/vote/" + roomId,
+        //   body: JSON.stringify({
+        //     voter: nickName,
+        //     vote: voteUser.current,
+        //   }),
+        // });
         gameStart.current = false;
 
         // 5초이후에 결과요청 호출
@@ -152,7 +198,7 @@ const StompLiar = () => {
   };
 
   const requestResult = () => {
-    if (client != null) {
+    if (client !== null) {
       client.publish({
         destination: "/to/liar/result/" + roomId,
       });
@@ -165,7 +211,9 @@ const StompLiar = () => {
       brokerURL: "wss://i6d210.p.ssafy.io/moyobar/websocket",
       reconnectDelay: 10000, // 재접속 시간 10초
       onConnect: () => {
-        subscribe();
+        subScribeStart(); // 게임 시작 메시지 처리
+        subScribeVote(); // 투표 메시지 처리
+        subScribeResult(); // 게임 결과 메시지 처리
       },
     });
 
@@ -173,7 +221,7 @@ const StompLiar = () => {
   };
 
   const handler = () => {
-    if (client != null) {
+    if (client !== null) {
       if (!client.connected) return;
 
       client.publish({
@@ -201,12 +249,9 @@ const StompLiar = () => {
 
   return (
     <div className="liar-component">
-      <div>
-        <h3>&lt;라이어게임&gt;</h3>
-      </div>
       {nickName === owner && isGameStart === false && (
-        <Stack spacing={2} direction="row">
-          <Paper style={{ width: 150, maxHeight: 400, overflow: "auto" }}>
+        <Stack spacing={2} direction="column">
+          <Paper style={{ width: 200, maxHeight: 400, overflow: "auto" }}>
             <Box sx={{ minWidth: 120 }}>
               <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="demo-simple-select-label">주제</InputLabel>
@@ -225,9 +270,9 @@ const StompLiar = () => {
               </FormControl>
             </Box>
           </Paper>
-          <Button variant="contained" onClick={handler}>
-            게임 시작
-          </Button>
+          <button className="game-start-button" onClick={handler}>
+            START
+          </button>
         </Stack>
       )}
       {role === "LIAR" && isGameStart === true && (
@@ -257,6 +302,13 @@ const StompLiar = () => {
           <Button variant="contained" onClick={handleClickOpen}>
             <h4>투표하기</h4>
           </Button>
+        </div>
+      )}
+      {isGameStart === true && (
+        <div>
+          <h4>
+            투표 진행 상황 : {voteCnt} / {playerCnt}
+          </h4>
         </div>
       )}
       {isGameStart === true && (

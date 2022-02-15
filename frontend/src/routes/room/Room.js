@@ -6,7 +6,7 @@ export default function Room() {
   const { roomId, owner } = useParams();
 
   return (
-    <div>
+    <div className="room-root-container">
       <UserCamera roomId={roomId} owner={owner} />
     </div>
   );

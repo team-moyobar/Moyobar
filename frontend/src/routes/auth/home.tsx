@@ -16,7 +16,17 @@ export default function Home() {
   return (
     <div className={`home-container ${move ? "login-move" : ""}`}>
       <div className="home-box">
-        <img className="home-img home-vis" src="/images/auth/logo.png" alt="" />
+        <div className="logo">
+          <div className="neon-circle">
+            <div className="logo-content">
+              Welcome
+              <br />
+              <div className="logo-to">To</div>
+              MOYOBAR
+            </div>
+          </div>
+        </div>
+        <div className="logo2">MOYOBAR</div>
         <button onClick={routeLogin} className="home-button">
           입장하기
         </button>

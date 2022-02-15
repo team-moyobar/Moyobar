@@ -134,7 +134,7 @@ public class WordController {
             log.info("플레이어별 맞춘 횟수: {} ", gameEndRes.toString());
             List<String> winners = gameManager.getWinners();
 
-            gameService.updateGame(gameManager.getGameId(), winners);
+            gameService.updateGame(gameManager.getGameId(), gameManager.getGameUpdateInfoList());
         }
 
         return gameEndRes;
