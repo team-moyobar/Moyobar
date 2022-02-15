@@ -9,7 +9,6 @@ import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.user.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 

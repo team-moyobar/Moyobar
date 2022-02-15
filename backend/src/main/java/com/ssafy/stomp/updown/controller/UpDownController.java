@@ -11,7 +11,6 @@ import com.ssafy.stomp.updown.model.manager.GameManager;
 import com.ssafy.stomp.updown.request.CheckAnswerReq;
 import com.ssafy.stomp.updown.response.CheckResultRes;
 import com.ssafy.stomp.updown.response.GameInfoRes;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

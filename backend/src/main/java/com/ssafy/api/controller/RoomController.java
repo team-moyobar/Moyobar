@@ -17,7 +17,6 @@ import com.ssafy.db.entity.room.Room;
 import com.ssafy.db.entity.room.RoomType;
 import com.ssafy.db.entity.user.User;
 import io.swagger.annotations.*;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;

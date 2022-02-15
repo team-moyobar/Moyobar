@@ -4,7 +4,6 @@ import com.ssafy.api.response.RankRes;
 import com.ssafy.api.service.RankService;
 import com.ssafy.common.exception.ErrorResponse;
 import io.swagger.annotations.*;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
