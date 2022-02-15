@@ -224,3 +224,12 @@ p {
   position: sticky;
   bottom: 0;
 }
+
+.lobby-owner {
+  height: 25px !important;
+  margin-right: 5%;
+}
+
+.lobby-owner-p {
+  margin-top: 2%;
+}

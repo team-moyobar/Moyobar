@@ -52,6 +52,8 @@ class UserCamera extends Component {
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+
+    this.handleEndGame = this.handleEndGame.bind(this);
   }
 
   componentDidMount() {
@@ -155,6 +157,16 @@ class UserCamera extends Component {
 
   chattoggle() {
     this.setState({ chaton: !this.state.chaton });
+  }
+
+  handleEndGame() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "None",
+      to: [],
+      type: "selgame",
+    })
   }
 
   joinSession() {
@@ -473,12 +485,21 @@ class UserCamera extends Component {
             <div className="cheers-button" onClick={() => this.sendCheersMsg()}>
               <ion-icon name="beer-outline"></ion-icon>
             </div>
-            <div
+            {this.state.gameSelect == "None" ? (
+              <div
               className="game-select-button"
               onClick={() => this.handleOpenGameSelect()}
             >
               <ion-icon name="game-controller-outline"></ion-icon>
             </div>
+            ) : (
+              <div
+                className="game-end-button"
+                onClick={() => this.handleEndGame()}
+              >
+                <ion-icon name="power-outline"></ion-icon>
+              </div>
+            )}
           </div>
           <div className="gamebox-center">
             <GameSelect receiveGameSelect={this.state.gameSelect}></GameSelect>
