@@ -1,11 +1,14 @@
-# Dockerfile
+FROM openjdk:18-jdk-alpine AS builder
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
 
-FROM java:8
-VOLUME /tmp
+RUN ./gradlew bootJar
+
+FROM openjdk:18-jdk-alpine
+COPY --from=builder build/libs/*.jar app.jar
 EXPOSE 8080
-ARG JAR_FILE=build/libs/moyobar-backend-server-1.0-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
-ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Asia/Seoul
-RUN apt-get install -y tzdata
+ENTRYPOINT ["java", "-jar", "/app.jar"]
