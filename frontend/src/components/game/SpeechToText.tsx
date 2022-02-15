@@ -34,9 +34,14 @@ export default function SpeechToText(props: SimpleDialogProps) {
   useEffect(() => {
     if (open === true) {
       setAnswer(""); // 정답 초기화
-      startSpeechToText(); // STT 라이브러리 시작
+
+      if (isRecording == false) {
+        startSpeechToText();
+      } // STT 라이브러리 시작
     } else {
-      stopSpeechToText(); // STT 라이브러리 종료
+      if (isRecording == true) {
+        stopSpeechToText(); // STT 라이브러리 종료
+      }
     }
   }, [open]);
 
@@ -69,7 +74,9 @@ export default function SpeechToText(props: SimpleDialogProps) {
       <div className="liar-role-msg-dlg-role">
         <h3>음성인식</h3>
       </div>
-      <DialogTitle>제시어 : {consonant}</DialogTitle>
+      <div className="liar-role-msg-dlg-role">
+        <h4>제시어 : {consonant}</h4>
+      </div>
       <TextField
         label="정답을 말하고 닫기를 누르세요"
         value={answer}
