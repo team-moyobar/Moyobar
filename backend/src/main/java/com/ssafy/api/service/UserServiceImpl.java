@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +36,9 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
+    @Value("${moyobar.profile.default}")
+    private String DEFAULT_PATH;
 
     private final UserRepository userRepository;
     private final DrinkRepository drinkRepository;
@@ -69,6 +73,8 @@ public class UserServiceImpl implements UserService {
         if (userRegisterInfo.getDescription() != null){
             user.setDescription(userRegisterInfo.getDescription());
         }
+
+        user.setImg(DEFAULT_PATH);
         return userRepository.save(user);
     }
 
