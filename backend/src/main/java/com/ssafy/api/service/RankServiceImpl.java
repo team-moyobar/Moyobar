@@ -6,19 +6,20 @@ import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service("rankService")
 public class RankServiceImpl implements RankService {
 
     private final int TOP_RANK_COUNT = 10;
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<RankRes> getRankList() {
