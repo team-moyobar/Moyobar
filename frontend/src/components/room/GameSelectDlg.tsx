@@ -74,82 +74,34 @@ export function GameSelectDlg(props: GameSelectDlgProps) {
       //fullWidth={isFullWidth}
       PaperProps={{
         style: {
-          //backgroundImage: `url("/images/room/cheers.jpg")`,
+          background: "rgba(151, 151, 151, 0.95)",
           minWidth: "60vh",
           maxWidth: "60vh",
-          minHeight: "30vh",
-          maxHeight: "30vh",
-          backgroundColor: "grey",
+          minHeight: "50vh",
+          maxHeight: "50vh",
+          borderRadius: "15px",
         },
       }}
     >
       <DialogTitle>
-        <h2>술게임 선택</h2>
+        <h2 className="sg-title">🎮 게임을 선택해주세요!!</h2>
       </DialogTitle>
-      <div>
-        {receiveGameSelect === "None" ? (
-
-          <div>
-            <div>
-              <Button
-                variant="contained"
-                onClick={() => handleClickLiar()}
-                style={{
-                  maxWidth: "180px",
-                  maxHeight: "70px",
-                  minWidth: "180px",
-                  minHeight: "70px",
-                  margin: "10px",
-                }}
-              >
-                <h4>라이어 게임</h4>
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => handleClickUpdown()}
-                style={{
-                  maxWidth: "180px",
-                  maxHeight: "70px",
-                  minWidth: "180px",
-                  minHeight: "70px",
-                  margin: "10px",
-                }}
-              >
-                <h4>업다운 게임</h4>
-              </Button>
-            </div>
-            <div>
-              <Button
-                variant="contained"
-                onClick={() => handleClickInitial()}
-                style={{
-                  maxWidth: "180px",
-                  maxHeight: "70px",
-                  minWidth: "180px",
-                  minHeight: "70px",
-                  margin: "10px",
-                }}
-              >
-                <h4>초성 게임</h4>
-              </Button>
-            </div>
+      {receiveGameSelect === "None" ? (
+        <div className="sg-container">
+          <div onClick={() => handleClickLiar()}>
+            {" "}
+            <p className="sg-text">라이어 게임</p>
           </div>
-        ) : (
-          <Button
-            variant="contained"
-            onClick={() => handleClickNone()}
-            style={{
-              maxWidth: "180px",
-              maxHeight: "70px",
-              minWidth: "180px",
-              minHeight: "70px",
-              margin: "10px",
-            }}
-          >
-            <h4>게임 종료</h4>
-          </Button>
-        )}
-      </div>
+          <div onClick={() => handleClickUpdown()}>
+            {" "}
+            <p className="sg-text">업다운 게임</p>
+          </div>
+          <div onClick={() => handleClickInitial()}>
+            {" "}
+            <p className="sg-text">초성 퀴즈</p>
+          </div>
+        </div>
+      ) : null}
     </Dialog>
   );
 }

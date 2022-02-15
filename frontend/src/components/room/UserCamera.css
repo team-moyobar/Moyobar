@@ -203,22 +203,22 @@
   align-items: center;
   justify-content: center;
   border-bottom-right-radius: 8px;
-  background: rgb(235, 0, 0);
-  font-size: 32px;
+  background: rgb(148, 6, 6);
+  font-size: 40px;
   cursor: pointer;
   color: #fff;
   transition: 0.2s;
 }
 
 .gamebox-bottom:hover {
-  background: #a01818;
+  background: #d30606;
 }
 
-.gamebox-bottom:hover ion-icon {
+/* .gamebox-bottom:hover ion-icon {
   color: #ff0000;
   filter: drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 10px #ff0000)
     drop-shadow(0 0 20px #ff0000);
-}
+} */
 
 .room-green {
   color: #2dfc52 !important;

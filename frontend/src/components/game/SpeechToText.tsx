@@ -70,18 +70,29 @@ export default function SpeechToText(props: SimpleDialogProps) {
   if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
 
   return (
-    <Dialog onClose={handleClose} open={open} fullWidth={isFullWidth}>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      fullWidth={isFullWidth}
+      PaperProps={{
+        style: {
+          background: "rgba(151, 151, 151, 0.95)",
+          minHeight: "30vh",
+          maxHeight: "30vh",
+          borderRadius: "15px",
+        },
+      }}
+    >
       <div className="liar-role-msg-dlg-role">
-        <h3>음성인식</h3>
+        <h2>정답을 말하세요</h2>
+
+        <h3>제시어 : {consonant}</h3>
+
+        <TextField value={answer}></TextField>
+        <div className="stt-submit">
+          <p onClick={() => handleClose()}>정답 제출하기</p>
+        </div>
       </div>
-      <div className="liar-role-msg-dlg-role">
-        <h4>제시어 : {consonant}</h4>
-      </div>
-      <TextField
-        label="정답을 말하고 닫기를 누르세요"
-        value={answer}
-      ></TextField>
-      <Button onClick={() => handleClose()}>닫기</Button>
     </Dialog>
   );
 }
