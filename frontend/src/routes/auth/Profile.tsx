@@ -9,9 +9,9 @@ import { useHistory } from "react-router-dom";
 
 import ProfileUserInfo from "../../components/auth/ProfileUserInfo";
 import ProfileUpdateForm from "../../components/auth/ProfileUpdateForm";
-import Chart from "../../components/auth/Chart"
-import Ranking from "../../components/auth/Ranking"
-import MyScore from "../../components/auth/MyScore"
+import Chart from "../../components/auth/Chart";
+import Ranking from "../../components/auth/Ranking";
+import MyScore from "../../components/auth/MyScore";
 
 interface ParamTypes {
   userNickname: string;
@@ -84,19 +84,19 @@ function ProfileContent(props: StatusProps) {
   const [logs, setLogs] = useState({
     date: "",
     count: "",
-    elapsed_times : "0",
-  })
+    elapsed_times: "0",
+  });
   const [ranking, setRanking] = useState({
     rank: "",
     nickname: "",
-    score : ""
-  })
+    score: "",
+  });
 
   const [score, setScore] = useState({
     rank: "",
     nickname: "",
-    score : ""
-  })
+    score: "",
+  });
 
   const userStatus = props.status;
 
@@ -129,18 +129,18 @@ function ProfileContent(props: StatusProps) {
         Authorization: `Bearer ${TOKEN}`,
       },
     };
-  
+
     axios
-    .get(`/users/${userNickname}/logs`, config)
-    .then((res) => {
-      console.log(res.data);
-      setLogs(res.data)
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log("fail...");
-    });
-  }
+      .get(`/users/${userNickname}/logs`, config)
+      .then((res) => {
+        console.log(res.data);
+        setLogs(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("fail...");
+      });
+  };
 
   const handleRankingLoad = () => {
     const TOKEN = getToken("jwtToken");
@@ -150,42 +150,41 @@ function ProfileContent(props: StatusProps) {
         Authorization: `Bearer ${TOKEN}`,
       },
     };
-  
-    axios
-    .get(`/rank`, config)
-    .then((res) => {
-      console.log(res.data);
-      setRanking(res.data)
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log("fail...");
-    });
 
     axios
-    .get(`/rank/${userNickname}`, config)
-    .then((res) => {
-      console.log(res.data);
-      setScore(res.data)
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log("fail...");
-    });
-  }
-  
+      .get(`/rank`, config)
+      .then((res) => {
+        console.log(res.data);
+        setRanking(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("fail...");
+      });
+
+    axios
+      .get(`/rank/${userNickname}`, config)
+      .then((res) => {
+        console.log(res.data);
+        setScore(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("fail...");
+      });
+  };
 
   useEffect(() => {
     handleProfileLoad();
     handleLogLoad();
     handleRankingLoad();
-    console.log(userNickname)
+    console.log(userNickname);
   }, []);
   const updateCheck = (value: number) => {
     setUpdateKey(updateKey + value);
-    props.flagUpdate('profile');
-    console.log(updateKey)
-  } 
+    props.flagUpdate("profile");
+    console.log(updateKey);
+  };
 
   useEffect(() => {
     handleProfileLoad();
@@ -195,22 +194,27 @@ function ProfileContent(props: StatusProps) {
     case "profile":
       return <ProfileUserInfo user={user}></ProfileUserInfo>;
     case "update":
-      return <ProfileUpdateForm user={user} updateCheck={updateCheck}/>;
+      return <ProfileUpdateForm user={user} updateCheck={updateCheck} />;
     case "log":
-      return <Chart logs={logs} usernickname={userNickname}/>;
+      return <Chart logs={logs} usernickname={userNickname} />;
     case "ranking":
+      console.log(score.rank)
       return (
-                <div>
-                <h1>당신의 술게임 실력은?</h1>
-                <div className="profile-ranking-container">
-                  <div style={{width : "60%" }}>
-                    <Ranking ranking={ranking} MyScore={score} />
-                  </div>
-                  <div style={{width : "40%"}}>
-                    <MyScore score={score}/>
-                  </div>
-                </div>
-                </div>)
+        <div className="rank-container">
+          <p className="rank-title">
+             <span>{userNickname}</span> 님의 술게임 실력은?
+          </p>
+          <p className="rank-content">{userNickname} 님의 순위는 <span className="rank-person">{score.rank}</span>위 입니다.</p>
+          <div className="profile-ranking-container">
+            <div style={{ width: "65%" }}>
+              <Ranking ranking={ranking} MyScore={score} />
+            </div>
+            <div style={{ width: "30%" }}>
+              <MyScore score={score} />
+            </div>
+          </div>
+        </div>
+      );
     default:
       return null;
   }
@@ -250,12 +254,12 @@ export default function Profile() {
   };
 
   const setStatusRanking = () => {
-    setStatus("ranking")
-  }
+    setStatus("ranking");
+  };
 
   const flagUpdate = (value: string) => {
     setStatus(value);
-  }
+  };
 
   const handleClose = () => {
     history.push("/lobby");
@@ -298,7 +302,7 @@ export default function Profile() {
         </ul>
       </div>
       <div className="profile-userinfo">
-        <ProfileContent status={status} flagUpdate={flagUpdate}/>
+        <ProfileContent status={status} flagUpdate={flagUpdate} />
         <span className="close-icon">
           <CloseIcon
             color="inherit"

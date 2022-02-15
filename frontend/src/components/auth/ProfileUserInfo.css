@@ -1,50 +1,63 @@
 .profile-userinfo-contents {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
+  letter-spacing: 4px;
 }
 
-.profile-picture{
+.profile-picture {
   display: flex;
-  height: 40%;
-  margin-left: 10%;
-}
-
-.profile-picture-img{
-  align-self: center;
   width: 30%;
-  overflow: hidden;
-  position: relative;
+  padding-bottom: 30%;
+  justify-self: center;
+  align-self: center;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: 50% 20%;
+  margin-bottom: 3%;
 }
 
-.profile-picture-img:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
-}
-
-.profile-picture-img img{
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  object-fit: cover;
-  border-radius: 70%;
-  object-position: top;
-  border:rgba(255, 0, 0, 0.418);
-}
-
-.profile-item{
+.profile-item {
   display: flex;
-  height: 20%;
+  height: 15%;
+  width: 65%;
   font-weight: 600;
   font-size: 18px;
   border-top: 1px solid rgba(0, 0, 0, 0.418);
-  padding-top: 5%;
-  padding-left: 5%
+  padding-left: 2%;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .profile-item-title {
-  width: 30%
+  width: 35%;
+  font-size: 20px;
+  font-weight: 800;
 }
 
+.profile-item.profile-top {
+  border-top: 0;
+}
+
+.profile-liquor {
+  color: rgb(90, 54, 0);
+  width: 50%;
+}
+
+.profile-soju {
+  color: rgb(30, 202, 15);
+  width: 50%;
+}
+
+.profile-beer {
+  color: rgb(181, 184, 17);
+  width: 50%;
+}
+
+.profile-basic {
+  color: #333;
+  margin-left: 3%;
+}
