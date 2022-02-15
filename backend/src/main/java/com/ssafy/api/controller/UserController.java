@@ -157,7 +157,7 @@ public class UserController {
                 throw new NicknameDuplicatedException();
         }
 
-        if (!multipartFile.isEmpty()) {
+        if (multipartFile!= null && !multipartFile.isEmpty()) {
             try {
                 updateInfo.setImg(s3Service.upload(multipartFile));
             } catch (IOException e) {
@@ -201,20 +201,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/logs")
-    @ApiOperation(value = "사용자의 참여 로그 조회", notes = "로그인 한 사용자의 참여 로그를 조회한다.")
+    @GetMapping("/{nickname}/logs")
+    @ApiOperation(value = "사용자의 참여 로그 조회", notes = "검색할 사용자의 참여 로그를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<UserLogRes>> getUserLogs(@ApiIgnore Authentication authentication) {
+    public ResponseEntity<List<UserLogRes>> getUserLogs(@ApiIgnore Authentication authentication,
+                                                        @PathVariable @ApiParam(value = "검색할 닉네임") String nickname) {
 
-        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
-        String userId = userDetails.getUsername();
-
-        List<UserLogRes> res = userService.getUserLogs(userId);
+        List<UserLogRes> res = userService.getUserLogs(nickname);
 
         return ResponseEntity.status(200).body(res);
     }

@@ -19,7 +19,7 @@ import java.util.Date;
 public class UserLogRes {
 
     @ApiModelProperty(name = "Date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date date;
 
     @ApiModelProperty(name = "Count of Entrance")
