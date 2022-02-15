@@ -10,6 +10,8 @@ import { useHistory } from "react-router-dom";
 import ProfileUserInfo from "../../components/auth/ProfileUserInfo";
 import ProfileUpdateForm from "../../components/auth/ProfileUpdateForm";
 import Chart from "../../components/auth/Chart"
+import Ranking from "../../components/auth/Ranking"
+import MyScore from "../../components/auth/MyScore"
 
 interface ParamTypes {
   userNickname: string;
@@ -84,6 +86,17 @@ function ProfileContent(props: StatusProps) {
     count: "",
     elapsed_times : "0",
   })
+  const [ranking, setRanking] = useState({
+    rank: "",
+    nickname: "",
+    score : ""
+  })
+
+  const [score, setScore] = useState({
+    rank: "",
+    nickname: "",
+    score : ""
+  })
 
   const userStatus = props.status;
 
@@ -128,11 +141,44 @@ function ProfileContent(props: StatusProps) {
       console.log("fail...");
     });
   }
+
+  const handleRankingLoad = () => {
+    const TOKEN = getToken("jwtToken");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+  
+    axios
+    .get(`/rank`, config)
+    .then((res) => {
+      console.log(res.data);
+      setRanking(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("fail...");
+    });
+
+    axios
+    .get(`/rank/${userNickname}`, config)
+    .then((res) => {
+      console.log(res.data);
+      setScore(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("fail...");
+    });
+  }
   
 
   useEffect(() => {
     handleProfileLoad();
     handleLogLoad();
+    handleRankingLoad();
     console.log(userNickname)
   }, []);
   const updateCheck = (value: number) => {
@@ -152,6 +198,16 @@ function ProfileContent(props: StatusProps) {
       return <ProfileUpdateForm user={user} updateCheck={updateCheck}/>;
     case "log":
       return <Chart logs={logs} usernickname={userNickname}/>;
+    case "ranking":
+      return (
+                <div className="profile-ranking-container">
+                  <div style={{width : "60%" }}>
+                    <Ranking ranking={ranking} MyScore={score} />
+                  </div>
+                  <div style={{width : "40%"}}>
+                    <MyScore score={score}/>
+                  </div>
+                </div>)
     default:
       return null;
   }
@@ -190,6 +246,10 @@ export default function Profile() {
     setStatus("log");
   };
 
+  const setStatusRanking = () => {
+    setStatus("ranking")
+  }
+
   const flagUpdate = (value: string) => {
     setStatus(value);
   }
@@ -224,7 +284,7 @@ export default function Profile() {
             </a>
           </li>
           <li>
-            <a href="javascript:void(0);">
+            <a href="javascript:void(0);" onClick={setStatusRanking}>
               <span className="profile-menu-title">
                 <img src="/icons/auth/cup-white.png" alt="" />
                 <img src="/icons/auth/cup-black.png" alt="" />
