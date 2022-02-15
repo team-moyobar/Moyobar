@@ -129,3 +129,9 @@
 .profile-menu ul li.hovered img:last-child {
   display: inline-block;
 }
+
+.profile-ranking-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10%;
+}
