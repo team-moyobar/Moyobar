@@ -1,6 +1,9 @@
 package com.ssafy.common.auth;
 
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.exception.UserNotFoundException;
+import com.ssafy.db.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,13 +18,14 @@ import com.ssafy.db.entity.user.User;
  * 시큐리티 설정에서 요청이 오면 자동으로 UserDetailsService타입으로 IoC되어 있는 loadUserByUsername함수 실행됨
  */
 @Component
+@RequiredArgsConstructor
 public class SsafyUserDetailService implements UserDetailsService {
-    @Autowired
-    UserService userService;
+
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        User user = userService.getUserByUserId(userId);
+        User user = userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
         SsafyUserDetails userDetails = new SsafyUserDetails(user);
         return userDetails;
     }

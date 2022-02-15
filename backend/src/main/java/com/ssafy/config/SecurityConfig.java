@@ -1,8 +1,10 @@
 package com.ssafy.config;
 
+import com.ssafy.api.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
@@ -37,8 +39,11 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @EnableGlobalMethodSecurity(prePostEnabled = true) //AOP 보안 제공. 스프링 시큐리티의 메소드 어노테이션 기반 시큐리티를 활성화 하기 위해서 필요. preAuthorization활성화
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final SsafyUserDetailService ssafyUserDetailService;
-    private final UserService userService;
+
+    @Autowired
+    private SsafyUserDetailService ssafyUserDetailService;
+    @Autowired
+    private UserService userService;
 
     //소셜로그인 관련-OAuth2 기반으로 작동한 후 UserDB에 INSERT
     private final CustomOAuth2UserService customOAuth2UserService;

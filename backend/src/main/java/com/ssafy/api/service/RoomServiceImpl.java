@@ -49,8 +49,6 @@ public class RoomServiceImpl implements RoomService {
             room.setMax(6);
         if (registerInfo.getType() == RoomType.PRIVATE && registerInfo.getPassword() != null)
             room.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-        if (registerInfo.getThumbnail() != null)
-            room.setThumbnail(registerInfo.getThumbnail());
         room.setType(registerInfo.getType());
         room.setTheme(registerInfo.getTheme());
         return roomRepository.save(room);
@@ -70,8 +68,6 @@ public class RoomServiceImpl implements RoomService {
             room.setType(updateInfo.getType());
         if (updateInfo.getMax() != 0)
             room.setMax(updateInfo.getMax());
-        if (updateInfo.getThumbnail() != null)
-            room.setThumbnail(updateInfo.getThumbnail());
         if (updateInfo.getDescription() != null)
             room.setDescription(updateInfo.getDescription());
         if (updateInfo.getTitle() != null)
