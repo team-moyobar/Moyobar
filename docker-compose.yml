@@ -10,6 +10,8 @@ services:
       - "8080:8080"
     networks:
       - moyobar
+    environment:
+      - TZ=Asia/Seoul
   nginx:
     restart: always
     container_name: "moyobar_frontend"
@@ -21,6 +23,8 @@ services:
       - "3000:80"
     networks:
       - moyobar
+    environment:
+      - TZ=Asia/Seoul
 
   #openvidu:
   #  image: openvidu/openvidu-server-kms:2.19.0
