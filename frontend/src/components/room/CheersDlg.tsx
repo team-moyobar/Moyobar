@@ -47,7 +47,9 @@ export function CheersDlg(props: CheersDlgProps) {
       }}
     >
       <DialogTitle>
-        <p className="cheers-text"><span>{callUser}</span> 님의 건배 제의 🥂</p>
+        <p className="cheers-text">
+          <span>{callUser}</span> 님의 건배 제의 🥂
+        </p>
       </DialogTitle>
     </Dialog>
   );
