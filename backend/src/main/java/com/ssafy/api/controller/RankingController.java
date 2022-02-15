@@ -6,6 +6,7 @@ import com.ssafy.common.exception.ErrorResponse;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ import java.util.List;
  */
 @Api(value = "랭킹 API", tags = {"Ranking"})
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/rank")
 public class RankingController {
 
-    private final RankService rankService;
+    @Autowired
+    private RankService rankService;
 
     @GetMapping()
     @ApiOperation(value = "랭킹 순위 조회", notes = " 랭킹 순위를 조회 한다")

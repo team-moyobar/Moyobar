@@ -8,6 +8,7 @@ import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.room.HistoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -15,12 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service("historyService")
 public class HistoryServiceImpl implements HistoryService {
 
-    private final HistoryRepository historyRepository;
-    private final RoomService roomService;
+    @Autowired
+    private HistoryRepository historyRepository;
+    @Autowired
+    private RoomService roomService;
 
     @Override
     public History createHistory(Room room, User user) {
