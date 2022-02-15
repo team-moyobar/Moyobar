@@ -4,9 +4,6 @@ import ReactApexChart from 'react-apexcharts';
 import { Card, CardHeader, Box } from '@mui/material';
 //
 import BaseOptionChart from './BaseOptionChart';
-import { useEffect, useState } from 'react';
-import { getToken } from '../../routes/auth/Login';
-import axios from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -47,10 +44,6 @@ export default function Chart({logs, usernickname}) {
     },
   ];
 
-  
-
-
-
   const chartOptions = merge(BaseOptionChart(), {
     stroke: { width: [0, 2, 3] },
     plotOptions: { bar: { columnWidth: '20%', borderRadius: 4 } },
@@ -85,49 +78,17 @@ export default function Chart({logs, usernickname}) {
       }
     }
   });
-// const handleLogLoad = () => {
-//   const TOKEN = getToken("jwtToken");
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${TOKEN}`,
-//     },
-//   };
 
-//   axios
-//   .get(`/users/${usernickname}/logs`, config)
-//   .then((res) => {
-//     console.log(res.data);
-//     setLogs(res.data)
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//     console.log("fail...");
-//   });
-// }
-
-//   useEffect(() => {
-//     handleLogLoad();
-//   }, []);
-
-  
 
   return (
-    <Card>
-      <CardHeader title="모여바를 얼마나 이용했을까요?"  />
-      <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={500} />
-      </Box>
-      {/* <div>
-        <h1>엉엉</h1>
-        {logs.map((log) => {
-          return (
-            <div key={log.id}>
-              {log.date}
-            </div>
-          )
-        })}
-      </div> */}
-    </Card>
+    <div>
+      <h1>모여바에서 얼마나 모였을까요?</h1>
+      <Card style={{marginTop : "3%"}}>
+        <CardHeader/>
+        <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+          <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={500} />
+        </Box>
+      </Card>
+    </div>
   );
 }
