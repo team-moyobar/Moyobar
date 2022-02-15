@@ -79,6 +79,11 @@ function ProfileContent(props: StatusProps) {
     type: "",
     description: "",
   });
+  const [logs, setLogs] = useState({
+    date: "",
+    count: "",
+    elapsed_times : "0",
+  })
 
   const userStatus = props.status;
 
@@ -103,6 +108,33 @@ function ProfileContent(props: StatusProps) {
       });
   };
 
+  const handleLogLoad = () => {
+    const TOKEN = getToken("jwtToken");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+  
+    axios
+    .get(`/users/${userNickname}/logs`, config)
+    .then((res) => {
+      console.log(res.data);
+      setLogs(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("fail...");
+    });
+  }
+  
+
+  useEffect(() => {
+    handleProfileLoad();
+    handleLogLoad();
+    console.log(userNickname)
+  }, []);
   const updateCheck = (value: number) => {
     setUpdateKey(updateKey + value);
     props.flagUpdate('profile');
@@ -119,7 +151,7 @@ function ProfileContent(props: StatusProps) {
     case "update":
       return <ProfileUpdateForm user={user} updateCheck={updateCheck}/>;
     case "log":
-      return <Chart />;
+      return <Chart logs={logs} usernickname={userNickname}/>;
     default:
       return null;
   }
