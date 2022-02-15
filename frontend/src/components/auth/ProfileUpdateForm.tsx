@@ -174,6 +174,7 @@ const ProfileUpdateForm = (props: UpdateProps) => {
           <TextField
             id="outlined-basic"
             label="닉네임 변경"
+            InputLabelProps={{ style: { fontSize: 13 } }}
             variant="outlined"
             value={nickname}
             onChange={onChangeNickname}
@@ -184,7 +185,7 @@ const ProfileUpdateForm = (props: UpdateProps) => {
           <TextField
             id="outlined-textarea"
             label="자기소개를 입력해주세요"
-            // placeholder="Placeholder"
+            InputLabelProps={{ style: { fontSize: 13 } }}
             rows={3}
             multiline
             value={description}
@@ -199,22 +200,15 @@ const ProfileUpdateForm = (props: UpdateProps) => {
             inputProps={{ accept: "image/png, image/jpeg, image/jpg" }}
             onChange={onChangeImg}
             sx={{width: 1/3}}
+            InputLabelProps={{ style: { fontSize: 13 } }}
             InputProps={{
               startAdornment: <InputAdornment position="start"></InputAdornment>,
             }}
-            // defaultValue="파일을 선택해주세요"
           />
         </div>
         <div>
-          {/* <label>주량 : </label>
-                  <select name="" id="">
-                      <option value="soju">소주</option>
-                      <option value="beer">맥주</option>
-                      <option value="liquor">양주</option>
-                  </select>
-                  <input type="text" value={user.drink.beer} /> */}
           <FormControl>
-            <InputLabel id="demo-simple-select-label">주종</InputLabel>
+            <InputLabel id="demo-simple-select-label" style={{fontSize : "13px"}} >주종</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -230,6 +224,7 @@ const ProfileUpdateForm = (props: UpdateProps) => {
           <TextField
             id="outlined-basic"
             label="주량"
+            InputLabelProps={{ style: { fontSize: 13 } }}
             variant="outlined"
             value={drinkCnt}
             onChange={onChangeDrinkCnt}
