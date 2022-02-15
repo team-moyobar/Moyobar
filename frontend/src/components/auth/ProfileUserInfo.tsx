@@ -33,6 +33,10 @@ const ProfileUserInfo = (props: { user: UserInfo }) => {
         <span>{user.birthday}</span>
       </div>
       <div className="profile-item">
+        <span className="profile-item-title">자기소개</span>
+        <span>{user.description}</span>
+      </div>
+      <div className="profile-item">
         <span className="profile-item-title">주량</span>
         <span>
           {query} {user.drink.soju} 잔
