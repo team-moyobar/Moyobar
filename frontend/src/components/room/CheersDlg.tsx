@@ -42,6 +42,7 @@ export function CheersDlg(props: CheersDlgProps) {
           maxWidth: "100vh",
           minHeight: "60vh",
           maxHeight: "60vh",
+          backgroundRepeat: "no-repeat",
         },
       }}
     >
