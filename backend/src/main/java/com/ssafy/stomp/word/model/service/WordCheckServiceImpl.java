@@ -1,8 +1,8 @@
 package com.ssafy.stomp.word.model.service;
 
 import com.ssafy.stomp.word.model.dictionary.DictionaryResult;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
@@ -13,7 +13,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service("wordCheckService")
 public class WordCheckServiceImpl implements WordCheckService {
 
@@ -23,7 +22,8 @@ public class WordCheckServiceImpl implements WordCheckService {
     private String OPEN_DICT_KEY;
     private String OPEN_DICT_URL = "http://opendict.korean.go.kr/api/search";
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public boolean isInDictionary(String word) {

@@ -1,6 +1,5 @@
 package com.ssafy.config;
 
-import com.ssafy.api.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

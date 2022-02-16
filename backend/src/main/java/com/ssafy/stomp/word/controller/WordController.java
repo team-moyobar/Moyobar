@@ -9,9 +9,9 @@ import com.ssafy.stomp.word.model.manager.GameManager;
 import com.ssafy.stomp.model.service.GameService;
 
 import com.ssafy.stomp.word.request.CurrPlayerReq;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -28,14 +28,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 public class WordController {
 
     private static final String GAME_NAME = "초성";
 
-    private final RoomService roomService;
-    private final GameService gameService;
-    private final WordCheckService wordCheckService;
+    @Autowired
+    private RoomService roomService;
+    @Autowired
+    private GameService gameService;
+    @Autowired
+    private WordCheckService wordCheckService;
 
     // 방 별로 게임 매니징하는 역할. 아래와 같이 Map 형식으로 각각의 방에 대한 게임 매니저 정보를 저장
     private static final class ManagerHolder {

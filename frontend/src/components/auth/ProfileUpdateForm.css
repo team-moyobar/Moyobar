@@ -1,16 +1,41 @@
-.profile-update-content{
-  width: 100;
+.profile-update-content {
+  width: 50%;
+  height: 100%;
+  padding-left: 5%;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+}
+.update-title {
+  margin-bottom: 12%;
 }
 
-.profile-update-form-contents{
+.update-title p {
+  font-size: 30px;
+}
+.profile-update-form-contents {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  margin-top: 5%;
-  margin-left: 2%;
+  height: 80%;
 }
-.profile-update-form-contents div{
-  margin-top: 1%;
-  margin-bottom: 1%;
+.profile-update-form-contents div {
+  margin-bottom: 3%;
+}
+
+.select-font-size {
+  font-size: 13px;
+}
+
+.profile-update-submit {
+  width: 30%;
+  text-align: center;
+  align-self: center;
+  font-size: 20px;
+  margin-bottom: 0;
+  margin-top: auto;
+  color: rgb(107, 107, 204);
+  font-weight: 900;
+  letter-spacing: 4px;
+  cursor: pointer;
 }

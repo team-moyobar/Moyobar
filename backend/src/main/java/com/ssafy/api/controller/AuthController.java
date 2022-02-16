@@ -7,7 +7,6 @@ import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.security.oauth2.entity.ProviderType;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +32,14 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "인증 API", tags = {"Auth"})
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    private final UserService userService;
-    private final SimpMessagingTemplate template;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SimpMessagingTemplate template;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

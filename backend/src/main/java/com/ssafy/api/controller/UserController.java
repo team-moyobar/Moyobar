@@ -8,8 +8,8 @@ import com.ssafy.api.response.UserLogRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.*;
 import com.ssafy.common.service.S3Service;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -38,14 +38,16 @@ import java.util.List;
  */
 @Api(value = "유저 API", tags = {"User"})
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private final UserService userService;
-    private final S3Service s3Service;
-    private final SimpMessagingTemplate template;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private S3Service s3Service;
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @PostMapping()
     @ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")

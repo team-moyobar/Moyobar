@@ -9,7 +9,6 @@ import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.user.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
@@ -33,16 +32,18 @@ import java.util.*;
  * 주량 관련 비즈니스 로직도 함께 정의.
  */
 @Slf4j //log함수용
-@RequiredArgsConstructor
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Value("${moyobar.profile.default}")
     private String DEFAULT_PATH;
 
-    private final UserRepository userRepository;
-    private final DrinkRepository drinkRepository;
-    private final HistoryRepository historyRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DrinkRepository drinkRepository;
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

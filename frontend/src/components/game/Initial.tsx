@@ -274,6 +274,7 @@ export default function StompInitial() {
 
   return (
     <div className="initial-component">
+      {isGameStart === false && <p className="init-title">ㅊㅅ ㅋㅈ</p>}
       {nickName === owner && isGameStart === false && (
         <button className="game-start-button" onClick={handleClickStart}>
           START
@@ -281,20 +282,23 @@ export default function StompInitial() {
       )}
       {isGameStart === true && (
         <div className="initial-consonant">
-          <p>
+          <p className="init-key">
             제시어 <span>{consonant}</span>
           </p>
         </div>
       )}
       {isGameStart === true && (
         <div>
-          {curTurnRecUser !== "" && <p>[{curTurnRecUser}] 음성인식 시작...</p>}
+          {curTurnRecUser !== "" && (
+            <div className="init-div">
+              <p className="init-user">{curTurnRecUser} </p>
+              <p>음성 인식 중입니다...</p>
+            </div>
+          )}
           {curTurnRes !== "" && (
-            <div>
-              <p>
-                [{curTurnEndUser}] 음성인식 결과 [{curTurnWord}].. [{curTurnRes}
-                ]
-              </p>
+            <div className="init-div">
+              <p>음성인식 결과 {curTurnWord}</p>
+              <p className="init-res">{curTurnRes}</p>
             </div>
           )}
         </div>

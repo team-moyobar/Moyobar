@@ -1,7 +1,7 @@
 package com.ssafy.stomp.contoller;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @Slf4j
-@RequiredArgsConstructor
 @RestController
 public class GameController {
 
-    private final SimpMessagingTemplate webSocket;
+    @Autowired
+    private SimpMessagingTemplate webSocket;
 
     @MessageMapping("/sendTo")
     @SendTo("/topics/sendTo")

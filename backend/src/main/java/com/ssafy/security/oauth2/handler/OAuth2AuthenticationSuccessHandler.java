@@ -5,12 +5,10 @@ import com.ssafy.common.exception.BadRequestException;
 import com.ssafy.common.util.CookieUtils;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.config.AppConfig;
-import com.ssafy.db.entity.user.User;
-import com.ssafy.db.repository.user.UserRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -31,10 +29,13 @@ import java.util.*;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private final AppConfig appConfig;
-    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    @Autowired
+    private AppConfig appConfig;
+    @Autowired
+    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    @Autowired
+    private UserService userService;
 
     //성공 시 작동
     @Override
@@ -92,8 +93,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
         CookieUtils.addCookie(response, "nickname", nickname,180);
 
-        log.info("nickname: "+nickname);
-        log.info("jwtToken: "+token);
+        // 로그인한 사용자 목록 추가
+        userService.addUserOnline(userId);
+
+        log.info("nickname: {}", nickname);
+        log.info("jwtToken: {}", token);
 
         return redirectUri.orElse(getDefaultTargetUrl());
     }
