@@ -7,12 +7,16 @@ export default function LobbySideBarUserListItem({ item }: any) {
     history.push(`/profile/${item.nickname}`);
   };
   let query;
+  let howMany;
   if (item.drink.soju !== 0) {
     query = "소주";
+    howMany = `${item.drink.soju}병`;
   } else if (item.drink.beer !== 0) {
     query = "맥주";
+    howMany = `${item.drink.beer}캔`;
   } else if (item.drink.liquor !== 0) {
     query = "양주";
+    howMany = `${item.drink.liquor}잔`;
   }
 
   return (
@@ -27,7 +31,7 @@ export default function LobbySideBarUserListItem({ item }: any) {
         <h4>{item.nickname}</h4>
         {/* 여기에 이모티콘 추가 */}
         <p>
-          주량 : {query} {item.drink.soju} 잔
+          주량 : {query} {howMany}
         </p>
       </div>
     </div>
