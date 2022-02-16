@@ -26,12 +26,5 @@ services:
     environment:
       - TZ=Asia/Seoul
 
-  #openvidu:
-  #  image: openvidu/openvidu-server-kms:2.19.0
-  #  restart: always
-  #  ports:
-  #    - "4443:4443"
-  #  environment:
-  #    OPENVIDU_SECRET: MY_SECRET
 networks:
   moyobar:
