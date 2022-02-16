@@ -101,17 +101,12 @@ export default function LobbyCreateRoom() {
     axios
       .post(`rooms/${e.room_id}`, userData, config)
       .then((res) => {
-        console.log("입장성공");
-        console.log(res);
         history.push({
           pathname: `/room/${res.data.room_id}/${owner}`,
-          state: {roomInfo: res.data}
+          state: { roomInfo: res.data },
         });
       })
-      .catch((err) => {
-        console.log("Fail..");
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const handleSubmit = (e: any) => {
@@ -130,7 +125,6 @@ export default function LobbyCreateRoom() {
       }
     } else {
       const TOKEN = getToken("jwtToken");
-      console.log(TOKEN);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -151,14 +145,9 @@ export default function LobbyCreateRoom() {
       axios
         .post("/rooms", userData, config)
         .then((res) => {
-          console.log("success");
-          console.log(res);
           intoRoom(res.data);
         })
-        .catch((err) => {
-          console.log("Fail..");
-          console.log(err);
-        })
+        .catch(() => {})
         .finally(() => {
           handleClose();
           setValues(INITIAL_VALUES);
@@ -205,11 +194,10 @@ export default function LobbyCreateRoom() {
             value={values.title}
             onChange={handleChange}
             color="primary"
-            error={errorMessage == true ? true : false}
-            helperText={errorMessage == true ? "방이름을 입력해주세요" : false}
+            error={errorMessage === true ? true : false}
+            helperText={errorMessage === true ? "방이름을 입력해주세요" : false}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="인원수"
@@ -223,7 +211,6 @@ export default function LobbyCreateRoom() {
             color="primary"
           />
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="방소개"
@@ -249,7 +236,6 @@ export default function LobbyCreateRoom() {
             </label>
             <TextField
               disabled={passwordDisabled}
-              autoFocus
               fullWidth
               margin="dense"
               id="name"
@@ -259,9 +245,11 @@ export default function LobbyCreateRoom() {
               value={values.password}
               onChange={handleChange}
               color="primary"
-              error={passwordErrorMessage == true ? true : false}
+              error={passwordErrorMessage === true ? true : false}
               helperText={
-                passwordErrorMessage == true ? "비밀번호를 입력해주세요" : false
+                passwordErrorMessage === true
+                  ? "비밀번호를 입력해주세요"
+                  : false
               }
             />
           </div>

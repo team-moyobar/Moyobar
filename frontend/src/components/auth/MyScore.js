@@ -1,10 +1,9 @@
 import ReactApexChart from "react-apexcharts";
-import React, { Component } from "react";
+import React from "react";
 
 class MyScore extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.score);
 
     this.state = {
       series: [props.score.score],
@@ -36,7 +35,7 @@ class MyScore extends React.Component {
             track: {
               background: "#fff",
               strokeWidth: "67%",
-              margin: 0, // margin is in pixels
+              margin: 0,
               dropShadow: {
                 enabled: true,
                 top: -3,

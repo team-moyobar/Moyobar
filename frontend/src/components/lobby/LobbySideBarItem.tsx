@@ -18,16 +18,14 @@ export default function LobbySideBarUserListItem({ item }: any) {
   return (
     <div onClick={routeProfile} className="lobby-sidebar-item-container">
       <div className="lobby-left-img">
-        <img
-          src={item.img}
-          alt=""
-        />
+        <img src={item.img} alt="" />
       </div>
       <div className="lobby-left-content">
         <div className="lobby-profile">
           <img src="/icons/lobby/lobbyprofile.png" alt="" />
         </div>
         <h4>{item.nickname}</h4>
+        {/* 여기에 이모티콘 추가 */}
         <p>
           주량 : {query} {item.drink.soju} 잔
         </p>

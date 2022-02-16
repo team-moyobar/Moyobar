@@ -50,9 +50,9 @@
   }
 }
 
-@font-face {
-  font-family: neon;
-  src: url("/public/font/RixNeonSign\ Bold.ttf");
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  color: rgba(177, 177, 177, 0.65) !important;
+  font-size: 14px !important;
 }
 
 .signup-right {

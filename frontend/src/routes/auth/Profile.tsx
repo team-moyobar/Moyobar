@@ -112,13 +112,9 @@ function ProfileContent(props: StatusProps) {
     axios
       .get(`/users/info/${userNickname}`, config)
       .then((res) => {
-        console.log(res.data);
         setUser(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-        console.log("fail...");
-      });
+      .catch(() => {});
   };
 
   const handleLogLoad = () => {
@@ -133,13 +129,9 @@ function ProfileContent(props: StatusProps) {
     axios
       .get(`/users/${userNickname}/logs`, config)
       .then((res) => {
-        console.log(res.data);
         setLogs(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-        console.log("fail...");
-      });
+      .catch(() => {});
   };
 
   const handleRankingLoad = () => {
@@ -154,36 +146,26 @@ function ProfileContent(props: StatusProps) {
     axios
       .get(`/rank`, config)
       .then((res) => {
-        console.log(res.data);
         setRanking(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-        console.log("fail...");
-      });
+      .catch(() => {});
 
     axios
       .get(`/rank/${userNickname}`, config)
       .then((res) => {
-        console.log(res.data);
         setScore(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-        console.log("fail...");
-      });
+      .catch(() => {});
   };
 
   useEffect(() => {
     handleProfileLoad();
     handleLogLoad();
     handleRankingLoad();
-    console.log(userNickname);
   }, []);
   const updateCheck = (value: number) => {
     setUpdateKey(updateKey + value);
     props.flagUpdate("profile");
-    console.log(updateKey);
   };
 
   useEffect(() => {
@@ -198,13 +180,16 @@ function ProfileContent(props: StatusProps) {
     case "log":
       return <Chart logs={logs} usernickname={userNickname} />;
     case "ranking":
-      console.log(score.rank)
+      console.log(score.rank);
       return (
         <div className="rank-container">
           <p className="rank-title">
-             <span>{userNickname}</span> 님의 술게임 실력은?
+            <span>{userNickname}</span> 님의 술게임 실력은?
           </p>
-          <p className="rank-content">{userNickname} 님의 순위는 <span className="rank-person">{score.rank}</span>위 입니다.</p>
+          <p className="rank-content">
+            {userNickname} 님의 순위는{" "}
+            <span className="rank-person">{score.rank}</span>위 입니다.
+          </p>
           <div className="profile-ranking-container">
             <div style={{ width: "65%" }}>
               <Ranking ranking={ranking} MyScore={score} />
@@ -236,9 +221,6 @@ export default function Profile() {
     if (myNickname !== userNickname) {
       setFlag(false);
     }
-
-    console.log(`현재 로그인한 닉네임 : ${myNickname}`);
-    console.log(`프로필 보고싶은 사람 닉네임 : ${userNickname}`);
   }, []);
 
   const setStatusProfile = () => {

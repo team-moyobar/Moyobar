@@ -1,4 +1,3 @@
-import "./LobbySideBar.css";
 import LobbySideBarItem from "./LobbySideBarItem";
 export default function LobbySideBar({ items }: any) {
   console.log(items);

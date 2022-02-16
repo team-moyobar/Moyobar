@@ -3,21 +3,19 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Signup.css";
-import { RootState } from "../../redux/store";
 import { useEffect } from "react";
-import { AnyIfEmpty, useSelector } from "react-redux";
 import { getToken } from "./Login";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import DialogActions from "@mui/material/DialogActions";
 
 import TextField from "@mui/material/TextField";
@@ -110,14 +108,13 @@ export default function Signup() {
 
   const checkBirth = () => {
     var year = birth?.getFullYear();
-    console.log(birth);
-    if (year && birthAnimal === (year % 12)) {
-      alert("성인인증 성공!")
+    if (year && birthAnimal === year % 12) {
+      alert("성인 인증이 완료되었습니다.");
       setCheckBirth(true);
       setOpenBirthDlg(false);
     } else {
       setCheckBirth(false);
-      alert("성인인증 실패!")
+      alert("성인 인증에 실패하였습니다.");
     }
   };
 
@@ -133,14 +130,11 @@ export default function Signup() {
           setFlagUserId();
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const checkNickname = (e: any) => {
     e.preventDefault();
-    console.log(`${nickname}`);
     axios
       .get(`/users/nickname/${nickname}`)
       .then((res) => {
@@ -151,19 +145,14 @@ export default function Signup() {
           setFlagNickname();
         }
       })
-      .catch((err) => {
-        console.log("서버와 통신오류.. 잠시 뒤 다시 실행해주세요");
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const { register, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (flagUserId) {
-      console.log(`flagUserId : ${flagUserId}`);
       if (flagNickname) {
-        console.log(`flagNickname : ${flagNickname}`);
         if (flagBirth) {
           axios
             .post("/users", {
@@ -177,23 +166,18 @@ export default function Signup() {
               phone: data.phoneNumber,
               type: "LOCAL",
             })
-            .then((res) => {
-              console.log("success");
-              console.log(res);
+            .then(() => {
               history.push("/login");
             })
-            .catch((err) => {
-              console.log("Fail..");
-              console.log(err);
-            });
+            .catch(() => {});
         } else {
-          alert("생년월일 인증 해주세요");
+          alert("성인 인증을 해주세요.");
         }
       } else {
-        alert("닉네임 중복검사 해주세요");
+        alert("닉네임 중복검사를 해주세요.");
       }
     } else {
-      alert("아이디 중복검사 해주세요");
+      alert("아이디 중복검사를 해주세요.");
     }
   };
 
@@ -353,7 +337,7 @@ export default function Signup() {
               }}
             >
               <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                <InputLabel style={{fontSize : "13px"}}>띠</InputLabel>
+                <InputLabel style={{ fontSize: "13px" }}>띠</InputLabel>
                 <Select
                   autoFocus
                   value={birthAnimal}
