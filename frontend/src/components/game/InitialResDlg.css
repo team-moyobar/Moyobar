@@ -66,3 +66,22 @@
 .stt-submit:hover {
   background-color: rgba(29, 29, 29, 0.95);
 }
+
+.liarresdlg-container ul {
+  list-style: none;
+  padding-left: 0;
+  padding-top: 10px;
+}
+
+.init-res-count {
+  color: rgb(190, 180, 26);
+  margin-top: 8%;
+}
+
+.liarresdlg-container h2 {
+  color: rgb(214, 127, 19);
+}
+
+.init-nick {
+  color: #2dfc52;
+}

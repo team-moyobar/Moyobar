@@ -46,12 +46,13 @@ export function InitialResDlg(props: InitialResDlgProps) {
         },
       }}
     >
-      <div className="liarresdlg-container">
+      <div className="liarresdlg-container init-contain">
         <h2>게임결과</h2>
         <ul>
           {gameRes.map((result) => (
             <li key={result.nickname}>
-              {result.nickname} : 맞춘 횟수 {result.corrcnt}
+              <span className="init-nick">{result.nickname}</span> : 맞춘 횟수{" "}
+              <span className="init-res-count">{result.corrcnt}</span>
             </li>
           ))}
         </ul>

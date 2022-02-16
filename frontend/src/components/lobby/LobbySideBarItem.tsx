@@ -29,9 +29,26 @@ export default function LobbySideBarUserListItem({ item }: any) {
           <img src="/icons/lobby/lobbyprofile.png" alt="" />
         </div>
         <h4>{item.nickname}</h4>
-        {/* 여기에 이모티콘 추가 */}
-        <p>
-          주량 : {query} {howMany}
+        <p className="lobby-div2">
+          주량:
+          {query === "소주" && (
+            <span className="lobby-soju">
+              {query}
+              <span className="lobby-basic">{howMany}</span>
+            </span>
+          )}
+          {query === "맥주" && (
+            <span className="lobby-beer">
+              {query}
+              <span className="lobby-basic">{howMany}</span>
+            </span>
+          )}
+          {query === "양주" && (
+            <span className="lobby-liquor">
+              {query}
+              <span className="lobby-basic">{howMany}</span>
+            </span>
+          )}
         </p>
       </div>
     </div>
