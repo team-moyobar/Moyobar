@@ -11,8 +11,8 @@ import com.ssafy.stomp.updown.model.manager.GameManager;
 import com.ssafy.stomp.updown.request.CheckAnswerReq;
 import com.ssafy.stomp.updown.response.CheckResultRes;
 import com.ssafy.stomp.updown.response.GameInfoRes;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -27,14 +27,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @RestController
 @Slf4j
-@RequiredArgsConstructor
 public class UpDownController {
 
     private static final String GAME_NAME = "업다운";
 
-    private final SimpMessagingTemplate template;
-    private final HistoryService historyService;
-    private final GameService gameService;
+    @Autowired
+    private SimpMessagingTemplate template;
+    @Autowired
+    private HistoryService historyService;
+    @Autowired
+    private GameService gameService;
 
     // 모든 게임을 관리할 수 있는 싱글톤 클래스
     private static final class ManagerHolder {
