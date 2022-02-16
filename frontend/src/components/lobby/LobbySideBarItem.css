@@ -83,3 +83,49 @@
   transition: 0.5s;
   text-align: start;
 }
+
+.lobby-soju {
+  color: rgba(30, 202, 15, 0.5);
+  margin-left: 5px;
+  transition: 0.3s;
+}
+
+.lobby-liquor {
+  color: rgba(90, 54, 0, 0.5);
+  margin-left: 5px;
+  transition: 0.3s;
+}
+
+.lobby-beer {
+  color: rgba(181, 184, 17, 0.5);
+  margin-left: 5px;
+  transition: 0.3s;
+}
+
+.lobby-basic {
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 5px;
+  transition: 0.3s;
+}
+
+.lobby-div2 {
+  font-weight: 600;
+  letter-spacing: 3px;
+  font-size: 13px !important;
+}
+
+.lobby-sidebar-item-container:hover .lobby-basic {
+  color: white !important;
+}
+
+.lobby-sidebar-item-container:hover .lobby-soju {
+  color: rgb(30, 202, 15);
+}
+
+.lobby-sidebar-item-container:hover .lobby-beer {
+  color: rgb(181, 184, 17);
+}
+
+.lobby-sidebar-item-container:hover .lobby-liquor {
+  color: rgb(90, 54, 0);
+}
