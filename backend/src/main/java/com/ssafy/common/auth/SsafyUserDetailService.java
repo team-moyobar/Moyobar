@@ -1,10 +1,8 @@
 package com.ssafy.common.auth;
 
-import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

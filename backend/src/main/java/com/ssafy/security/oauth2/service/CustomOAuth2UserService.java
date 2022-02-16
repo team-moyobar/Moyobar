@@ -7,12 +7,10 @@ import com.ssafy.db.entity.user.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -44,8 +42,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Value("${moyobar.profile.default}")
     private String DEFAULT_PATH;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -112,7 +108,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase())); //타입 지정
         Drink drink = new Drink();
         user.setDrink(drink); //User table에 반영
-//        user.setPassword(passwordEncoder.encode(oAuth2UserInfo.getNickname())); //일반 로그인 못하도록 임의의 패스워드 설정
         user.setImg(DEFAULT_PATH); //디폴트 이미지 추가
 
         return userRepository.save(user); //db에 회원가입 완료

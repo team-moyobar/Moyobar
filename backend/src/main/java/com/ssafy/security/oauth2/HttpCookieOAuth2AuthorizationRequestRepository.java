@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Spring OAuth2 기능으로, Authorization Request를 Based64 encoded cookie에 저장하기 위한 클래스

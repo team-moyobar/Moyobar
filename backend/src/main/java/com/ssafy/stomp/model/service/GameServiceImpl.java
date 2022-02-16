@@ -1,7 +1,5 @@
 package com.ssafy.stomp.model.service;
 
-
-import com.ssafy.api.service.UserService;
 import com.ssafy.common.exception.UserNotFoundException;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.db.entity.game.GameCategory;
