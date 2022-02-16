@@ -18,6 +18,8 @@ server:
 spring:
   profiles:
     include: secret
+  main:
+    allow-bean-definition-overriding: true
   devtools:
     livereload:
       enabled: true
