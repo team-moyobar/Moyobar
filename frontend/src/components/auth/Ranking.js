@@ -1,42 +1,31 @@
-import { merge } from 'lodash';
-import ReactApexChart from 'react-apexcharts';
+import { merge } from "lodash";
+import ReactApexChart from "react-apexcharts";
 // material
-import { Box, Card, CardHeader } from '@mui/material';
+import { Box, Card, CardHeader } from "@mui/material";
 // utils
-import numeral from 'numeral'
+import numeral from "numeral";
 //
-import BaseOptionChart from './BaseOptionChart';
+import BaseOptionChart from "./BaseOptionChart";
 
 // ----------------------------------------------------------------------
-
-
 
 export function fNumber(number) {
   return numeral(number).format();
 }
 
-export default function Ranking({ranking, MyScore}) {
+export default function Ranking({ ranking, MyScore }) {
+  console.log(ranking);
 
-  console.log(ranking)
+  let player = [];
 
-  let player = []
-  
-  for ( let i = 0; i < ranking.length; i++) {
-    player.push( ` ${i+1}위  ${ranking[i]['nickname']}`)
+  for (let i = 0; i < ranking.length; i++) {
+    player.push(`${ranking[i]["nickname"]}`);
   }
+  let score = [];
 
-  player.push(MyScore.nickname)
-
-  let score = []
-  
-  for ( let i = 0; i < ranking.length; i++) {
-    score.push(ranking[i]['score'])
+  for (let i = 0; i < ranking.length; i++) {
+    score.push(ranking[i]["score"]);
   }
-
-  score.push(MyScore.score)
-
-  console.log(player)
-  console.log(score)
   const CHART_DATA = [{ data: score }];
 
   const chartOptions = merge(BaseOptionChart(), {
@@ -45,23 +34,28 @@ export default function Ranking({ranking, MyScore}) {
       y: {
         formatter: (seriesName) => fNumber(seriesName),
         title: {
-          formatter: (seriesName) => '포인트'
-        }
-      }
+          formatter: (seriesName) => "포인트",
+        },
+      },
     },
     plotOptions: {
-      bar: { horizontal: true, barHeight: '80%', borderRadius: 2 }
+      bar: { horizontal: true, barHeight: "80%", borderRadius: 2 },
     },
     xaxis: {
-      categories: player
-    }
+      categories: player,
+    },
   });
 
   return (
-    <Card >
-      <CardHeader title="모여바 게임 랭킹" />
+    <Card>
+      <CardHeader title="🥇 모여바 TOP 10" />
       <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={CHART_DATA} options={chartOptions} height={364} />
+        <ReactApexChart
+          type="bar"
+          series={CHART_DATA}
+          options={chartOptions}
+          height={364}
+        />
       </Box>
     </Card>
   );

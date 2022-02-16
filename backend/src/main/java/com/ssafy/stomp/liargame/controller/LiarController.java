@@ -8,8 +8,8 @@ import com.ssafy.stomp.liargame.response.GameEndRes;
 import com.ssafy.stomp.liargame.response.GameStartRes;
 import com.ssafy.stomp.liargame.response.VoteRes;
 import com.ssafy.stomp.model.service.GameService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -26,12 +26,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 public class LiarController {
     private static final String GAME_NAME = "라이어";
 
-    private final RoomService roomService;
-    private final GameService gameService;
+    @Autowired
+    private RoomService roomService;
+    @Autowired
+    private GameService gameService;
 
     // 방 별로 게임 매니징하는 역할. 아래와 같이 Map 형식으로 각각의 방에 대한 게임 매니저 정보를 저장
     private static final class ManagerHolder {

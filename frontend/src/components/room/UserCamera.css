@@ -163,6 +163,33 @@
   filter: drop-shadow(0 0 2px #2dfc52) drop-shadow(0 0 5px #2dfc52)
     drop-shadow(0 0 15px #2dfc52);
 }
+
+.game-end-button {
+  border: 0;
+  border-top-right-radius: 8px;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 32px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.game-end-button:hover {
+  background: rgba(51, 56, 73, 0.7);
+}
+
+.game-end-button:hover ion-icon {
+  color: #FC2D52;
+  filter: drop-shadow(0 0 2px #FC2D52) drop-shadow(0 0 5px #FC2D52)
+    drop-shadow(0 0 15px #FC2D52);
+}
+
 .gamebox-center {
   width: 100%;
   height: 83%;
@@ -176,22 +203,22 @@
   align-items: center;
   justify-content: center;
   border-bottom-right-radius: 8px;
-  background: rgb(235, 0, 0);
-  font-size: 32px;
+  background: rgb(148, 6, 6);
+  font-size: 40px;
   cursor: pointer;
   color: #fff;
   transition: 0.2s;
 }
 
 .gamebox-bottom:hover {
-  background: #a01818;
+  background: #d30606;
 }
 
-.gamebox-bottom:hover ion-icon {
+/* .gamebox-bottom:hover ion-icon {
   color: #ff0000;
   filter: drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 10px #ff0000)
     drop-shadow(0 0 20px #ff0000);
-}
+} */
 
 .room-green {
   color: #2dfc52 !important;
