@@ -69,12 +69,12 @@ export function LiarResDlg(props: LiarResDlgProps) {
         </ul>
         {winner === "liar" && (
           <p>
-            라이어 <span>승리</span>
+            라이어 <span>승리!</span>
           </p>
         )}
         {winner !== "liar" && (
           <p>
-            라이어 <span>패배</span>
+            라이어 <span>패배!</span>
           </p>
         )}
       </div>

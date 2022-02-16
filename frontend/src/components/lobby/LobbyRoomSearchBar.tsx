@@ -51,7 +51,7 @@ export default function LobbyRoomSearchBar({ onSubmit }: any) {
         onClick={handleSubmit}
         className="search-button"
       >
-        <p>검색</p>
+        <p className="lobby-search-button-text">검색</p>
       </Button>
     </div>
   );
