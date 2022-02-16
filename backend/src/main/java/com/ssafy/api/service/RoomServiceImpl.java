@@ -10,8 +10,8 @@ import com.ssafy.db.entity.room.RoomType;
 import com.ssafy.db.entity.user.User;
 import com.ssafy.db.repository.room.HistoryRepository;
 import com.ssafy.db.repository.room.RoomRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,16 +25,19 @@ import java.util.List;
  * 미팅 룸 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
 @Slf4j
-@RequiredArgsConstructor
 @Service("roomService")
 public class RoomServiceImpl implements RoomService {
 
-    private final RoomRepository roomRepository;
-    private final HistoryRepository historyRepository;
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired
+    private HistoryRepository historyRepository;
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Room createRoom(RoomRegisterPostReq registerInfo, User owner) {

@@ -1,13 +1,13 @@
-import ReactApexChart from 'react-apexcharts';
+import ReactApexChart from "react-apexcharts";
 import React, { Component } from "react";
 
 class MyScore extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.score)
+    console.log(props.score);
 
     this.state = {
-      series: [props.score.rank],
+      series: [props.score.score],
       options: {
         chart: {
           height: 350,
@@ -81,7 +81,7 @@ class MyScore extends React.Component {
         stroke: {
           lineCap: "round",
         },
-        labels: [`${props.score.nickname}의 랭킹`],
+        labels: ["획득 포인트"],
       },
     };
   }
@@ -101,4 +101,4 @@ class MyScore extends React.Component {
     );
   }
 }
-export default MyScore
+export default MyScore;

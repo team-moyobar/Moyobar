@@ -1,15 +1,45 @@
-.MuiDialog-root {
-  color: white;
-  font-size: large;
-  text-align: center;
+.sg-title {
+  font-family: SBAggroL;
+  letter-spacing: 3px;
+  color: rgb(92, 25, 25);
+  font-weight: 900;
 }
 
-.MuiDialogTitle-root {
-  color: white;
-  font-size: large;
-  text-align: center;
+.sg-container {
+  display: flex;
+  font-family: SBAggroL;
+  letter-spacing: 3px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.gs-button-liar {
-  padding: 20px;
+.sg-text {
+  transition: 0.2s;
+}
+.sg-container div {
+  width: 40%;
+  height: 20%;
+
+  background-color: rgba(34, 34, 34, 0.8);
+  cursor: pointer;
+  margin: 3%;
+  border-radius: 8px;
+  box-shadow: 0px 10px 10px black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: 0.2s;
+}
+
+.sg-container div:hover .sg-text {
+  color: #2dfc52;
+  filter: drop-shadow(0 0 2px #2dfc52) drop-shadow(0 0 5px #2dfc52)
+    drop-shadow(0 0 15px #2dfc52);
+}
+
+.sg-container div:hover {
+  background-color: rgba(29, 29, 29, 0.95);
 }

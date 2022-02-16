@@ -224,7 +224,7 @@ function StompUpdown() {
   return (
     <div className="updown-container">
       {gameStatus === "" ? (
-        <div className="updown-ready">
+        <div className="updown-ready updown-title">
           <span>U</span>
           <span>P</span>
           <span>&#38;</span>
@@ -235,50 +235,48 @@ function StompUpdown() {
         </div>
       ) : null}
       {gameStatus === "START" ? (
-        <div>
-          <div className="updown-ready">
-            <span>U</span>
-            <span>P</span>
-            <span>&#38;</span>
-            <span>D</span>
-            <span>O</span>
-            <span>W</span>
-            <span>N</span>
-          </div>
-          <p>지금 차례 : {turnOwner}</p>
-        </div>
+        <p>
+          지금 차례 :<span className="liar-hero">{turnOwner}</span>
+        </p>
       ) : null}
       {gameStatus === "PLAY" ? (
-        <div>
-          <div className="updown-ready">
-            <span>U</span>
-            <span>P</span>
-            <span>&#38;</span>
-            <span>D</span>
-            <span>O</span>
-            <span>W</span>
-            <span>N</span>
-          </div>
+        <div className="updown-div2">
           <CountdownCircleTimer
             isPlaying={isPlaying}
             duration={count}
             isSmoothColorTransition={true}
             key={countKey}
-            colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
             colorsTime={[8, 6.66, 3.33, 0]}
             onComplete={timeOut}
           >
             {({ remainingTime }) => remainingTime}
           </CountdownCircleTimer>
-          <p>지금 차례 : {turnOwner}</p>
-          <p>이전 결과</p>
           <p>
-            {resultUser}가 {resultAnswer}을 말했습니다.
+            <span className="updown-now">{resultUser}</span> 가 {resultAnswer}을
+            말했습니다.
           </p>
-          <p>그 결과 : {resultType}</p>
+          <p>
+            지금 차례 :<span className="liar-hero">{turnOwner}</span>
+          </p>
           {resultType === "UP" ? (
             <img src="/images/game/up.png" alt="up" />
-          ) : <img src="/images/game/down.png" alt="down" /> }
+          ) : (
+            <img src="/images/game/down.png" alt="down" />
+          )}
+          {nickname !== "" && turnOwner === nickname ? (
+            <div className="updown-playing">
+              <p className="updown-exp">숫자를 입력하세요.</p>
+              <input
+                className="updown-input2"
+                type="text"
+                onChange={onAnswerChange}
+              />
+              <button className="updown-submit" onClick={answerBtn}>
+                정답 제출하기
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : null}
       {gameStatus === "FINISH" ? (
@@ -289,7 +287,9 @@ function StompUpdown() {
       ) : null}
 
       {nickname === owner && gameStatus === "" ? (
-          <button className="game-start-button" onClick={startBtn}>START</button>
+        <button className="game-start-button" onClick={startBtn}>
+          START
+        </button>
       ) : null}
 
       {nickname !== owner && gameStatus === "" ? (
@@ -309,13 +309,17 @@ function StompUpdown() {
         </div>
       ) : null}
 
-      {nickname !== "" &&
-      turnOwner === nickname &&
-      (gameStatus === "PLAY" || gameStatus === "START") ? (
-        <div>
-          <input type="text" onChange={onAnswerChange} />
-          <br />
-          <button onClick={answerBtn}>SUBMIT</button>
+      {nickname !== "" && turnOwner === nickname && gameStatus === "START" ? (
+        <div className="updown-div1">
+          <p className="updown-exp">숫자를 입력하세요.</p>
+          <input
+            className="updown-input"
+            type="text"
+            onChange={onAnswerChange}
+          />
+          <button className="updown-submit" onClick={answerBtn}>
+            정답 제출하기
+          </button>
         </div>
       ) : null}
     </div>

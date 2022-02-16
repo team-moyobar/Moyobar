@@ -38,6 +38,7 @@ class UserCamera extends Component {
 
       roomTitle: props.roomInfo.title,
       roomTheme: props.roomInfo.theme,
+      owner: props.roomInfo.owner,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -51,6 +52,8 @@ class UserCamera extends Component {
     this.sendmessageByClick = this.sendmessageByClick.bind(this);
     this.sendmessageByEnter = this.sendmessageByEnter.bind(this);
     this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
+
+    this.handleEndGame = this.handleEndGame.bind(this);
   }
 
   componentDidMount() {
@@ -154,6 +157,16 @@ class UserCamera extends Component {
 
   chattoggle() {
     this.setState({ chaton: !this.state.chaton });
+  }
+
+  handleEndGame() {
+    const mySession = this.state.session;
+
+    mySession.signal({
+      data: "None",
+      to: [],
+      type: "selgame",
+    });
   }
 
   joinSession() {
@@ -408,9 +421,7 @@ class UserCamera extends Component {
         {this.state.session !== undefined ? (
           <div className="session">
             <div className="session-header">
-              <p>
-                {mySessionId}번 {title}
-              </p>
+              <p>{title}</p>
             </div>
             <div className={`session-center session-center-bg-${theme}`}>
               {this.state.publisher !== undefined ? (
@@ -420,7 +431,10 @@ class UserCamera extends Component {
                     this.handleMainVideoStream(this.state.publisher)
                   }
                 >
-                  <UserVideoComponent streamManager={this.state.publisher} />
+                  <UserVideoComponent
+                    streamManager={this.state.publisher}
+                    owner={this.state.owner}
+                  />
                 </div>
               ) : null}
               {this.state.subscribers.map((sub, i) => (
@@ -429,7 +443,10 @@ class UserCamera extends Component {
                   className={`stream-container${query}`}
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
-                  <UserVideoComponent streamManager={sub} />
+                  <UserVideoComponent
+                    streamManager={sub}
+                    owner={this.state.owner}
+                  />
                 </div>
               ))}
             </div>
@@ -472,18 +489,27 @@ class UserCamera extends Component {
             <div className="cheers-button" onClick={() => this.sendCheersMsg()}>
               <ion-icon name="beer-outline"></ion-icon>
             </div>
-            <div
-              className="game-select-button"
-              onClick={() => this.handleOpenGameSelect()}
-            >
-              <ion-icon name="game-controller-outline"></ion-icon>
-            </div>
+            {this.state.gameSelect == "None" ? (
+              <div
+                className="game-select-button"
+                onClick={() => this.handleOpenGameSelect()}
+              >
+                <ion-icon name="game-controller-outline"></ion-icon>
+              </div>
+            ) : (
+              <div
+                className="game-end-button"
+                onClick={() => this.handleEndGame()}
+              >
+                <ion-icon name="power-outline"></ion-icon>
+              </div>
+            )}
           </div>
           <div className="gamebox-center">
             <GameSelect receiveGameSelect={this.state.gameSelect}></GameSelect>
           </div>
           <div onClick={this.leaveSession} className="gamebox-bottom">
-            <ion-icon name="power-outline"></ion-icon>
+            <ion-icon name="enter-outline"></ion-icon>
           </div>
         </div>
         <div className="chatbox">
@@ -514,7 +540,7 @@ class UserCamera extends Component {
             </div>
           ) : null}
           <div className="chatbox__button" ref={this.chatButton}>
-            <button onClick={this.chattoggle}>● ● ●</button>
+            <button onClick={this.chattoggle}>CHAT</button>
           </div>
         </div>
         <CheersDlg

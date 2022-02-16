@@ -353,7 +353,7 @@ export default function Signup() {
               }}
             >
               <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                <InputLabel>띠</InputLabel>
+                <InputLabel style={{fontSize : "13px"}}>띠</InputLabel>
                 <Select
                   autoFocus
                   value={birthAnimal}
