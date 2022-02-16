@@ -39,3 +39,19 @@
   color: rgba(148, 148, 148, 0.8);
   font-size: 13px;
 }
+
+.lobby-search-button-text {
+  font-family: SBAggroL;
+}
+
+.css-v3zyv7-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  font-family: SBAggroL !important;
+}
+
+.css-1yl10x9-MuiFormLabel-root-MuiInputLabel-root {
+  font-family: SBAggroL !important;
+}
+
+.css-12wi0s0-MuiButtonBase-root-MuiMenuItem-root {
+  font-family: SBAggroL !important;
+}

@@ -45,7 +45,9 @@ export function UpdownResDlg(props: UpdownResDlgProps) {
       <div className="updownresdlg-container">
         <h2>게임결과</h2>
         <h4>
-          {username}님이 {answer}를 입력해 맞았습니다!
+          <span className="init-res-count">{username}</span>님이{" "}
+          <span className="updown-res-count">{answer}</span>를 입력해
+          승리하였습니다.
         </h4>
       </div>
     </Dialog>

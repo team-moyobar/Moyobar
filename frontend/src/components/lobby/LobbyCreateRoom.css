@@ -5,6 +5,9 @@
   margin-left: 20px;
 }
 
+.create-button-container p {
+  font-family: SBAggroL;
+}
 .create-button {
   width: 100%;
   height: 100%;
@@ -30,4 +33,13 @@
   text-transform: uppercase !important;
   letter-spacing: 10px !important;
   font-family: consolas !important;
+}
+
+.create-button-text {
+  font-family: SBAggroL;
+  font-size: 16px;
+}
+
+.private-room {
+  font-size: 50px !important;
 }
