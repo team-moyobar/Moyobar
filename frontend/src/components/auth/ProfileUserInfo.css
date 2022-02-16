@@ -29,7 +29,10 @@
   border-top: 1px solid rgba(0, 0, 0, 0.418);
   padding-left: 2%;
   align-items: center;
-  white-space: nowrap;
+}
+
+.profile-expself {
+  width: 60%;
 }
 
 .profile-item-title {

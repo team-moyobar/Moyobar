@@ -5,7 +5,6 @@ import Signup from "./routes/auth/Signup";
 import Login, { getToken } from "./routes/auth/Login";
 import Lobby from "./routes/lobby/Lobby";
 import Profile from "./routes/auth/Profile";
-
 import Room from "./routes/room/Room.js";
 
 import { useEffect } from "react";
@@ -31,7 +30,6 @@ function App() {
       <Route path="/profile/:userNickname" component={Profile} />
       <Route path="/room/:roomId/:owner" component={Room} />
     </Router>
-    
   );
 }
 

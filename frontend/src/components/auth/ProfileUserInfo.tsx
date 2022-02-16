@@ -15,7 +15,6 @@ const ProfileUserInfo = (props: { user: UserInfo }) => {
     query = "양주";
     howMany = `${user.drink.liquor}잔`;
   }
-  console.log(user.img);
 
   return (
     <div className="profile-userinfo-contents">
@@ -33,7 +32,7 @@ const ProfileUserInfo = (props: { user: UserInfo }) => {
       </div>
       <div className="profile-item">
         <span className="profile-item-title">자기소개</span>
-        <span>{user.description}</span>
+        <div className="profile-expself">{user.description}</div>
       </div>
       <div className="profile-item">
         <span className="profile-item-title">주량</span>

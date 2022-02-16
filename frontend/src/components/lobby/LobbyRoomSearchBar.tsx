@@ -12,12 +12,10 @@ export default function LobbyRoomSearchBar({ onSubmit }: any) {
 
   const handleChange = (event: SelectChangeEvent) => {
     setSearchBy(event.target.value as string);
-    console.log(searchBy);
   };
   const keywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setKeyword(value);
-    console.log(keyword);
   };
   const handleSubmit = () => {
     onSubmit({ searchBy, keyword });

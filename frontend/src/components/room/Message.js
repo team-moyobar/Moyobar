@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import { Component } from "react";
+import styled from "styled-components";
 
 const Username = styled.p`
   color: #42387a;

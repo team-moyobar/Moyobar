@@ -6,6 +6,26 @@
   align-content: center;
   flex-direction: column;
 }
+
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+  font-family: SBAggroL !important;
+  font-size: 15px !important;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  font-family: SBAggroL !important;
+  font-size: 15px !important;
+}
+.css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root {
+  font-family: SBAggroL !important;
+  font-size: 15px !important;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  font-family: SBAggroL !important;
+  font-size: 15px !important;
+}
+
 .update-title {
   margin-bottom: 12%;
 }

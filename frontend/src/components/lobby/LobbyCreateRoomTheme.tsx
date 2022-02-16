@@ -47,7 +47,6 @@ export default function LobbyCreateRoomTheme({ onChange }: any) {
   return (
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
       <TextField
-        autoFocus
         margin="dense"
         id="name"
         label="테마"
