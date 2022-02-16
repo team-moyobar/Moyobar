@@ -169,8 +169,10 @@ export default function LobbyRoomListItem({ item }: any) {
           ) : null}
           <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
             <Button onClick={entranceRoom}>
-              <img src="/icons/lobby/enter.png" alt="" />
-              입장하기
+              <p className="lobby-enter-button">
+                <img src="/icons/lobby/enter.png" alt="" />
+                입장하기
+              </p>
             </Button>
           </Box>
         </Box>

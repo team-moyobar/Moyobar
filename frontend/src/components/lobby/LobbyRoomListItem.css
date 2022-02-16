@@ -205,3 +205,8 @@
 .css-e8drjz input {
   height: 30px;
 }
+
+.lobby-enter-button {
+  font-family: SBAggroL;
+  letter-spacing: 2px;
+}
