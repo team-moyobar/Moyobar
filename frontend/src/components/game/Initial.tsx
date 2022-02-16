@@ -216,6 +216,7 @@ export default function StompInitial() {
         destination: "/to/word/check/" + roomId,
         body: JSON.stringify({
           nickname: curTurnRecUserRef.current,
+          word: word,
           initial: consonantRef.current,
         }),
       });
