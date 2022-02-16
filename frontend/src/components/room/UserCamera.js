@@ -1,9 +1,8 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { Component } from "react";
+import { Component } from "react";
 import "./UserCamera.css";
 import UserVideoComponent from "./UserVideoComponent";
-import Button from "@mui/material/Button";
 import Messages from "./Messages";
 import GameSelect from "./GameSelect";
 import { CheersDlg } from "./CheersDlg";
@@ -11,7 +10,6 @@ import { GameSelectDlg } from "./GameSelectDlg";
 
 import { getToken as getCookie } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
-import { NoEncryption } from "@mui/icons-material";
 
 const OPENVIDU_SERVER_URL = "https://i6d210.p.ssafy.io:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -170,11 +168,7 @@ class UserCamera extends Component {
   }
 
   joinSession() {
-    // --- 1) Get an OpenVidu object ---
-
     this.OV = new OpenVidu();
-
-    // --- 2) Init a session ---
 
     this.setState(
       {
@@ -183,17 +177,11 @@ class UserCamera extends Component {
       () => {
         var mySession = this.state.session;
 
-        // --- 3) Specify the actions when events take place in the session ---
-
-        // On every new Stream received...
         mySession.on("streamCreated", (event) => {
-          // Subscribe to the Stream to receive it. Second parameter is undefined
-          // so OpenVidu doesn't create an HTML video by its own
           var subscriber = mySession.subscribe(event.stream, undefined);
           var subscribers = this.state.subscribers;
           subscribers.push(subscriber);
 
-          // Update the state with the new subscribers
           this.setState({
             subscribers: subscribers,
           });
@@ -225,77 +213,50 @@ class UserCamera extends Component {
           this.setState({
             cheerCallUser: event.data,
           });
-          this.handleOpenCheers(); // 건배 다이얼로그 오픈
+          this.handleOpenCheers();
         });
 
-        // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
-          // Remove the stream from 'subscribers' array
           this.deleteSubscriber(event.stream.streamManager);
         });
 
-        // On every asynchronous exception...
         mySession.on("exception", (exception) => {
           console.warn(exception);
         });
 
-        // --- 4) Connect to the session with a valid user token ---
-
-        // 'getToken' method is simulating what your server-side should do.
-        // 'token' parameter should be retrieved and returned by your own backend
         this.getToken().then((token) => {
-          // First param is the token got from OpenVidu Server. Second param can be retrieved by every user on event
-          // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(() => {
-              // --- 5) Get your own camera stream ---
-
-              // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
-              // element: we will manage it on our own) and with the desired properties
               let publisher = this.OV.initPublisher(undefined, {
-                audioSource: undefined, // The source of audio. If undefined default microphone
-                videoSource: undefined, // The source of video. If undefined default webcam
-                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
-                publishVideo: false, // Whether you want to start publishing with your video enabled or not
-                resolution: "640x480", // The resolution of your video
-                frameRate: 30, // The frame rate of your video
-                insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-                mirror: false, // Whether to mirror your local video or not
+                audioSource: undefined,
+                videoSource: undefined,
+                publishAudio: false,
+                publishVideo: false,
+                resolution: "640x480",
+                frameRate: 30,
+                insertMode: "APPEND",
+                mirror: false,
               });
 
-              // --- 6) Publish your stream ---
-
               mySession.publish(publisher);
-
-              // Set the main video in the page to display our webcam and store our Publisher
               this.setState({
                 mainStreamManager: publisher,
                 publisher: publisher,
               });
             })
-            .catch((error) => {
-              console.log(
-                "There was an error connecting to the session:",
-                error.code,
-                error.message
-              );
-            });
+            .catch(() => {});
         });
       }
     );
   }
 
   leaveSession() {
-    // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
     const mySession = this.state.session;
 
     if (mySession) {
       mySession.disconnect();
     }
-
-    // Empty all properties...
     this.OV = null;
     this.setState({
       session: undefined,
@@ -313,15 +274,10 @@ class UserCamera extends Component {
           Authorization: `Bearer ${TOKEN}`,
         },
       })
-      .then((res) => {
-        console.log("success");
-        console.log(res);
+      .then(() => {
         this.props.history.push("/lobby");
       })
-      .catch((err) => {
-        console.log("Fail..");
-        console.log(err);
-      });
+      .catch(() => {});
   }
 
   componentDidMount() {
@@ -329,7 +285,7 @@ class UserCamera extends Component {
   }
 
   handleGameSelectButton() {
-    if (this.state.isGameSelectButtonClicked == false) {
+    if (this.state.isGameSelectButtonClicked === false) {
       this.setState({
         isGameSelectButtonClicked: true,
       });
@@ -415,7 +371,6 @@ class UserCamera extends Component {
       default:
     }
 
-    console.log(query);
     return (
       <div className="room-container">
         {this.state.session !== undefined ? (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import { useParams } from "react-router";
 
@@ -9,29 +9,24 @@ import { getToken } from "../../routes/auth/Login";
 
 import "./Initial.css";
 
-// stomp client 변수
 var client: Client | null = null;
 
-// 타이머 변수
 var timer: NodeJS.Timer | null = null;
 
-// 초성게임 플레이어 인터페이스
 export interface PlayersObj {
-  nickname: string; // 닉네임
-  turn: string; // 라운드
+  nickname: string;
+  turn: string;
 }
 
-// 초성게임 턴정보 인터페이스
 export interface TurnObj {
-  next: string; // 현재 순서 닉네임
-  initial: string; // 초성
-  gameturn: number; // 현재 턴
+  next: string;
+  initial: string;
+  gameturn: number;
 }
 
-// 초성게임 결과 인터페이스
 export interface ResultObj {
-  nickname: string; // 닉네임
-  corrcnt: string; // 맞춘횟수
+  nickname: string;
+  corrcnt: string;
 }
 
 export interface ParamsObj {
@@ -44,24 +39,24 @@ export default function StompInitial() {
   const { roomId } = useParams<{ roomId?: string }>();
   const { owner } = useParams<{ owner?: string }>();
 
-  const playersRef = useRef<PlayersObj[]>(); // 플레이어 레퍼런스
-  const consonantRef = useRef<string>(""); // 초성 레퍼런스
-  const curTurnRecUserRef = useRef<string>(""); // 현재 턴 음성인식 유저 이름
-  const curTurnEndUserRef = useRef<string>(""); // 현재 턴 결과 유저 이름
-  const curTurnWordRef = useRef<string>(""); // 현재 턴 입력 단어
-  const curTurnResRef = useRef<string>(""); // 현재 턴 인식 결과
+  const playersRef = useRef<PlayersObj[]>();
+  const consonantRef = useRef<string>("");
+  const curTurnRecUserRef = useRef<string>("");
+  const curTurnEndUserRef = useRef<string>("");
+  const curTurnWordRef = useRef<string>("");
+  const curTurnResRef = useRef<string>("");
 
   const [openSttDlg, setOpenSttDlg] = React.useState(false);
   const [openResDlg, setOpenResDlg] = React.useState(false);
-  const [consonant, setConsontant] = React.useState(""); // 초성
+  const [consonant, setConsontant] = React.useState("");
 
-  const [curTurnRecUser, setCurTurnRecUser] = React.useState(""); // 현재턴 음성인식 유저이름
-  const [curTurnEndUser, setCurTurnEndUser] = React.useState(""); // 현재턴 결과 유저이름
-  const [curTurnWord, setCurTurnWord] = React.useState(""); // 현재턴 입력 단어
-  const [curTurnRes, setCurTurnRes] = React.useState(""); // 현재턴 인식결과
+  const [curTurnRecUser, setCurTurnRecUser] = React.useState("");
+  const [curTurnEndUser, setCurTurnEndUser] = React.useState("");
+  const [curTurnWord, setCurTurnWord] = React.useState("");
+  const [curTurnRes, setCurTurnRes] = React.useState("");
 
-  const [isGameStart, setIsGameStart] = React.useState(false); // 게임 시작 여부
-  const [gameRes, setGameRes] = React.useState<ResultObj[]>([]); // 투표 결과
+  const [isGameStart, setIsGameStart] = React.useState(false);
+  const [gameRes, setGameRes] = React.useState<ResultObj[]>([]);
 
   const handleOpenStt = () => {
     if (curTurnRecUserRef.current === nickName) {
@@ -71,16 +66,14 @@ export default function StompInitial() {
 
   const handleCloseStt = (word: string) => {
     word = word.trim();
-    reqCheckWord(word); // 단어 맞는지 요청
+    reqCheckWord(word);
     setOpenSttDlg(false);
   };
 
-  // 게임결과 창 닫기
   const handleInitialResClose = () => {
     setOpenResDlg(false);
   };
 
-  // 초성게임 시작 메시지 전송
   const handleClickStart = () => {
     if (client != null) {
       if (!client.connected) return;
@@ -92,7 +85,7 @@ export default function StompInitial() {
   };
 
   useEffect(() => {
-    connect(); // Stomp 연결 설정
+    connect();
     return () => clearObject();
   }, []);
 
@@ -106,21 +99,16 @@ export default function StompInitial() {
     }
   };
 
-  // stomp 연결
   const connect = () => {
     client = new Client({
-      // brokerURL: "ws://localhost:8080/moyobar/websocket",
       brokerURL: "wss://i6d210.p.ssafy.io/moyobar/websocket",
-      reconnectDelay: 10000, // 재접속 시간 10초
-      // debug: function (str) {
-      //   console.log(str);
-      // },
+      reconnectDelay: 10000,
+
       onConnect: () => {
-        console.log("connected");
-        subscribeStart(); // 게임시작 메시지 처리
-        subscribeNextTurn(); // 다음턴 메시지 처리
-        subscribeCheckWord(); // 단어 확인 메시지 처리
-        subscribeGameResult(); // 게임 결과 메시지 처리
+        subscribeStart();
+        subscribeNextTurn();
+        subscribeCheckWord();
+        subscribeGameResult();
       },
     });
 
@@ -133,9 +121,8 @@ export default function StompInitial() {
         let players: PlayersObj[] = JSON.parse(data.body).players;
         playersRef.current = players;
 
-        setIsGameStart(true); // 게임시작 설정
+        setIsGameStart(true);
 
-        // 변수 초기화
         consonantRef.current = "";
         curTurnRecUserRef.current = "";
         curTurnEndUserRef.current = "";
@@ -146,7 +133,7 @@ export default function StompInitial() {
         setCurTurnWord("");
         setCurTurnRes("");
 
-        reqNextTurn(); // 다음 턴 이동
+        reqNextTurn();
       });
     }
   };
@@ -155,42 +142,39 @@ export default function StompInitial() {
     if (client != null) {
       client.subscribe("/from/word/next/" + roomId, (data: any) => {
         let result: TurnObj = JSON.parse(data.body);
-        let gameTurn: number = result.gameturn + 1; // 게임 턴
+        let gameTurn: number = result.gameturn + 1;
 
-        curTurnRecUserRef.current = result.next; // 현재 턴 유저
-        consonantRef.current = result.initial; // 초성
+        curTurnRecUserRef.current = result.next;
+        consonantRef.current = result.initial;
 
-        setCurTurnRecUser(curTurnRecUserRef.current); // 현재 턴 음성인식 유저 설정
-        setConsontant(consonantRef.current); // 초성 설정
+        setCurTurnRecUser(curTurnRecUserRef.current);
+        setConsontant(consonantRef.current);
 
-        setCurTurnRes(""); // 현재 결과 값 초기화
+        setCurTurnRes("");
 
         if (gameTurn <= 5) {
-          // 음성인식 호출
           handleOpenStt();
         } else {
-          // 5턴 이후에 게임 종료 요청
           reqGameResult();
         }
       });
     }
   };
 
-  // 초성퀴즈 결과
   const subscribeCheckWord = () => {
     if (client != null) {
       client.subscribe("/from/word/check/" + roomId, (data: any) => {
-        let nickname: string = JSON.parse(data.body).nickname; // 닉네임
-        let word: string = JSON.parse(data.body).word; // 단어
-        let result: string = JSON.parse(data.body).result; // 결과
+        let nickname: string = JSON.parse(data.body).nickname;
+        let word: string = JSON.parse(data.body).word;
+        let result: string = JSON.parse(data.body).result;
 
-        curTurnEndUserRef.current = nickname; // 현재 턴 유저
-        curTurnWordRef.current = word; // 현재 턴 유저
-        curTurnResRef.current = result; // 현재 턴 유저
+        curTurnEndUserRef.current = nickname;
+        curTurnWordRef.current = word;
+        curTurnResRef.current = result;
 
-        setCurTurnEndUser(nickname); // 현재 턴 단어인식 결과 유저 설정
-        setCurTurnWord(word); // 현재 턴 음성인식 단어 설정
-        setCurTurnRes(result); // 현재 턴 음성인식 결과 설정
+        setCurTurnEndUser(nickname);
+        setCurTurnWord(word);
+        setCurTurnRes(result);
 
         if (result === "Fail") {
           setTimeout(() => {
@@ -198,34 +182,32 @@ export default function StompInitial() {
           }, 5000);
         } else {
           setTimeout(() => {
-            reqNextTurn(); // 다음 턴 이동
+            reqNextTurn();
           }, 3000);
         }
       });
     }
   };
 
-  // 게임결과 결과
   const subscribeGameResult = () => {
     if (client != null) {
       client.subscribe("/from/word/result/" + roomId, (data: any) => {
         let result: ResultObj[] = JSON.parse(data.body).gameresult;
-        setGameRes(result); // 게임 결과 설정
+        setGameRes(result);
 
         setOpenSttDlg(false);
-        setOpenResDlg(true); //
+        setOpenResDlg(true);
 
         consonantRef.current = "";
         curTurnRecUserRef.current = "";
         curTurnEndUserRef.current = "";
         curTurnWordRef.current = "";
         curTurnResRef.current = "";
-        setIsGameStart(false); // 게임종료 설정
+        setIsGameStart(false);
       });
     }
   };
 
-  // 단어 체크 요청
   const reqCheckWord = (word: string) => {
     if (client != null) {
       if (!client.connected) return;
@@ -233,17 +215,14 @@ export default function StompInitial() {
       client.publish({
         destination: "/to/word/check/" + roomId,
         body: JSON.stringify({
-          nickname: curTurnRecUserRef.current, // 닉네임
-          word: word,
-          initial: consonantRef.current, // 초성
+          nickname: curTurnRecUserRef.current,
+          initial: consonantRef.current,
         }),
       });
     }
   };
 
-  // 다음 턴 요청
   const reqNextTurn = () => {
-    // 현재 유저가 방장인 경우 다음턴 요청
     if (owner === nickName) {
       if (client != null) {
         if (!client.connected) return;
@@ -258,9 +237,7 @@ export default function StompInitial() {
     }
   };
 
-  // 게임 결과 요청
   const reqGameResult = () => {
-    // 현재 유저가 방장인 경우 게임결과 요청
     if (owner === nickName) {
       if (client != null) {
         if (!client.connected) return;
