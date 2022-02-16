@@ -1,9 +1,6 @@
-import React from "react";
 import StompLiar from "../game/Liar";
 import StompUpdown from "../game/Updown";
 import StompInitial from "../game/Initial";
-import { useState } from "react";
-import Button from "@mui/material/Button";
 import "./GameSelect.css";
 export interface SelectGameProps {
   receiveGameSelect: string;

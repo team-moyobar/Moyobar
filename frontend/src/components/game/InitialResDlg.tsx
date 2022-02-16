@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 
 import "./InitialResDlg.css";
@@ -9,10 +9,9 @@ export interface InitialResDlgProps {
   gameRes: ResultObj[];
 }
 
-// 초성게임 결과 인터페이스
 export interface ResultObj {
-  nickname: string; // 닉네임
-  corrcnt: string; // 맞춘횟수
+  nickname: string;
+  corrcnt: string;
 }
 
 export function InitialResDlg(props: InitialResDlgProps) {
@@ -39,7 +38,6 @@ export function InitialResDlg(props: InitialResDlgProps) {
       open={open}
       PaperProps={{
         style: {
-          //backgroundImage: `url("/images/room/cheers.jpg")`,
           backgroundColor: "grey",
           minWidth: "40vh",
           maxWidth: "40vh",
