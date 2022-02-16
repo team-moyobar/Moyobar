@@ -10,6 +10,7 @@ import { GameSelectDlg } from "./GameSelectDlg";
 
 import { getToken as getCookie } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const OPENVIDU_SERVER_URL = "https://i6d210.p.ssafy.io:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -471,11 +472,10 @@ class UserCamera extends Component {
           {this.state.chaton ? (
             <div className="chat chatbox__support chatbox--active">
               <div className="chat chatbox__header" />
-              <div className="chatbox__messages" ref="chatoutput">
+              <ScrollToBottom className="chatbox__messages" ref="chatoutput">
                 {/* {this.displayElements} */}
                 <Messages messages={messages} />
-                <div />
-              </div>
+              </ScrollToBottom>
               <div className="chat chatbox__footer">
                 <input
                   id="chat_message"
