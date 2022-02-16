@@ -51,13 +51,18 @@ public class AuthController {
             @ApiResponse(code = 500, message = "서버 오류", response = ErrorResponse.class)
     })
     public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserLoginPostReq loginInfo) {
-
         String userId = loginInfo.getUserId();
         String password = loginInfo.getPassword();
 
         log.info("로그인 시도: ID: {}", userId);
 
         User user = userService.getUserByUserId(userId);
+
+        // 소셜 유저가 일반 로그인 시도하지 못하도록 에러코드 반환
+        if(password == null || password.trim().length() == 0){
+            log.info("로그인 시도 ID: {} 실패(소셜로그인)", userId);
+            throw new InvalidValueException(ErrorCode.INVALID_INPUT_VALUE);
+        }
 
         boolean first = user.getFirst() == 0;
 
@@ -67,7 +72,7 @@ public class AuthController {
         }
 
         // 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
-        if (user.getType() != ProviderType.LOCAL || passwordEncoder.matches(password, user.getPassword())) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             log.info("로그인 시도: ID: {}, 성공", userId);
             // 접속중인 유저 리스트에 추가
             userService.addUserOnline(user.getUserId());
