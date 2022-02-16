@@ -256,11 +256,11 @@ export default function LobbyCreateRoom() {
           <LobbyCreateRoomTheme onChange={handleThemeChange} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            취소
-          </Button>
           <Button onClick={handleSubmit} type="submit" color="primary">
-            생성하기
+            <p className="create-button-text">생성하기</p>
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            <p className="create-button-text">취소</p>
           </Button>
         </DialogActions>
       </Dialog>
