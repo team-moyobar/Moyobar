@@ -2,8 +2,6 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserUpdatePutReq;
 import com.ssafy.api.response.UserLogRes;
-import org.springframework.stereotype.Service;
-
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.db.entity.user.User;
