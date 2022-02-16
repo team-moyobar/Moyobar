@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { getToken } from "../../routes/auth/Login";
 
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { UpdownResDlg } from "./UpdownResDlg";
 
 import "./Updown.css";
 
@@ -20,7 +21,7 @@ function StompUpdown() {
   const nickname = getToken("nickname");
   const { roomId } = useParams<{ roomId?: string }>();
   const { owner } = useParams<{ owner?: string }>();
-  const [gameStatus, setGameStatus] = useState("");
+  const [gameStatus, setGameStatus] = useState("FINISH");
 
   const [resultUser, setResultUser] = useState("");
   const [resultType, setResultType] = useState("");
@@ -33,6 +34,8 @@ function StompUpdown() {
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState(Number);
   const [turnOwner, setTurnOwner] = useState("");
+
+  const [openResDlg, setOpenResDlg] = useState(false);
 
   useEffect(() => {
     connect();
@@ -97,6 +100,7 @@ function StompUpdown() {
         setCountKey((prevKey) => prevKey + 1);
 
         if (game_status === "START") {
+          setOpenResDlg(false);
         } else if (game_status === "PLAY") {
           console.log(
             "지난 순서 " +
@@ -108,6 +112,7 @@ function StompUpdown() {
           );
           console.log("다음 순서는 " + user_order[next_user_index]);
         } else if (game_status === "FINISH") {
+          setOpenResDlg(true);
           console.log(
             result.user_name +
               "님이 " +
@@ -117,6 +122,10 @@ function StompUpdown() {
         }
       });
     }
+  };
+
+  const handleUpdownResClose = () => {
+    setOpenResDlg(false);
   };
 
   const chatSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -200,7 +209,7 @@ function StompUpdown() {
 
   return (
     <div className="updown-container">
-      {gameStatus === "" ? (
+      {gameStatus === "FINISH" ? (
         <div className="updown-ready updown-title">
           <span>U</span>
           <span>P</span>
@@ -256,20 +265,14 @@ function StompUpdown() {
           ) : null}
         </div>
       ) : null}
-      {gameStatus === "FINISH" ? (
-        <div>
-          <h1>게임 종료</h1>
-          <p>승자 : {resultUser}</p>
-        </div>
-      ) : null}
 
-      {nickname === owner && gameStatus === "" ? (
+      {nickname === owner && gameStatus === "FINISH" ? (
         <button className="game-start-button" onClick={startBtn}>
           START
         </button>
       ) : null}
 
-      {nickname !== owner && gameStatus === "" ? (
+      {nickname !== owner && gameStatus === "FINISH" ? (
         <div className="updown-ready">
           <span>A</span>
           <span>R</span>
@@ -299,6 +302,12 @@ function StompUpdown() {
           </button>
         </div>
       ) : null}
+      <UpdownResDlg
+        open={openResDlg}
+        onClose={handleUpdownResClose}
+        username={resultUser}
+        answer={resultAnswer}
+      />
     </div>
   );
 }
