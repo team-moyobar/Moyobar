@@ -14,7 +14,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Logout from "../../components/auth/Logout";
 import { useHistory } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
-import { ConnectedTv } from "@mui/icons-material";
 
 var client: Client | null = null;
 
@@ -82,9 +81,7 @@ export default function Lobby() {
         setItems(content);
         setTotalPages(res.data.totalPages);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const handleUserLoad = () => {
@@ -102,9 +99,7 @@ export default function Lobby() {
       .then((res) => {
         setUsers(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
   };
 
   const handleChange = (value: any) => {
@@ -117,14 +112,9 @@ export default function Lobby() {
 
   const connect = () => {
     client = new Client({
-      // brokerURL: "ws://localhost:8080/moyobar/websocket",
       brokerURL: "wss://i6d210.p.ssafy.io/moyobar/websocket",
-      reconnectDelay: 10000, // 재접속 시간 10초
-      // debug: function (str) {
-      //   console.log(str);
-      // },
+      reconnectDelay: 10000,
       onConnect: () => {
-        console.log("connected");
         subscribeLobbyChanged();
         subscribeUsersChanged();
       },
@@ -135,27 +125,20 @@ export default function Lobby() {
 
   const subscribeLobbyChanged = () => {
     if (client != null) {
-      client.subscribe("/from/lobby/rooms", (data: any) => {
-        let temp = JSON.parse(data.body);
-        console.log("로비 업데이트!");
-        console.log(temp);
+      client.subscribe("/from/lobby/rooms", () => {
         handleLoad({ title, page, size });
       });
     }
   };
   const subscribeUsersChanged = () => {
     if (client != null) {
-      client.subscribe("/from/lobby/users", (data: any) => {
-        let temp = JSON.parse(data.body);
-        console.log(temp);
-        console.log("유저 업데이트!");
+      client.subscribe("/from/lobby/users", () => {
         handleUserLoad();
       });
     }
   };
 
   useEffect(() => {
-    console.log(getToken("jwtToken"));
     handleLoad({ title, page, size });
     handleUserLoad();
     connect();
@@ -169,10 +152,10 @@ export default function Lobby() {
       <div className="lobby-container">
         <div className="lobby-header">
           <div className="header-container">
-          <p className="my-profile" onClick={routeMyProfile}>
-            mypage
-          </p>
-          <Logout />
+            <p className="my-profile" onClick={routeMyProfile}>
+              mypage
+            </p>
+            <Logout />
           </div>
         </div>
         <div className="lobby-main">

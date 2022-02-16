@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import useSpeechToText, { ResultType } from "react-hook-speech-to-text";
 
-import Button from "@mui/material/Button";
-import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 
@@ -29,18 +27,18 @@ export default function SpeechToText(props: SimpleDialogProps) {
   });
 
   const { onClose, open, consonant } = props;
-  const [answer, setAnswer] = React.useState(""); // 정답
+  const [answer, setAnswer] = React.useState("");
 
   useEffect(() => {
     if (open === true) {
-      setAnswer(""); // 정답 초기화
+      setAnswer("");
 
       if (isRecording == false) {
         startSpeechToText();
-      } // STT 라이브러리 시작
+      }
     } else {
       if (isRecording == true) {
-        stopSpeechToText(); // STT 라이브러리 종료
+        stopSpeechToText();
       }
     }
   }, [open]);
@@ -55,11 +53,11 @@ export default function SpeechToText(props: SimpleDialogProps) {
 
   const handleStt = () => {
     if (interimResult === undefined && results.length === 0) {
-      setAnswer(""); // STT 실행 전
+      setAnswer("");
     } else if (interimResult && results.length === 0) {
-      setAnswer(interimResult); // STT 번역 중
+      setAnswer(interimResult);
     } else if (interimResult === undefined && results.length > 0) {
-      setAnswer((results as ResultType[])[results.length - 1].transcript); // STT 번역 완료 and 음성인식 결과물이 존재하면
+      setAnswer((results as ResultType[])[results.length - 1].transcript);
     }
   };
 

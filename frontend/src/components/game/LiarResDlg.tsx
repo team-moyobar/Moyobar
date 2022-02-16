@@ -11,20 +11,16 @@ export interface LiarResDlgProps {
   winner: string;
 }
 
-// 라이어 게임결과 인터페이스
 export interface gameResultObj {
   liar: string;
   voteresult: voteResultObj[];
   winner: string;
 }
 
-// 라이어 투표결과 인터페이스
 export interface voteResultObj {
   nickname: string;
   votecnt: string;
 }
-
-// const isFullWidth: boolean = true;
 
 export function LiarResDlg(props: LiarResDlgProps) {
   const { open, onClose, liar, voteRes, winner } = props;
@@ -48,10 +44,8 @@ export function LiarResDlg(props: LiarResDlgProps) {
     <Dialog
       onClose={handleClose}
       open={open}
-      //   fullWidth={isFullWidth}
       PaperProps={{
         style: {
-          //backgroundImage: `url("/images/room/cheers.jpg")`,
           backgroundColor: "grey",
           minWidth: "40vh",
           maxWidth: "40vh",

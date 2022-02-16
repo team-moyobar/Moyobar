@@ -1,11 +1,10 @@
 import { max, merge } from "lodash";
 import ReactApexChart from "react-apexcharts";
-// material
+
 import { Card, CardHeader, Box } from "@mui/material";
-//
+
 import BaseOptionChart from "./BaseOptionChart";
 import "./Chart.css";
-// ----------------------------------------------------------------------
 
 export default function Chart({ logs, usernickname }) {
   let columnDate = [];
@@ -26,10 +25,6 @@ export default function Chart({ logs, usernickname }) {
     columnCount.push(logs[i]["count"]);
   }
 
-  console.log(columnCount);
-  console.log(columnTime);
-  console.log(columnDate);
-  console.log(logs);
   const CHART_DATA = [
     {
       name: `모인 시간(분)`,

@@ -8,14 +8,12 @@ import Cookies from "universal-cookie";
 import { useDispatch } from "react-redux";
 import { loginCheck } from "../../redux/auth/action";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import React from "react";
-import ReactDOM from "react-dom";
 
 import "./ProfileUpdateForm.css";
 
@@ -40,10 +38,10 @@ const ProfileUpdateForm = (props: UpdateProps) => {
 
   let prevDrink;
   let prevDrinkCnt;
-  if (user.drink.beer != 0) {
+  if (user.drink.beer !== 0) {
     prevDrink = "beer";
     prevDrinkCnt = user.drink.beer;
-  } else if (user.drink.soju != 0) {
+  } else if (user.drink.soju !== 0) {
     prevDrink = "soju";
     prevDrinkCnt = user.drink.soju;
   } else {
@@ -63,9 +61,6 @@ const ProfileUpdateForm = (props: UpdateProps) => {
 
   const onChangeImg = useCallback((e) => {
     setImg(e.target.files[0]);
-    // setImg(e.target.value);
-    console.log(e.target.value);
-    console.log(e.target.files[0]);
   }, []);
 
   const onChangeDrink = useCallback((e) => {
@@ -117,53 +112,27 @@ const ProfileUpdateForm = (props: UpdateProps) => {
 
     const userData = {
       drink: drinkData,
-      // img: img,
       nickname: nickname,
       description: description,
     };
 
-    // axios
-    //   .put("/users/info", userData, config)
-    //   .then((res) => {
-    //     console.log("success");
-    //     console.log(res);
-    //     setCookieNickname(userData.nickname);
-    //     dispatch(loginCheck(userData.nickname));
-    //     alert("회원정보가 수정되었습니다.");
-    //     history.push(`${nickname}`);
-    //   })
-    //   .catch((err) => {
-    //     console.log("fail..");
-    //     console.log(err);
-    //   });
-
     const frm = new FormData();
-    // frm.append('drink', drinkData)
     frm.append("img", img);
     frm.append(
       "update_info",
       new Blob([JSON.stringify(userData)], { type: "application/json" })
     );
 
-    console.log(frm);
-
     axios
       .put("/users/info", frm, config)
-      .then((res) => {
-        console.log("success");
-        console.log(res);
+      .then(() => {
         setCookieNickname(userData.nickname);
         dispatch(loginCheck(userData.nickname));
         alert("회원정보가 수정되었습니다.");
         history.push(`${nickname}`);
         props.updateCheck(1);
       })
-      .catch((err) => {
-        console.log("fail..");
-        console.log(err);
-      });
-
-    console.log(userData);
+      .catch(() => {});
   };
 
   return (
