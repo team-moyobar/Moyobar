@@ -23,16 +23,14 @@ export default function Logout() {
     if (TOKEN) {
       axios
         .get("/auth/logout", config)
-        .then((res) => {
+        .then(() => {
           alert("로그아웃 되었습니다.");
           dispatch(logoutCheck());
           cookies.remove("jwtToken");
           cookies.remove("nickname");
           history.push("/login");
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     }
   }
   return (

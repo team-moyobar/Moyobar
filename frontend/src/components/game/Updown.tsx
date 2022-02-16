@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { Client } from "@stomp/stompjs";
 import { useParams } from "react-router";
 
 import { getToken } from "../../routes/auth/Login";
 
-// 게임 타이머
-import Timer from "./timer/Timer.js";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-// style
 import "./Updown.css";
 
-// stomp client 변수
 var client: Client | null = null;
 
 interface message {
@@ -35,14 +30,12 @@ function StompUpdown() {
   const [count, setCount] = useState(10);
   const [countKey, setCountKey] = useState(0);
 
-  // const [nickname, setNickname] = useState("");
-  // const [roomId, setRoomId] = useState(77);
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState(Number);
   const [turnOwner, setTurnOwner] = useState("");
 
   useEffect(() => {
-    connect(); // Stomp 연결 설정
+    connect();
     return () => clearObject();
   }, []);
 
@@ -54,12 +47,8 @@ function StompUpdown() {
 
   const connect = () => {
     client = new Client({
-      //brokerURL: "ws://localhost:8080/moyobar/websocket",
       brokerURL: "wss://i6d210.p.ssafy.io/moyobar/websocket",
-      reconnectDelay: 10000, // 재접속 시간 10초
-      // debug: function (str) {
-      //   console.log(str);
-      // },
+      reconnectDelay: 10000,
       onConnect: () => {
         console.log("connected");
         console.log(roomId);
@@ -106,10 +95,8 @@ function StompUpdown() {
         }
 
         setCountKey((prevKey) => prevKey + 1);
-        console.log(game_status);
 
         if (game_status === "START") {
-          console.log("다음 순서는 " + user_order[next_user_index]);
         } else if (game_status === "PLAY") {
           console.log(
             "지난 순서 " +
@@ -192,16 +179,6 @@ function StompUpdown() {
     setCount(10);
     setCountKey((prevKey) => prevKey + 1);
   };
-
-  // const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   setNickname(e.target.value);
-  // };
-
-  // const onRoomIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   setRoomId(parseInt(e.target.value));
-  // };
 
   const onMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
