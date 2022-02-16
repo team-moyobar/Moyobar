@@ -17,12 +17,6 @@ pipeline {
 			steps {
 				script {
                     	try {
-                            sh 'cd backend'
-                            sh 'gradle clean build'
-                            sh 'cd ..'
-                            sh 'cd frontend'
-                            sh 'npm run build'
-                            sh 'cd ..'
                             sh 'cp /var/jenkins_home/moyobar_secret/application-secret.yml ./backend/src/main/resources/application-secret.yml'
                             sh 'docker-compose build'
 					}catch(e) {
