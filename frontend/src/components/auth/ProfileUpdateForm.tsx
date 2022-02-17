@@ -209,10 +209,10 @@ const ProfileUpdateForm = (props: UpdateProps) => {
             sx={{ width: 1 / 1, mt: 1 }}
           />
         </div>
+        <div className="profile-update-submit" onClick={updateProfile}>
+          수정하기
+        </div>
       </form>
-      <div className="profile-update-submit" onClick={updateProfile}>
-        수정하기
-      </div>
     </div>
   );
 };
