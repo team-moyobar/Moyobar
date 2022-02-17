@@ -3,9 +3,11 @@ package com.ssafy.stomp.liargame.controller;
 import com.ssafy.api.service.RoomService;
 import com.ssafy.db.entity.game.Game;
 import com.ssafy.stomp.liargame.model.manager.GameManager;
+import com.ssafy.stomp.liargame.request.LiarReq;
 import com.ssafy.stomp.liargame.request.VoteReq;
 import com.ssafy.stomp.liargame.response.GameEndRes;
 import com.ssafy.stomp.liargame.response.GameStartRes;
+import com.ssafy.stomp.liargame.response.LiarCheckRes;
 import com.ssafy.stomp.liargame.response.VoteRes;
 import com.ssafy.stomp.model.service.GameService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -90,10 +93,41 @@ public class LiarController {
         GameManager gameManager = ManagerHolder.gameManagerMap.get(roomId);
 
         log.info("투표 결과 알리기");
-        log.info("게임 종료 gameManager : {} ", gameManager.toString());
+        log.info("투표 종료 gameManager : {} ", gameManager.toString());
         log.info("게임 Manager list : {}", ManagerHolder.gameManagerMap.toString());
 
         GameEndRes gameEndRes = gameManager.getVoteResult(); //투표 결과 가져오기
+
+        // 만약 다른 사람들이 라이어를 못 맞춘 경우 바로 라이어의 승리
+        if(gameEndRes.getWinner().equals("liar")){
+            updateGameResult(gameManager);
+        }
+
+        return gameEndRes;
+    }
+
+    // 라이어가 지목 당했을 때 라이어가 입력한 답이 정답인지 아닌지를 판단하고
+    // 모든 사용자에게 결과 알림
+    // 투표 결과를 참가자에게 알림(=게임 종료)
+    @MessageMapping("/liar/check/{roomId}")
+    @SendTo("/from/liar/check/{roomId}")
+    public LiarCheckRes checkLiarResult(@DestinationVariable long roomId, @Payload LiarReq liarReq) throws Exception {
+        GameManager gameManager = ManagerHolder.gameManagerMap.get(roomId);
+
+        log.info("라이어의 정답 확인");
+        log.info("라이어의 gameManager : {} ", gameManager.toString());
+
+        // 라이어 결과 확인
+        LiarCheckRes liarCheckRes = gameManager.checkLiar(liarReq);
+
+        // DB 업데이트
+        updateGameResult(gameManager);
+
+        return liarCheckRes;
+    }
+
+
+    private void updateGameResult(GameManager gameManager) {
 
         //db update(최초 1번)
         if (gameManager.getGameStatus()) {
@@ -103,7 +137,5 @@ public class LiarController {
 
             gameService.updateGame(gameManager.getGameId(), gameManager.getGameUpdateInfoList());
         }
-
-        return gameEndRes;
     }
 }

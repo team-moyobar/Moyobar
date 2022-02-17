@@ -25,13 +25,9 @@ public class SubjectManager {
 
         // 제시어 섞기~!!
         Collections.shuffle(Arrays.asList(subjects));
-        String liarSub = subjects.get(0); // 라이어에게 줄 주제 하나 뽑고
-        subjects.remove(0); // 그 주제는 제외시키기
+        // 그 중 하나 선택
+        String sub = subjects.get(0);
 
-        // 또 섞기~!!
-        Collections.shuffle(Arrays.asList(subjects));
-        String memberSub = subjects.get(0); // 일반 플레이어에게 줄 주제 하나 뽑기
-
-        players.setSubjects(liarSub, memberSub);
+        players.setSubjects(sub);
     }
 }
