@@ -85,7 +85,6 @@
   background-position: center;
 }
 
-
 .session-footer {
   background: #10131c;
   width: 100%;
@@ -185,9 +184,9 @@
 }
 
 .game-end-button:hover ion-icon {
-  color: #FC2D52;
-  filter: drop-shadow(0 0 2px #FC2D52) drop-shadow(0 0 5px #FC2D52)
-    drop-shadow(0 0 15px #FC2D52);
+  color: #fc2d52;
+  filter: drop-shadow(0 0 2px #fc2d52) drop-shadow(0 0 5px #fc2d52)
+    drop-shadow(0 0 15px #fc2d52);
 }
 
 .gamebox-center {
@@ -304,4 +303,19 @@
     width: 40%;
     height: 23%;
   }
+}
+
+.tu-button {
+  height: 50px;
+  position: absolute;
+  left: 3%;
+  cursor: pointer;
+}
+
+.gtu-button {
+  height: 30px;
+  position: absolute;
+  right: 19%;
+  bottom: 15%;
+  cursor: pointer;
 }
