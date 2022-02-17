@@ -67,10 +67,9 @@ public class GamePlayer {
     }
 
     // 제시어 분배
-    public void setSubjects(String liarSub, String memberSub){
+    public void setSubjects(String subject){
         for (int i = 0; i < countOfPlayers(); i++) { // subject 분배
-            if(this.players.get(i).isLiar()) this.players.get(i).setSubject(liarSub);
-            else this.players.get(i).setSubject(memberSub);
+            this.players.get(i).setSubject(subject);
             log.info("참가자 {} 의 제시어 : {} ",this.players.get(i).getUser().getNickname(), this.players.get(i).getSubject());
         }
     }
