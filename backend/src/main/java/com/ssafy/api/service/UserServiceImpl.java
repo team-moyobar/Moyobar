@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setDrink(drink);
 
-        if (userRegisterInfo.getDescription() != null){
+        if (userRegisterInfo.getDescription() != null) {
             user.setDescription(userRegisterInfo.getDescription());
         }
 
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 자기소개 수정
-        if (userUpdatePutReq.getDescription() != null){
+        if (userUpdatePutReq.getDescription() != null) {
             user.setDescription(userUpdatePutReq.getDescription());
         }
 
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delUserOnline(String userId){
+    public boolean delUserOnline(String userId) {
         // 접속중인 유저 삭제
         return userOnlineSet.remove(userId);
     }
@@ -217,6 +217,9 @@ public class UserServiceImpl implements UserService {
                     res.setElapsedTime(res.getElapsedTime() + min);
                 });
 
-        return new ArrayList<>(temp.values());
+        List<UserLogRes> res = new ArrayList<>(temp.values());
+        res.sort(Comparator.comparing(UserLogRes::getDate));
+
+        return res;
     }
 }
