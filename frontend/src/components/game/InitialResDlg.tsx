@@ -38,9 +38,9 @@ export function InitialResDlg(props: InitialResDlgProps) {
       open={open}
       PaperProps={{
         style: {
-          backgroundColor: "grey",
-          minWidth: "40vh",
-          maxWidth: "40vh",
+          backgroundColor: "rgba(34, 34, 34, 0.8)",
+          minWidth: "50vh",
+          maxWidth: "50vh",
           minHeight: "60vh",
           maxHeight: "60vh",
         },
