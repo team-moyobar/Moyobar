@@ -29,12 +29,12 @@ export default function Chart({ logs, usernickname }) {
     {
       name: `모인 시간(분)`,
       type: "column",
-      data: columnTime.reverse(),
+      data: columnTime,
     },
     {
       name: "모인 횟수(번)",
       type: "area",
-      data: columnCount.reverse(),
+      data: columnCount,
     },
   ];
 
@@ -42,17 +42,17 @@ export default function Chart({ logs, usernickname }) {
     stroke: { width: [0, 2, 3] },
     plotOptions: { bar: { columnWidth: "20%", borderRadius: 5 } },
     fill: { type: ["solid", "gradient", "solid"] },
-    labels: columnDate.reverse(),
+    labels: columnDate,
     xaxis: { type: "datetime" },
     yaxis: [
       {
-        max: 100,
+        max: Math.max(...columnTime)* 1.1,
         title: {
           text: "모인 시간(분)",
         },
       },
       {
-        max: 20,
+        max: Math.max(...columnCount) *1.1,
         opposite: true,
         title: {
           text: "모인 횟수(번)",
