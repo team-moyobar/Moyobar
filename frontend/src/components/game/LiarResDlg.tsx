@@ -46,7 +46,7 @@ export function LiarResDlg(props: LiarResDlgProps) {
       open={open}
       PaperProps={{
         style: {
-          backgroundColor: "grey",
+          backgroundColor: "rgba(34, 34, 34, 0.8)",
           minWidth: "40vh",
           maxWidth: "40vh",
           minHeight: "60vh",
@@ -57,7 +57,9 @@ export function LiarResDlg(props: LiarResDlgProps) {
       <div className="liarresdlg-container">
         <h2>게임결과</h2>
         <div>
-          <h3>라이어 : [{liar}]</h3>
+          <h3>
+            라이어 : <span className="liar-res-hero">{liar}</span>
+          </h3>
         </div>
         <h2>투표결과</h2>
         <ul>
@@ -68,14 +70,14 @@ export function LiarResDlg(props: LiarResDlgProps) {
           ))}
         </ul>
         {winner === "liar" && (
-          <p>
+          <h1 className="liar-res-bottom">
             라이어 <span>승리!</span>
-          </p>
+          </h1>
         )}
         {winner !== "liar" && (
-          <p>
+          <h1 className="liar-res-bottom">
             라이어 <span>패배!</span>
-          </p>
+          </h1>
         )}
       </div>
     </Dialog>

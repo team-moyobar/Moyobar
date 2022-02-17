@@ -33,16 +33,16 @@ export function VoteDlg(props: SimpleDialogProps) {
       open={open}
       PaperProps={{
         style: {
-          backgroundColor: "grey",
-          minWidth: "40vh",
-          maxWidth: "40vh",
+          backgroundColor: "rgba(200, 200, 200, 0.95)",
+          minWidth: "45vh",
+          maxWidth: "45vh",
           minHeight: "60vh",
           maxHeight: "60vh",
         },
       }}
     >
       <div className="vote-container">
-        <h2>라이어를 선택해주세요</h2>
+        <h2 className="vote-title">🤥 라이어를 선택해주세요</h2>
         <List sx={{ pt: 0 }}>
           {users.map((email) => (
             <ListItem
@@ -50,12 +50,7 @@ export function VoteDlg(props: SimpleDialogProps) {
               onClick={() => handleListItemClick(email)}
               key={email}
             >
-              <ListItemAvatar>
-                <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={email} />
+              <h4 className="vote-person">{email}</h4>
             </ListItem>
           ))}
         </List>

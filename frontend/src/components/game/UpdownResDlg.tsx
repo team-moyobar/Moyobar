@@ -34,7 +34,7 @@ export function UpdownResDlg(props: UpdownResDlgProps) {
       open={open}
       PaperProps={{
         style: {
-          backgroundColor: "grey",
+          backgroundColor: "rgba(34, 34, 34, 0.8)",
           minWidth: "60vh",
           maxWidth: "60vh",
           minHeight: "30vh",
