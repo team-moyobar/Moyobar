@@ -7,7 +7,8 @@ import Messages from "./Messages";
 import GameSelect from "./GameSelect";
 import { CheersDlg } from "./CheersDlg";
 import { GameSelectDlg } from "./GameSelectDlg";
-
+import { TutorialDlg } from "./TutorialDlg";
+import { GTutorialDlg } from "./GTutorialDlg";
 import { getToken as getCookie } from "../../routes/auth/Login";
 import { withRouter } from "react-router-dom";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -326,9 +327,32 @@ class UserCamera extends Component {
     });
   }
 
+  handleOpenTutorial() {
+    this.setState({
+      openTutorial: true,
+    });
+  }
+
+  handleOpenGTutorial() {
+    this.setState({
+      openGTutorial: true,
+    });
+  }
+
   handleCloseGameSelect() {
     this.setState({
       openGameSelect: false,
+    });
+  }
+
+  handleCloseTutorial() {
+    this.setState({
+      openTutorial: false,
+    });
+  }
+  handleCloseGTutorial() {
+    this.setState({
+      openGTutorial: false,
     });
   }
 
@@ -407,6 +431,12 @@ class UserCamera extends Component {
               ))}
             </div>
             <div className="session-footer">
+              <img
+                className="tu-button"
+                src="/icons/room/tutorial.png"
+                alt=""
+                onClick={() => this.handleOpenTutorial()}
+              ></img>
               <div
                 className={`control-button-audio ${
                   this.state.audiostate ? "room-green" : ""
@@ -463,6 +493,12 @@ class UserCamera extends Component {
           </div>
           <div className="gamebox-center">
             <GameSelect receiveGameSelect={this.state.gameSelect}></GameSelect>
+            <img
+              className="gtu-button"
+              src="/icons/room/gtutorial.png"
+              alt=""
+              onClick={() => this.handleOpenGTutorial()}
+            ></img>
           </div>
           <div onClick={this.leaveSession} className="gamebox-bottom">
             <ion-icon name="enter-outline"></ion-icon>
@@ -509,6 +545,14 @@ class UserCamera extends Component {
           open={this.state.openGameSelect}
           onClose={this.handleCloseGameSelect.bind(this)}
         ></GameSelectDlg>
+        <TutorialDlg
+          open={this.state.openTutorial}
+          onClose={this.handleCloseTutorial.bind(this)}
+        ></TutorialDlg>
+        <GTutorialDlg
+          open={this.state.openGTutorial}
+          onClose={this.handleCloseGTutorial.bind(this)}
+        ></GTutorialDlg>
       </div>
     );
   }

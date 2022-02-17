@@ -16,6 +16,7 @@ export default function Home() {
   return (
     <div className={`home-container ${move ? "login-move" : ""}`}>
       <div className="home-box">
+        <div className="neon">MOYOBAR </div>
         <button onClick={routeLogin} className="home-button">
           입장하기
         </button>
