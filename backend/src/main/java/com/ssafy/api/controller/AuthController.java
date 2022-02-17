@@ -76,7 +76,7 @@ public class AuthController {
             log.info("로그인 시도: ID: {}, 성공", userId);
             // 접속중인 유저 리스트에 추가
             userService.addUserOnline(user.getUserId());
-
+            broadcastToLobby();
             // 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId), first, user.getNickname()));
         } else {
