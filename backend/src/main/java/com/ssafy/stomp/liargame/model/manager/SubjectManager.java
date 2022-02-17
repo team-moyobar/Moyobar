@@ -24,10 +24,11 @@ public class SubjectManager {
         List<String> subjects = subject.getSubjects();
 
         // 제시어 섞기~!!
-        Collections.shuffle(Arrays.asList(subjects));
+
+        Collections.shuffle(subjects);
         // 그 중 하나 선택
         String sub = subjects.get(0);
-
+        log.info("liar game subject: {}", sub);
         players.setSubjects(sub);
     }
 }
