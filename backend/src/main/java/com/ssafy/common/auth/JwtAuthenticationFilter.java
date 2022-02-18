@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.exception.TokenValidFailedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.common.util.ResponseBodyWriteUtil;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 
 /**
  * 요청 헤더에 jwt 토큰이 있는 경우, 토큰 검증 및 인증 처리 로직 정의.
@@ -73,7 +74,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             // If so, then grab user details and create spring auth token using username, pass, authorities/roles
             if (userId != null) {
                 // jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
-                User user = userService.getUserByUserId(userId);
+                User user = null;
+                try {
+                    user = userService.getUserByUserId(userId);
+                }catch (Exception e){
+                    throw new TokenValidFailedException();
+                }
                 if(user != null) {
                     // 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
                     SsafyUserDetails userDetails = new SsafyUserDetails(user);

@@ -1,0 +1,207 @@
+@import url("https://fonts.googleapis.com/css2?family=Titan+One&display=swap");
+
+.tracking-in-expand {
+  -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1)
+    both;
+  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.updown-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8%;
+  color: white;
+  cursor: default;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-family: SBAggroL;
+}
+.updown-container p {
+  margin-top: 5%;
+}
+.updown-container img {
+  margin-top: 5%;
+}
+.updown-div2 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.updown-ready.updown-title {
+  position: absolute;
+  top: 17%;
+}
+.updown-ready {
+  height: 100px;
+  text-align: center;
+}
+
+.updown-ready span {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  animation: bounce 0.3s ease infinite alternate;
+  font-family: "Titan One", cursive;
+  font-size: 30px;
+  color: #fff;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc,
+    0 5px 0 #ccc, 0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent,
+    0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.updown-ready span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.updown-ready span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.updown-ready span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.updown-ready span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.updown-ready span:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.updown-ready span:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.updown-ready span:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.updown-ready span:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.updown-ready span:nth-child(10) {
+  animation-delay: 0.9s;
+}
+.updown-ready span:nth-child(11) {
+  animation-delay: 1s;
+}
+.updown-ready span:nth-child(12) {
+  animation-delay: 1.1s;
+}
+
+@keyframes bounce {
+  100% {
+    top: -20px;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc,
+      0 5px 0 #ccc, 0 6px 0 #ccc, 0 7px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc,
+      0 50px 25px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.game-start-button {
+  letter-spacing: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  color: #2dfc52;
+  background-color: rgba(63, 63, 63, 0.6);
+  transition: 0.2s;
+  box-shadow: 0px 10px 10px black;
+  width: 100%;
+}
+
+.game-start-button:hover {
+  background-color: rgba(63, 63, 63, 0.95);
+}
+
+.updown-submit {
+  cursor: pointer;
+  text-align: center;
+  font-size: 15px;
+  width: 60%;
+  letter-spacing: 4px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  color: #ebebeb;
+  background-color: rgba(29, 29, 29, 0.95);
+  transition: 0.2s;
+  margin-bottom: auto;
+  margin-top: 10%;
+  box-shadow: 0px 10px 10px black;
+  border: 1px solid white;
+  margin-bottom: auto;
+}
+
+.updown-input {
+  width: 60%;
+  border: 1px solid white;
+  background: rgba(29, 29, 29, 0.95);
+  border-radius: 5px;
+  height: 8%;
+  margin-top: 20%;
+}
+
+.updown-exp {
+  font-size: 18px;
+  margin-top: 20%;
+}
+
+.updown-div1 {
+  width: 100%;
+  height: 100%;
+  padding-top: 10%;
+}
+
+.updown-container img {
+  width: 30%;
+}
+
+.updown-input2 {
+  width: 60%;
+  border: 1px solid white;
+  background: rgba(29, 29, 29, 0.95);
+  border-radius: 5px;
+  height: 20%;
+  margin-top: 5%;
+}
+
+.updown-now {
+  color: gold;
+}
+
+.updown-playing {
+  margin-bottom: auto;
+}

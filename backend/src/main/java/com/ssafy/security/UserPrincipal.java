@@ -1,6 +1,6 @@
 package com.ssafy.security;
 
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,0 +1,39 @@
+.MuiDialog-root {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+
+.MuiDialogTitle-root {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+
+.updownresdlg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8%;
+  color: white;
+  cursor: default;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+
+.updown-res-count {
+  color: rgb(23, 191, 197);
+  font-weight: 700;
+}
+
+.updownresdlg-container h4 {
+  margin-top: 10%;
+}
+
+.updownresdlg-container h2 {
+  color: rgb(214, 127, 19);
+}

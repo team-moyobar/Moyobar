@@ -1,17 +1,19 @@
 package com.ssafy.api.service;
 
-import com.ssafy.db.entity.History;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.room.History;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.user.User;
+
+import java.util.List;
 
 public interface HistoryService {
     History createHistory(Room room, User user);
 
     boolean existsUserInRoom(long userId);
 
-    int getCountOfUserInRoom(long roomId);
+    void leaveRoom(User user, Room room);
 
-    History getHistoryUserJoinInRoom(long userId, long roomId);
+    List<User> getUserInRoom(long roomId);
 
-    void leaveRoom(History history);
+    History getHistoryInRoom(User user, Room room);
 }

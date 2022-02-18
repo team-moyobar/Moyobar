@@ -9,7 +9,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
@@ -19,7 +18,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // configuration.addAllowedOrigin("*");
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
@@ -41,23 +39,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     		registry.addResourceHandler("/webjars/**")
     				.addResourceLocations("classpath:/META-INF/resources/webjars/");
-    		
-    		/*
-    		 * 
-    		 * Front-end에서 참조하는 URL을 /dist로 매핑
-    		 * 
-    		 */
-        //oath-login FE페이지로 테스팅 진행 중. 잠시 주석처리
-//        registry.addResourceHandler("/css/**")
-//        			.addResourceLocations("classpath:/dist/css/");
-//        	registry.addResourceHandler("/fonts/**")
-//        			.addResourceLocations("classpath:/dist/fonts/");
-//        registry.addResourceHandler("/icons/**")
-//				.addResourceLocations("classpath:/dist/icons/");
-//        registry.addResourceHandler("/img/**")
-//			.addResourceLocations("classpath:/dist/img/");
-//        registry.addResourceHandler("/js/**")
-//				.addResourceLocations("classpath:/dist/js/");
     }
 
     public Filter requestLoggingFilter() {

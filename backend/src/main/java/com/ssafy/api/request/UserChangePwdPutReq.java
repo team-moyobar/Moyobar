@@ -16,8 +16,8 @@ import lombok.Setter;
 @ApiModel("UserChangePwdPutReq")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class UserChangePwdPutReq {
-    @ApiModelProperty(name="현재 비밀번호", example="password")
+    @ApiModelProperty(name = "현재 비밀번호", example = "password")
     String password;
-    @ApiModelProperty(name="새로운 비밀번호", example="newpassword")
+    @ApiModelProperty(name = "새로운 비밀번호", example = "newpassword")
     String newpassword;
 }

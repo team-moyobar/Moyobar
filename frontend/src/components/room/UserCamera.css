@@ -1,0 +1,321 @@
+.room-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/public/images/lobby/bg16.jpg);
+  overflow: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 100% 90%;
+}
+
+.session {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-header {
+  height: 7%;
+  display: flex;
+  justify-content: start;
+  padding-left: 1%;
+  align-items: center;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  color: aliceblue;
+  font-size: 30px;
+  border-top-left-radius: 8px;
+}
+
+.stream-container {
+  padding: 0;
+  height: 50%;
+}
+
+.session-center {
+  display: flex;
+  width: 100%;
+  height: 83%;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  overflow: hidden;
+  /* border-left: 3px solid rgba(0, 0, 0, 0.6); */
+}
+
+.session-center-bg-1 {
+  background-image: url("/public/images/room/1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-2 {
+  background-image: url("/public/images/room/2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-3 {
+  background-image: url("/public/images/room/3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-4 {
+  background-image: url("/public/images/room/4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-center-bg-5 {
+  background-image: url("/public/images/room/5.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.session-footer {
+  background: #10131c;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  border-bottom-left-radius: 8px;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.gamebox {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 5px 5px 0;
+}
+
+.gamebox-top {
+  height: 7%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  border-top-right-radius: 8px;
+}
+
+.cheers-button {
+  border: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cheers-button:hover {
+  background: rgba(51, 56, 73, 0.7);
+}
+
+.game-select-button:hover {
+  background: rgba(51, 56, 73, 0.7);
+}
+
+.game-select-button {
+  border: 0;
+  border-top-right-radius: 8px;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 32px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cheers-button:hover ion-icon {
+  color: #f8e110;
+  filter: drop-shadow(0 0 2px #f8e110) drop-shadow(0 0 5px #f8e110)
+    drop-shadow(0 0 15px #f8e110);
+}
+
+.game-select-button:hover ion-icon {
+  color: #2dfc52;
+  filter: drop-shadow(0 0 2px #2dfc52) drop-shadow(0 0 5px #2dfc52)
+    drop-shadow(0 0 15px #2dfc52);
+}
+
+.game-end-button {
+  border: 0;
+  border-top-right-radius: 8px;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 32px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.game-end-button:hover {
+  background: rgba(51, 56, 73, 0.7);
+}
+
+.game-end-button:hover ion-icon {
+  color: #fc2d52;
+  filter: drop-shadow(0 0 2px #fc2d52) drop-shadow(0 0 5px #fc2d52)
+    drop-shadow(0 0 15px #fc2d52);
+}
+
+.gamebox-center {
+  width: 100%;
+  height: 83%;
+  background: rgb(29, 29, 29);
+}
+
+.gamebox-bottom {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom-right-radius: 8px;
+  background: rgb(148, 6, 6);
+  font-size: 40px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.gamebox-bottom:hover {
+  background: #d30606;
+}
+
+/* .gamebox-bottom:hover ion-icon {
+  color: #ff0000;
+  filter: drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 10px #ff0000)
+    drop-shadow(0 0 20px #ff0000);
+} */
+
+.room-green {
+  color: #2dfc52 !important;
+}
+.control-button-audio {
+  border: 0;
+  border-radius: 10px 0 0 10px;
+  width: 15%;
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333849;
+  font-size: 32px;
+  text-align: center;
+  color: rgb(255, 0, 0);
+  cursor: pointer;
+  border-right: 1px solid #10131c;
+}
+.control-button-audio:hover {
+  background: #4b536d;
+}
+
+.control-button-mic:hover {
+  background: #4b536d;
+}
+.control-button-mic {
+  border: 0;
+  border-radius: 0 10px 10px 0;
+  width: 15%;
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333849;
+  font-size: 32px;
+  text-align: center;
+  color: rgb(255, 0, 0);
+  cursor: pointer;
+}
+
+.chatbox__button {
+  margin-bottom: 30px;
+  margin-right: 30px;
+}
+.stream-container1 {
+  height: 80%;
+  width: 80%;
+}
+.stream-container2 {
+  flex-grow: 1;
+  height: 50%;
+}
+.stream-container3 {
+  width: 40%;
+  height: 45%;
+}
+.stream-container4 {
+  width: 33%;
+  height: 40%;
+}
+.stream-container5 {
+  width: 24%;
+  height: 40%;
+}
+@media (max-width: 1600px) {
+  .stream-container5 {
+    width: 24%;
+    height: 30%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .stream-container3 {
+    width: 45%;
+    height: 33%;
+  }
+  .stream-container4 {
+    width: 45%;
+    height: 33%;
+  }
+  .stream-container5 {
+    width: 40%;
+    height: 23%;
+  }
+}
+
+.tu-button {
+  height: 50px;
+  position: absolute;
+  left: 3%;
+  cursor: pointer;
+}
+
+.gtu-button {
+  height: 30px;
+  position: absolute;
+  right: 19%;
+  bottom: 15%;
+  cursor: pointer;
+}

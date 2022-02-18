@@ -1,35 +1,31 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserChangePwdPutReq;
-import com.ssafy.common.exception.ErrorCode;
-import com.ssafy.common.exception.InvalidValueException;
 import com.ssafy.api.request.UserUpdatePutReq;
-import com.ssafy.common.exception.RoomNotFoundException;
+import com.ssafy.api.response.UserLogRes;
 import com.ssafy.common.exception.UserNotFoundException;
-import com.ssafy.db.entity.Drink;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.repository.DrinkRepository;
+import com.ssafy.db.entity.room.ActionType;
+import com.ssafy.db.entity.user.Drink;
+import com.ssafy.db.repository.room.HistoryRepository;
+import com.ssafy.db.repository.user.DrinkRepository;
 import com.ssafy.security.UserPrincipal;
 import com.ssafy.security.oauth2.entity.ProviderType;
 import lombok.extern.slf4j.Slf4j;
 import com.ssafy.api.response.UserRes;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepository;
-import com.ssafy.db.repository.UserRepositorySupport;
+import com.ssafy.db.entity.user.User;
+import com.ssafy.db.repository.user.UserRepository;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -38,19 +34,22 @@ import java.util.Optional;
 @Slf4j //log함수용
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    DrinkRepository drinkRepository;
+
+    @Value("${moyobar.profile.default}")
+    private String DEFAULT_PATH;
 
     @Autowired
-    UserRepositorySupport userRepositorySupport;
+    private UserRepository userRepository;
+    @Autowired
+    private DrinkRepository drinkRepository;
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     // 온라인 유저 리스트
-    ArrayList<String> userOnlineList = new ArrayList<>();
+    private final HashSet<String> userOnlineSet = new HashSet<>();
 
     @Override
     public User createUser(UserRegisterPostReq userRegisterInfo) {
@@ -71,6 +70,12 @@ public class UserServiceImpl implements UserService {
             drink.setLiquor(userRegisterInfo.getDrink().getLiquor());
         }
         user.setDrink(drink);
+
+        if (userRegisterInfo.getDescription() != null) {
+            user.setDescription(userRegisterInfo.getDescription());
+        }
+
+        user.setImg(DEFAULT_PATH);
         return userRepository.save(user);
     }
 
@@ -102,6 +107,11 @@ public class UserServiceImpl implements UserService {
             user.setDrink(drink); //User table에 반영
         }
 
+        // 자기소개 수정
+        if (userUpdatePutReq.getDescription() != null) {
+            user.setDescription(userUpdatePutReq.getDescription());
+        }
+
         return userRepository.save(user);
     }
 
@@ -117,16 +127,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUserOnline(String userId) {
-        // 온라인 유저 추가
-        userOnlineList.add(userId);
+        // 접속중인 유저 추가
+        userOnlineSet.add(userId);
+    }
+
+    @Override
+    public boolean delUserOnline(String userId) {
+        // 접속중인 유저 삭제
+        return userOnlineSet.remove(userId);
     }
 
     @Override
     public List<UserRes> getUsersOnlineList() {
         List<UserRes> res = new ArrayList<>();
         // DB에서 유저 ID에 해당하는 유저리스트를 불러옴
-        for (String userId : userOnlineList) {
-            res.add(UserRes.of(userRepository.findByUserId(userId).get()));
+        for (String userId : userOnlineSet) {
+            res.add(UserRes.of(getUserByUserId(userId)));
         }
 
         return res;
@@ -135,8 +151,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUserId(String userId) {
         // 디비에 유저 정보 조회 (userId 를 통한 조회).
-        User user = userRepository.findByUserId(userId).get();
-        return user;
+        return userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -150,7 +165,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changeUserPwd(String userId, String password, String newpassword) {
-        User user = userRepository.findByUserId(userId).get();
+        User user = getUserByUserId(userId);
 
         //현재 비밀번호를 받아와 DB에 저장된 내용과 일치하는지를 확인한 후에,
         boolean check = passwordEncoder.matches(password, user.getPassword());
@@ -166,5 +181,45 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByNickname(String nickname) {
         return userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public List<User> searchUserByNickname(String keyword) {
+        return userRepository.findByNicknameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public List<UserLogRes> getUserLogs(String nickname) {
+        Map<String, UserLogRes> temp = new HashMap<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        User user = getUserByNickname(nickname);
+
+        historyRepository.findAllByUserIdAndAction(user.getId(), ActionType.EXIT)
+                .forEach(history -> {
+
+                    long min = (history.getExited().getTime() - history.getInserted().getTime()) / 60000;
+
+                    String str = format.format(history.getInserted());
+
+                    if (!temp.containsKey(str)) {
+                        UserLogRes log = new UserLogRes();
+                        try {
+                            log.setDate(format.parse(str));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        temp.put(str, log);
+                    }
+
+                    UserLogRes res = temp.get(str);
+
+                    res.setCount(res.getCount() + 1);
+                    res.setElapsedTime(res.getElapsedTime() + min);
+                });
+
+        List<UserLogRes> res = new ArrayList<>(temp.values());
+        res.sort(Comparator.comparing(UserLogRes::getDate));
+
+        return res;
     }
 }

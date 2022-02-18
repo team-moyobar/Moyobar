@@ -1,0 +1,74 @@
+.initial-component {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8%;
+  color: white;
+  cursor: default;
+  text-align: center;
+  font-size: 19px;
+  letter-spacing: 2px;
+  font-family: SBAggroL;
+  transition: 0.2s;
+}
+
+.init-key {
+  font-size: 24px;
+}
+.init-res {
+  color: rgb(32, 161, 212);
+}
+.init-key span {
+  color: gold;
+  font-weight: 800;
+}
+.initial-component p {
+  margin-top: 10%;
+}
+.init-div {
+  margin-bottom: 20%;
+  margin-top: 20%;
+}
+.init-user {
+  color: rgb(41, 199, 67);
+}
+.user-order {
+  padding-top: 10px;
+}
+
+.initial-gamelog {
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.initial-consonant {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.MuiFormControl-root {
+  color: white;
+  font-size: large;
+}
+
+.MuiSelect-select {
+  color: white;
+  font-size: large;
+}
+
+.MuiInputLabel-root {
+  color: white;
+  font-size: large;
+}
+
+.init-title {
+  position: absolute;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  top: 15%;
+  margin: 0 !important;
+}

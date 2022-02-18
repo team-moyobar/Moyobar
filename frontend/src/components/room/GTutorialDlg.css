@@ -1,0 +1,17 @@
+.gtutorial-container {
+  width: 90vh;
+  height: 90vh;
+  display: flex;
+  color: rgba(0, 0, 0, 0.8);
+  font-family: SBAggroL;
+  flex-direction: column;
+  padding: 5%;
+  letter-spacing: 2px;
+}
+.gtutorial-container h1 {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 2%;
+  padding-bottom: 2%;
+  border-bottom: thick double #32a1ce;
+}
