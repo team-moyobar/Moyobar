@@ -1,0 +1,284 @@
+.signup-container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  background-image: url(/public/images/auth/bg3.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.signup-left {
+  grid-column: 2 / 5;
+  grid-row: 2 / 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+
+.signup-left p {
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
+    0 0 42px rgb(210, 23, 216), 0 0 82px rgb(210, 23, 216),
+    0 0 92px rgb(210, 23, 216), 0 0 102px rgb(210, 23, 216),
+    0 0 151px rgb(210, 23, 216);
+  text-align: center;
+  animation: flicker 3s infinite alternate;
+  font-family: neon;
+  font-size: 40px;
+}
+
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff,
+      0 0 40px rgb(210, 23, 216), 0 0 80px rgb(210, 23, 216),
+      0 0 90px rgb(210, 23, 216), 0 0 100px rgb(210, 23, 216),
+      0 0 150px rgb(210, 23, 216);
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  color: rgba(177, 177, 177, 0.65) !important;
+  font-size: 14px !important;
+}
+
+.signup-right {
+  grid-column: 7 / 10;
+  grid-row: 2 / 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 5px;
+}
+
+.signup {
+  font-size: 40px;
+  cursor: default;
+  position: absolute;
+  top: 10%;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-family: consolas;
+}
+
+.signup-select {
+  background-color: transparent;
+  border: 0;
+  height: 100%;
+  width: 50%;
+  border-radius: 0px 5px 5px 0px;
+  text-align: center;
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.signup-select-al {
+  background-color: transparent;
+  border: 0;
+  height: 100%;
+  width: 20%;
+  border-radius: 0px 5px 5px 0px;
+  text-align: center;
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.signup-form {
+  display: flex;
+  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.signup-input {
+  background: rgba(167, 167, 167, 0.4);
+  width: 68%;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 3px 3px 0px;
+  padding-left: 10px;
+}
+
+.signup-input input {
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.signup-radius input {
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.signup-input input::placeholder {
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+}
+
+.signup-radius input::placeholder {
+  color: rgba(177, 177, 177, 0.65);
+  font-size: 14px;
+}
+
+.signup-submit {
+  background: rgb(139, 77, 238);
+  border: 0;
+  width: 75%;
+  height: 45px;
+  border-radius: 3px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 20px;
+  transition: 0.2s;
+}
+
+.signup-submit:hover {
+  border: 0;
+  background: rgb(112, 63, 190);
+  color: rgb(255, 255, 255);
+}
+
+.signup-icon {
+  background: rgba(167, 167, 167, 0.4);
+  width: 7%;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1px;
+  border-radius: 3px 0px 0px 3px;
+}
+
+.signup-icon img {
+  height: 40%;
+}
+
+.signup-duplicate {
+  position: absolute;
+  right: 3%;
+  border: 0;
+  background-color: rgba(231, 55, 55, 0.3);
+  border-radius: 0px 3px 3px 0px;
+  margin-left: 1px;
+  width: 10%;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.signup-duplicate.email-on {
+  background-color: rgba(71, 223, 33, 0.8);
+}
+
+.signup-duplicate.nickname-on {
+  background-color: rgba(71, 223, 33, 0.8);
+}
+
+.signup-duplicate.birth-on {
+  background-color: rgba(71, 223, 33, 0.8);
+}
+
+.signup-duplicate button {
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border: 0;
+  font-size: 12px;
+  border-radius: 0px 3px 3px 0px;
+}
+
+.signup-border input {
+  border-right: 1px solid black;
+}
+
+.signup-border-al input {
+  border-left: 1px solid black;
+  padding: 10px;
+}
+
+.signup-radius {
+  background: rgba(167, 167, 167, 0.4);
+  width: 68%;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.signup-login {
+  margin-top: 2rem;
+  color: #0095f6;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.signup-login:hover {
+  color: #1fa0f7;
+}
+
+.input-date {
+  background: rgba(167, 167, 167, 0.4);
+  width: 68%;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.css-nnbavb {
+  border: 0;
+}

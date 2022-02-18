@@ -1,9 +1,11 @@
 package com.ssafy.api.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ssafy.db.entity.Room;
-import com.ssafy.db.entity.RoomType;
+import com.ssafy.db.entity.room.Room;
+import com.ssafy.db.entity.room.RoomType;
+import com.ssafy.db.entity.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -33,8 +35,10 @@ public class RoomRes {
     @ApiModelProperty(name = "Room max number of people")
     private int max;
     @ApiModelProperty(name = "Room started date")
+    @JsonFormat(timezone = "Asia/Seoul")
     private Date start;
     @ApiModelProperty(name = "Room ended date")
+    @JsonFormat(timezone = "Asia/Seoul")
     private Date end;
     @ApiModelProperty(name = "Room thumbnail")
     private String thumbnail;
@@ -44,8 +48,10 @@ public class RoomRes {
     private RoomType type;
     @ApiModelProperty(name = "Room owner")
     private String owner;
+    @ApiModelProperty(name = "방 테마 인덱스 번호")
+    private int theme;
 
-    public static RoomRes of(Room room) {
+    public static RoomRes of(Room room, List<User> users) {
         RoomRes res = new RoomRes();
 
         res.setRoomId(room.getId());
@@ -56,10 +62,10 @@ public class RoomRes {
         res.setStart(room.getStart());
         res.setEnd(room.getEnd());
         res.setThumbnail(room.getThumbnail());
-        res.setParticipants(
-                room.getHistories().stream().map(h -> UserInRoomRes.of(h.getUser())).collect(Collectors.toList())) ;
+        res.setParticipants(users.stream().map(UserInRoomRes::of).collect(Collectors.toList()));
         res.setType(room.getType());
         res.setOwner(room.getOwner().getNickname());
+        res.setTheme(room.getTheme());
         return res;
     }
 }

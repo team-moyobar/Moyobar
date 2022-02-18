@@ -1,0 +1,17 @@
+.order-container {
+  width: 7%;
+  height: 70%;
+  display: flex;
+  justify-self: end;
+  margin-right: 20px;
+}
+
+.order-button {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+}
+
+.order-button img {
+  height: 80%;
+}

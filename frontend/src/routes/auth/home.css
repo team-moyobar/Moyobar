@@ -1,0 +1,105 @@
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)),
+    url(/public/images/auth/bg2_c.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  color: white;
+  transition: 0.3s;
+}
+
+.home-container.login-move {
+  background-position: 100% 20%;
+}
+
+.home-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.home-button {
+  display: block;
+  position: relative;
+  display: inline-block;
+  font-size: 20px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  padding: 20px 50px;
+  color: rgba(55, 7, 100, 0.5);
+  margin: 20px 10px 10px;
+  border-radius: 6px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  background-color: #8b4dee;
+  box-shadow: 0 0 0 1px #662ec2 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
+    0 8px 0 0 #452d6b, 0 8px 0 1px rgba(54, 54, 54, 0.4),
+    0 15px 15px 10px rgba(27, 27, 27, 0.7);
+  cursor: pointer;
+  border: 0;
+  transition: top 0.2s;
+  margin-top: 40%;
+}
+
+.home-button:active {
+  top: 9px;
+  box-shadow: 0 0 0 1px #662ec2 inset, 0 0 0 2px rgba(54, 54, 54, 0.15) inset,
+    0 10px 10px 1px rgba(27, 27, 27, 0.6);
+}
+
+.home-button:hover {
+  background-color: #824bda;
+  color: rgba(55, 7, 100, 0.8);
+}
+
+.neon {
+  font-family: neon;
+  color: #fb4264;
+  font-size: 4vw;
+  line-height: 4vw;
+  text-shadow: 0 0 3vw #f40a35;
+  border: 5px solid #28d7fe;
+  padding: 7%;
+  border-radius: 15px;
+  box-shadow: 0 0 0.5vw #1041ff, 0 0 0.5vw #1041ff, 0 0 0.5vw #1041ff,
+    0 0 3vw #1041ff, 0 0 0.3vw #8bfdfe, 0.5vw 0.5vw 0.1vw #147280;
+  animation: flux 2s linear infinite;
+  -moz-animation: flux 5s linear infinite;
+  -webkit-animation: flux 5s linear infinite;
+  -o-animation: flux 5s linear infinite;
+}
+
+.neon {
+  animation: neon 5s ease infinite;
+  -moz-animation: neon 5s ease infinite;
+  -webkit-animation: neon 5s ease infinite;
+}
+
+@keyframes neon {
+  0%,
+  100% {
+    text-shadow: 0 0 1vw #fa1c16, 0 0 2vw #fa1c16, 0 0 3vw #fa1c16,
+      0 0 3vw #fa1c16, 0 0 0.4vw #fed128, 0.5vw 0.5vw 0.1vw #806914;
+    color: #fed128;
+  }
+}
+
+@keyframes flux {
+  0%,
+  100% {
+    box-shadow: 0 0 1vw #1041ff, 0 0 1vw #1041ff, 0 0 2vw #1041ff,
+      0 0 2vw #1041ff, 0 0 0.4vw #8bfdfe, 0.5vw 0.5vw 0.1vw #147280;
+    border-color: #28d7fe;
+  }
+  50% {
+    box-shadow: 0 0 0.5vw #082180, 0 0 0.5vw #082180, 0 0 1vw #082180,
+      0 0 1vw #082180, 0 0 0.2vw #082180, 0.5vw 0.5vw 0.1vw #0a3940;
+    border-color: #146c80;
+  }
+}

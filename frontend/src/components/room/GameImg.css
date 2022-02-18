@@ -1,0 +1,29 @@
+.slider-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  letter-spacing: 2px;
+}
+
+.slider-img {
+  width: 35%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gametu :nth-child(1) {
+  color: rgb(43, 216, 27);
+}
+
+.gametu :nth-child(3) {
+  margin-top: 5%;
+  color: rgb(17, 218, 201);
+}
+
+.gametu h2 {
+  font-weight: 900;
+}
+
+.gametu div {
+  margin-bottom: 2%;
+}

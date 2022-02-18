@@ -1,0 +1,16 @@
+.lobby-roomlist-container {
+  display: flex;
+  justify-content: start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.lobby-roomlist-item {
+  flex-basis: 50%;
+  border-radius: 0px;
+  height: 33.33%;
+  padding: 20px;
+}

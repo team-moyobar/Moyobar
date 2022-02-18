@@ -2,7 +2,7 @@ package com.ssafy.api.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ssafy.db.entity.RoomType;
+import com.ssafy.db.entity.room.RoomType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -20,11 +20,11 @@ public class RoomRegisterPostReq {
     private String description;
     @ApiModelProperty(name = "방 최대 인원")
     private int max;
-    @ApiModelProperty(name = "방 사진")
-    private String thumbnail;
     @ApiModelProperty(name = "방 공개여부")
     private RoomType type;
     @ApiModelProperty(name = "방 비밀번호")
     private String password;
+    @ApiModelProperty(name = "방 테마 인덱스 번호")
+    private int theme;
 
 }

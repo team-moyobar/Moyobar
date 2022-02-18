@@ -2,7 +2,7 @@ package com.ssafy.api.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
