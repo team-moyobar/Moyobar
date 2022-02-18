@@ -1,171 +1,250 @@
+# Read me
+
 # 🍻 MOYOBAR
 
-#### 온라인 모임/술자리 지원 플랫폼
+## 🐱‍🏍기획의도
 
-기간 : **2022/01/10 ~ 2022/02/18**
+---
 
+**모여BAR**는 온라인으로 마주보면서 소통하며 술을 즐길 수 있는 **언택트 술자리 모임 서비스**입니다.
 
+직접 사람들을 만나 함께 술을 마시기 어려운 요즘, “**랜선술자리**”는 빠르게 주목받고 있습니다. 이렇게 랜선 술자리에 대한 사람들의 니즈가 존재하는데, 디스코드, Webex와 같은 서비스들은 랜선 술자리로 사용하기에는 부족한 면이 있습니다.
 
-## 👩‍👩‍👦‍👦 팀원
+그래서 온라인으로 소통하면서 음주를 즐길 수 있는 술자리 모임/술게임 서비스인 **모여BAR**를 기획하게 되었습니다.
 
-**이종현**(팀장)
+## 🍻서비스 주요내용
 
-- Jira 관리
+---
 
-**이상현**(부팀장)
+1. 실시간 화상 모임 및 채팅💬
 
-- CI/CD 및 배포
+2. 다양한 술게임 및 건배 기능 제공
+3. 공개방, 비밀방 설정 및 방 테마 설정
+4. 정렬, 검색, 필터 기능으로 방 목록 조회
+5. 게임 결과 기반 스코어 측정 및 우승자 선정✨
+6. 튜토리얼 서비스 제공(전체 서비스, 게임)
+7. 현재 접속 중인 유저 조회 기능
+8. 회원정보수정 통해 프로필 사진 및 자기소개 추가
+9. 회원별 방 참여로그 및 그래프 제공
+10. 게임 스코어 기반으로 top 10 랭킹 기능 제공
 
-**박승원**
+## MOYOBAR **시연 및 시나리오**
 
-- Front-end 리더
+---
 
-**지수연**
+MOYOBAR 시나리오는 [[시연 시나리오](https://www.notion.so/1c1c37c72b7b4b8a94db96eadf3149b1)](https://www.notion.so/ce3a2f57714b43faad83bfd0f6f9d88a) 에서 더 자세히 보실 수 있습니다.
 
-- Back-end 리더
+## MOYOBAR **서비스 화면**
 
-**최영빈**
+---
 
-- Notion 관리
+### 🥂메인화면 \*\*\*\*
 
-**허유진**
+- 모여바(MOYOBAR) 서비스의 메인 화면입니다. ‘**입장하기**’ 버튼을 클릭하면 로그인 페이지로 넘어갑니다.
 
-- 발표 및 디자인 책임자
+![Untitled](README.assets/Untitled.png)
 
+### 🥂로그인 \*\*\*\*
 
+- 모여바 서비스만의 자체 로그인 및 회원가입 기능을 제공합니다.
+- 간편하고 빠르게 서비스를 이용할 수 있도록 소셜 로그인(구글, 카카오) 기능도 함께 제공하고 있습니다.
 
-## ⚙︎기능 소개
+![Untitled](README.assets/Untitled%201.png)
 
-#### 비대면 술자리 / 모임 서비스
+### 🥂회원가입 \*\*\*\*
 
+- 이메일, 닉네임, 휴대전화 번호, 생일 등 기본 회원 정보를 입력합니다.
+- 자신의 소주/맥주/양주 주량 정보도 입력합니다.
+- 또한, 모여바 서비스는 술자리 모임/술게임 서비스이므로 성인 인증이 필요합니다. 생년월일을 입력한 후에 간단하게 본인의 출생년도에 해당하는 띠를 맞추면 성인 인증이 완료됩니다.
 
+![Untitled](README.assets/Untitled%202.png)
 
-### **유저 서비스**
+### 🥂로비 **- 방 생성**
 
-- 회원가입 및 로그인
-- KAKAO & GOOGLE 로그인 제공
+- 로그인에 성공하면 로비 페이지로 이동합니다.
+- 현재 접속 중인 유저 리스트와 방 목록을 볼 수 있습니다.
 
-### **MOYOBAR 로비**
+![Untitled](README.assets/Untitled%203.png)
 
-- 실시간 로그인 유저 리스트 제공
-- 모임 정렬(시간순, 인원순) 기능
-- 개별 모임 정보 제공
-- 검색 기능
+- 왼쪽 상단의 ‘**방 생성**’ 버튼을 클릭하여 방 생성을 완료할 수 있습니다.
+- 방 이름, 최대 인원수 설정, 방 소개글, 방 공개/비공개 여부, 테마사진을 선택한 후 ‘**생성하기**’ 버튼을 클릭합니다.
 
-### **술자리 서비스**
+![Untitled](README.assets/Untitled%204.png)
 
-- 화상 화면/오디오 제어
-- 테마 설정 기능
-- 인원 제한
-- 건배 제의 기능
-- 강제 퇴장
-- 술게임 기능 제공
-- 유저 주량 정보
+### 🥂회원정보 - 유저프로필 \*\*\*\*
 
-### **프로필**
+- 로비 페이지의 유저 리스트에서 자신의 프로필뿐만 아니라 다른 사람의 프로필도 조회할 수 있습니다.
 
-- 유저 정보 수정 기능(마이페이지)
-- 유저 정보 조회
-- 모임 참가 로그 확인
-- 술게임 랭킹 제공
+![Untitled](README.assets/Untitled%205.png)
 
-### **기타**
+### 🥂회원정보 - 참가내역 \*\*\*\*
 
-- 서비스 및 술게임 튜토리얼 제공
+- 회원정보 프로필 화면에서 해당 유저의 방 참가 내역을 그래프로 확인할 수 있습니다.
 
-## 🖥 기술 스택
+![Untitled](README.assets/Untitled%206.png)
 
-```
-__프론트엔드__
-- Visual Studio Code
-- React.js 17.0.2
-- styled-components 5.3.0
-- Material-UI
-- redux-toolkit 1.6.1
-- redux 4.1.0
+### 🥂회원정보 - 랭킹 \*\*\*\*
 
-__백엔드__
-- IntelliJ
-- spring boot 2.4.5
-- spring-boot-jpa
-- Java 8
-- mysql 8.0.26
-- redis
+- 회원 정보 프로필에서 해당 유저의 술게임 랭킹 정보 및 게임 스코어를 확인할 수 있습니다.
 
-__Web RTC__
-- openvidu 2.19.0
+![Untitled](README.assets/Untitled%207.png)
 
-__AWS EC2__
-- docker
-- nginx
-- jenkins
-```
+### 🥂방 - 마이크 카메라 ON / OFF \*\*\*\*
 
+- 방 입장 시, 하단의 카메라와 마이크 버튼을 클릭하여 카메라-마이크 ON/OFF를 설정할 수 있습니다.
 
+![Untitled](README.assets/Untitled%208.png)
+
+### 🥂방 - 건배 \*\*\*\*
+
+- 방 입장 후, 오른쪽 상단의 맥주 아이콘 버튼을 클릭하여 같은 방 사람들에게 건배 제안을 할 수 있습니다.
+
+![Untitled](README.assets/Untitled%209.png)
+
+![Untitled](README.assets/Untitled%2010.png)
+
+### 😈서비스 가이드
+
+- 방 입장 후, 왼쪽 하단의 **? 아이콘**을 클릭하여 서비스 튜토리얼을 확인할 수 있습니다.
+
+![Untitled.png](README.assets/Untitled%2011.png)
+
+- 또한, 술 게임별로도 튜토리얼을 확인할 수 있습니다.
+
+![Untitled (1).png](<README.assets/Untitled_(1).png>)
+
+### 😈술게임 **- 라이어게임**
+
+- 라이어 게임은 혼자만 제시어를 받지 못한 라이어를 찾아내는 게임입니다.
+- 주어진 180초 동안 회의를 거쳐, 라이어라고 생각하는 사람에게 투표합니다.
+
+![Untitled](README.assets/Untitled%2012.png)
+
+- 투표가 종료되면 투표 결과와 라이어의 승패여부가 도출됩니다.
+
+![Untitled](README.assets/Untitled%2013.png)
+
+### 👍술게**임**👎 **- 업다운게임**
+
+- 업다운 게임은 숫자를 추측하여, 정답 숫자보다 크면 업👍, 작으면 다운👎을 받아 정답을 맞추는 게임입니다
+- 주어진 10초 동안 답을 입력하지 않으면, 차례는 다음 사람으로 넘어갑니다
+
+![Untitled](README.assets/Untitled%2014.png)
+
+![Untitled](README.assets/Untitled%2015.png)
+
+### 💬술**게임 - 초성게임**
+
+- 초성 게임은 초성이 주어지고 해당 초성에 맞는 단어를 말하는 게임입니다
+- ‘Web Speech API’ 를 통해 마이크에 단어를 말하면, 음성 인식을 합니다
+- 입력된 단어는 ‘우리말 샘 API’ 를 통해 사전에 있는 단어인지 판별하여 정답 여부가 가려집니다
+- 한번 입력한 단어를 다시 입력할 시에도 오답으로 인정됩니다.
+
+![Untitled](README.assets/Untitled%2016.png)
+
+![Untitled](README.assets/Untitled%2017.png)
+
+## 개발환경
+
+---
+
+## 💎Frontend
+
+- **IDE**: VSCode
+- **Language**: HTML5, javascript, CSS3
+- **Library**: React 17.0.2, SCSS, TypeScript, Axios, Redux, stompjs, sockjs
+- **Open API**: Web Speech API
+- **Framework**: Material-UI
+- **node.js 16.13.x**
+
+## 👑Backend
+
+- **IDE**: intellij 2021.3.1
+- **Lanuage**: Java 1.8
+  - openjdk version "1.8.0_192"
+  - OpenJDK Runtime Environment (Zulu 8.33.0.1-win64) (build 1.8.0_192-b01)
+  - OpenJDK 64-Bit Server VM (Zulu 8.33.0.1-win64) (build 25.192-b01, mixed mode)
+  - 8.0.322-zulu
+- **Library**: JWT, spring-boot-jpa, Spring Security, Stomp
+- **Open API**: SNS 로그인(kakao, google), 우리말 샘
+- **Framework**: SpringBoot 2.4.5
+
+📎**백엔드 파일 관리**
+
+- Mysql 접속정보는 application.yml 파일에서 mysql.yml파일을 읽는 것으로 관리
+- mysql.yml파일은 gitignore에 추가
+
+## 🧑‍💻WebRTC
+
+- **OpenVidu**
+
+## 💡DB
+
+**MySQL** 8.0.28
+
+**AWS S3** (Image Server)
+
+## 🌳OS, Server
+
+**AWS EC2**
+
+- **Ubuntu** 20.04 LTS
+- Jenkins 2.334
+- Nginx 1.18.0
+- Docker 20.10.12
+- Docker-compose 1.28.5
+
+## 💡기획 및 협업툴
+
+- **회의록** : Notion
+- **코드관리**: GitLab
+- **일정관리**: JIRA
+- **와이어프레임, 시퀀스 다이어그램**: Figma, Google PPT
+- **명세서 작성**: SpreadSheets
+- **회의** : Webex, Mattermost, Discord
+
+## 서비스 아키텍쳐
+
+---
+
+![스크린샷 2022-02-18 오전 11.34.09.png](README.assets/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-02-18_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_11.34.09.png)
+
+## ER Diagram
+
+---
+
+![Moyobar_DB_220214.png](README.assets/Moyobar_DB_220214.png)
+
+## 👩‍👩‍👦‍👦 팀소개
+
+---
+
+![스크린샷 2022-02-18 오전 11.44.12.png](README.assets/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-02-18_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_11.44.12.png)
 
 ## 🌆 협업
 
-## Git
+---
 
-![image-20220128114618310](README.assets/image-20220128114618310.png)
+## 📣 Git 사용 기본 규칙
 
-**Git 사용 규칙**은 다음과 같습니다.
+1. 모든 개발 전, Jira에 이슈 먼저 생성할 것.
+2. merge 하기 전 최소 1명 이상에게 코드리뷰 받을 것.
 
-1. 모든 개발 전, Jira에 이슈 먼저 생성하기.
-2. merge 하기 전 최소 1명 이상에게 코드리뷰 받기.
-3. 아래의 커밋 형식을 따르기.
-
-
-
-### 브랜치 규칙
+### 브랜치 이름 규칙
 
 Git-Flow에 따른 브랜치를 분기합니다.
 
-- master
-- develop
-- feature
-- release
-- hotfix
+- **master**
+- **develop**
+- **feature**
 
-```
-{branch_type}/{fe_or_be}/{branch_name-user_name}
-```
+`{branch_type}/{fe_or_be}/{branch_name-user_name}`
 
 ex) `feature/fe/login-sh`
 
-
-
 ### 커밋 메세지 구조
 
-```
-################
-# <타입> : <제목> 의 형식으로 제목을 아래 공백줄에 작성
-# 제목은 50자 이내 / 변경사항이 "무엇"인지 명확히 작성 / 끝에 마침표 금지
-# 예) [#Jira이슈번호]feat : :sparkles: 로그인 기능 추가
-
-# 바로 아래 공백은 지우지 마세요 (제목과 본문의 분리를 위함)
-
-################
-# 본문(구체적인 내용)을 아랫줄에 작성
-# 여러 줄의 메시지를 작성할 땐 "-"로 구분 (한 줄은 72자 이내)
-
-################
-# 꼬릿말(footer)을 아랫줄에 작성 (현재 커밋과 관련된 이슈 번호 추가 등)
-# 예) Close #7
-
-################
-# [#Jira이슈번호] feat : :sparkles: 새로운 기능 추가
-# [#Jira이슈번호] fix : :bug: 버그 수정
-# [#Jira이슈번호] docs : :memo: 문서 수정
-# [#Jira이슈번호] test : :white_check_mark: 테스트 코드 추가
-# [#Jira이슈번호] refact : :zap: 코드 리팩토링
-# [#Jira이슈번호] style : :art: 코드 의미에 영향을 주지 않는 변경사항
-# [#Jira이슈번호] chore : :apple: 빌드 부분 혹은 패키지 매니저 수정사항
-# [#Jira이슈번호] error : :rotating_light: 에러가 해결되지 않은 코드. merge request 하면 안 됨
-################
-```
-
-**사용 예시**
+- IDE에서 작성 시
 
 ```
 [#Jira이슈번호] feat : :sparkles: 로그인 기능 추가
@@ -176,26 +255,4 @@ ex) `feature/fe/login-sh`
  Close #7
 ```
 
-
-
-## Jira
-
-![image-20220128114653681](README.assets/image-20220128114653681.png)
-
-Jira를 사용해 스프린트 별 업무, 일정 등을 관리하였습니다. 스프린트가 시작되는 날 필요한 이슈들 등록하고 가능한 기간 내에 완수할 수 있도록 하였습니다.
-
-`Epic`은 로그인, 회원가입, 회원관리, 모임관리, 서버 배포설정으로 나누었고,
-
-`Task`는 (BE)로그인, (FE) 로그인 등으로 나누었습니다.
-
-`SubTask`는 (BE)로그인 기능 API, (FE) 회원가입 폼 작성 등으로 작업을 세세하게 나누었습니다.
-
-# Notion
-
-------
-
-프로젝트와 관련한 일정, 그라운드룰, 팀 아이디어 설계부터 기획, 개발 컨벤션, 문서 작업 등을 노션에서 진행하였습니다.
-
-![image-20220128114547778](README.assets/image-20220128114547778.png)
-
-## 💭 후기
+## 💙후기
