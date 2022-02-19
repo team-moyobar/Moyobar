@@ -57,11 +57,13 @@ class UserCamera extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("beforeunload", this.onbeforeunload);
+    this.joinSession();  
+    // window.addEventListener("beforeunload", this.onbeforeunload);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.onbeforeunload);
+    this.leaveSession();
+    // window.removeEventListener("beforeunload", this.onbeforeunload);
   }
 
   onbeforeunload(event) {
@@ -282,10 +284,6 @@ class UserCamera extends Component {
       .catch(() => {});
   }
 
-  componentDidMount() {
-    this.joinSession();
-  }
-
   handleGameSelectButton() {
     if (this.state.isGameSelectButtonClicked === false) {
       this.setState({
@@ -500,7 +498,7 @@ class UserCamera extends Component {
               onClick={() => this.handleOpenGTutorial()}
             ></img>
           </div>
-          <div onClick={this.leaveSession} className="gamebox-bottom">
+          <div onClick={() => {this.props.history.push("/lobby")}} className="gamebox-bottom">
             <ion-icon name="enter-outline"></ion-icon>
           </div>
         </div>
