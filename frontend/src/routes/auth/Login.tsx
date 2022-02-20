@@ -82,8 +82,10 @@ export default function Login() {
 
   useEffect(() => {
     if (getToken("jwtToken")) {
-      deleteCookie();
-      dispatch(logoutCheck());
+      // deleteCookie();
+      // dispatch(logoutCheck());
+      // console.log("토큰 있음");
+      history.push("/lobby");
     }
   }, []);
 
