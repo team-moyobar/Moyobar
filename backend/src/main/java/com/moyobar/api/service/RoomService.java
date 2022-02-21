@@ -22,4 +22,6 @@ public interface RoomService {
     void updateRoom(Room room);
 
     List<User> findUserListByRoomId(long roomId, ActionType actionType);
+
+    String findOwnerByRoomId(long roomId);
 }

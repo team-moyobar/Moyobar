@@ -129,6 +129,16 @@ public class RoomServiceImpl implements RoomService {
         return players;
     }
 
+    //방장 가져오기
+    @Override
+    public String findOwnerByRoomId(long roomId){
+        Room room = roomRepository.findRoomById(roomId).get();
+
+        log.info("{}방의 방장은 {}", roomId, room.getOwner().getNickname());
+
+        return room.getOwner().getNickname();
+    }
+
     @Override
     public void updateRoom(Room room) {
         roomRepository.save(room);
