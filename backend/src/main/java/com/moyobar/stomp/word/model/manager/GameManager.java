@@ -38,6 +38,7 @@ public class GameManager implements BaseGameManager {
     private int count; // 게임 횟수 (3회)
     private boolean isGameStarted; //게임 시작 여부
     private Long gameId; //게임 id
+    private String owner; //방장 정보
 
     public boolean getGameStatus() {
         return this.isGameStarted;
@@ -50,6 +51,7 @@ public class GameManager implements BaseGameManager {
         this.roomService = roomService;
         this.isGameStarted = true;
         this.count = 0;
+        this.owner = roomService.findOwnerByRoomId(roomId);
         gameResults = new ArrayList<>();
         gameTurnInfo = new ArrayList<>();
         gameWinners = new ArrayList<>();
@@ -62,6 +64,8 @@ public class GameManager implements BaseGameManager {
             log.info("게임 참가자 정보 : {} ", s.getNickname());
         }
 
+        log.info("방장은: {}", owner);
+
         this.gamePlayers = new GamePlayer(users); //해당 유저들을 게임 플레이어로 등록
 
         gameTurnInfo = getAllNickAndTurnInfo(); //순서 랜덤 정하기
@@ -69,15 +73,29 @@ public class GameManager implements BaseGameManager {
     }
 
     //유저의 닉네임, 순서정보를 반환
+    //방장이 첫번째 순서로
     public List<NickAndTurnRes> getAllNickAndTurnInfo() {
         List<NickAndTurnRes> list = new ArrayList<>();
 
         List<Player> players = this.gamePlayers.getPlayers();
-        Collections.shuffle(players); //순서 무작위로 섞기
+        Player owner = null;
+
+        //방장은 첫 번째 순서로 먼저 지정해주기
+        for (int i = 0; i < players.size(); i++) {
+            if(players.get(i).getUser().getNickname().equals(this.owner)){
+                owner = players.get(i);
+                players.get(i).setTurn(1);
+                list.add(new NickAndTurnRes(players.get(i).getUser().getNickname(), 1)); //방장은 첫번째 순서
+            }
+        }
+
+        players.remove(owner); //방장은 삭제
+
+        Collections.shuffle(players); //나머지 참가자들 순서 무작위로 섞기
 
         for (int i = 0; i < players.size(); i++) {
-            players.get(i).setTurn(i + 1); //각각의 Player 정보에도 순서정보 설정하기
-            list.add(new NickAndTurnRes(players.get(i).getUser().getNickname(), i + 1)); //i번째 플레이어의 정보를 list에 담기
+            players.get(i).setTurn(i + 2); //각각의 Player 정보에도 순서정보 설정하기
+            list.add(new NickAndTurnRes(players.get(i).getUser().getNickname(), i + 2)); //i번째 플레이어의 정보를 list에 담기
         }
 
         return list;
