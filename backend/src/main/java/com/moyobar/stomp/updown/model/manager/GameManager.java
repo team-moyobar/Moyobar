@@ -20,6 +20,8 @@ public class GameManager implements BaseGameManager {
 
     private long gameId;
 
+    private User roomOwner;
+
     private GameStatusType gameStatus;
 
     private List<String> userOrder;
@@ -44,13 +46,24 @@ public class GameManager implements BaseGameManager {
             addUser(user);
         }
     }
-    public void startGame() {
+    public void startGame(long gameId, User owner) {
+
+        setGameId(gameId);
+        setRoomOwner(owner);
 
         // 게임 상태 START
         gameStatus = GameStatusType.START;
 
+        // 방장 닉네임
+        String ownerNickname = owner.getNickname();
+
+        userOrder.remove(ownerNickname);
+
         // 게임 순서 랜덤으로 정하기
         Collections.shuffle(userOrder);
+
+        // 방장 첫번째로 집어넣기
+        userOrder.add(0, ownerNickname);
 
         // 랜덤으로 숫자 지정
         setRandomAnswer();

@@ -1,7 +1,9 @@
 package com.moyobar.stomp.updown.controller;
 
 import com.moyobar.api.service.HistoryService;
+import com.moyobar.api.service.RoomService;
 import com.moyobar.db.entity.game.Game;
+import com.moyobar.db.entity.room.Room;
 import com.moyobar.db.entity.user.User;
 import com.moyobar.stomp.entity.Message;
 import com.moyobar.stomp.model.service.GameService;
@@ -37,6 +39,9 @@ public class UpDownController {
     private HistoryService historyService;
     @Autowired
     private GameService gameService;
+    @Autowired
+    private RoomService roomService;
+
 
     // 모든 게임을 관리할 수 있는 싱글톤 클래스
     private static final class ManagerHolder {
@@ -66,9 +71,10 @@ public class UpDownController {
         ManagerHolder.gameManagers.put(roomId, gameManager);
 
         Game game = gameService.createGame(GAME_NAME);
-        gameManager.setGameId(game.getId());
 
-        gameManager.startGame();
+        Room room = roomService.getRoomById(roomId);
+
+        gameManager.startGame(game.getId(), room.getOwner());
 
         log.info("{} 번 방 정답: {}", roomId, gameManager.getAnswer());
 
